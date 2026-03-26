@@ -1,0 +1,3593 @@
+{
+  "firmware": {
+    "id": "grblhal",
+    "name": "grblHAL",
+    "description": "A 32-bit port and extension of grbl. Adds support for more axes (up to 9), tool changes, canned cycles, macros, networking, spindle sync, and plugin architecture. Maintains backwards compatibility with grbl.",
+    "version": "Latest",
+    "sourceUrl": "https://github.com/grblHAL"
+  },
+  "codes": [
+    {
+      "code": "G0",
+      "type": "G",
+      "name": "Rapid Move",
+      "description": "Moves the tool to the specified coordinates at the maximum traverse rate. Each axis moves at its own maximum rate. Supports up to 9 axes (XYZABCUVW) depending on driver configuration.",
+      "parameters": [
+        { "name": "X", "description": "Target X position", "optional": true },
+        { "name": "Y", "description": "Target Y position", "optional": true },
+        { "name": "Z", "description": "Target Z position", "optional": true },
+        { "name": "A", "description": "Target A position (if configured)", "optional": true },
+        { "name": "B", "description": "Target B position (if configured)", "optional": true },
+        { "name": "C", "description": "Target C position (if configured)", "optional": true },
+        { "name": "U", "description": "Target U position (if configured)", "optional": true },
+        { "name": "V", "description": "Target V position (if configured)", "optional": true },
+        { "name": "W", "description": "Target W position (if configured)", "optional": true }
+      ],
+      "examples": [
+        { "code": "G0 X0 Y0 Z5", "description": "Rapid move to origin at Z safe height" },
+        { "code": "G0 A90", "description": "Rapid rotate A axis to 90 degrees" }
+      ],
+      "relatedCodes": ["G1"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G0", "note": "Same as grbl. grblHAL adds support for up to 9 axes (A, B, C, U, V, W) depending on the driver." },
+        { "firmwareId": "linuxcnc", "code": "G0", "note": "Same behavior. Both support up to 9 axes. LinuxCNC supports path blending with G64; grblHAL added G64 support as a compile-time option." },
+        { "firmwareId": "smoothieware", "code": "G0", "note": "Smoothieware treats G0 identically with separately configurable per-axis max rates." },
+        { "firmwareId": "reprapfirmware", "code": "G0", "note": "In RepRapFirmware, G0 and G1 are identical and both use F. In grblHAL, G0 always moves at max rate regardless of F." }
+      ],
+      "modeNotes": [
+        { "mode": "Laser mode", "description": "Same as grbl: G0 moves automatically disable the laser (S value preserved but PWM output is 0)." }
+      ],
+      "sources": ["https://github.com/grblHAL/core", "https://petervanderwalt.github.io/grblhal_docs/"],
+      "notes": "Same as grbl but with extended axis support. Supports up to 9 axes (XYZABCUVW) depending on the driver/board configuration, versus grbl's XYZ only."
+    },
+    {
+      "code": "G1",
+      "type": "G",
+      "name": "Linear Move",
+      "description": "Controlled straight-line cutting move at the specified feed rate. All axes arrive simultaneously. Supports up to 9 axes depending on driver configuration.",
+      "parameters": [
+        { "name": "X", "description": "Target X position", "optional": true },
+        { "name": "Y", "description": "Target Y position", "optional": true },
+        { "name": "Z", "description": "Target Z position", "optional": true },
+        { "name": "A", "description": "Target A position (if configured)", "optional": true },
+        { "name": "B", "description": "Target B position (if configured)", "optional": true },
+        { "name": "C", "description": "Target C position (if configured)", "optional": true },
+        { "name": "U", "description": "Target U position (if configured)", "optional": true },
+        { "name": "V", "description": "Target V position (if configured)", "optional": true },
+        { "name": "W", "description": "Target W position (if configured)", "optional": true },
+        { "name": "F", "description": "Feed rate in units/min (or units/rev with G95)", "optional": true }
+      ],
+      "examples": [
+        { "code": "G1 X50 Y30 F500", "description": "Linear move at 500 units/min" },
+        { "code": "G1 Z-1 F100", "description": "Plunge cut to Z-1 at 100 units/min" },
+        { "code": "G1 A45 F200", "description": "Rotate A axis to 45 degrees" }
+      ],
+      "relatedCodes": ["G0", "G94", "G95"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G1", "note": "Same as grbl. grblHAL adds multi-axis support and feed-per-revolution mode (G95)." },
+        { "firmwareId": "linuxcnc", "code": "G1", "note": "Same behavior. Both support additional axes and G95 feed mode." },
+        { "firmwareId": "smoothieware", "code": "G1", "note": "Same behavior." },
+        { "firmwareId": "reprapfirmware", "code": "G1", "note": "RepRapFirmware uses S parameter on G1 for laser power. grblHAL uses S on M3/M4." }
+      ],
+      "modeNotes": [
+        { "mode": "Laser mode", "description": "Same dynamic power scaling as grbl when used with M4. Inline S value changes update PWM without stopping motion." }
+      ],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl but with extended axis support. Feed rate (F) is modal and persists until changed. Can use G95 feed-per-revolution mode (new in grblHAL)."
+    },
+    {
+      "code": "G2",
+      "type": "G",
+      "name": "Clockwise Arc",
+      "description": "Clockwise circular or helical interpolation in the currently selected plane (G17/G18/G19). Internally rendered as tiny line segments controlled by arc tolerance setting.",
+      "parameters": [
+        { "name": "X", "description": "Arc endpoint X", "optional": true },
+        { "name": "Y", "description": "Arc endpoint Y", "optional": true },
+        { "name": "Z", "description": "Arc endpoint Z (helical)", "optional": true },
+        { "name": "I", "description": "Arc center offset in X (incremental from current position)", "optional": true },
+        { "name": "J", "description": "Arc center offset in Y (incremental from current position)", "optional": true },
+        { "name": "K", "description": "Arc center offset in Z (incremental from current position)", "optional": true },
+        { "name": "R", "description": "Arc radius (alternative to IJK)", "optional": true },
+        { "name": "F", "description": "Feed rate", "optional": true }
+      ],
+      "examples": [
+        { "code": "G2 X10 Y10 I5 J0 F100", "description": "CW arc to X10 Y10 with center offset I5 J0" },
+        { "code": "G2 X10 Y10 R5 F100", "description": "CW arc to X10 Y10 with radius 5 (shorter arc)" }
+      ],
+      "relatedCodes": ["G3", "G17", "G18", "G19"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G2", "note": "Same as grbl. Identical arc behavior and IJK interpretation." },
+        { "firmwareId": "linuxcnc", "code": "G2", "note": "Same behavior. LinuxCNC also supports absolute IJK mode (G90.1); grblHAL only supports incremental IJK (G91.1)." },
+        { "firmwareId": "smoothieware", "code": "G2", "note": "Same behavior." },
+        { "firmwareId": "reprapfirmware", "code": "G2", "note": "Same behavior." }
+      ],
+      "modeNotes": [
+        { "mode": "Laser mode", "description": "Laser is active during arcs. With M4, dynamic power scales with instantaneous speed." }
+      ],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl. Only incremental IJK mode (G91.1) is supported. Use either IJK offsets or R radius, not both."
+    },
+    {
+      "code": "G3",
+      "type": "G",
+      "name": "Counter-Clockwise Arc",
+      "description": "Counter-clockwise circular or helical interpolation. Same as G2 but in the opposite direction.",
+      "parameters": [
+        { "name": "X", "description": "Arc endpoint X", "optional": true },
+        { "name": "Y", "description": "Arc endpoint Y", "optional": true },
+        { "name": "Z", "description": "Arc endpoint Z (helical)", "optional": true },
+        { "name": "I", "description": "Arc center offset in X", "optional": true },
+        { "name": "J", "description": "Arc center offset in Y", "optional": true },
+        { "name": "K", "description": "Arc center offset in Z", "optional": true },
+        { "name": "R", "description": "Arc radius (alternative to IJK)", "optional": true },
+        { "name": "F", "description": "Feed rate", "optional": true }
+      ],
+      "examples": [
+        { "code": "G3 X10 Y10 R5 F100", "description": "CCW arc to X10 Y10 with radius 5" }
+      ],
+      "relatedCodes": ["G2", "G17", "G18", "G19"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G3", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "G3", "note": "Same behavior." }
+      ],
+      "modeNotes": [
+        { "mode": "Laser mode", "description": "Same laser behavior as G2." }
+      ],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl."
+    },
+    {
+      "code": "G4",
+      "type": "G",
+      "name": "Dwell",
+      "description": "Pauses execution for a specified duration. Non-modal.",
+      "parameters": [
+        { "name": "P", "description": "Dwell time in seconds", "optional": false, "example": "P0.5" }
+      ],
+      "examples": [
+        { "code": "G4 P1", "description": "Pause for 1 second" },
+        { "code": "G4 P0.1", "description": "Pause for 100 milliseconds" }
+      ],
+      "relatedCodes": [],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G4", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "G4", "note": "LinuxCNC uses P for seconds. Some controllers interpret P as milliseconds; grblHAL uses seconds like grbl." }
+      ],
+      "modeNotes": [
+        { "mode": "Laser mode", "description": "With M3 (constant), laser stays on during dwell. With M4 (dynamic), laser turns off during dwell since speed is zero." }
+      ],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl. P is in seconds (not milliseconds)."
+    },
+    {
+      "code": "G5",
+      "type": "G",
+      "name": "Cubic Spline",
+      "description": "Cubic spline interpolation in the current plane. Uses control points to define a smooth curve. New in grblHAL, not available in grbl.",
+      "parameters": [
+        { "name": "X", "description": "Endpoint X", "optional": true },
+        { "name": "Y", "description": "Endpoint Y", "optional": true },
+        { "name": "I", "description": "X offset of first control point from start", "optional": true },
+        { "name": "J", "description": "Y offset of first control point from start", "optional": true },
+        { "name": "P", "description": "X offset of second control point from end", "optional": true },
+        { "name": "Q", "description": "Y offset of second control point from end", "optional": true },
+        { "name": "F", "description": "Feed rate", "optional": true }
+      ],
+      "examples": [
+        { "code": "G5 X10 Y10 I2 J3 P-2 Q3 F500", "description": "Cubic spline to X10 Y10 with control point offsets" }
+      ],
+      "relatedCodes": ["G5.1", "G1"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. Not available in grbl." },
+        { "firmwareId": "linuxcnc", "code": "G5", "note": "LinuxCNC supports G5 (cubic) and G5.1 (quadratic) splines with the same syntax." },
+        { "firmwareId": "smoothieware", "code": "", "note": "Smoothieware does not support spline interpolation." },
+        { "firmwareId": "reprapfirmware", "code": "", "note": "RepRapFirmware does not support spline interpolation natively." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Cubic B-spline interpolation for smooth curves without arc approximation."
+    },
+    {
+      "code": "G5.1",
+      "type": "G",
+      "name": "Quadratic Spline",
+      "description": "Quadratic B-spline interpolation using a single control point. New in grblHAL.",
+      "parameters": [
+        { "name": "X", "description": "Endpoint X", "optional": true },
+        { "name": "Y", "description": "Endpoint Y", "optional": true },
+        { "name": "I", "description": "X offset of control point", "optional": true },
+        { "name": "J", "description": "Y offset of control point", "optional": true },
+        { "name": "F", "description": "Feed rate", "optional": true }
+      ],
+      "examples": [
+        { "code": "G5.1 X10 Y10 I3 J5 F500", "description": "Quadratic spline to X10 Y10 with control point offset" }
+      ],
+      "relatedCodes": ["G5", "G1"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. Not available in grbl." },
+        { "firmwareId": "linuxcnc", "code": "G5.1", "note": "LinuxCNC supports G5.1 quadratic splines with the same syntax." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Quadratic B-spline for smooth curves with a single control point."
+    },
+    {
+      "code": "G7",
+      "type": "G",
+      "name": "Lathe Diameter Mode",
+      "description": "Interprets X axis values as diameters in lathe mode. New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "G7\nG1 X20 Z-10 F100", "description": "Turn to 20mm diameter (10mm radius)" }
+      ],
+      "relatedCodes": ["G8"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not have lathe mode." },
+        { "firmwareId": "linuxcnc", "code": "G7", "note": "Same behavior. Standard lathe diameter mode." },
+        { "firmwareId": "smoothieware", "code": "", "note": "Smoothieware does not support lathe diameter mode." },
+        { "firmwareId": "reprapfirmware", "code": "", "note": "RepRapFirmware does not support lathe modes." }
+      ],
+      "modeNotes": [
+        { "mode": "Lathe mode", "description": "Only available when lathe mode is enabled in the driver configuration." }
+      ],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Only meaningful in lathe mode. X values represent diameters, so X20 means the tool is at radius 10."
+    },
+    {
+      "code": "G8",
+      "type": "G",
+      "name": "Lathe Radius Mode",
+      "description": "Interprets X axis values as radii in lathe mode. New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "G8\nG1 X10 Z-10 F100", "description": "Turn to 10mm radius (20mm diameter)" }
+      ],
+      "relatedCodes": ["G7"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not have lathe mode." },
+        { "firmwareId": "linuxcnc", "code": "G8", "note": "Same behavior. Standard lathe radius mode." }
+      ],
+      "modeNotes": [
+        { "mode": "Lathe mode", "description": "Only available when lathe mode is enabled." }
+      ],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Only meaningful in lathe mode. X values represent actual radii."
+    },
+    {
+      "code": "G10 L2",
+      "type": "G",
+      "name": "Set Work Coordinate Offset (Absolute)",
+      "description": "Sets a work coordinate system offset to absolute values. Stored persistently in non-volatile memory.",
+      "parameters": [
+        { "name": "P", "description": "Coordinate system number: 1=G54, 2=G55, 3=G56, 4=G57, 5=G58, 6=G59, 7=G59.1, 8=G59.2, 9=G59.3", "optional": false },
+        { "name": "X", "description": "X offset value", "optional": true },
+        { "name": "Y", "description": "Y offset value", "optional": true },
+        { "name": "Z", "description": "Z offset value", "optional": true },
+        { "name": "A", "description": "A offset value (if configured)", "optional": true },
+        { "name": "B", "description": "B offset value (if configured)", "optional": true },
+        { "name": "C", "description": "C offset value (if configured)", "optional": true }
+      ],
+      "examples": [
+        { "code": "G10 L2 P1 X10 Y20 Z0", "description": "Set G54 offset to X10 Y20 Z0" },
+        { "code": "G10 L2 P7 X0 Y0 Z0", "description": "Set G59.1 offset to origin" }
+      ],
+      "relatedCodes": ["G10 L20", "G54", "G55", "G56", "G57", "G58", "G59", "G59.1", "G59.2", "G59.3"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G10 L2", "note": "Same as grbl. grblHAL extends P range to include P7-P9 for G59.1-G59.3." },
+        { "firmwareId": "linuxcnc", "code": "G10 L2", "note": "Same behavior. LinuxCNC supports the same P range." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl with extended coordinate system support (P7-P9 for G59.1-G59.3). Persistent in non-volatile memory."
+    },
+    {
+      "code": "G10 L20",
+      "type": "G",
+      "name": "Set Work Coordinate Offset (Relative)",
+      "description": "Sets a work coordinate system offset such that the current position becomes the specified coordinate value. Persistent in non-volatile memory.",
+      "parameters": [
+        { "name": "P", "description": "Coordinate system number: 1=G54 through 9=G59.3", "optional": false },
+        { "name": "X", "description": "Desired X position at current location", "optional": true },
+        { "name": "Y", "description": "Desired Y position at current location", "optional": true },
+        { "name": "Z", "description": "Desired Z position at current location", "optional": true }
+      ],
+      "examples": [
+        { "code": "G10 L20 P1 X0 Y0 Z0", "description": "Set G54 so current position reads as X0 Y0 Z0" }
+      ],
+      "relatedCodes": ["G10 L2", "G54", "G55", "G56", "G57", "G58", "G59"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G10 L20", "note": "Same as grbl. Extended to support P7-P9 for G59.1-G59.3." },
+        { "firmwareId": "linuxcnc", "code": "G10 L20", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl. Commonly used for setting work zero at the current position."
+    },
+    {
+      "code": "G10 L1",
+      "type": "G",
+      "name": "Set Tool Table (Computed)",
+      "description": "Sets tool table entry with computed offsets. The offset is calculated from the current position relative to the active coordinate system. New in grblHAL, driver dependent.",
+      "parameters": [
+        { "name": "P", "description": "Tool number", "optional": false },
+        { "name": "X", "description": "X tool offset", "optional": true },
+        { "name": "Y", "description": "Y tool offset", "optional": true },
+        { "name": "Z", "description": "Z tool offset", "optional": true },
+        { "name": "R", "description": "Tool radius", "optional": true }
+      ],
+      "examples": [
+        { "code": "G10 L1 P1 Z-25.4 R3.175", "description": "Set tool 1 Z offset and radius" }
+      ],
+      "relatedCodes": ["G10 L10", "G10 L11", "G43", "M6"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not have a tool table." },
+        { "firmwareId": "linuxcnc", "code": "G10 L1", "note": "Same behavior. LinuxCNC supports additional parameters (frontangle, backangle, orientation)." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Driver dependent: requires a driver/plugin that supports the tool table. Used with M6 tool changes and G43 tool length offsets."
+    },
+    {
+      "code": "G10 L10",
+      "type": "G",
+      "name": "Set Tool Table (Relative, WCS)",
+      "description": "Sets tool table entry such that the current position with the current offsets becomes the specified value. New in grblHAL, driver dependent.",
+      "parameters": [
+        { "name": "P", "description": "Tool number", "optional": false },
+        { "name": "X", "description": "Desired X dimension", "optional": true },
+        { "name": "Y", "description": "Desired Y dimension", "optional": true },
+        { "name": "Z", "description": "Desired Z dimension", "optional": true },
+        { "name": "R", "description": "Tool radius", "optional": true }
+      ],
+      "examples": [
+        { "code": "G10 L10 P1 Z0", "description": "Set tool 1 offset so current Z reads as 0 in WCS" }
+      ],
+      "relatedCodes": ["G10 L1", "G10 L11", "G43", "M6"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not have a tool table." },
+        { "firmwareId": "linuxcnc", "code": "G10 L10", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Calculates tool offset based on current position relative to the work coordinate system."
+    },
+    {
+      "code": "G10 L11",
+      "type": "G",
+      "name": "Set Tool Table (Relative, Machine)",
+      "description": "Sets tool table entry relative to the current machine position (G53). New in grblHAL, driver dependent.",
+      "parameters": [
+        { "name": "P", "description": "Tool number", "optional": false },
+        { "name": "X", "description": "Desired X dimension", "optional": true },
+        { "name": "Y", "description": "Desired Y dimension", "optional": true },
+        { "name": "Z", "description": "Desired Z dimension", "optional": true },
+        { "name": "R", "description": "Tool radius", "optional": true }
+      ],
+      "examples": [
+        { "code": "G10 L11 P1 Z0", "description": "Set tool 1 offset so current Z reads as 0 in machine coordinates" }
+      ],
+      "relatedCodes": ["G10 L1", "G10 L10", "G43", "M6"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not have a tool table." },
+        { "firmwareId": "linuxcnc", "code": "G10 L11", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Calculates tool offset based on current position relative to machine coordinates."
+    },
+    {
+      "code": "G17",
+      "type": "G",
+      "name": "XY Plane Select",
+      "description": "Selects XY as the active plane for arc commands (G2/G3). I and J specify arc center offsets. Default plane.",
+      "parameters": [],
+      "examples": [
+        { "code": "G17 G2 X10 Y10 I5 J0 F100", "description": "CW arc in XY plane" }
+      ],
+      "relatedCodes": ["G18", "G19", "G2", "G3"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G17", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "G17", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl. Default plane selection."
+    },
+    {
+      "code": "G18",
+      "type": "G",
+      "name": "ZX Plane Select",
+      "description": "Selects ZX (XZ) as the active plane for arc commands. I and K specify arc center offsets.",
+      "parameters": [],
+      "examples": [
+        { "code": "G18 G2 X10 Z-5 I5 K0 F100", "description": "CW arc in ZX plane" }
+      ],
+      "relatedCodes": ["G17", "G19", "G2", "G3"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G18", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "G18", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl. Used for arcs in vertical planes, particularly in lathe operations."
+    },
+    {
+      "code": "G19",
+      "type": "G",
+      "name": "YZ Plane Select",
+      "description": "Selects YZ as the active plane for arc commands. J and K specify arc center offsets.",
+      "parameters": [],
+      "examples": [
+        { "code": "G19 G2 Y10 Z5 J5 K0 F100", "description": "CW arc in YZ plane" }
+      ],
+      "relatedCodes": ["G17", "G18", "G2", "G3"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G19", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "G19", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl."
+    },
+    {
+      "code": "G20",
+      "type": "G",
+      "name": "Inch Mode",
+      "description": "Sets units to inches for all subsequent commands.",
+      "parameters": [],
+      "examples": [
+        { "code": "G20\nG0 X1 Y1", "description": "Set inch mode, move to 1 inch in X and Y" }
+      ],
+      "relatedCodes": ["G21"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G20", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "G20", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl."
+    },
+    {
+      "code": "G21",
+      "type": "G",
+      "name": "Millimeter Mode",
+      "description": "Sets units to millimeters for all subsequent commands.",
+      "parameters": [],
+      "examples": [
+        { "code": "G21\nG0 X25.4 Y25.4", "description": "Set mm mode, move to 25.4mm in X and Y" }
+      ],
+      "relatedCodes": ["G20"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G21", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "G21", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl."
+    },
+    {
+      "code": "G28",
+      "type": "G",
+      "name": "Go to Predefined Position 1",
+      "description": "Moves through an optional intermediate point, then to the predefined position stored in non-volatile memory. This is NOT homing.",
+      "parameters": [
+        { "name": "X", "description": "Intermediate X position", "optional": true },
+        { "name": "Y", "description": "Intermediate Y position", "optional": true },
+        { "name": "Z", "description": "Intermediate Z position", "optional": true }
+      ],
+      "examples": [
+        { "code": "G28", "description": "Move to stored predefined position 1" },
+        { "code": "G28 Z0", "description": "Move Z to 0, then go to stored position 1" }
+      ],
+      "relatedCodes": ["G28.1", "G30", "G30.1", "$H"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G28", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "G28", "note": "Same behavior." },
+        { "firmwareId": "smoothieware", "code": "G28", "note": "WARNING: Smoothieware uses G28 for homing, not for moving to a stored position." },
+        { "firmwareId": "reprapfirmware", "code": "G28", "note": "WARNING: RepRapFirmware uses G28 for homing. Different behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl. Use $H for homing, G28 for moving to a stored position."
+    },
+    {
+      "code": "G28.1",
+      "type": "G",
+      "name": "Set Predefined Position 1",
+      "description": "Stores the current position as the predefined position 1 (used by G28). Persistent in non-volatile memory.",
+      "parameters": [],
+      "examples": [
+        { "code": "G28.1", "description": "Save current position as predefined position 1" }
+      ],
+      "relatedCodes": ["G28", "G30.1"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G28.1", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "G28.1", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl."
+    },
+    {
+      "code": "G30",
+      "type": "G",
+      "name": "Go to Predefined Position 2",
+      "description": "Moves through an optional intermediate point, then to the second predefined position stored in non-volatile memory.",
+      "parameters": [
+        { "name": "X", "description": "Intermediate X position", "optional": true },
+        { "name": "Y", "description": "Intermediate Y position", "optional": true },
+        { "name": "Z", "description": "Intermediate Z position", "optional": true }
+      ],
+      "examples": [
+        { "code": "G30", "description": "Move to stored predefined position 2" }
+      ],
+      "relatedCodes": ["G30.1", "G28"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G30", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "G30", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl."
+    },
+    {
+      "code": "G30.1",
+      "type": "G",
+      "name": "Set Predefined Position 2",
+      "description": "Stores the current position as the predefined position 2 (used by G30). Persistent in non-volatile memory.",
+      "parameters": [],
+      "examples": [
+        { "code": "G30.1", "description": "Save current position as predefined position 2" }
+      ],
+      "relatedCodes": ["G30", "G28.1"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G30.1", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "G30.1", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl."
+    },
+    {
+      "code": "G33",
+      "type": "G",
+      "name": "Spindle-Synchronized Motion (Threading)",
+      "description": "Moves the Z axis synchronized to spindle rotation for single-point threading on a lathe. Requires a spindle encoder/index pulse. New in grblHAL.",
+      "parameters": [
+        { "name": "X", "description": "Target X position (thread depth)", "optional": true },
+        { "name": "Z", "description": "Target Z position (thread length)", "optional": true },
+        { "name": "K", "description": "Thread pitch (distance per revolution)", "optional": false }
+      ],
+      "examples": [
+        { "code": "G33 Z-20 K1.5", "description": "Cut a 1.5mm pitch thread for 20mm" }
+      ],
+      "relatedCodes": ["G33.1", "G76", "G96", "G97"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support spindle-synchronized motion." },
+        { "firmwareId": "linuxcnc", "code": "G33", "note": "Same behavior. Both require spindle encoder feedback." },
+        { "firmwareId": "smoothieware", "code": "", "note": "Smoothieware does not support spindle-synchronized motion." },
+        { "firmwareId": "reprapfirmware", "code": "", "note": "RepRapFirmware does not support threading." }
+      ],
+      "modeNotes": [
+        { "mode": "Lathe mode", "description": "Requires lathe mode and spindle encoder support in the driver." }
+      ],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Requires spindle encoder/index pulse hardware and driver support. Used for single-point threading on lathes."
+    },
+    {
+      "code": "G33.1",
+      "type": "G",
+      "name": "Rigid Tapping",
+      "description": "Spindle-synchronized tapping cycle. The spindle reverses at the bottom of the hole to retract the tap. Requires spindle encoder. New in grblHAL.",
+      "parameters": [
+        { "name": "Z", "description": "Target Z depth", "optional": false },
+        { "name": "K", "description": "Thread pitch (distance per revolution)", "optional": false }
+      ],
+      "examples": [
+        { "code": "G33.1 Z-15 K1.25", "description": "Rigid tap M8x1.25 to 15mm depth" }
+      ],
+      "relatedCodes": ["G33", "G76"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support rigid tapping." },
+        { "firmwareId": "linuxcnc", "code": "G33.1", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Requires spindle encoder support. The spindle automatically reverses at the bottom to retract."
+    },
+    {
+      "code": "G38.2",
+      "type": "G",
+      "name": "Probe Toward (Error on No Contact)",
+      "description": "Straight probe toward workpiece. Errors if probe does not make contact.",
+      "parameters": [
+        { "name": "X", "description": "Probe target X", "optional": true },
+        { "name": "Y", "description": "Probe target Y", "optional": true },
+        { "name": "Z", "description": "Probe target Z", "optional": true },
+        { "name": "F", "description": "Probe feed rate", "optional": false }
+      ],
+      "examples": [
+        { "code": "G38.2 Z-10 F50", "description": "Probe downward at 50 units/min, error if no contact" }
+      ],
+      "relatedCodes": ["G38.3", "G38.4", "G38.5"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G38.2", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "G38.2", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl. Probe position is reported in machine coordinates via status message."
+    },
+    {
+      "code": "G38.3",
+      "type": "G",
+      "name": "Probe Toward (No Error on No Contact)",
+      "description": "Straight probe toward workpiece. Does NOT error if probe fails to make contact.",
+      "parameters": [
+        { "name": "X", "description": "Probe target X", "optional": true },
+        { "name": "Y", "description": "Probe target Y", "optional": true },
+        { "name": "Z", "description": "Probe target Z", "optional": true },
+        { "name": "F", "description": "Probe feed rate", "optional": false }
+      ],
+      "examples": [
+        { "code": "G38.3 Z-10 F50", "description": "Probe downward, no error if no contact" }
+      ],
+      "relatedCodes": ["G38.2", "G38.4", "G38.5"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G38.3", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "G38.3", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl."
+    },
+    {
+      "code": "G38.4",
+      "type": "G",
+      "name": "Probe Away (Error on No Contact)",
+      "description": "Straight probe away from workpiece. Errors if probe does not break contact.",
+      "parameters": [
+        { "name": "X", "description": "Probe target X", "optional": true },
+        { "name": "Y", "description": "Probe target Y", "optional": true },
+        { "name": "Z", "description": "Probe target Z", "optional": true },
+        { "name": "F", "description": "Probe feed rate", "optional": false }
+      ],
+      "examples": [
+        { "code": "G38.4 Z5 F50", "description": "Probe upward away from surface, error if no break" }
+      ],
+      "relatedCodes": ["G38.2", "G38.3", "G38.5"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G38.4", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "G38.4", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl."
+    },
+    {
+      "code": "G38.5",
+      "type": "G",
+      "name": "Probe Away (No Error on No Contact)",
+      "description": "Straight probe away from workpiece. Does NOT error if probe fails to break contact.",
+      "parameters": [
+        { "name": "X", "description": "Probe target X", "optional": true },
+        { "name": "Y", "description": "Probe target Y", "optional": true },
+        { "name": "Z", "description": "Probe target Z", "optional": true },
+        { "name": "F", "description": "Probe feed rate", "optional": false }
+      ],
+      "examples": [
+        { "code": "G38.5 Z5 F50", "description": "Probe upward away from surface, no error if no break" }
+      ],
+      "relatedCodes": ["G38.2", "G38.3", "G38.4"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G38.5", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "G38.5", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl."
+    },
+    {
+      "code": "G40",
+      "type": "G",
+      "name": "Cancel Cutter Radius Compensation",
+      "description": "Cancels cutter radius compensation. grblHAL accepts this command for compatibility but does not implement cutter compensation.",
+      "parameters": [],
+      "examples": [
+        { "code": "G40", "description": "Cancel cutter compensation (no-op)" }
+      ],
+      "relatedCodes": [],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G40", "note": "Same as grbl. Both accept G40 but do not implement cutter compensation." },
+        { "firmwareId": "linuxcnc", "code": "G40", "note": "LinuxCNC fully implements cutter compensation (G41/G42). grblHAL only accepts G40 for compatibility." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl. Accepted for compatibility only. Cutter compensation (G41/G42) is not implemented."
+    },
+    {
+      "code": "G43",
+      "type": "G",
+      "name": "Tool Length Offset (From Tool Table)",
+      "description": "Applies the tool length offset from the tool table for the specified tool number. New in grblHAL.",
+      "parameters": [
+        { "name": "H", "description": "Tool number to load offset from (if omitted, uses current tool)", "optional": true }
+      ],
+      "examples": [
+        { "code": "G43 H1", "description": "Apply tool length offset for tool 1 from tool table" },
+        { "code": "T1 M6\nG43", "description": "Change to tool 1 and apply its offset" }
+      ],
+      "relatedCodes": ["G43.1", "G43.2", "G49", "M6", "G10 L1"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not have a tool table or G43." },
+        { "firmwareId": "linuxcnc", "code": "G43", "note": "Same behavior. Both load offset from tool table." },
+        { "firmwareId": "smoothieware", "code": "", "note": "Smoothieware does not support tool length offsets from a tool table." },
+        { "firmwareId": "reprapfirmware", "code": "", "note": "RepRapFirmware handles tool offsets differently via G10 Pn." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Loads tool length offset from the tool table. Requires tool table support in the driver. Use G10 L1/L10/L11 to set tool table entries."
+    },
+    {
+      "code": "G43.1",
+      "type": "G",
+      "name": "Dynamic Tool Length Offset",
+      "description": "Applies an explicit tool length offset specified directly in the command, without referencing the tool table. Supported in both grbl and grblHAL.",
+      "parameters": [
+        { "name": "X", "description": "X tool offset", "optional": true },
+        { "name": "Y", "description": "Y tool offset", "optional": true },
+        { "name": "Z", "description": "Z tool offset", "optional": true }
+      ],
+      "examples": [
+        { "code": "G43.1 Z-10.5", "description": "Apply a Z tool length offset of -10.5" }
+      ],
+      "relatedCodes": ["G43", "G43.2", "G49"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G43.1", "note": "Same as grbl. Both support dynamic tool length offset." },
+        { "firmwareId": "linuxcnc", "code": "G43.1", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl. Allows setting tool length offset without a tool table."
+    },
+    {
+      "code": "G43.2",
+      "type": "G",
+      "name": "Apply Additional Tool Length Offset",
+      "description": "Adds an additional tool length offset on top of the current offset (stacking). New in grblHAL.",
+      "parameters": [
+        { "name": "H", "description": "Tool number to add offset from", "optional": true }
+      ],
+      "examples": [
+        { "code": "G43 H1\nG43.2 H2", "description": "Apply tool 1 offset, then add tool 2 offset on top" }
+      ],
+      "relatedCodes": ["G43", "G43.1", "G49"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support offset stacking." },
+        { "firmwareId": "linuxcnc", "code": "G43.2", "note": "Same behavior. Both allow stacking additional offsets." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Allows stacking tool length offsets for multi-offset setups."
+    },
+    {
+      "code": "G49",
+      "type": "G",
+      "name": "Cancel Tool Length Offset",
+      "description": "Cancels any active tool length offset (G43, G43.1, G43.2).",
+      "parameters": [],
+      "examples": [
+        { "code": "G49", "description": "Cancel all tool length offsets" }
+      ],
+      "relatedCodes": ["G43", "G43.1", "G43.2"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G49", "note": "Same as grbl. Both support G49 to cancel tool length offsets." },
+        { "firmwareId": "linuxcnc", "code": "G49", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl."
+    },
+    {
+      "code": "G50",
+      "type": "G",
+      "name": "Cancel Scaling",
+      "description": "Cancels any active scaling factors set by G51. Resets all axis scale factors to 1.0. New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "G50", "description": "Cancel all axis scaling" }
+      ],
+      "relatedCodes": ["G51"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support scaling." },
+        { "firmwareId": "linuxcnc", "code": "", "note": "LinuxCNC does not have an equivalent scaling command." },
+        { "firmwareId": "smoothieware", "code": "", "note": "Smoothieware does not support coordinate scaling." },
+        { "firmwareId": "reprapfirmware", "code": "", "note": "RepRapFirmware does not support coordinate scaling." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Unique to grblHAL among the common CNC firmwares. Cancels G51 scaling."
+    },
+    {
+      "code": "G51",
+      "type": "G",
+      "name": "Set Scaling Factors",
+      "description": "Sets per-axis scaling factors. All subsequent coordinate values are multiplied by the scale factor. New in grblHAL.",
+      "parameters": [
+        { "name": "X", "description": "X axis scale factor", "optional": true },
+        { "name": "Y", "description": "Y axis scale factor", "optional": true },
+        { "name": "Z", "description": "Z axis scale factor", "optional": true }
+      ],
+      "examples": [
+        { "code": "G51 X2.0 Y2.0", "description": "Scale X and Y coordinates by 2x (double size)" },
+        { "code": "G51 X0.5 Y0.5 Z0.5", "description": "Scale all axes to 50% (half size)" }
+      ],
+      "relatedCodes": ["G50"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support scaling." },
+        { "firmwareId": "linuxcnc", "code": "", "note": "LinuxCNC does not have a direct equivalent. Scaling is typically done in CAM." },
+        { "firmwareId": "smoothieware", "code": "", "note": "Smoothieware does not support coordinate scaling." },
+        { "firmwareId": "reprapfirmware", "code": "", "note": "RepRapFirmware does not support coordinate scaling." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Unique feature for on-the-fly coordinate scaling. Useful for resizing parts without re-generating G-code."
+    },
+    {
+      "code": "G53",
+      "type": "G",
+      "name": "Move in Machine Coordinates",
+      "description": "Temporarily overrides the active work coordinate system and moves in machine (absolute) coordinates. Non-modal, only applies to the line it appears on.",
+      "parameters": [
+        { "name": "X", "description": "Machine X position", "optional": true },
+        { "name": "Y", "description": "Machine Y position", "optional": true },
+        { "name": "Z", "description": "Machine Z position", "optional": true }
+      ],
+      "examples": [
+        { "code": "G53 G0 Z0", "description": "Rapid to machine Z zero (typically top of travel)" },
+        { "code": "G53 G0 X0 Y0", "description": "Rapid to machine origin" }
+      ],
+      "relatedCodes": ["G54", "G55", "G56", "G57", "G58", "G59"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G53", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "G53", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl. Must be used with G0 or G1 on the same line. Non-modal."
+    },
+    {
+      "code": "G54",
+      "type": "G",
+      "name": "Work Coordinate System 1",
+      "description": "Selects work coordinate system 1. Default coordinate system.",
+      "parameters": [],
+      "examples": [
+        { "code": "G54", "description": "Switch to WCS 1 (default)" }
+      ],
+      "relatedCodes": ["G55", "G56", "G57", "G58", "G59", "G10 L2"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G54", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "G54", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl. Default work coordinate system."
+    },
+    {
+      "code": "G55",
+      "type": "G",
+      "name": "Work Coordinate System 2",
+      "description": "Selects work coordinate system 2.",
+      "parameters": [],
+      "examples": [
+        { "code": "G55", "description": "Switch to WCS 2" }
+      ],
+      "relatedCodes": ["G54", "G56", "G10 L2"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G55", "note": "Same as grbl." },
+        { "firmwareId": "linuxcnc", "code": "G55", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl."
+    },
+    {
+      "code": "G56",
+      "type": "G",
+      "name": "Work Coordinate System 3",
+      "description": "Selects work coordinate system 3.",
+      "parameters": [],
+      "examples": [
+        { "code": "G56", "description": "Switch to WCS 3" }
+      ],
+      "relatedCodes": ["G54", "G57", "G10 L2"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G56", "note": "Same as grbl." },
+        { "firmwareId": "linuxcnc", "code": "G56", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl."
+    },
+    {
+      "code": "G57",
+      "type": "G",
+      "name": "Work Coordinate System 4",
+      "description": "Selects work coordinate system 4.",
+      "parameters": [],
+      "examples": [
+        { "code": "G57", "description": "Switch to WCS 4" }
+      ],
+      "relatedCodes": ["G54", "G58", "G10 L2"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G57", "note": "Same as grbl." },
+        { "firmwareId": "linuxcnc", "code": "G57", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl."
+    },
+    {
+      "code": "G58",
+      "type": "G",
+      "name": "Work Coordinate System 5",
+      "description": "Selects work coordinate system 5.",
+      "parameters": [],
+      "examples": [
+        { "code": "G58", "description": "Switch to WCS 5" }
+      ],
+      "relatedCodes": ["G54", "G59", "G10 L2"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G58", "note": "Same as grbl." },
+        { "firmwareId": "linuxcnc", "code": "G58", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl."
+    },
+    {
+      "code": "G59",
+      "type": "G",
+      "name": "Work Coordinate System 6",
+      "description": "Selects work coordinate system 6.",
+      "parameters": [],
+      "examples": [
+        { "code": "G59", "description": "Switch to WCS 6" }
+      ],
+      "relatedCodes": ["G54", "G59.1", "G10 L2"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G59", "note": "Same as grbl." },
+        { "firmwareId": "linuxcnc", "code": "G59", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl."
+    },
+    {
+      "code": "G59.1",
+      "type": "G",
+      "name": "Work Coordinate System 7",
+      "description": "Selects work coordinate system 7. New in grblHAL (grbl only supports G54-G59).",
+      "parameters": [],
+      "examples": [
+        { "code": "G59.1", "description": "Switch to WCS 7" }
+      ],
+      "relatedCodes": ["G59", "G59.2", "G59.3", "G10 L2"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl only supports G54-G59 (6 coordinate systems)." },
+        { "firmwareId": "linuxcnc", "code": "G59.1", "note": "Same behavior. LinuxCNC supports G59.1-G59.3." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Extends grbl's 6 coordinate systems to 9, matching LinuxCNC."
+    },
+    {
+      "code": "G59.2",
+      "type": "G",
+      "name": "Work Coordinate System 8",
+      "description": "Selects work coordinate system 8. New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "G59.2", "description": "Switch to WCS 8" }
+      ],
+      "relatedCodes": ["G59.1", "G59.3", "G10 L2"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl only supports G54-G59." },
+        { "firmwareId": "linuxcnc", "code": "G59.2", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL."
+    },
+    {
+      "code": "G59.3",
+      "type": "G",
+      "name": "Work Coordinate System 9",
+      "description": "Selects work coordinate system 9. New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "G59.3", "description": "Switch to WCS 9" }
+      ],
+      "relatedCodes": ["G59.1", "G59.2", "G10 L2"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl only supports G54-G59." },
+        { "firmwareId": "linuxcnc", "code": "G59.3", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL."
+    },
+    {
+      "code": "G61",
+      "type": "G",
+      "name": "Exact Path Mode",
+      "description": "Machine stops at each programmed point to achieve exact path. Default mode in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "G61", "description": "Enable exact path mode" }
+      ],
+      "relatedCodes": ["G61.1", "G64"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G61", "note": "Same as grbl. Default path control mode." },
+        { "firmwareId": "linuxcnc", "code": "G61", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl. Default path control mode."
+    },
+    {
+      "code": "G61.1",
+      "type": "G",
+      "name": "Exact Stop Mode",
+      "description": "Machine decelerates to a complete stop at each programmed point. More precise than G61. New in grblHAL, compile-time option.",
+      "parameters": [],
+      "examples": [
+        { "code": "G61.1", "description": "Enable exact stop mode" }
+      ],
+      "relatedCodes": ["G61", "G64"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not distinguish between G61 and G61.1." },
+        { "firmwareId": "linuxcnc", "code": "G61.1", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Compile-time option. Decelerates to zero velocity at each endpoint."
+    },
+    {
+      "code": "G64",
+      "type": "G",
+      "name": "Path Blending Mode",
+      "description": "Enables path blending (continuous mode) where the machine smoothly blends between segments without coming to a full stop. New in grblHAL, compile-time option.",
+      "parameters": [
+        { "name": "P", "description": "Path tolerance (deviation allowed)", "optional": true },
+        { "name": "Q", "description": "Naive CAM tolerance", "optional": true }
+      ],
+      "examples": [
+        { "code": "G64", "description": "Enable path blending with default tolerance" },
+        { "code": "G64 P0.01", "description": "Enable path blending with 0.01mm tolerance" }
+      ],
+      "relatedCodes": ["G61", "G61.1"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support path blending." },
+        { "firmwareId": "linuxcnc", "code": "G64", "note": "Same behavior. LinuxCNC also supports P and Q parameters for tolerance control." },
+        { "firmwareId": "smoothieware", "code": "", "note": "Smoothieware has a different junction deviation approach, not G64." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Compile-time option. Bridges the gap between grbl (no path blending) and LinuxCNC (full path blending). Significantly improves surface finish on curved surfaces."
+    },
+    {
+      "code": "G65",
+      "type": "G",
+      "name": "Macro Call",
+      "description": "Calls a macro subroutine by number with optional arguments. New in grblHAL, unique feature.",
+      "parameters": [
+        { "name": "P", "description": "Macro number to call", "optional": false },
+        { "name": "A-Z", "description": "Arguments passed to the macro (mapped to local variables)", "optional": true }
+      ],
+      "examples": [
+        { "code": "G65 P100 A1.0 B2.0", "description": "Call macro 100 with A=1.0, B=2.0" }
+      ],
+      "relatedCodes": ["G66", "G67", "M99"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support macros." },
+        { "firmwareId": "linuxcnc", "code": "O call", "note": "LinuxCNC uses O-word subroutines (O100 call) instead of G65. Different syntax, similar concept." },
+        { "firmwareId": "smoothieware", "code": "", "note": "Smoothieware does not support macro calls." },
+        { "firmwareId": "reprapfirmware", "code": "M98", "note": "RepRapFirmware uses M98 for macro/subroutine calls." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Fanuc-style macro calling. Requires macro plugin. Arguments A-Z are mapped to local variables #1-#26."
+    },
+    {
+      "code": "G66",
+      "type": "G",
+      "name": "Modal Macro Call",
+      "description": "Like G65 but modal: the macro is called automatically after every subsequent motion block until cancelled with G67. New in grblHAL.",
+      "parameters": [
+        { "name": "P", "description": "Macro number to call", "optional": false },
+        { "name": "A-Z", "description": "Arguments passed to the macro", "optional": true }
+      ],
+      "examples": [
+        { "code": "G66 P100 A1.0\nG1 X10\nG1 X20\nG67", "description": "Macro 100 runs after each G1 move until G67 cancels it" }
+      ],
+      "relatedCodes": ["G65", "G67", "M99"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support macros." },
+        { "firmwareId": "linuxcnc", "code": "", "note": "LinuxCNC does not have a direct G66 equivalent." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Modal macro call. Requires macro plugin."
+    },
+    {
+      "code": "G67",
+      "type": "G",
+      "name": "Cancel Modal Macro Call",
+      "description": "Cancels the modal macro call set by G66. New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "G67", "description": "Cancel modal macro" }
+      ],
+      "relatedCodes": ["G65", "G66"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support macros." },
+        { "firmwareId": "linuxcnc", "code": "", "note": "LinuxCNC does not have a direct G67 equivalent." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Cancels G66 modal macro."
+    },
+    {
+      "code": "G73",
+      "type": "G",
+      "name": "Peck Drilling Cycle (Chip Break)",
+      "description": "High-speed peck drilling cycle. Drills in increments with a small retract to break chips, then returns to peck depth. Faster than G83 because it does not fully retract between pecks. New in grblHAL.",
+      "parameters": [
+        { "name": "X", "description": "Hole X position", "optional": true },
+        { "name": "Y", "description": "Hole Y position", "optional": true },
+        { "name": "Z", "description": "Final hole depth", "optional": false },
+        { "name": "R", "description": "Retract plane (rapid to this height before drilling)", "optional": false },
+        { "name": "Q", "description": "Peck depth increment", "optional": false },
+        { "name": "F", "description": "Feed rate", "optional": false },
+        { "name": "L", "description": "Number of repeats", "optional": true }
+      ],
+      "examples": [
+        { "code": "G73 X10 Y10 Z-20 R2 Q5 F100", "description": "Peck drill at (10,10) to Z-20 with 5mm pecks and chip-break retract" }
+      ],
+      "relatedCodes": ["G80", "G81", "G83", "G98", "G99"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support canned cycles." },
+        { "firmwareId": "linuxcnc", "code": "G73", "note": "Same behavior. Standard canned drilling cycle." },
+        { "firmwareId": "smoothieware", "code": "", "note": "Smoothieware does not support canned cycles." },
+        { "firmwareId": "reprapfirmware", "code": "", "note": "RepRapFirmware does not support canned drilling cycles." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Canned drilling cycle. The chip-break retract is a small distance (typically controlled by a parameter), unlike G83 which fully retracts to R plane."
+    },
+    {
+      "code": "G76",
+      "type": "G",
+      "name": "Threading Cycle",
+      "description": "Multi-pass threading cycle for lathes. Automatically calculates passes with decreasing depth of cut. Requires spindle encoder. New in grblHAL.",
+      "parameters": [
+        { "name": "P", "description": "Thread pitch", "optional": false },
+        { "name": "Z", "description": "Thread end position (length)", "optional": false },
+        { "name": "I", "description": "Thread taper (difference in radius over length)", "optional": true },
+        { "name": "J", "description": "Initial depth of cut", "optional": false },
+        { "name": "K", "description": "Full thread depth", "optional": false },
+        { "name": "R", "description": "Depth degression (1.0=constant, 2.0=constant area)", "optional": true },
+        { "name": "Q", "description": "Compound slide angle (29.5 for unified, 30 for metric)", "optional": true },
+        { "name": "H", "description": "Spring passes at final depth", "optional": true },
+        { "name": "E", "description": "Taper distance (at thread start)", "optional": true },
+        { "name": "L", "description": "Taper type (0=none, 1=entry, 2=exit, 3=both)", "optional": true }
+      ],
+      "examples": [
+        { "code": "G76 P1.5 Z-20 J0.3 K0.92", "description": "Thread M12x1.5 for 20mm, 0.3mm initial cut, 0.92mm total depth" }
+      ],
+      "relatedCodes": ["G33", "G33.1", "G96", "G97"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support threading." },
+        { "firmwareId": "linuxcnc", "code": "G76", "note": "Same behavior. Both implement multi-pass threading with similar parameters." },
+        { "firmwareId": "smoothieware", "code": "", "note": "Smoothieware does not support threading." },
+        { "firmwareId": "reprapfirmware", "code": "", "note": "RepRapFirmware does not support threading." }
+      ],
+      "modeNotes": [
+        { "mode": "Lathe mode", "description": "Only available in lathe mode with spindle encoder support." }
+      ],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Multi-pass threading cycle for lathes. Requires spindle encoder hardware and driver support. Modeled after LinuxCNC G76."
+    },
+    {
+      "code": "G80",
+      "type": "G",
+      "name": "Cancel Canned Cycle",
+      "description": "Cancels any active canned cycle (G73, G81-G89). New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "G80", "description": "Cancel active canned cycle" }
+      ],
+      "relatedCodes": ["G73", "G81", "G82", "G83", "G84", "G85", "G86", "G89"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support canned cycles." },
+        { "firmwareId": "linuxcnc", "code": "G80", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Required to cancel modal canned cycles before switching to other motion modes."
+    },
+    {
+      "code": "G81",
+      "type": "G",
+      "name": "Drilling Cycle",
+      "description": "Simple drilling cycle. Rapids to R plane, feeds to Z depth, then retracts. No dwell at bottom. New in grblHAL.",
+      "parameters": [
+        { "name": "X", "description": "Hole X position", "optional": true },
+        { "name": "Y", "description": "Hole Y position", "optional": true },
+        { "name": "Z", "description": "Final hole depth", "optional": false },
+        { "name": "R", "description": "Retract plane height", "optional": false },
+        { "name": "F", "description": "Feed rate", "optional": false },
+        { "name": "L", "description": "Number of repeats", "optional": true }
+      ],
+      "examples": [
+        { "code": "G81 X10 Y10 Z-15 R2 F200", "description": "Drill at (10,10) to Z-15, retract to R2" }
+      ],
+      "relatedCodes": ["G80", "G82", "G83", "G98", "G99"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support canned cycles." },
+        { "firmwareId": "linuxcnc", "code": "G81", "note": "Same behavior. Standard canned drilling cycle." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Simplest canned drilling cycle. Modal: subsequent XY positions will repeat the cycle."
+    },
+    {
+      "code": "G82",
+      "type": "G",
+      "name": "Drilling Cycle with Dwell",
+      "description": "Drilling cycle with a dwell (pause) at the bottom of the hole. Useful for spot drilling or ensuring a clean hole bottom. New in grblHAL.",
+      "parameters": [
+        { "name": "X", "description": "Hole X position", "optional": true },
+        { "name": "Y", "description": "Hole Y position", "optional": true },
+        { "name": "Z", "description": "Final hole depth", "optional": false },
+        { "name": "R", "description": "Retract plane height", "optional": false },
+        { "name": "P", "description": "Dwell time at bottom (seconds)", "optional": false },
+        { "name": "F", "description": "Feed rate", "optional": false },
+        { "name": "L", "description": "Number of repeats", "optional": true }
+      ],
+      "examples": [
+        { "code": "G82 X10 Y10 Z-15 R2 P0.5 F200", "description": "Drill with 0.5 second dwell at bottom" }
+      ],
+      "relatedCodes": ["G80", "G81", "G83"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support canned cycles." },
+        { "firmwareId": "linuxcnc", "code": "G82", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Like G81 but with a dwell at the bottom."
+    },
+    {
+      "code": "G83",
+      "type": "G",
+      "name": "Peck Drilling Cycle (Full Retract)",
+      "description": "Deep hole peck drilling cycle. Drills in increments, fully retracting to R plane between each peck for chip clearing. Slower than G73 but better for deep holes. New in grblHAL.",
+      "parameters": [
+        { "name": "X", "description": "Hole X position", "optional": true },
+        { "name": "Y", "description": "Hole Y position", "optional": true },
+        { "name": "Z", "description": "Final hole depth", "optional": false },
+        { "name": "R", "description": "Retract plane height", "optional": false },
+        { "name": "Q", "description": "Peck depth increment", "optional": false },
+        { "name": "F", "description": "Feed rate", "optional": false },
+        { "name": "L", "description": "Number of repeats", "optional": true }
+      ],
+      "examples": [
+        { "code": "G83 X10 Y10 Z-30 R2 Q5 F100", "description": "Peck drill to Z-30 with 5mm pecks, full retract between each" }
+      ],
+      "relatedCodes": ["G73", "G80", "G81"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support canned cycles." },
+        { "firmwareId": "linuxcnc", "code": "G83", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Full-retract peck drilling for deep holes with chip clearing."
+    },
+    {
+      "code": "G84",
+      "type": "G",
+      "name": "Right-Hand Tapping Cycle",
+      "description": "Tapping cycle for right-hand (standard) threads. Feeds down at calculated rate based on pitch, then reverses to retract. New in grblHAL.",
+      "parameters": [
+        { "name": "X", "description": "Hole X position", "optional": true },
+        { "name": "Y", "description": "Hole Y position", "optional": true },
+        { "name": "Z", "description": "Tap depth", "optional": false },
+        { "name": "R", "description": "Retract plane height", "optional": false },
+        { "name": "F", "description": "Feed rate", "optional": false },
+        { "name": "L", "description": "Number of repeats", "optional": true }
+      ],
+      "examples": [
+        { "code": "G84 X10 Y10 Z-15 R2 F150", "description": "Tap right-hand thread to Z-15" }
+      ],
+      "relatedCodes": ["G80", "G33.1"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support tapping cycles." },
+        { "firmwareId": "linuxcnc", "code": "G84", "note": "LinuxCNC supports G84 but it is deprecated in favor of G33.1 rigid tapping." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Canned tapping cycle."
+    },
+    {
+      "code": "G85",
+      "type": "G",
+      "name": "Boring Cycle (Feed Out)",
+      "description": "Boring cycle that feeds to depth and feeds back out at the same rate. No dwell at bottom. New in grblHAL.",
+      "parameters": [
+        { "name": "X", "description": "Hole X position", "optional": true },
+        { "name": "Y", "description": "Hole Y position", "optional": true },
+        { "name": "Z", "description": "Bore depth", "optional": false },
+        { "name": "R", "description": "Retract plane height", "optional": false },
+        { "name": "F", "description": "Feed rate", "optional": false },
+        { "name": "L", "description": "Number of repeats", "optional": true }
+      ],
+      "examples": [
+        { "code": "G85 X10 Y10 Z-20 R2 F100", "description": "Bore to Z-20 and feed out" }
+      ],
+      "relatedCodes": ["G80", "G86", "G89"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support canned cycles." },
+        { "firmwareId": "linuxcnc", "code": "G85", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Boring cycle with feed retract for good surface finish."
+    },
+    {
+      "code": "G86",
+      "type": "G",
+      "name": "Boring Cycle (Spindle Stop, Rapid Out)",
+      "description": "Boring cycle that feeds to depth, stops the spindle, then rapids out. New in grblHAL.",
+      "parameters": [
+        { "name": "X", "description": "Hole X position", "optional": true },
+        { "name": "Y", "description": "Hole Y position", "optional": true },
+        { "name": "Z", "description": "Bore depth", "optional": false },
+        { "name": "R", "description": "Retract plane height", "optional": false },
+        { "name": "F", "description": "Feed rate", "optional": false },
+        { "name": "L", "description": "Number of repeats", "optional": true }
+      ],
+      "examples": [
+        { "code": "G86 X10 Y10 Z-20 R2 F100", "description": "Bore to Z-20, stop spindle, rapid out" }
+      ],
+      "relatedCodes": ["G80", "G85", "G89"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support canned cycles." },
+        { "firmwareId": "linuxcnc", "code": "G86", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Boring cycle where spindle stops before retract to avoid marking the bore wall."
+    },
+    {
+      "code": "G89",
+      "type": "G",
+      "name": "Boring Cycle (Dwell, Feed Out)",
+      "description": "Boring cycle with dwell at bottom before feeding out. Combines features of G82 (dwell) and G85 (feed retract). New in grblHAL.",
+      "parameters": [
+        { "name": "X", "description": "Hole X position", "optional": true },
+        { "name": "Y", "description": "Hole Y position", "optional": true },
+        { "name": "Z", "description": "Bore depth", "optional": false },
+        { "name": "R", "description": "Retract plane height", "optional": false },
+        { "name": "P", "description": "Dwell time at bottom (seconds)", "optional": false },
+        { "name": "F", "description": "Feed rate", "optional": false },
+        { "name": "L", "description": "Number of repeats", "optional": true }
+      ],
+      "examples": [
+        { "code": "G89 X10 Y10 Z-20 R2 P1.0 F100", "description": "Bore to Z-20, dwell 1 second, feed out" }
+      ],
+      "relatedCodes": ["G80", "G85", "G86"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support canned cycles." },
+        { "firmwareId": "linuxcnc", "code": "G89", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Boring cycle with dwell for best surface finish at bottom of bore."
+    },
+    {
+      "code": "G90",
+      "type": "G",
+      "name": "Absolute Distance Mode",
+      "description": "Coordinates are interpreted as absolute positions relative to the work coordinate system origin.",
+      "parameters": [],
+      "examples": [
+        { "code": "G90\nG0 X10 Y10", "description": "Move to absolute position (10,10)" }
+      ],
+      "relatedCodes": ["G91"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G90", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "G90", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl. Default distance mode."
+    },
+    {
+      "code": "G91",
+      "type": "G",
+      "name": "Incremental Distance Mode",
+      "description": "Coordinates are interpreted as incremental distances from the current position.",
+      "parameters": [],
+      "examples": [
+        { "code": "G91\nG1 X5 F200", "description": "Move 5 units in +X from current position" }
+      ],
+      "relatedCodes": ["G90"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G91", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "G91", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl."
+    },
+    {
+      "code": "G91.1",
+      "type": "G",
+      "name": "Incremental Arc Distance Mode",
+      "description": "IJK arc center offsets are interpreted as incremental from the current position. This is the only supported arc distance mode.",
+      "parameters": [],
+      "examples": [
+        { "code": "G91.1", "description": "Set incremental arc center mode (default and only mode)" }
+      ],
+      "relatedCodes": ["G2", "G3"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G91.1", "note": "Same as grbl. Both only support incremental IJK." },
+        { "firmwareId": "linuxcnc", "code": "G91.1", "note": "LinuxCNC also supports G90.1 (absolute IJK). grblHAL only supports G91.1." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl. Only incremental IJK mode is supported. Absolute IJK (G90.1) is NOT supported."
+    },
+    {
+      "code": "G92",
+      "type": "G",
+      "name": "Set Coordinate System Offset",
+      "description": "Sets a temporary offset so that the current position becomes the specified coordinate values. Applies on top of the active WCS.",
+      "parameters": [
+        { "name": "X", "description": "Desired X value at current position", "optional": true },
+        { "name": "Y", "description": "Desired Y value at current position", "optional": true },
+        { "name": "Z", "description": "Desired Z value at current position", "optional": true }
+      ],
+      "examples": [
+        { "code": "G92 X0 Y0 Z0", "description": "Set current position as zero for all axes" }
+      ],
+      "relatedCodes": ["G92.1", "G92.2", "G92.3"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G92", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "G92", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl. G92 offsets persist through power cycles but are volatile within the G-code context."
+    },
+    {
+      "code": "G92.1",
+      "type": "G",
+      "name": "Clear Coordinate System Offset",
+      "description": "Clears the G92 offset and resets it to zero. Also clears from non-volatile memory.",
+      "parameters": [],
+      "examples": [
+        { "code": "G92.1", "description": "Clear G92 offset" }
+      ],
+      "relatedCodes": ["G92", "G92.2", "G92.3"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G92.1", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "G92.1", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl."
+    },
+    {
+      "code": "G92.2",
+      "type": "G",
+      "name": "Disable Coordinate System Offset",
+      "description": "Disables the G92 offset without clearing it from memory. The offset can be restored with G92.3. New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "G92.2", "description": "Temporarily disable G92 offset (can restore with G92.3)" }
+      ],
+      "relatedCodes": ["G92", "G92.1", "G92.3"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support G92.2." },
+        { "firmwareId": "linuxcnc", "code": "G92.2", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Disables G92 offset without erasing it. Use G92.3 to re-enable."
+    },
+    {
+      "code": "G92.3",
+      "type": "G",
+      "name": "Restore Coordinate System Offset",
+      "description": "Restores a previously disabled G92 offset (disabled by G92.2). New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "G92.3", "description": "Restore previously disabled G92 offset" }
+      ],
+      "relatedCodes": ["G92", "G92.1", "G92.2"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support G92.3." },
+        { "firmwareId": "linuxcnc", "code": "G92.3", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Restores a G92 offset previously disabled by G92.2."
+    },
+    {
+      "code": "G93",
+      "type": "G",
+      "name": "Inverse Time Feed Rate Mode",
+      "description": "Feed rate is specified as the number of moves per minute. F2.0 means the move should complete in 0.5 minutes.",
+      "parameters": [],
+      "examples": [
+        { "code": "G93\nG1 X10 Y10 F2.0", "description": "Move to X10 Y10; the move should take 30 seconds" }
+      ],
+      "relatedCodes": ["G94", "G95"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G93", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "G93", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl. Each line must specify F when in inverse time mode."
+    },
+    {
+      "code": "G94",
+      "type": "G",
+      "name": "Units Per Minute Feed Rate Mode",
+      "description": "Feed rate is in units per minute (mm/min or inches/min). Default feed rate mode.",
+      "parameters": [],
+      "examples": [
+        { "code": "G94\nG1 X10 F500", "description": "Move at 500 units/min" }
+      ],
+      "relatedCodes": ["G93", "G95"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G94", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "G94", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl. Default feed rate mode."
+    },
+    {
+      "code": "G95",
+      "type": "G",
+      "name": "Feed Per Revolution Mode",
+      "description": "Feed rate is specified in units per spindle revolution. Requires spindle encoder feedback. New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "G95\nG1 Z-10 F0.2", "description": "Feed at 0.2mm per revolution" }
+      ],
+      "relatedCodes": ["G93", "G94", "G33"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support feed per revolution." },
+        { "firmwareId": "linuxcnc", "code": "G95", "note": "Same behavior. Both require spindle encoder." },
+        { "firmwareId": "smoothieware", "code": "", "note": "Smoothieware does not support feed per revolution." },
+        { "firmwareId": "reprapfirmware", "code": "", "note": "RepRapFirmware does not support feed per revolution." }
+      ],
+      "modeNotes": [
+        { "mode": "Lathe mode", "description": "Essential for lathe turning operations where consistent chip load depends on spindle speed." }
+      ],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Requires spindle encoder support. Critical for lathe operations where consistent chip load is needed regardless of spindle speed."
+    },
+    {
+      "code": "G96",
+      "type": "G",
+      "name": "Constant Surface Speed (CSS)",
+      "description": "Maintains constant cutting speed at the tool tip by varying spindle RPM as the tool moves along the X axis (diameter changes). For lathes. New in grblHAL.",
+      "parameters": [
+        { "name": "S", "description": "Surface speed in units/min", "optional": false },
+        { "name": "D", "description": "Maximum spindle RPM limit", "optional": true }
+      ],
+      "examples": [
+        { "code": "G96 S200 D3000", "description": "Constant surface speed of 200 m/min, max 3000 RPM" }
+      ],
+      "relatedCodes": ["G97", "G95"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support CSS." },
+        { "firmwareId": "linuxcnc", "code": "G96", "note": "Same behavior. Both implement CSS for lathe operations." },
+        { "firmwareId": "smoothieware", "code": "", "note": "Smoothieware does not support CSS." },
+        { "firmwareId": "reprapfirmware", "code": "", "note": "RepRapFirmware does not support CSS." }
+      ],
+      "modeNotes": [
+        { "mode": "Lathe mode", "description": "Only available in lathe mode. Spindle encoder recommended but not strictly required." }
+      ],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Constant surface speed mode for lathes. RPM is automatically adjusted as the cutting diameter changes to maintain consistent surface speed."
+    },
+    {
+      "code": "G97",
+      "type": "G",
+      "name": "RPM Mode (Cancel CSS)",
+      "description": "Cancels constant surface speed (G96) and returns to direct RPM control. New in grblHAL.",
+      "parameters": [
+        { "name": "S", "description": "Spindle speed in RPM", "optional": true }
+      ],
+      "examples": [
+        { "code": "G97 S1500", "description": "Cancel CSS, set spindle to 1500 RPM" }
+      ],
+      "relatedCodes": ["G96"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support CSS/RPM mode switching." },
+        { "firmwareId": "linuxcnc", "code": "G97", "note": "Same behavior." }
+      ],
+      "modeNotes": [
+        { "mode": "Lathe mode", "description": "Used in lathe mode to switch from CSS back to direct RPM control." }
+      ],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Cancels G96 constant surface speed mode."
+    },
+    {
+      "code": "G98",
+      "type": "G",
+      "name": "Canned Cycle Retract to Initial Level",
+      "description": "Sets canned cycles to retract to the initial Z level (the Z position before the cycle started) rather than the R plane. New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "G98\nG81 X10 Y10 Z-15 R2 F200", "description": "Drill and retract to initial Z level (above R)" }
+      ],
+      "relatedCodes": ["G99", "G73", "G81"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support canned cycles." },
+        { "firmwareId": "linuxcnc", "code": "G98", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Default retract mode for canned cycles. Safer for workpieces with obstructions between holes."
+    },
+    {
+      "code": "G99",
+      "type": "G",
+      "name": "Canned Cycle Retract to R Level",
+      "description": "Sets canned cycles to retract only to the R plane height rather than the initial Z level. Faster for flat workpieces. New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "G99\nG81 X10 Y10 Z-15 R2 F200", "description": "Drill and retract only to R2" }
+      ],
+      "relatedCodes": ["G98", "G73", "G81"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support canned cycles." },
+        { "firmwareId": "linuxcnc", "code": "G99", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Faster retract mode for canned cycles on flat workpieces."
+    },
+    {
+      "code": "M0",
+      "type": "M",
+      "name": "Program Pause",
+      "description": "Pauses the program and waits for the user to press cycle start to continue.",
+      "parameters": [],
+      "examples": [
+        { "code": "M0", "description": "Pause program (wait for cycle start)" }
+      ],
+      "relatedCodes": ["M1", "M2", "M30"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "M0", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "M0", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl. Mandatory stop."
+    },
+    {
+      "code": "M1",
+      "type": "M",
+      "name": "Optional Program Pause",
+      "description": "Pauses the program only if the optional stop toggle is enabled. Modified from grbl to include a configurable optional stop toggle.",
+      "parameters": [],
+      "examples": [
+        { "code": "M1", "description": "Optional pause (only if optional stop is enabled)" }
+      ],
+      "relatedCodes": ["M0", "M2", "M30"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "M1", "note": "Modified from grbl. grblHAL adds a configurable optional stop toggle via real-time command or $B." },
+        { "firmwareId": "linuxcnc", "code": "M1", "note": "Same concept. LinuxCNC has an optional stop button in the UI." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Modified from grbl. grblHAL adds a toggleable optional stop feature that controls whether M1 actually pauses."
+    },
+    {
+      "code": "M2",
+      "type": "M",
+      "name": "Program End",
+      "description": "Ends the program. Resets modal state to defaults.",
+      "parameters": [],
+      "examples": [
+        { "code": "M2", "description": "End program" }
+      ],
+      "relatedCodes": ["M0", "M30"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "M2", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "M2", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl."
+    },
+    {
+      "code": "M30",
+      "type": "M",
+      "name": "Program End and Rewind",
+      "description": "Ends the program and rewinds to the beginning. Functionally similar to M2 in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "M30", "description": "End and rewind program" }
+      ],
+      "relatedCodes": ["M2"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "M30", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "M30", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl."
+    },
+    {
+      "code": "M3",
+      "type": "M",
+      "name": "Spindle On (CW) / Laser On (Constant)",
+      "description": "Starts the spindle clockwise or enables the laser at constant power. grblHAL extends spindle support with multiple spindles and higher S ranges.",
+      "parameters": [
+        { "name": "S", "description": "Spindle speed (RPM) or laser power (0 to $30 max)", "optional": false }
+      ],
+      "examples": [
+        { "code": "M3 S24000", "description": "Start spindle CW at 24000 RPM" },
+        { "code": "M3 S1000", "description": "Laser on at constant power" }
+      ],
+      "relatedCodes": ["M4", "M5", "G96", "G97"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "M3", "note": "Same as grbl. grblHAL supports higher S value ranges, multiple spindles via plugins, and spindle sync for threading." },
+        { "firmwareId": "linuxcnc", "code": "M3", "note": "Same behavior." },
+        { "firmwareId": "smoothieware", "code": "M3", "note": "Same behavior." },
+        { "firmwareId": "reprapfirmware", "code": "M3", "note": "Same behavior (since RRF 3.3+)." }
+      ],
+      "modeNotes": [
+        { "mode": "Laser mode", "description": "Constant power mode: laser stays on during G0 rapids. Same behavior as grbl." }
+      ],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl laser/spindle behavior. grblHAL adds multiple spindle support via plugins and spindle sync for threading operations."
+    },
+    {
+      "code": "M4",
+      "type": "M",
+      "name": "Spindle On (CCW) / Laser On (Dynamic)",
+      "description": "Counter-clockwise spindle or dynamic laser power mode. Same as grbl behavior with grblHAL extensions.",
+      "parameters": [
+        { "name": "S", "description": "Spindle speed (RPM) or laser power", "optional": false }
+      ],
+      "examples": [
+        { "code": "M4 S800\nG1 X100 F600", "description": "Dynamic laser cut at specified power" }
+      ],
+      "relatedCodes": ["M3", "M5"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "M4", "note": "Same as grbl. Identical dynamic laser behavior." },
+        { "firmwareId": "linuxcnc", "code": "M4", "note": "Same behavior for CCW spindle. LinuxCNC does not have dynamic laser mode." }
+      ],
+      "modeNotes": [
+        { "mode": "Laser mode", "description": "Dynamic power scaling: laser power proportional to speed, disabled during G0 rapids. Preferred mode for laser operations." }
+      ],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl. Preferred mode for laser operations due to dynamic power scaling."
+    },
+    {
+      "code": "M5",
+      "type": "M",
+      "name": "Spindle Off / Laser Off",
+      "description": "Stops the spindle or turns off the laser.",
+      "parameters": [],
+      "examples": [
+        { "code": "M5", "description": "Stop spindle / turn off laser" }
+      ],
+      "relatedCodes": ["M3", "M4"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "M5", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "M5", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl."
+    },
+    {
+      "code": "M6",
+      "type": "M",
+      "name": "Tool Change",
+      "description": "Initiates a tool change sequence. This is a major addition over grbl. Behavior depends on the configured tool change mode ($341 setting).",
+      "parameters": [
+        { "name": "T", "description": "Tool number (set before M6 with Tn on same or prior line)", "optional": false }
+      ],
+      "examples": [
+        { "code": "T1 M6", "description": "Select tool 1 and execute tool change" },
+        { "code": "T2\nM6", "description": "Select tool 2, then execute tool change" },
+        { "code": "T3 M6\nG43 H3", "description": "Change to tool 3 and apply its tool length offset" }
+      ],
+      "relatedCodes": ["G43", "G43.1", "G10 L1", "M61"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does NOT support tool changes; M6 is ignored or errors." },
+        { "firmwareId": "linuxcnc", "code": "M6", "note": "LinuxCNC supports M6 with configurable tool change procedures via HAL and remapping." },
+        { "firmwareId": "smoothieware", "code": "M6", "note": "Smoothieware supports M6 with configurable behavior." },
+        { "firmwareId": "reprapfirmware", "code": "M6", "note": "RepRapFirmware supports M6 via macro files (tpost.g, tfree.g, tpre.g)." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core", "https://petervanderwalt.github.io/grblhal_docs/"],
+      "notes": "New in grblHAL. Tool change mode configured via $341: 0=ignore, 1=manual (pause for user), 2=manual with tool table (applies offsets from tool table), 3=semi-automatic (moves to predefined position), 4=manual with tool table and G59.3 as TLS position, 7=ATC (automatic tool changer). This is one of the biggest functional differences between grbl and grblHAL."
+    },
+    {
+      "code": "M7",
+      "type": "M",
+      "name": "Mist Coolant On",
+      "description": "Turns on mist coolant output.",
+      "parameters": [],
+      "examples": [
+        { "code": "M7", "description": "Turn on mist coolant" }
+      ],
+      "relatedCodes": ["M8", "M9"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "M7", "note": "Modified from grbl. In grbl, M7 requires a compile-time option to enable. In grblHAL, M7 is always available." },
+        { "firmwareId": "linuxcnc", "code": "M7", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Modified from grbl. M7 is always available in grblHAL (was a compile-time option in grbl). Can be used simultaneously with M8 (flood)."
+    },
+    {
+      "code": "M8",
+      "type": "M",
+      "name": "Flood Coolant On",
+      "description": "Turns on flood coolant output.",
+      "parameters": [],
+      "examples": [
+        { "code": "M8", "description": "Turn on flood coolant" }
+      ],
+      "relatedCodes": ["M7", "M9"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "M8", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "M8", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl."
+    },
+    {
+      "code": "M9",
+      "type": "M",
+      "name": "All Coolant Off",
+      "description": "Turns off all coolant outputs (both mist and flood).",
+      "parameters": [],
+      "examples": [
+        { "code": "M9", "description": "Turn off all coolant" }
+      ],
+      "relatedCodes": ["M7", "M8"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "M9", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "M9", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl."
+    },
+    {
+      "code": "M48",
+      "type": "M",
+      "name": "Enable Feed and Speed Overrides",
+      "description": "Enables feed rate and spindle speed overrides. New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "M48", "description": "Enable feed and speed overrides" }
+      ],
+      "relatedCodes": ["M49", "M50", "M51"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl always has overrides enabled (controlled via real-time commands only)." },
+        { "firmwareId": "linuxcnc", "code": "M48", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Allows G-code programs to enable/disable override capability."
+    },
+    {
+      "code": "M49",
+      "type": "M",
+      "name": "Disable Feed and Speed Overrides",
+      "description": "Disables feed rate and spindle speed overrides. Operator override controls are ignored. New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "M49", "description": "Disable feed and speed overrides" }
+      ],
+      "relatedCodes": ["M48", "M50", "M51"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl always has overrides enabled." },
+        { "firmwareId": "linuxcnc", "code": "M49", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Useful for critical operations like threading where override changes could cause damage."
+    },
+    {
+      "code": "M50",
+      "type": "M",
+      "name": "Feed Override Control",
+      "description": "Individually enables or disables feed rate override. New in grblHAL.",
+      "parameters": [
+        { "name": "P", "description": "0=disable feed override, 1=enable feed override", "optional": true }
+      ],
+      "examples": [
+        { "code": "M50 P0", "description": "Disable feed rate override" },
+        { "code": "M50 P1", "description": "Enable feed rate override" },
+        { "code": "M50", "description": "Toggle feed rate override" }
+      ],
+      "relatedCodes": ["M48", "M49", "M51"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support individual override control." },
+        { "firmwareId": "linuxcnc", "code": "M50", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Individual feed override control."
+    },
+    {
+      "code": "M51",
+      "type": "M",
+      "name": "Spindle Speed Override Control",
+      "description": "Individually enables or disables spindle speed override. New in grblHAL.",
+      "parameters": [
+        { "name": "P", "description": "0=disable spindle override, 1=enable spindle override", "optional": true }
+      ],
+      "examples": [
+        { "code": "M51 P0", "description": "Disable spindle speed override" },
+        { "code": "M51 P1", "description": "Enable spindle speed override" }
+      ],
+      "relatedCodes": ["M48", "M49", "M50"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support individual override control." },
+        { "firmwareId": "linuxcnc", "code": "M51", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Individual spindle speed override control."
+    },
+    {
+      "code": "M53",
+      "type": "M",
+      "name": "Feed Hold Control",
+      "description": "Individually enables or disables the feed hold function. New in grblHAL.",
+      "parameters": [
+        { "name": "P", "description": "0=disable feed hold, 1=enable feed hold", "optional": true }
+      ],
+      "examples": [
+        { "code": "M53 P0", "description": "Disable feed hold (dangerous: machine cannot be paused)" },
+        { "code": "M53 P1", "description": "Enable feed hold" }
+      ],
+      "relatedCodes": ["M48", "M49"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support disabling feed hold from G-code." },
+        { "firmwareId": "linuxcnc", "code": "M53", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Use with extreme caution: disabling feed hold means the operator cannot pause the machine during the affected operation."
+    },
+    {
+      "code": "M56",
+      "type": "M",
+      "name": "Parking Override",
+      "description": "Disables the parking motion that normally occurs during a feed hold. New in grblHAL.",
+      "parameters": [
+        { "name": "P", "description": "0=disable parking, 1=enable parking", "optional": true }
+      ],
+      "examples": [
+        { "code": "M56 P0", "description": "Disable parking motion during feed hold" }
+      ],
+      "relatedCodes": [],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl supports parking but has no G-code override for it." },
+        { "firmwareId": "linuxcnc", "code": "", "note": "LinuxCNC does not have an equivalent parking override." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Controls whether the spindle retracts (parks) during a feed hold."
+    },
+    {
+      "code": "M60",
+      "type": "M",
+      "name": "Pallet Change Pause",
+      "description": "Pauses the program for a pallet change. Similar to M0 but semantically indicates a pallet shuttle operation. New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "M60", "description": "Pause for pallet change" }
+      ],
+      "relatedCodes": ["M0", "M1"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support pallet change." },
+        { "firmwareId": "linuxcnc", "code": "M60", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Pauses for pallet change operation."
+    },
+    {
+      "code": "M61",
+      "type": "M",
+      "name": "Set Current Tool Number",
+      "description": "Sets the current tool number without performing a tool change. Useful for synchronizing grblHAL's tool state with reality. New in grblHAL.",
+      "parameters": [
+        { "name": "Q", "description": "Tool number to set as current", "optional": false }
+      ],
+      "examples": [
+        { "code": "M61 Q3", "description": "Tell grblHAL that tool 3 is currently loaded" }
+      ],
+      "relatedCodes": ["M6", "G43"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not track tool numbers." },
+        { "firmwareId": "linuxcnc", "code": "M61", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Sets the tool number without executing a change sequence. Useful after manual tool changes or for initialization."
+    },
+    {
+      "code": "M62",
+      "type": "M",
+      "name": "Digital Output On (Synchronized)",
+      "description": "Turns on a digital output pin synchronized with motion (waits for motion queue). New in grblHAL.",
+      "parameters": [
+        { "name": "P", "description": "Digital output port number", "optional": false }
+      ],
+      "examples": [
+        { "code": "M62 P0", "description": "Turn on digital output 0 (synchronized with motion)" }
+      ],
+      "relatedCodes": ["M63", "M64", "M65", "M66"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support digital I/O control from G-code." },
+        { "firmwareId": "linuxcnc", "code": "M62", "note": "Same behavior." },
+        { "firmwareId": "reprapfirmware", "code": "M42", "note": "RepRapFirmware uses M42 for GPIO control." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Synchronized with motion queue. The output changes when this command is reached in the motion buffer, not immediately."
+    },
+    {
+      "code": "M63",
+      "type": "M",
+      "name": "Digital Output Off (Synchronized)",
+      "description": "Turns off a digital output pin synchronized with motion. New in grblHAL.",
+      "parameters": [
+        { "name": "P", "description": "Digital output port number", "optional": false }
+      ],
+      "examples": [
+        { "code": "M63 P0", "description": "Turn off digital output 0 (synchronized with motion)" }
+      ],
+      "relatedCodes": ["M62", "M64", "M65"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support digital I/O control from G-code." },
+        { "firmwareId": "linuxcnc", "code": "M63", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Synchronized with motion queue."
+    },
+    {
+      "code": "M64",
+      "type": "M",
+      "name": "Digital Output On (Immediate)",
+      "description": "Turns on a digital output pin immediately (not synchronized with motion). New in grblHAL.",
+      "parameters": [
+        { "name": "P", "description": "Digital output port number", "optional": false }
+      ],
+      "examples": [
+        { "code": "M64 P0", "description": "Immediately turn on digital output 0" }
+      ],
+      "relatedCodes": ["M62", "M63", "M65"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support digital I/O control from G-code." },
+        { "firmwareId": "linuxcnc", "code": "M64", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Executes immediately, not queued with motion."
+    },
+    {
+      "code": "M65",
+      "type": "M",
+      "name": "Digital Output Off (Immediate)",
+      "description": "Turns off a digital output pin immediately (not synchronized with motion). New in grblHAL.",
+      "parameters": [
+        { "name": "P", "description": "Digital output port number", "optional": false }
+      ],
+      "examples": [
+        { "code": "M65 P0", "description": "Immediately turn off digital output 0" }
+      ],
+      "relatedCodes": ["M62", "M63", "M64"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support digital I/O control from G-code." },
+        { "firmwareId": "linuxcnc", "code": "M65", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Executes immediately, not queued with motion."
+    },
+    {
+      "code": "M66",
+      "type": "M",
+      "name": "Wait on Input",
+      "description": "Waits for a digital or analog input to reach a specified condition. New in grblHAL.",
+      "parameters": [
+        { "name": "P", "description": "Digital input port number", "optional": true },
+        { "name": "E", "description": "Analog input port number", "optional": true },
+        { "name": "L", "description": "Wait mode: 0=immediate, 1=rise, 2=fall, 3=high, 4=low", "optional": false },
+        { "name": "Q", "description": "Timeout in seconds (0=wait forever)", "optional": true }
+      ],
+      "examples": [
+        { "code": "M66 P0 L3 Q5", "description": "Wait up to 5 seconds for digital input 0 to go high" },
+        { "code": "M66 E0 L0", "description": "Read analog input 0 immediately" }
+      ],
+      "relatedCodes": ["M62", "M63", "M67", "M68"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support input waiting from G-code." },
+        { "firmwareId": "linuxcnc", "code": "M66", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Use P for digital inputs, E for analog inputs. Result is stored in a numbered parameter."
+    },
+    {
+      "code": "M67",
+      "type": "M",
+      "name": "Analog Output (Synchronized)",
+      "description": "Sets an analog output value synchronized with motion. New in grblHAL.",
+      "parameters": [
+        { "name": "E", "description": "Analog output port number", "optional": false },
+        { "name": "Q", "description": "Output value", "optional": false }
+      ],
+      "examples": [
+        { "code": "M67 E0 Q50", "description": "Set analog output 0 to 50 (synchronized with motion)" }
+      ],
+      "relatedCodes": ["M62", "M66", "M68"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support analog output control from G-code." },
+        { "firmwareId": "linuxcnc", "code": "M67", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Synchronized with motion queue."
+    },
+    {
+      "code": "M68",
+      "type": "M",
+      "name": "Analog Output (Immediate)",
+      "description": "Sets an analog output value immediately (not synchronized with motion). New in grblHAL.",
+      "parameters": [
+        { "name": "E", "description": "Analog output port number", "optional": false },
+        { "name": "Q", "description": "Output value", "optional": false }
+      ],
+      "examples": [
+        { "code": "M68 E0 Q75", "description": "Immediately set analog output 0 to 75" }
+      ],
+      "relatedCodes": ["M62", "M66", "M67"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support analog output control from G-code." },
+        { "firmwareId": "linuxcnc", "code": "M68", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Executes immediately, not queued with motion."
+    },
+    {
+      "code": "M70",
+      "type": "M",
+      "name": "Save Modal State",
+      "description": "Saves the current modal state (active G-codes, M-codes, F, S, T values) to a stack. Can be restored with M72. New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "M70\n(do something)\nM72", "description": "Save state, perform operations, restore state" }
+      ],
+      "relatedCodes": ["M72", "M73"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support modal state save/restore." },
+        { "firmwareId": "linuxcnc", "code": "M70", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Useful in macros and subroutines to preserve and restore the caller's modal state."
+    },
+    {
+      "code": "M72",
+      "type": "M",
+      "name": "Restore Modal State",
+      "description": "Restores the modal state previously saved by M70. New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "M72", "description": "Restore previously saved modal state" }
+      ],
+      "relatedCodes": ["M70", "M73"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support modal state save/restore." },
+        { "firmwareId": "linuxcnc", "code": "M72", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Restores the state saved by M70."
+    },
+    {
+      "code": "M73",
+      "type": "M",
+      "name": "Save and Autorestore Modal State",
+      "description": "Saves the current modal state and automatically restores it when the current subroutine/macro returns (M99). New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "M73\n(modify modes freely)\nM99", "description": "State auto-restored when macro returns" }
+      ],
+      "relatedCodes": ["M70", "M72", "M99", "G65"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support macros or modal state management." },
+        { "firmwareId": "linuxcnc", "code": "M73", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. More convenient than M70/M72 in macros since restore is automatic on return."
+    },
+    {
+      "code": "M99",
+      "type": "M",
+      "name": "Return from Macro/Subroutine",
+      "description": "Returns from a macro subroutine called by G65 or G66. If M73 was used, the modal state is automatically restored. New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "M99", "description": "Return from macro to caller" }
+      ],
+      "relatedCodes": ["G65", "G66", "G67", "M73"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support macros." },
+        { "firmwareId": "linuxcnc", "code": "M99", "note": "LinuxCNC does not use M99. It uses 'return' or 'endsub' in O-word subroutines." },
+        { "firmwareId": "reprapfirmware", "code": "M99", "note": "RepRapFirmware uses M99 to return from macro files, similar concept." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Fanuc-style macro return. Requires macro plugin."
+    },
+    {
+      "code": "$H",
+      "type": "$",
+      "name": "Run Homing Cycle",
+      "description": "Initiates the homing cycle. grblHAL extends homing with single-axis homing, configurable sequences, dual-axis homing (auto-squaring), and support for additional axes.",
+      "parameters": [],
+      "examples": [
+        { "code": "$H", "description": "Home all configured axes" },
+        { "code": "$HX", "description": "Home X axis only" },
+        { "code": "$HY", "description": "Home Y axis only" },
+        { "code": "$HZ", "description": "Home Z axis only" },
+        { "code": "$HA", "description": "Home A axis only" }
+      ],
+      "relatedCodes": ["G28", "$HSS"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$H", "note": "Modified from grbl. grblHAL adds single-axis homing ($HX, $HY, $HZ, etc.) and auto-squaring for ganged axes. grbl only supports $H to home all axes." },
+        { "firmwareId": "linuxcnc", "code": "", "note": "LinuxCNC uses a different homing mechanism configured in HAL/INI files." },
+        { "firmwareId": "smoothieware", "code": "G28", "note": "Smoothieware uses G28 for homing. No $ command equivalent." },
+        { "firmwareId": "reprapfirmware", "code": "G28", "note": "RepRapFirmware uses G28 for homing with optional axis letters." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Modified from grbl. Single-axis homing ($HX, $HY, $HZ, $HA, $HB, $HC) is new in grblHAL. Supports auto-squaring for ganged axes and configurable homing sequences via $-settings."
+    },
+    {
+      "code": "$J",
+      "type": "$",
+      "name": "Jog Command",
+      "description": "Real-time cancellable jog movement. Inherited from grbl 1.1 with full compatibility.",
+      "parameters": [
+        { "name": "X", "description": "Jog distance/position in X", "optional": true },
+        { "name": "Y", "description": "Jog distance/position in Y", "optional": true },
+        { "name": "Z", "description": "Jog distance/position in Z", "optional": true },
+        { "name": "A", "description": "Jog distance/position in A (if configured)", "optional": true },
+        { "name": "F", "description": "Jog feed rate", "optional": false }
+      ],
+      "examples": [
+        { "code": "$J=G91 X10 F1000", "description": "Jog 10mm in +X at 1000mm/min" },
+        { "code": "$J=G91 A90 F500", "description": "Jog A axis 90 degrees" }
+      ],
+      "relatedCodes": ["G0"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$J", "note": "Same as grbl. Identical syntax and behavior, extended with additional axis support." },
+        { "firmwareId": "smoothieware", "code": "G0", "note": "Smoothieware has no dedicated jog command." },
+        { "firmwareId": "reprapfirmware", "code": "G0", "note": "RepRapFirmware uses G0 for jogging." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl with extended axis support. Cancel with real-time jog cancel command (0x85)."
+    },
+    {
+      "code": "$X",
+      "type": "$",
+      "name": "Kill Alarm Lock",
+      "description": "Clears the alarm state and unlocks the machine. Same as grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$X", "description": "Clear alarm and unlock" }
+      ],
+      "relatedCodes": ["$H"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$X", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "", "note": "LinuxCNC has no direct equivalent; alarm clearing is done through the UI." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl. Clears alarm state without homing. Use with caution as machine position may be unknown."
+    },
+    {
+      "code": "$C",
+      "type": "$",
+      "name": "Check Mode",
+      "description": "Toggles check mode on/off. In check mode, G-code is parsed and validated but no motion occurs.",
+      "parameters": [],
+      "examples": [
+        { "code": "$C", "description": "Toggle check mode on/off" }
+      ],
+      "relatedCodes": [],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$C", "note": "Same as grbl. Identical behavior." },
+        { "firmwareId": "linuxcnc", "code": "", "note": "LinuxCNC has no direct equivalent, but supports dry-run modes through the UI." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl. Useful for validating G-code programs without running the machine."
+    },
+    {
+      "code": "$$",
+      "type": "$",
+      "name": "View Settings",
+      "description": "Displays all current $ settings and their values. grblHAL has significantly more settings than grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$$", "description": "Display all settings" }
+      ],
+      "relatedCodes": ["$$+", "$#", "$I", "$I+"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$$", "note": "Modified from grbl. grblHAL has many more settings (tool change, networking, spindle sync, etc.)." },
+        { "firmwareId": "linuxcnc", "code": "", "note": "LinuxCNC uses INI files for configuration, not $ commands." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Modified from grbl. grblHAL has significantly more settings than grbl, including settings for tool changes ($341), networking, spindle sync, and plugins."
+    },
+    {
+      "code": "$$+",
+      "type": "$",
+      "name": "View Settings with Descriptions",
+      "description": "Displays all settings with human-readable descriptions and metadata. New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "$$+", "description": "Display all settings with descriptions" }
+      ],
+      "relatedCodes": ["$$", "$I+"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl only supports $$ without descriptions." },
+        { "firmwareId": "linuxcnc", "code": "", "note": "LinuxCNC uses INI file comments for setting descriptions." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Extremely helpful for discovering and understanding settings without referencing documentation."
+    },
+    {
+      "code": "$#",
+      "type": "$",
+      "name": "View Parameters",
+      "description": "Displays G-code parser state parameters including work coordinate system offsets, G28/G30 positions, G92 offset, tool length offset, and probe result.",
+      "parameters": [],
+      "examples": [
+        { "code": "$#", "description": "Display all G-code parameters" }
+      ],
+      "relatedCodes": ["$$", "$I"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$#", "note": "Same as grbl with extended information for additional coordinate systems and tool table." },
+        { "firmwareId": "linuxcnc", "code": "", "note": "LinuxCNC displays parameters through the UI or var file." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Modified from grbl. Includes additional data for G59.1-G59.3 coordinate systems and tool table information."
+    },
+    {
+      "code": "$I",
+      "type": "$",
+      "name": "View Build Info",
+      "description": "Displays firmware build information and available options.",
+      "parameters": [],
+      "examples": [
+        { "code": "$I", "description": "Display build info" }
+      ],
+      "relatedCodes": ["$I+"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$I", "note": "Same as grbl. Displays build info." },
+        { "firmwareId": "linuxcnc", "code": "", "note": "LinuxCNC version info is displayed at startup or via command line." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl base behavior."
+    },
+    {
+      "code": "$I+",
+      "type": "$",
+      "name": "View Extended Build Info",
+      "description": "Displays extended build information including driver name, board, plugins, and compile-time options. New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "$I+", "description": "Display extended build info with driver and plugin details" }
+      ],
+      "relatedCodes": ["$I", "$$+"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl only supports $I." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Shows driver name, board info, available plugins, and compile-time features."
+    },
+    {
+      "code": "$N",
+      "type": "$",
+      "name": "View/Set Startup Lines",
+      "description": "View or set G-code lines that run automatically at startup.",
+      "parameters": [],
+      "examples": [
+        { "code": "$N", "description": "View startup lines" },
+        { "code": "$N0=G54 G21 G90", "description": "Set startup line 0" }
+      ],
+      "relatedCodes": [],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$N", "note": "Same as grbl. Identical behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl. Do not put G10 commands in startup lines (causes EEPROM write on every startup)."
+    },
+    {
+      "code": "$SLP",
+      "type": "$",
+      "name": "Sleep Mode",
+      "description": "Puts the controller into sleep mode. Disables spindle, coolant, and steppers.",
+      "parameters": [],
+      "examples": [
+        { "code": "$SLP", "description": "Enter sleep mode" }
+      ],
+      "relatedCodes": [],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$SLP", "note": "Same as grbl. Identical behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl. Requires a reset or power cycle to wake."
+    },
+    {
+      "code": "$RST=$",
+      "type": "$",
+      "name": "Reset Settings to Defaults",
+      "description": "Resets all $ settings to their default values.",
+      "parameters": [],
+      "examples": [
+        { "code": "$RST=$", "description": "Reset all settings to defaults" }
+      ],
+      "relatedCodes": ["$RST=#", "$RST=*"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$RST=$", "note": "Same as grbl. Identical behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl."
+    },
+    {
+      "code": "$RST=#",
+      "type": "$",
+      "name": "Reset Parameters",
+      "description": "Resets coordinate offsets and parameters to zero (G54-G59, G28/G30 positions, G92 offset).",
+      "parameters": [],
+      "examples": [
+        { "code": "$RST=#", "description": "Reset all coordinate parameters" }
+      ],
+      "relatedCodes": ["$RST=$", "$RST=*"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$RST=#", "note": "Same as grbl. Identical behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl."
+    },
+    {
+      "code": "$RST=*",
+      "type": "$",
+      "name": "Reset All (Factory Reset)",
+      "description": "Resets all settings and parameters to factory defaults.",
+      "parameters": [],
+      "examples": [
+        { "code": "$RST=*", "description": "Full factory reset" }
+      ],
+      "relatedCodes": ["$RST=$", "$RST=#"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$RST=*", "note": "Same as grbl. Identical behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "Same as grbl."
+    },
+    {
+      "code": "$REBOOT",
+      "type": "$",
+      "name": "Reboot Controller",
+      "description": "Performs a soft reboot of the controller. New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "$REBOOT", "description": "Reboot the controller" }
+      ],
+      "relatedCodes": ["$RST=*"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support a reboot command; it requires a hardware reset." },
+        { "firmwareId": "linuxcnc", "code": "", "note": "LinuxCNC does not have a G-code reboot command." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Performs a software reboot without requiring a hardware reset or power cycle."
+    },
+    {
+      "code": "$TLR",
+      "type": "$",
+      "name": "Set Tool Length Reference",
+      "description": "Sets the tool length reference offset. Used with tool table and tool change operations. New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "$TLR", "description": "Set current Z as tool length reference" }
+      ],
+      "relatedCodes": ["$TPW", "G43", "M6"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support tool tables." },
+        { "firmwareId": "linuxcnc", "code": "", "note": "LinuxCNC handles tool length references through touch-off procedures in the UI." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Used to establish a reference point for tool length measurement."
+    },
+    {
+      "code": "$TPW",
+      "type": "$",
+      "name": "Probe Tool (Tool Probe Workflow)",
+      "description": "Triggers the tool probe workflow for measuring tool length. New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "$TPW", "description": "Start tool probe workflow" }
+      ],
+      "relatedCodes": ["$TLR", "G43", "M6"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support tool probing workflows." },
+        { "firmwareId": "linuxcnc", "code": "", "note": "LinuxCNC uses custom probing routines or UI-driven tool measurement." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Automated tool length measurement using a fixed tool probe."
+    },
+    {
+      "code": "$B",
+      "type": "$",
+      "name": "Toggle Block Delete",
+      "description": "Toggles block delete mode on/off. When enabled, lines starting with / are skipped. New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "$B", "description": "Toggle block delete on/off" }
+      ],
+      "relatedCodes": ["$S", "$O"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support block delete." },
+        { "firmwareId": "linuxcnc", "code": "", "note": "LinuxCNC supports block delete through the UI toggle." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. When enabled, lines beginning with / (forward slash) are skipped during execution."
+    },
+    {
+      "code": "$S",
+      "type": "$",
+      "name": "Toggle Single Block Mode",
+      "description": "Toggles single block mode on/off. When enabled, execution pauses after each line. New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "$S", "description": "Toggle single block mode on/off" }
+      ],
+      "relatedCodes": ["$B", "$O"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support single block mode." },
+        { "firmwareId": "linuxcnc", "code": "", "note": "LinuxCNC supports single block mode through the UI." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Useful for debugging G-code programs step by step."
+    },
+    {
+      "code": "$O",
+      "type": "$",
+      "name": "Toggle Optional Stop",
+      "description": "Toggles optional stop (M1) on/off. New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "$O", "description": "Toggle optional stop on/off" }
+      ],
+      "relatedCodes": ["M1", "$B", "$S"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not have an optional stop toggle." },
+        { "firmwareId": "linuxcnc", "code": "", "note": "LinuxCNC has an optional stop button in the UI." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Controls whether M1 actually pauses execution."
+    },
+    {
+      "code": "$EA",
+      "type": "$",
+      "name": "Enumerate Alarms",
+      "description": "Lists all alarm codes with descriptions. New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "$EA", "description": "List all alarm codes and descriptions" }
+      ],
+      "relatedCodes": ["$EE", "$ES"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support alarm enumeration." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Self-documenting alarm code reference."
+    },
+    {
+      "code": "$EE",
+      "type": "$",
+      "name": "Enumerate Errors",
+      "description": "Lists all error codes with descriptions. New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "$EE", "description": "List all error codes and descriptions" }
+      ],
+      "relatedCodes": ["$EA", "$ES"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support error enumeration." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Self-documenting error code reference."
+    },
+    {
+      "code": "$ES",
+      "type": "$",
+      "name": "Enumerate Settings",
+      "description": "Lists all setting codes with descriptions and metadata. New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "$ES", "description": "List all setting definitions" }
+      ],
+      "relatedCodes": ["$EA", "$EE", "$$+"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support setting enumeration." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Returns setting definitions including type, min/max values, and descriptions. Used by sender software for auto-generating settings UIs."
+    },
+    {
+      "code": "$HSS",
+      "type": "$",
+      "name": "Homing Switch State",
+      "description": "Reports the current state of all homing/limit switches. New in grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "$HSS", "description": "Display homing switch states" }
+      ],
+      "relatedCodes": ["$H"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not have a switch state query command." },
+        { "firmwareId": "linuxcnc", "code": "", "note": "LinuxCNC shows switch states through HAL and the UI." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core"],
+      "notes": "New in grblHAL. Useful for diagnosing homing issues and verifying switch wiring."
+    },
+    {
+      "code": "$0",
+      "type": "$",
+      "name": "Step Pulse Time",
+      "description": "Sets the length of each step pulse in microseconds. Inherited from grbl with identical behavior.",
+      "parameters": [],
+      "examples": [
+        { "code": "$0=10", "description": "Set step pulse to 10 microseconds (default)" }
+      ],
+      "relatedCodes": ["$1", "$2", "$3"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$0", "note": "Same as grbl. Identical behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 10us. Valid range: 2-255us. 32-bit processors in grblHAL can handle shorter pulses more reliably than grbl's 8-bit AVR."
+    },
+    {
+      "code": "$1",
+      "type": "$",
+      "name": "Step Idle Delay",
+      "description": "Sets the delay in milliseconds before stepper motors are disabled after motion stops. 255 = never disable. Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$1=25", "description": "Disable steppers 25ms after motion stops (default)" },
+        { "code": "$1=255", "description": "Keep steppers always energized" }
+      ],
+      "relatedCodes": ["$0", "$37"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$1", "note": "Same as grbl. grblHAL adds $37 (stepper deenergize mask) for per-axis control over which axes disable." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 25ms. Use $37 in grblHAL for per-axis control over which motors deenergize (e.g., keep Z energized but allow X/Y to disable)."
+    },
+    {
+      "code": "$2",
+      "type": "$",
+      "name": "Step Port Invert Mask",
+      "description": "Bitmask that inverts the step signal polarity for each axis. Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$2=0", "description": "No inversion (default)" }
+      ],
+      "relatedCodes": ["$3", "$4"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$2", "note": "Same as grbl. Identical behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 0. Bitmask extends to cover additional axes in grblHAL."
+    },
+    {
+      "code": "$3",
+      "type": "$",
+      "name": "Direction Port Invert Mask",
+      "description": "Bitmask that inverts the direction signal for each axis. Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$3=0", "description": "No inversion (default)" }
+      ],
+      "relatedCodes": ["$2", "$23"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$3", "note": "Same as grbl. Identical behavior, extended for additional axes." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 0. Bitmask extends to cover additional axes (A, B, C, U, V, W) in grblHAL."
+    },
+    {
+      "code": "$4",
+      "type": "$",
+      "name": "Step Enable Invert Mask",
+      "description": "Per-axis bitmask that inverts the stepper enable pin logic. Modified from grbl where this was a single boolean for all axes. In grblHAL, each axis can independently have its enable logic inverted.",
+      "parameters": [],
+      "examples": [
+        { "code": "$4=0", "description": "Normal enable logic for all axes (default)" },
+        { "code": "$4=1", "description": "Invert enable for X only" },
+        { "code": "$4=7", "description": "Invert enable for X, Y, and Z" }
+      ],
+      "relatedCodes": ["$1", "$37"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$4", "note": "Modified from grbl. In grbl, $4 is a simple 0/1 boolean that applies to all axes. In grblHAL, it is a per-axis bitmask allowing independent inversion per axis." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Modified from grbl. Default: 0. Per-axis bitmask (X=1, Y=2, Z=4, A=8, etc.) instead of grbl's global boolean. Useful when mixing stepper drivers that have different enable logic."
+    },
+    {
+      "code": "$5",
+      "type": "$",
+      "name": "Limit Pins Invert",
+      "description": "Inverts the logic of the limit switch input pins. Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$5=0", "description": "Normal logic (default)" },
+        { "code": "$5=1", "description": "Inverted logic (for NC switches)" }
+      ],
+      "relatedCodes": ["$21", "$22"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$5", "note": "Same as grbl. Identical behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 0. NC switches recommended."
+    },
+    {
+      "code": "$6",
+      "type": "$",
+      "name": "Probe Pin Invert",
+      "description": "Inverts the logic of the probe input pin. Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$6=0", "description": "Normal logic (default)" },
+        { "code": "$6=1", "description": "Inverted logic" }
+      ],
+      "relatedCodes": ["G38.2", "G38.3"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$6", "note": "Same as grbl. Identical behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 0."
+    },
+    {
+      "code": "$10",
+      "type": "$",
+      "name": "Status Report Mask",
+      "description": "Configures what data the real-time status report includes. Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$10=0", "description": "Report WPos only" },
+        { "code": "$10=1", "description": "Report MPos only (default)" }
+      ],
+      "relatedCodes": ["$13"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$10", "note": "Same as grbl. grblHAL may include additional fields in status reports." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 1. grblHAL status reports may contain additional fields depending on plugins and configuration."
+    },
+    {
+      "code": "$11",
+      "type": "$",
+      "name": "Junction Deviation",
+      "description": "Controls cornering speed between line segments, in mm. Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$11=0.010", "description": "Default junction deviation" }
+      ],
+      "relatedCodes": ["$12"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$11", "note": "Same as grbl. Identical behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 0.010mm."
+    },
+    {
+      "code": "$12",
+      "type": "$",
+      "name": "Arc Tolerance",
+      "description": "Sets the precision of arc segment approximation in mm. Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$12=0.002", "description": "Default arc tolerance" }
+      ],
+      "relatedCodes": ["$11", "G2", "G3"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$12", "note": "Same as grbl. Identical behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 0.002mm."
+    },
+    {
+      "code": "$13",
+      "type": "$",
+      "name": "Report Inches",
+      "description": "Switches status report positions between mm and inches. Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$13=0", "description": "Report in mm (default)" },
+        { "code": "$13=1", "description": "Report in inches" }
+      ],
+      "relatedCodes": ["$10", "G20", "G21"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$13", "note": "Same as grbl. Identical behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 0."
+    },
+    {
+      "code": "$20",
+      "type": "$",
+      "name": "Soft Limits Enable",
+      "description": "Enables software-enforced travel limits. Requires homing ($22). Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$20=0", "description": "Soft limits disabled (default)" },
+        { "code": "$20=1", "description": "Enable soft limits" }
+      ],
+      "relatedCodes": ["$21", "$22", "$130", "$131", "$132"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$20", "note": "Same as grbl. Identical behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 0. Requires $22 homing enabled."
+    },
+    {
+      "code": "$21",
+      "type": "$",
+      "name": "Hard Limits Enable",
+      "description": "Enables hardware limit switches for machine protection. Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$21=0", "description": "Hard limits disabled (default)" },
+        { "code": "$21=1", "description": "Enable hard limits" }
+      ],
+      "relatedCodes": ["$5", "$20", "$22"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$21", "note": "Same as grbl. Identical behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 0."
+    },
+    {
+      "code": "$22",
+      "type": "$",
+      "name": "Homing Enable",
+      "description": "Enables and configures the homing cycle. Modified from grbl: changed from a simple boolean to a bitmask with additional options for single-axis homing, startup homing enforcement, and more.",
+      "parameters": [],
+      "examples": [
+        { "code": "$22=0", "description": "Homing disabled (default)" },
+        { "code": "$22=1", "description": "Enable homing (same as grbl $22=1)" },
+        { "code": "$22=3", "description": "Enable homing + single-axis homing ($HX, $HY, $HZ)" },
+        { "code": "$22=5", "description": "Enable homing + force homing at startup (lock out until homed)" },
+        { "code": "$22=7", "description": "Enable homing + single-axis + force at startup" }
+      ],
+      "relatedCodes": ["$H", "$23", "$24", "$25", "$26", "$27", "$43", "$44"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$22", "note": "Modified from grbl. In grbl, $22 is a simple 0/1 boolean. In grblHAL, it is a bitmask: bit 0 = enable homing, bit 1 = enable single-axis homing commands ($HX etc.), bit 2 = force homing on startup, bit 3 = manual homing via limit switches, bit 4 = override locks." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Modified from grbl. Default: 0. Bitmask bits: 0=enable homing, 1=enable single-axis commands ($HX/$HY/$HZ), 2=force homing on init (alarm until homed), 3=manual homing (set home at current position when limit switch triggered), 4=override locks. Common values: 1 (basic like grbl), 3 (with single-axis), 5 (with forced startup homing), 7 (all three)."
+    },
+    {
+      "code": "$23",
+      "type": "$",
+      "name": "Homing Direction Invert Mask",
+      "description": "Bitmask controlling which direction each axis homes. Inherited from grbl, extended for additional axes.",
+      "parameters": [],
+      "examples": [
+        { "code": "$23=0", "description": "All axes home in negative direction (default)" },
+        { "code": "$23=4", "description": "Z homes positive, X/Y home negative" }
+      ],
+      "relatedCodes": ["$3", "$22"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$23", "note": "Same as grbl. Extended for additional axes." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 0. Extended bitmask for additional axes (A=8, B=16, C=32, etc.)."
+    },
+    {
+      "code": "$24",
+      "type": "$",
+      "name": "Homing Locate Feed Rate",
+      "description": "Slow feed rate for the precise second homing approach, in mm/min. Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$24=25.000", "description": "25 mm/min (default)" }
+      ],
+      "relatedCodes": ["$25", "$26", "$27"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$24", "note": "Same as grbl. Identical behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 25.000 mm/min."
+    },
+    {
+      "code": "$25",
+      "type": "$",
+      "name": "Homing Search Seek Rate",
+      "description": "Fast seek rate for the initial homing approach, in mm/min. Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$25=500.000", "description": "500 mm/min (default)" }
+      ],
+      "relatedCodes": ["$24", "$26", "$27"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$25", "note": "Same as grbl. Identical behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 500.000 mm/min."
+    },
+    {
+      "code": "$26",
+      "type": "$",
+      "name": "Homing Debounce Delay",
+      "description": "Debounce delay in ms for homing switch signals. Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$26=250", "description": "250ms (default)" }
+      ],
+      "relatedCodes": ["$24", "$25", "$27"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$26", "note": "Same as grbl. Identical behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 250ms."
+    },
+    {
+      "code": "$27",
+      "type": "$",
+      "name": "Homing Pull-off Distance",
+      "description": "Distance in mm to back off from limit switches after homing. Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$27=1.000", "description": "1mm pull-off (default)" }
+      ],
+      "relatedCodes": ["$22", "$23"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$27", "note": "Same as grbl. Identical behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 1.000mm."
+    },
+    {
+      "code": "$30",
+      "type": "$",
+      "name": "Max Spindle Speed",
+      "description": "Maximum spindle speed in RPM, mapped to max PWM duty cycle. Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$30=1000", "description": "1000 RPM (default)" }
+      ],
+      "relatedCodes": ["$31", "$32", "$33", "M3", "M4"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$30", "note": "Same as grbl. Identical behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 1000."
+    },
+    {
+      "code": "$31",
+      "type": "$",
+      "name": "Min Spindle Speed",
+      "description": "Minimum spindle speed in RPM, mapped to min PWM duty cycle. Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$31=0", "description": "0 RPM (default)" }
+      ],
+      "relatedCodes": ["$30", "$32", "$33"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$31", "note": "Same as grbl. Identical behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 0."
+    },
+    {
+      "code": "$32",
+      "type": "$",
+      "name": "Mode of Operation",
+      "description": "Sets the machine mode of operation. Extended from grbl to add lathe mode. In normal mode (0), spindle operates as a standard CNC spindle. In laser mode (1), the PWM output is linked to motion for safe laser operation. In lathe mode (2), enables CSS (constant surface speed) and feed-per-revolution modes.",
+      "parameters": [],
+      "examples": [
+        { "code": "$32=0", "description": "Normal spindle mode (default)" },
+        { "code": "$32=1", "description": "Laser mode" },
+        { "code": "$32=2", "description": "Lathe mode" }
+      ],
+      "relatedCodes": ["$30", "$31", "$38", "M3", "M4", "G95", "G96"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$32", "note": "Extended from grbl. grbl only supports 0 (normal) and 1 (laser). grblHAL adds 2 (lathe) for CSS and feed-per-revolution support." }
+      ],
+      "modeNotes": [
+        { "mode": "Laser mode ($32=1)", "description": "Same as grbl: G0 disables laser, M4 enables dynamic power scaling." },
+        { "mode": "Lathe mode ($32=2)", "description": "Enables G95 (feed per revolution), G96/G97 (constant surface speed), and diameter/radius programming modes. Requires spindle encoder ($38)." }
+      ],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Modified from grbl. Default: 0. Lathe mode (2) is new in grblHAL and requires a spindle encoder ($38 for PPR configuration). Lathe mode enables G95, G96, G97, and other lathe-specific G-codes."
+    },
+    {
+      "code": "$33",
+      "type": "$",
+      "name": "Spindle PWM Frequency",
+      "description": "Sets the PWM frequency for the spindle output in Hz. Different spindle types and VFDs may require specific PWM frequencies for proper operation. Too low causes audible whine; too high may not be supported by the driver circuit.",
+      "parameters": [],
+      "examples": [
+        { "code": "$33=5000", "description": "5kHz PWM frequency" },
+        { "code": "$33=1000", "description": "1kHz PWM (common for RC ESC-type spindles)" },
+        { "code": "$33=10000", "description": "10kHz (common for VFD 0-10V input)" }
+      ],
+      "relatedCodes": ["$30", "$31", "$32"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. In grbl, PWM frequency is fixed at compile time (~1kHz on AVR)." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "New in grblHAL. Allows runtime configuration of PWM frequency. grbl has this hard-coded. Common values: 1000Hz for RC ESC spindles, 5000-10000Hz for VFDs with 0-10V input, 20000Hz+ for ultrasonic (inaudible) operation."
+    },
+    {
+      "code": "$37",
+      "type": "$",
+      "name": "Stepper Deenergize Mask",
+      "description": "Per-axis bitmask controlling which stepper motors are deenergized (disabled) when the idle timeout ($1) expires. Allows keeping specific axes energized while others power down. Essential for machines with a vertical Z axis that drops under gravity.",
+      "parameters": [],
+      "examples": [
+        { "code": "$37=0", "description": "All axes deenergize on timeout (default)" },
+        { "code": "$37=4", "description": "Keep Z energized, deenergize X and Y" },
+        { "code": "$37=7", "description": "Keep all XYZ energized (similar to $1=255 but works with timeout)" }
+      ],
+      "relatedCodes": ["$1", "$4"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl only has $1 (global idle delay) with no per-axis control. In grbl, the only option for keeping Z energized is $1=255 which keeps ALL axes energized." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "New in grblHAL. Default: 0. Bitmask: X=1, Y=2, Z=4, A=8, etc. A set bit means that axis stays energized after idle timeout. Solves the common grbl problem of needing to keep Z energized (to prevent gravity drop) while allowing X/Y to deenergize (to reduce heat/power)."
+    },
+    {
+      "code": "$38",
+      "type": "$",
+      "name": "Spindle PPR",
+      "description": "Sets the spindle encoder pulses per revolution (PPR). Required for spindle synchronized motion (threading), CSS (constant surface speed), and feed-per-revolution mode. Set to 0 if no encoder is installed.",
+      "parameters": [],
+      "examples": [
+        { "code": "$38=0", "description": "No spindle encoder (default)" },
+        { "code": "$38=600", "description": "600 PPR encoder" },
+        { "code": "$38=1024", "description": "1024 PPR encoder" }
+      ],
+      "relatedCodes": ["$32", "G95", "G96", "G33"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support spindle encoders." },
+        { "firmwareId": "linuxcnc", "code": "", "note": "LinuxCNC configures spindle encoder in HAL files." }
+      ],
+      "modeNotes": [
+        { "mode": "Lathe mode ($32=2)", "description": "Required for lathe operations including threading (G33/G76), CSS (G96), and feed-per-revolution (G95)." }
+      ],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "New in grblHAL. Default: 0 (no encoder). Must match your physical encoder's PPR. Required for spindle sync features: threading (G33, G76), rigid tapping (G33.1), CSS (G96), and feed-per-revolution (G95). Higher PPR gives better resolution for threading."
+    },
+    {
+      "code": "$43",
+      "type": "$",
+      "name": "Homing Locate Cycles",
+      "description": "Sets the number of locate (slow approach) cycles performed during homing. After the initial fast seek, the axis pulls off and re-approaches this many times at the slow locate rate ($24) for improved accuracy.",
+      "parameters": [],
+      "examples": [
+        { "code": "$43=1", "description": "One locate cycle (default, same as grbl)" },
+        { "code": "$43=2", "description": "Two locate cycles (more precise)" }
+      ],
+      "relatedCodes": ["$22", "$24", "$25"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl always performs exactly one locate cycle (hard-coded)." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "New in grblHAL. Default: 1. Set to 0 to skip the locate phase entirely (fast seek only, less accurate). Set to 2+ for higher precision homing at the cost of longer homing time."
+    },
+    {
+      "code": "$44",
+      "type": "$",
+      "name": "Homing Cycle 1 Axes",
+      "description": "Bitmask defining which axes are homed in the first homing cycle. In grblHAL, homing can be configured to home axes in a specific sequence across up to 6 cycles ($44-$49), unlike grbl which uses a fixed Z-first then XY sequence.",
+      "parameters": [],
+      "examples": [
+        { "code": "$44=4", "description": "Home Z first (bit 2 = Z)" },
+        { "code": "$44=3", "description": "Home X and Y together in cycle 1" }
+      ],
+      "relatedCodes": ["$22", "$45", "$46", "$47", "$48", "$49"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl uses a fixed homing order: Z first, then X and Y simultaneously. grblHAL allows full customization of homing order and grouping." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "New in grblHAL. Bitmask: X=1, Y=2, Z=4, A=8, B=16, C=32. Axes in the same cycle home simultaneously. Typical CNC setup: $44=4 (Z first), $45=3 (X+Y together). Set to 0 to skip a cycle."
+    },
+    {
+      "code": "$45",
+      "type": "$",
+      "name": "Homing Cycle 2 Axes",
+      "description": "Bitmask defining which axes are homed in the second homing cycle.",
+      "parameters": [],
+      "examples": [
+        { "code": "$45=3", "description": "Home X and Y together in cycle 2" }
+      ],
+      "relatedCodes": ["$44", "$46"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. See $44." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "New in grblHAL. See $44 for bitmask details. Set to 0 to skip this cycle."
+    },
+    {
+      "code": "$46",
+      "type": "$",
+      "name": "Homing Cycle 3 Axes",
+      "description": "Bitmask defining which axes are homed in the third homing cycle.",
+      "parameters": [],
+      "examples": [
+        { "code": "$46=8", "description": "Home A axis in cycle 3" },
+        { "code": "$46=0", "description": "Skip cycle 3 (default if only 3 axes)" }
+      ],
+      "relatedCodes": ["$44", "$45", "$47"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. See $44." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "New in grblHAL. See $44 for bitmask details. Used for 4+ axis machines. Set to 0 to skip."
+    },
+    {
+      "code": "$47",
+      "type": "$",
+      "name": "Homing Cycle 4 Axes",
+      "description": "Bitmask defining which axes are homed in the fourth homing cycle.",
+      "parameters": [],
+      "examples": [
+        { "code": "$47=0", "description": "Skip cycle 4 (default)" }
+      ],
+      "relatedCodes": ["$44", "$46", "$48"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. See $44." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "New in grblHAL. See $44 for bitmask details. Set to 0 to skip."
+    },
+    {
+      "code": "$48",
+      "type": "$",
+      "name": "Homing Cycle 5 Axes",
+      "description": "Bitmask defining which axes are homed in the fifth homing cycle.",
+      "parameters": [],
+      "examples": [
+        { "code": "$48=0", "description": "Skip cycle 5 (default)" }
+      ],
+      "relatedCodes": ["$44", "$47", "$49"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. See $44." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "New in grblHAL. See $44 for bitmask details. Set to 0 to skip."
+    },
+    {
+      "code": "$49",
+      "type": "$",
+      "name": "Homing Cycle 6 Axes",
+      "description": "Bitmask defining which axes are homed in the sixth homing cycle.",
+      "parameters": [],
+      "examples": [
+        { "code": "$49=0", "description": "Skip cycle 6 (default)" }
+      ],
+      "relatedCodes": ["$44", "$48"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. See $44." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "New in grblHAL. See $44 for bitmask details. Set to 0 to skip."
+    },
+    {
+      "code": "$100",
+      "type": "$",
+      "name": "X Steps/mm",
+      "description": "Steps per mm for X axis. Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$100=250.000", "description": "250 steps/mm (default)" }
+      ],
+      "relatedCodes": ["$101", "$102"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$100", "note": "Same as grbl. grblHAL extends with $103-$109 for additional axes (A through W)." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 250.000. grblHAL adds $103-$109 for axes A through W."
+    },
+    {
+      "code": "$101",
+      "type": "$",
+      "name": "Y Steps/mm",
+      "description": "Steps per mm for Y axis. Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$101=250.000", "description": "250 steps/mm (default)" }
+      ],
+      "relatedCodes": ["$100", "$102"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$101", "note": "Same as grbl. Identical behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 250.000."
+    },
+    {
+      "code": "$102",
+      "type": "$",
+      "name": "Z Steps/mm",
+      "description": "Steps per mm for Z axis. Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$102=250.000", "description": "250 steps/mm (default)" }
+      ],
+      "relatedCodes": ["$100", "$101"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$102", "note": "Same as grbl. Identical behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 250.000."
+    },
+    {
+      "code": "$110",
+      "type": "$",
+      "name": "X Max Rate",
+      "description": "Maximum travel rate for X axis in mm/min. Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$110=500.000", "description": "500 mm/min (default)" }
+      ],
+      "relatedCodes": ["$111", "$112", "$120"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$110", "note": "Same as grbl. grblHAL extends with $113-$119 for additional axes." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 500.000 mm/min."
+    },
+    {
+      "code": "$111",
+      "type": "$",
+      "name": "Y Max Rate",
+      "description": "Maximum travel rate for Y axis in mm/min. Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$111=500.000", "description": "500 mm/min (default)" }
+      ],
+      "relatedCodes": ["$110", "$112", "$121"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$111", "note": "Same as grbl. Identical behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 500.000 mm/min."
+    },
+    {
+      "code": "$112",
+      "type": "$",
+      "name": "Z Max Rate",
+      "description": "Maximum travel rate for Z axis in mm/min. Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$112=500.000", "description": "500 mm/min (default)" }
+      ],
+      "relatedCodes": ["$110", "$111", "$122"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$112", "note": "Same as grbl. Identical behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 500.000 mm/min."
+    },
+    {
+      "code": "$120",
+      "type": "$",
+      "name": "X Acceleration",
+      "description": "Acceleration for X axis in mm/sec^2. Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$120=10.000", "description": "10 mm/sec^2 (default)" }
+      ],
+      "relatedCodes": ["$110", "$121", "$122"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$120", "note": "Same as grbl. grblHAL extends with $123-$129 for additional axes." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 10.000 mm/sec^2."
+    },
+    {
+      "code": "$121",
+      "type": "$",
+      "name": "Y Acceleration",
+      "description": "Acceleration for Y axis in mm/sec^2. Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$121=10.000", "description": "10 mm/sec^2 (default)" }
+      ],
+      "relatedCodes": ["$111", "$120", "$122"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$121", "note": "Same as grbl. Identical behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 10.000 mm/sec^2."
+    },
+    {
+      "code": "$122",
+      "type": "$",
+      "name": "Z Acceleration",
+      "description": "Acceleration for Z axis in mm/sec^2. Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$122=10.000", "description": "10 mm/sec^2 (default)" }
+      ],
+      "relatedCodes": ["$112", "$120", "$121"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$122", "note": "Same as grbl. Identical behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 10.000 mm/sec^2."
+    },
+    {
+      "code": "$130",
+      "type": "$",
+      "name": "X Max Travel",
+      "description": "Maximum travel distance for X axis in mm. Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$130=200.000", "description": "200mm (default)" }
+      ],
+      "relatedCodes": ["$20", "$131", "$132"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$130", "note": "Same as grbl. grblHAL extends with $133-$139 for additional axes." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 200.000mm."
+    },
+    {
+      "code": "$131",
+      "type": "$",
+      "name": "Y Max Travel",
+      "description": "Maximum travel distance for Y axis in mm. Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$131=200.000", "description": "200mm (default)" }
+      ],
+      "relatedCodes": ["$20", "$130", "$132"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$131", "note": "Same as grbl. Identical behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 200.000mm."
+    },
+    {
+      "code": "$132",
+      "type": "$",
+      "name": "Z Max Travel",
+      "description": "Maximum travel distance for Z axis in mm. Inherited from grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "$132=200.000", "description": "200mm (default)" }
+      ],
+      "relatedCodes": ["$20", "$130", "$131"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$132", "note": "Same as grbl. Identical behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Same as grbl. Default: 200.000mm."
+    },
+    {
+      "code": "$341",
+      "type": "$",
+      "name": "Tool Change Mode",
+      "description": "Configures the tool change behavior when M6 is executed. This is one of the most important grblHAL-specific settings for CNC machines that use multiple tools. Determines whether tool changes are ignored, require manual intervention, or use automatic tool measurement.",
+      "parameters": [],
+      "examples": [
+        { "code": "$341=0", "description": "Normal — M6 pauses for manual tool change (default)" },
+        { "code": "$341=1", "description": "Manual touch-off at home position — moves to home, waits for tool change, probes for length" },
+        { "code": "$341=2", "description": "Manual touch-off at G59.3 — moves to G59.3 position for tool change and probing" },
+        { "code": "$341=3", "description": "Automatic touch-off — changes tool and automatically probes for tool length" },
+        { "code": "$341=4", "description": "Ignore M6 — tool change commands are silently skipped" }
+      ],
+      "relatedCodes": ["M6", "G43", "$342", "$343", "$344", "$TLR", "$TPW"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support tool changes (M6 is parsed but ignored)." },
+        { "firmwareId": "linuxcnc", "code": "", "note": "LinuxCNC handles tool changes through HAL and custom remapped M6 procedures. grblHAL's $341 modes provide similar functionality without requiring HAL configuration." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "New in grblHAL. Default: 0. CRITICAL setting for multi-tool CNC work. Mode 0: simple pause. Mode 1: moves to home, user changes tool, then probes at home. Mode 2: moves to G59.3 coordinate (set via G10 L2 P9) for tool change and probing — most common for fixed tool probe setups. Mode 3: fully automatic (requires ATC hardware). Mode 4: ignore M6 (useful for single-tool jobs or testing). Related settings: $342 (probe distance), $343 (slow probe feed), $344 (fast probe feed)."
+    },
+    {
+      "code": "$342",
+      "type": "$",
+      "name": "Tool Change Probe Distance",
+      "description": "Sets the maximum distance in mm the tool probe will travel downward when measuring tool length during a tool change. If the probe does not trigger within this distance, an alarm is raised.",
+      "parameters": [],
+      "examples": [
+        { "code": "$342=30.000", "description": "Probe up to 30mm for tool contact" }
+      ],
+      "relatedCodes": ["$341", "$343", "$344"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support tool change probing." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "New in grblHAL. Used with $341 modes 1, 2, and 3. Set to slightly more than the maximum expected tool stick-out to prevent crashing if no tool is installed or the probe fails."
+    },
+    {
+      "code": "$343",
+      "type": "$",
+      "name": "Tool Change Slow Feed Rate",
+      "description": "Sets the slow (precise) probing feed rate in mm/min used during tool change probing. After the initial fast probe ($344), the tool retracts and re-probes at this slower rate for accurate measurement.",
+      "parameters": [],
+      "examples": [
+        { "code": "$343=25.000", "description": "25 mm/min slow probe feed" }
+      ],
+      "relatedCodes": ["$341", "$342", "$344"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support tool change probing." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "New in grblHAL. Used with $341 modes 1, 2, and 3. Similar concept to $24 (homing locate feed rate) but for tool probing."
+    },
+    {
+      "code": "$344",
+      "type": "$",
+      "name": "Tool Change Seek Feed Rate",
+      "description": "Sets the fast seek feed rate in mm/min used during the initial tool change probe approach. The tool moves down at this rate until first contact, then retracts and re-approaches at the slower $343 rate.",
+      "parameters": [],
+      "examples": [
+        { "code": "$344=200.000", "description": "200 mm/min fast probe seek" }
+      ],
+      "relatedCodes": ["$341", "$342", "$343"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support tool change probing." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "New in grblHAL. Used with $341 modes 1, 2, and 3. Similar concept to $25 (homing seek rate) but for tool probing."
+    },
+    {
+      "code": "$376",
+      "type": "$",
+      "name": "Rotary Axes Bitmask",
+      "description": "Bitmask identifying which axes are rotary (degrees) rather than linear (mm). Rotary axes use degrees for position, degrees/min for feed rate, and degrees/sec^2 for acceleration. Affects how feed rate is calculated for combined linear+rotary moves.",
+      "parameters": [],
+      "examples": [
+        { "code": "$376=0", "description": "No rotary axes (default)" },
+        { "code": "$376=8", "description": "A axis is rotary (bit 3)" },
+        { "code": "$376=56", "description": "A, B, and C are rotary (bits 3+4+5)" }
+      ],
+      "relatedCodes": ["$100", "$110", "$120", "$130"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support rotary axes." },
+        { "firmwareId": "linuxcnc", "code": "", "note": "LinuxCNC configures rotary axes in the INI file with ANGULAR type." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "New in grblHAL. Default: 0. Bitmask: A=8, B=16, C=32. When an axis is marked rotary, its $1xx steps/mm becomes steps/degree, $1xx max rate becomes degrees/min, and $1xx acceleration becomes degrees/sec^2. For combined linear+rotary moves, feed rate applies to the linear distance only (inverse time mode G93 may be preferred)."
+    },
+    {
+      "code": "$384",
+      "type": "$",
+      "name": "Disable G92 Persistence",
+      "description": "Controls whether G92 offsets persist across resets and power cycles. By default (0), G92 offsets are saved to non-volatile storage and restored on startup (matching grbl/NIST behavior). Set to 1 to disable persistence, clearing G92 offsets on every reset.",
+      "parameters": [],
+      "examples": [
+        { "code": "$384=0", "description": "G92 persists across resets (default, matches grbl)" },
+        { "code": "$384=1", "description": "G92 cleared on reset (safer for most workflows)" }
+      ],
+      "relatedCodes": ["G92", "G92.1"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. In grbl, G92 always persists (no option to disable). This is a common source of confusion when grbl powers up with unexpected offsets." },
+        { "firmwareId": "linuxcnc", "code": "", "note": "LinuxCNC also persists G92 by default (stored in .var file) and has DISABLE_G92_PERSISTENCE INI option." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "New in grblHAL. Default: 0 (persistent, matching grbl). Many users prefer $384=1 because persistent G92 offsets are a frequent source of confusion — the machine appears to be in the wrong position after a restart because a forgotten G92 offset is still active. Using G54-G59 work coordinates instead of G92 is generally recommended."
+    }
+  ]
+}

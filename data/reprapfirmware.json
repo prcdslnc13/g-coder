@@ -1,0 +1,1561 @@
+{
+  "firmware": {
+    "id": "reprapfirmware",
+    "name": "RepRapFirmware",
+    "description": "Advanced open-source firmware by Duet3D for CNC, 3D printing, and laser applications. All configuration via G-code (config.g). Supports runtime mode switching between FDM (M451), Laser (M452), and CNC (M453).",
+    "version": "3.x",
+    "sourceUrl": "https://docs.duet3d.com/"
+  },
+  "codes": [
+    {
+      "code": "G0",
+      "type": "G",
+      "name": "Rapid Move",
+      "description": "Rapid linear move. In RepRapFirmware, G0 and G1 are IDENTICAL — the feed rate is always controlled by F. There is no separate rapid rate. This is a critical difference from grbl and LinuxCNC where G0 always moves at maximum traverse rate.",
+      "parameters": [
+        { "name": "X", "description": "Target X position", "optional": true },
+        { "name": "Y", "description": "Target Y position", "optional": true },
+        { "name": "Z", "description": "Target Z position", "optional": true },
+        { "name": "E", "description": "Extruder position", "optional": true },
+        { "name": "F", "description": "Feed rate in mm/min", "optional": true },
+        { "name": "H", "description": "Motor stall detection / special moves: 0=no stall detection, 1=stall detect and stop, 2=stall detect and log. Replaced S parameter in RRF 3.x for homing moves.", "optional": true }
+      ],
+      "examples": [
+        { "code": "G0 X0 Y0 F6000", "description": "Move to origin at 6000mm/min" },
+        { "code": "G0 X10 Y10 H1", "description": "Homing move with stall detection enabled" }
+      ],
+      "relatedCodes": ["G1"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G0", "note": "WARNING: In grbl, G0 always moves at maximum rate regardless of F. In RRF, G0 and G1 are functionally identical — both use the F parameter. This is one of the most important behavioral differences between firmwares." },
+        { "firmwareId": "linuxcnc", "code": "G0", "note": "WARNING: LinuxCNC G0 ignores F and uses maximum traverse rate. RRF G0 respects F and is identical to G1." }
+      ],
+      "modeNotes": [
+        { "mode": "Laser mode (M452)", "description": "G0 moves do not fire the laser regardless of any S parameter. Use G1 with S for laser cutting moves." }
+      ],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g0-rapid-move"],
+      "notes": "Key difference from NIST standard: G0 and G1 are functionally the same in RRF. The H parameter for stall detection / homing moves is unique to RRF. The S parameter was repurposed for laser power in RRF 2.02+ — old S homing behavior moved to H parameter in RRF 3.x."
+    },
+    {
+      "code": "G1",
+      "type": "G",
+      "name": "Linear Move",
+      "description": "Controlled linear move. Functionally identical to G0 in RepRapFirmware. In laser mode (M452), the S parameter on G1 directly controls laser power.",
+      "parameters": [
+        { "name": "X", "description": "Target X position", "optional": true },
+        { "name": "Y", "description": "Target Y position", "optional": true },
+        { "name": "Z", "description": "Target Z position", "optional": true },
+        { "name": "E", "description": "Extruder position", "optional": true },
+        { "name": "F", "description": "Feed rate in mm/min", "optional": true },
+        { "name": "S", "description": "Laser power (0.0-1.0) in laser mode (M452). Since RRF 2.02+, S was repurposed from its original homing function.", "optional": true },
+        { "name": "H", "description": "Motor stall detection / homing moves (replaced old S parameter in RRF 3.x): 0=no stall detection, 1=stall detect and stop, 2=stall detect and log", "optional": true }
+      ],
+      "examples": [
+        { "code": "G1 X50 Y30 F1200", "description": "Linear move at 1200mm/min" },
+        { "code": "G1 X100 S0.8 F600", "description": "Laser mode: cut at 80% power, 600mm/min" },
+        { "code": "G1 X10 H1 F500", "description": "Homing-style move with stall detection" }
+      ],
+      "relatedCodes": ["G0"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G1", "note": "WARNING: Laser power is fundamentally different. In grbl, laser power is set with S on M3/M4 (integer 0-$30 max value). In RRF laser mode, S on G1 directly sets laser power as a fraction (0.0-1.0)." },
+        { "firmwareId": "linuxcnc", "code": "G1", "note": "LinuxCNC uses S on M3/M4 for spindle/laser speed, not on G1. RRF's S-on-G1 for laser power is unique." }
+      ],
+      "modeNotes": [
+        { "mode": "Laser mode (M452)", "description": "S parameter controls laser power as a fraction (0.0 to 1.0). Power is applied during the move and automatically turns off when motion stops. This is fundamentally different from grbl where laser power is set via M3/M4 S parameter." },
+        { "mode": "FDM mode (M451)", "description": "S parameter has no special effect. Standard printing move." },
+        { "mode": "CNC mode (M453)", "description": "S parameter has no special effect. Spindle speed is controlled via M3/M4." }
+      ],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g1-linear-move"],
+      "notes": "The S parameter on G1 was repurposed in RRF 2.02+. In laser mode, S controls power directly on the move command. The old S parameter behavior (homing moves) was moved to the H parameter in RRF 3.x. This S-parameter repurposing is a significant behavioral difference from all other firmwares."
+    },
+    {
+      "code": "G2",
+      "type": "G",
+      "name": "Clockwise Arc",
+      "description": "Clockwise circular or helical interpolation in the selected plane (G17/G18/G19).",
+      "parameters": [
+        { "name": "X", "description": "Arc endpoint X", "optional": true },
+        { "name": "Y", "description": "Arc endpoint Y", "optional": true },
+        { "name": "Z", "description": "Arc endpoint Z (helical)", "optional": true },
+        { "name": "I", "description": "Arc center offset in X (incremental from current position)", "optional": true },
+        { "name": "J", "description": "Arc center offset in Y (incremental from current position)", "optional": true },
+        { "name": "K", "description": "Arc center offset in Z (for helical arcs in XZ/YZ planes)", "optional": true },
+        { "name": "R", "description": "Arc radius (alternative to IJK). Positive = minor arc, negative = major arc.", "optional": true },
+        { "name": "F", "description": "Feed rate in mm/min", "optional": true },
+        { "name": "S", "description": "Laser power (0.0-1.0) in laser mode", "optional": true }
+      ],
+      "examples": [
+        { "code": "G2 X10 Y10 I5 J0 F1000", "description": "CW arc to X10 Y10 with center offset I5 J0" },
+        { "code": "G2 X10 Y10 R5 F1000", "description": "CW arc using radius form" }
+      ],
+      "relatedCodes": ["G3", "G17", "G18", "G19"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G2", "note": "Similar behavior. grbl only supports incremental IJK (G91.1). RRF supports both incremental (default) and absolute IJK modes." },
+        { "firmwareId": "linuxcnc", "code": "G2", "note": "Similar behavior. Both support full arc specification with IJK or R." }
+      ],
+      "modeNotes": [
+        { "mode": "Laser mode (M452)", "description": "S parameter on arc commands controls laser power during the arc move." }
+      ],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g2-clockwise-arc"],
+      "notes": "Arcs are supported in all three planes (G17 XY, G18 XZ, G19 YZ). Full circles can be made by specifying only IJK with no endpoint change."
+    },
+    {
+      "code": "G3",
+      "type": "G",
+      "name": "Counter-Clockwise Arc",
+      "description": "Counter-clockwise circular or helical interpolation. Same as G2 but in the opposite direction.",
+      "parameters": [
+        { "name": "X", "description": "Arc endpoint X", "optional": true },
+        { "name": "Y", "description": "Arc endpoint Y", "optional": true },
+        { "name": "Z", "description": "Arc endpoint Z (helical)", "optional": true },
+        { "name": "I", "description": "Arc center offset in X", "optional": true },
+        { "name": "J", "description": "Arc center offset in Y", "optional": true },
+        { "name": "K", "description": "Arc center offset in Z", "optional": true },
+        { "name": "R", "description": "Arc radius (alternative to IJK)", "optional": true },
+        { "name": "F", "description": "Feed rate in mm/min", "optional": true },
+        { "name": "S", "description": "Laser power (0.0-1.0) in laser mode", "optional": true }
+      ],
+      "examples": [
+        { "code": "G3 X10 Y10 I5 J0 F1000", "description": "CCW arc to X10 Y10 with center offset I5 J0" }
+      ],
+      "relatedCodes": ["G2", "G17", "G18", "G19"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G3", "note": "Similar behavior." }
+      ],
+      "modeNotes": [
+        { "mode": "Laser mode (M452)", "description": "S parameter controls laser power during the arc." }
+      ],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g3-counter-clockwise-arc"],
+      "notes": "Same as G2 but counter-clockwise."
+    },
+    {
+      "code": "G4",
+      "type": "G",
+      "name": "Dwell",
+      "description": "Pause the machine for a specified time. Accepts time in milliseconds (P) or seconds (S).",
+      "parameters": [
+        { "name": "P", "description": "Dwell time in milliseconds", "optional": true },
+        { "name": "S", "description": "Dwell time in seconds", "optional": true }
+      ],
+      "examples": [
+        { "code": "G4 P500", "description": "Pause for 500 milliseconds" },
+        { "code": "G4 S2", "description": "Pause for 2 seconds" }
+      ],
+      "relatedCodes": ["M400"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G4", "note": "grbl uses P for seconds (decimal allowed). RRF uses P for milliseconds and S for seconds — be careful with the P parameter unit difference." },
+        { "firmwareId": "linuxcnc", "code": "G4", "note": "LinuxCNC uses P for seconds. RRF uses P for milliseconds — a common source of errors when porting G-code." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g4-dwell"],
+      "notes": "WARNING: P parameter is in milliseconds in RRF, but in seconds in grbl and LinuxCNC. This is a frequent source of errors when converting G-code between firmwares. Use S for seconds to avoid confusion."
+    },
+    {
+      "code": "G10",
+      "type": "G",
+      "name": "Retract / Set Tool Offset / Set Workspace Offset",
+      "description": "Multi-purpose command. Without parameters: firmware retract. With L and P: set tool offsets or workspace coordinate offsets.",
+      "parameters": [
+        { "name": "L", "description": "Offset type: L1 or L10 = set tool offsets, L2 = set workspace offset, L20 = set workspace offset to make current position the given value", "optional": true },
+        { "name": "P", "description": "Tool number (for L1/L10) or workspace number 1-9 (for L2/L20, corresponding to G54-G59.3)", "optional": true },
+        { "name": "X", "description": "X offset value", "optional": true },
+        { "name": "Y", "description": "Y offset value", "optional": true },
+        { "name": "Z", "description": "Z offset value", "optional": true },
+        { "name": "R", "description": "Standby temperature (tool offset mode)", "optional": true },
+        { "name": "S", "description": "Active temperature (tool offset mode)", "optional": true }
+      ],
+      "examples": [
+        { "code": "G10", "description": "Firmware retract (no parameters)" },
+        { "code": "G10 L2 P1 X10 Y10 Z0", "description": "Set G54 work offset to X10 Y10 Z0" },
+        { "code": "G10 L20 P1 X0 Y0 Z0", "description": "Set G54 so current position becomes X0 Y0 Z0" },
+        { "code": "G10 L1 P0 X0.5 Y0 Z-1.2", "description": "Set tool 0 offsets" }
+      ],
+      "relatedCodes": ["G11", "G54", "G55", "G56", "G57", "G58", "G59"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G10", "note": "grbl supports G10 L2 and G10 L20 for workspace offsets only. RRF also supports tool offsets (L1/L10) and firmware retract (no parameters)." },
+        { "firmwareId": "linuxcnc", "code": "G10", "note": "LinuxCNC supports G10 L1/L2/L10/L20 for tool and work offsets. Similar to RRF but RRF adds firmware retract with no parameters." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g10-retract-or-set-offsets"],
+      "notes": "This is a multi-purpose command. With no parameters it performs firmware retract. With L2/L20 it sets workspace offsets (critical for CNC). With L1/L10 it sets tool offsets."
+    },
+    {
+      "code": "G11",
+      "type": "G",
+      "name": "Unretract",
+      "description": "Reverses a firmware retract performed by G10 (no parameters). Pushes filament back and optionally raises Z.",
+      "parameters": [],
+      "examples": [
+        { "code": "G11", "description": "Unretract filament" }
+      ],
+      "relatedCodes": ["G10"],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g11-unretract"],
+      "notes": "Only relevant in FDM mode. Pairs with G10 firmware retract. Retract/unretract distances are configured with M207."
+    },
+    {
+      "code": "G17",
+      "type": "G",
+      "name": "Select XY Plane",
+      "description": "Select XY plane for arc commands (G2/G3). This is the default plane.",
+      "parameters": [],
+      "examples": [
+        { "code": "G17", "description": "Select XY plane (default)" }
+      ],
+      "relatedCodes": ["G18", "G19", "G2", "G3"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G17", "note": "Same behavior." },
+        { "firmwareId": "linuxcnc", "code": "G17", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g17-select-xy-plane"],
+      "notes": "RRF 3.x added plane selection. Required for arcs in non-default planes."
+    },
+    {
+      "code": "G18",
+      "type": "G",
+      "name": "Select XZ Plane",
+      "description": "Select XZ plane for arc commands (G2/G3). Used for arcs on vertical surfaces.",
+      "parameters": [],
+      "examples": [
+        { "code": "G18", "description": "Select XZ plane for vertical arcs" }
+      ],
+      "relatedCodes": ["G17", "G19", "G2", "G3"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G18", "note": "Same behavior." },
+        { "firmwareId": "linuxcnc", "code": "G18", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g18-select-xz-plane"],
+      "notes": "Added in RRF 3.x."
+    },
+    {
+      "code": "G19",
+      "type": "G",
+      "name": "Select YZ Plane",
+      "description": "Select YZ plane for arc commands (G2/G3).",
+      "parameters": [],
+      "examples": [
+        { "code": "G19", "description": "Select YZ plane" }
+      ],
+      "relatedCodes": ["G17", "G18", "G2", "G3"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G19", "note": "Same behavior." },
+        { "firmwareId": "linuxcnc", "code": "G19", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g19-select-yz-plane"],
+      "notes": "Added in RRF 3.x."
+    },
+    {
+      "code": "G20",
+      "type": "G",
+      "name": "Inch Units",
+      "description": "Set units to inches for subsequent G-code commands.",
+      "parameters": [],
+      "examples": [
+        { "code": "G20", "description": "Switch to inch units" }
+      ],
+      "relatedCodes": ["G21"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G20", "note": "Same behavior." },
+        { "firmwareId": "linuxcnc", "code": "G20", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g20-set-units-to-inches"],
+      "notes": "RRF defaults to millimeters (G21). Inch mode affects F feed rate values as well."
+    },
+    {
+      "code": "G21",
+      "type": "G",
+      "name": "Millimeter Units",
+      "description": "Set units to millimeters for subsequent G-code commands. This is the default.",
+      "parameters": [],
+      "examples": [
+        { "code": "G21", "description": "Switch to millimeter units (default)" }
+      ],
+      "relatedCodes": ["G20"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G21", "note": "Same behavior." },
+        { "firmwareId": "linuxcnc", "code": "G21", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g21-set-units-to-millimeters"],
+      "notes": "Default unit mode in RRF."
+    },
+    {
+      "code": "G28",
+      "type": "G",
+      "name": "Home Axes",
+      "description": "Homes the specified axes by running homing macro files (homeall.g, homex.g, homey.g, homez.g). The homing sequence is fully programmable via these macro files in the /sys directory. This is NOT a go-to-stored-position command.",
+      "parameters": [
+        { "name": "X", "description": "Home X axis (runs homex.g)", "optional": true },
+        { "name": "Y", "description": "Home Y axis (runs homey.g)", "optional": true },
+        { "name": "Z", "description": "Home Z axis (runs homez.g)", "optional": true }
+      ],
+      "examples": [
+        { "code": "G28", "description": "Home all axes (runs homeall.g macro)" },
+        { "code": "G28 X", "description": "Home X axis only (runs homex.g)" },
+        { "code": "G28 X Y", "description": "Home X and Y axes" }
+      ],
+      "relatedCodes": ["G30"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$H", "note": "WARNING: RRF G28 = homing (like grbl's $H). grbl does not use G28 for homing. grbl G28 goes to a stored predefined position." },
+        { "firmwareId": "linuxcnc", "code": "G28", "note": "WARNING: CONFLICT. LinuxCNC G28 moves to stored position (set by G28.1). RRF G28 performs homing. Completely different behavior!" }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g28-home"],
+      "notes": "WARNING: G28 meaning differs significantly between firmwares. In RRF, G28 = homing via macro files. In grbl and LinuxCNC, G28 = go to stored position. RRF homing is defined by macro files in /sys, making it extremely flexible. In RRF 3.x, homing moves inside macros use H1 parameter (was S1 in RRF 2.x)."
+    },
+    {
+      "code": "G29",
+      "type": "G",
+      "name": "Mesh Bed Probing",
+      "description": "Performs mesh bed probing / compensation. Probes the bed at a grid of points to create a height map for compensation.",
+      "parameters": [
+        { "name": "S", "description": "0=probe and save height map, 1=load saved height map, 2=clear height map", "optional": true },
+        { "name": "K", "description": "Height map number (RRF 3.4+)", "optional": true }
+      ],
+      "examples": [
+        { "code": "G29", "description": "Probe the bed and generate height map" },
+        { "code": "G29 S1", "description": "Load a previously saved height map" },
+        { "code": "G29 S2", "description": "Clear the height map" }
+      ],
+      "relatedCodes": ["G30", "G31", "G32"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G38.2", "note": "grbl has no mesh probing. grbl uses G38.2-G38.5 for single-point probing only." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g29-mesh-bed-probing"],
+      "notes": "The probe grid is defined by M557. Typically used for 3D printing bed compensation but can also be useful for CNC surfacing operations."
+    },
+    {
+      "code": "G30",
+      "type": "G",
+      "name": "Single Probe",
+      "description": "Probe the bed at a single point. Used for Z height setting and as part of bed leveling.",
+      "parameters": [
+        { "name": "X", "description": "X position to probe (optional, defaults to current)", "optional": true },
+        { "name": "Y", "description": "Y position to probe (optional, defaults to current)", "optional": true },
+        { "name": "Z", "description": "Z value to set when probe triggers (sets Z height)", "optional": true },
+        { "name": "H", "description": "Dive height (mm) for this probe", "optional": true },
+        { "name": "P", "description": "Probe point number for bed leveling (used with G32)", "optional": true },
+        { "name": "S", "description": "-1 = no action after probe (just report), other = set Z offset", "optional": true }
+      ],
+      "examples": [
+        { "code": "G30", "description": "Probe at current position, set Z=0 at trigger point" },
+        { "code": "G30 S-1", "description": "Probe and report height without changing Z" },
+        { "code": "G30 P0 X50 Y50 Z-99999", "description": "Probe point 0 for bed leveling" }
+      ],
+      "relatedCodes": ["G29", "G31", "G32"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G38.2", "note": "grbl uses G38.2 for probing toward workpiece. RRF G30 is specific to Z-axis bed probing." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g30-single-z-probe"],
+      "notes": "Commonly used to set Z zero for CNC operations. The probe type and trigger parameters are configured with G31."
+    },
+    {
+      "code": "G31",
+      "type": "G",
+      "name": "Set Probe Parameters",
+      "description": "Configure Z probe type, trigger height, trigger value, and probe offsets from the tool.",
+      "parameters": [
+        { "name": "P", "description": "Trigger value (analog threshold)", "optional": true },
+        { "name": "X", "description": "Probe X offset from tool", "optional": true },
+        { "name": "Y", "description": "Probe Y offset from tool", "optional": true },
+        { "name": "Z", "description": "Trigger height (Z offset)", "optional": true },
+        { "name": "T", "description": "0=probe type analog, 1=digital, other types available", "optional": true },
+        { "name": "C", "description": "Temperature coefficient of trigger height", "optional": true }
+      ],
+      "examples": [
+        { "code": "G31 P500 X0 Y0 Z2.5", "description": "Set probe trigger at 500, offset Z=2.5mm" },
+        { "code": "G31 X-25 Y0 Z1.8 P25", "description": "Probe 25mm left of nozzle, triggers at 1.8mm" }
+      ],
+      "relatedCodes": ["G30", "G29"],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g31-set-or-report-current-probe-status"],
+      "notes": "Must be configured before using G29 or G30. Probe offsets are critical for accurate bed probing."
+    },
+    {
+      "code": "G32",
+      "type": "G",
+      "name": "Bed Leveling",
+      "description": "Run the bed leveling macro (bed.g). Used for multi-point bed leveling with tilt compensation or auto-calibration on delta printers.",
+      "parameters": [],
+      "examples": [
+        { "code": "G32", "description": "Run bed.g leveling macro" }
+      ],
+      "relatedCodes": ["G29", "G30"],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g32-probe-z-and-calculate-compensation"],
+      "notes": "Runs the bed.g macro file which typically contains multiple G30 probe points. The firmware then calculates and applies leveling compensation."
+    },
+    {
+      "code": "G38.2",
+      "type": "G",
+      "name": "Straight Probe - Toward, Error on No Contact",
+      "description": "Probe toward workpiece. Stops on contact. Error if probe does not trigger before target position.",
+      "parameters": [
+        { "name": "X", "description": "Target X position", "optional": true },
+        { "name": "Y", "description": "Target Y position", "optional": true },
+        { "name": "Z", "description": "Target Z position", "optional": true },
+        { "name": "F", "description": "Feed rate for probing", "optional": true }
+      ],
+      "examples": [
+        { "code": "G38.2 Z-50 F100", "description": "Probe downward toward workpiece, error if no contact" }
+      ],
+      "relatedCodes": ["G38.3", "G38.4", "G38.5"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G38.2", "note": "Same behavior per NIST standard." },
+        { "firmwareId": "linuxcnc", "code": "G38.2", "note": "Same behavior per NIST standard." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g382-straight-probe"],
+      "notes": "Added in RRF 3.x. Standard NIST probing cycle. Useful for CNC tool setting and workpiece probing."
+    },
+    {
+      "code": "G38.3",
+      "type": "G",
+      "name": "Straight Probe - Toward, No Error",
+      "description": "Probe toward workpiece. Stops on contact. No error if probe does not trigger.",
+      "parameters": [
+        { "name": "X", "description": "Target X position", "optional": true },
+        { "name": "Y", "description": "Target Y position", "optional": true },
+        { "name": "Z", "description": "Target Z position", "optional": true },
+        { "name": "F", "description": "Feed rate for probing", "optional": true }
+      ],
+      "examples": [
+        { "code": "G38.3 Z-50 F100", "description": "Probe downward, no error if nothing contacted" }
+      ],
+      "relatedCodes": ["G38.2", "G38.4", "G38.5"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G38.3", "note": "Same behavior per NIST standard." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g383-straight-probe"],
+      "notes": "Added in RRF 3.x. Useful when you need to check if a surface exists without halting on failure."
+    },
+    {
+      "code": "G38.4",
+      "type": "G",
+      "name": "Straight Probe - Away, Error on No Release",
+      "description": "Probe away from workpiece. Stops when probe releases. Error if probe does not release before target position.",
+      "parameters": [
+        { "name": "X", "description": "Target X position", "optional": true },
+        { "name": "Y", "description": "Target Y position", "optional": true },
+        { "name": "Z", "description": "Target Z position", "optional": true },
+        { "name": "F", "description": "Feed rate for probing", "optional": true }
+      ],
+      "examples": [
+        { "code": "G38.4 Z10 F50", "description": "Probe upward away from surface, error if no release" }
+      ],
+      "relatedCodes": ["G38.2", "G38.3", "G38.5"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G38.4", "note": "Same behavior per NIST standard." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g384-straight-probe"],
+      "notes": "Added in RRF 3.x. Used to find the exact release point after an initial probe contact."
+    },
+    {
+      "code": "G38.5",
+      "type": "G",
+      "name": "Straight Probe - Away, No Error",
+      "description": "Probe away from workpiece. Stops when probe releases. No error if probe does not release.",
+      "parameters": [
+        { "name": "X", "description": "Target X position", "optional": true },
+        { "name": "Y", "description": "Target Y position", "optional": true },
+        { "name": "Z", "description": "Target Z position", "optional": true },
+        { "name": "F", "description": "Feed rate for probing", "optional": true }
+      ],
+      "examples": [
+        { "code": "G38.5 Z10 F50", "description": "Probe upward away from surface, no error if no release" }
+      ],
+      "relatedCodes": ["G38.2", "G38.3", "G38.4"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G38.5", "note": "Same behavior per NIST standard." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g385-straight-probe"],
+      "notes": "Added in RRF 3.x."
+    },
+    {
+      "code": "G53",
+      "type": "G",
+      "name": "Machine Coordinate System",
+      "description": "Move in machine (absolute) coordinates, ignoring any work coordinate offset. Non-modal — only applies to the line it appears on.",
+      "parameters": [],
+      "examples": [
+        { "code": "G53 G0 X0 Y0 Z0", "description": "Rapid to machine origin" },
+        { "code": "G53 G1 X100 Y100 F3000", "description": "Move to machine X100 Y100" }
+      ],
+      "relatedCodes": ["G54", "G55", "G56", "G57", "G58", "G59"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G53", "note": "Same behavior. Non-modal, one-line only." },
+        { "firmwareId": "linuxcnc", "code": "G53", "note": "Same behavior per NIST standard." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g53-use-machine-coordinates"],
+      "notes": "Non-modal: only affects the line on which it appears. Must be combined with G0 or G1 on the same line."
+    },
+    {
+      "code": "G54",
+      "type": "G",
+      "name": "Work Coordinate System 1",
+      "description": "Select work coordinate system 1. This is the default work coordinate system.",
+      "parameters": [],
+      "examples": [
+        { "code": "G54", "description": "Select WCS 1 (default)" }
+      ],
+      "relatedCodes": ["G55", "G56", "G57", "G58", "G59", "G10", "G53"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G54", "note": "Same behavior. grbl supports G54-G59 (6 systems). RRF supports G54-G59.3 (9 systems)." },
+        { "firmwareId": "linuxcnc", "code": "G54", "note": "Same behavior. LinuxCNC also supports G54-G59.3." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g54-g59-use-coordinate-system"],
+      "notes": "RRF supports 9 work coordinate systems: G54, G55, G56, G57, G58, G59, G59.1, G59.2, G59.3. Set offsets with G10 L2 or G10 L20."
+    },
+    {
+      "code": "G55",
+      "type": "G",
+      "name": "Work Coordinate System 2",
+      "description": "Select work coordinate system 2.",
+      "parameters": [],
+      "examples": [
+        { "code": "G55", "description": "Select WCS 2" }
+      ],
+      "relatedCodes": ["G54", "G56", "G57", "G58", "G59", "G10"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G55", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g54-g59-use-coordinate-system"],
+      "notes": "Set offsets with G10 L2 P2 or G10 L20 P2."
+    },
+    {
+      "code": "G56",
+      "type": "G",
+      "name": "Work Coordinate System 3",
+      "description": "Select work coordinate system 3.",
+      "parameters": [],
+      "examples": [
+        { "code": "G56", "description": "Select WCS 3" }
+      ],
+      "relatedCodes": ["G54", "G55", "G57", "G58", "G59", "G10"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G56", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g54-g59-use-coordinate-system"],
+      "notes": "Set offsets with G10 L2 P3 or G10 L20 P3."
+    },
+    {
+      "code": "G57",
+      "type": "G",
+      "name": "Work Coordinate System 4",
+      "description": "Select work coordinate system 4.",
+      "parameters": [],
+      "examples": [
+        { "code": "G57", "description": "Select WCS 4" }
+      ],
+      "relatedCodes": ["G54", "G55", "G56", "G58", "G59", "G10"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G57", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g54-g59-use-coordinate-system"],
+      "notes": "Set offsets with G10 L2 P4 or G10 L20 P4."
+    },
+    {
+      "code": "G58",
+      "type": "G",
+      "name": "Work Coordinate System 5",
+      "description": "Select work coordinate system 5.",
+      "parameters": [],
+      "examples": [
+        { "code": "G58", "description": "Select WCS 5" }
+      ],
+      "relatedCodes": ["G54", "G55", "G56", "G57", "G59", "G10"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G58", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g54-g59-use-coordinate-system"],
+      "notes": "Set offsets with G10 L2 P5 or G10 L20 P5."
+    },
+    {
+      "code": "G59",
+      "type": "G",
+      "name": "Work Coordinate System 6",
+      "description": "Select work coordinate system 6.",
+      "parameters": [],
+      "examples": [
+        { "code": "G59", "description": "Select WCS 6" }
+      ],
+      "relatedCodes": ["G54", "G55", "G56", "G57", "G58", "G10"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G59", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g54-g59-use-coordinate-system"],
+      "notes": "Set offsets with G10 L2 P6 or G10 L20 P6."
+    },
+    {
+      "code": "G59.1",
+      "type": "G",
+      "name": "Work Coordinate System 7",
+      "description": "Select work coordinate system 7. Extended coordinate system not available in grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "G59.1", "description": "Select WCS 7" }
+      ],
+      "relatedCodes": ["G54", "G59", "G59.2", "G59.3", "G10"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": null, "note": "grbl only supports G54-G59 (6 systems). G59.1-G59.3 are NOT available in grbl." },
+        { "firmwareId": "linuxcnc", "code": "G59.1", "note": "Same behavior. LinuxCNC supports extended coordinate systems." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g54-g59-use-coordinate-system"],
+      "notes": "Extended WCS. Set offsets with G10 L2 P7 or G10 L20 P7."
+    },
+    {
+      "code": "G59.2",
+      "type": "G",
+      "name": "Work Coordinate System 8",
+      "description": "Select work coordinate system 8.",
+      "parameters": [],
+      "examples": [
+        { "code": "G59.2", "description": "Select WCS 8" }
+      ],
+      "relatedCodes": ["G54", "G59.1", "G59.3", "G10"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": null, "note": "Not available in grbl." },
+        { "firmwareId": "linuxcnc", "code": "G59.2", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g54-g59-use-coordinate-system"],
+      "notes": "Extended WCS. Set offsets with G10 L2 P8 or G10 L20 P8."
+    },
+    {
+      "code": "G59.3",
+      "type": "G",
+      "name": "Work Coordinate System 9",
+      "description": "Select work coordinate system 9.",
+      "parameters": [],
+      "examples": [
+        { "code": "G59.3", "description": "Select WCS 9" }
+      ],
+      "relatedCodes": ["G54", "G59.1", "G59.2", "G10"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": null, "note": "Not available in grbl." },
+        { "firmwareId": "linuxcnc", "code": "G59.3", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g54-g59-use-coordinate-system"],
+      "notes": "Extended WCS. Set offsets with G10 L2 P9 or G10 L20 P9."
+    },
+    {
+      "code": "G60",
+      "type": "G",
+      "name": "Save Position",
+      "description": "Save the current position to a numbered slot for later recall with G1 R parameter.",
+      "parameters": [
+        { "name": "S", "description": "Slot number to save to (0-2)", "optional": true }
+      ],
+      "examples": [
+        { "code": "G60 S0", "description": "Save current position to slot 0" },
+        { "code": "G60 S1", "description": "Save current position to slot 1" }
+      ],
+      "relatedCodes": [],
+      "crossReferences": [
+        { "firmwareId": "linuxcnc", "code": "G28.1", "note": "LinuxCNC uses G28.1 to save position for G28. RRF uses numbered slots with G60." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g60-save-current-position"],
+      "notes": "Supports multiple save slots. Saved positions can be recalled using G1 Rn (where n = slot number). Useful for tool change macros and return-to-position sequences."
+    },
+    {
+      "code": "G68",
+      "type": "G",
+      "name": "Coordinate Rotation",
+      "description": "Rotate the coordinate system around a specified center point by a given angle. UNIQUE to RRF among hobby-level CNC firmwares.",
+      "parameters": [
+        { "name": "X", "description": "Rotation center X", "optional": true },
+        { "name": "Y", "description": "Rotation center Y", "optional": true },
+        { "name": "R", "description": "Rotation angle in degrees (positive = CCW)", "optional": false }
+      ],
+      "examples": [
+        { "code": "G68 X0 Y0 R45", "description": "Rotate coordinate system 45 degrees CCW around origin" },
+        { "code": "G68 X50 Y50 R90", "description": "Rotate 90 degrees around X50 Y50" }
+      ],
+      "relatedCodes": ["G69"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": null, "note": "UNIQUE to RRF: grbl does NOT support coordinate rotation. Rotation must be done in CAM software before generating G-code." },
+        { "firmwareId": "linuxcnc", "code": "G68", "note": "LinuxCNC does not natively support G68. Some third-party add-ons may provide it." }
+      ],
+      "modeNotes": [
+        { "mode": "CNC mode (M453)", "description": "Particularly useful for CNC operations where workpiece is not aligned with machine axes." }
+      ],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g68-coordinate-rotation"],
+      "notes": "UNIQUE to RRF among hobby CNC firmwares. Extremely useful for CNC work where the workpiece is not perfectly aligned with machine axes. Cancel rotation with G69. This is a feature typically found only on industrial CNC controllers."
+    },
+    {
+      "code": "G69",
+      "type": "G",
+      "name": "Cancel Coordinate Rotation",
+      "description": "Cancel any coordinate rotation set by G68. Returns to the original coordinate system orientation.",
+      "parameters": [],
+      "examples": [
+        { "code": "G69", "description": "Cancel coordinate rotation" }
+      ],
+      "relatedCodes": ["G68"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": null, "note": "Not available in grbl (no coordinate rotation support)." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g69-cancel-coordinate-rotation"],
+      "notes": "Cancels rotation set by G68."
+    },
+    {
+      "code": "G90",
+      "type": "G",
+      "name": "Absolute Distance Mode",
+      "description": "Set absolute positioning for all axes including extruder (unless M83 is active).",
+      "parameters": [],
+      "examples": [
+        { "code": "G90", "description": "Set absolute positioning" }
+      ],
+      "relatedCodes": ["G91", "M82", "M83"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G90", "note": "Same for XYZ. In RRF, G90 also affects the extruder axis unless M83 relative extrusion mode is active." },
+        { "firmwareId": "linuxcnc", "code": "G90", "note": "Same behavior for linear axes." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g90-set-to-absolute-positioning"],
+      "notes": "In RRF, G90 affects ALL axes including the extruder. Use M82/M83 to independently control extruder positioning mode. Most 3D printing slicers use G90 with M83 (absolute XYZ, relative E)."
+    },
+    {
+      "code": "G91",
+      "type": "G",
+      "name": "Incremental Distance Mode",
+      "description": "Set incremental (relative) positioning for all axes including extruder.",
+      "parameters": [],
+      "examples": [
+        { "code": "G91", "description": "Set relative positioning" }
+      ],
+      "relatedCodes": ["G90", "M82", "M83"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G91", "note": "Same behavior for XYZ." },
+        { "firmwareId": "linuxcnc", "code": "G91", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g91-set-to-relative-positioning"],
+      "notes": "Affects all axes including extruder unless overridden by M82/M83."
+    },
+    {
+      "code": "G92",
+      "type": "G",
+      "name": "Set Position",
+      "description": "Set the current position to the specified values without moving. Applies an offset to the current coordinate system.",
+      "parameters": [
+        { "name": "X", "description": "New X position value", "optional": true },
+        { "name": "Y", "description": "New Y position value", "optional": true },
+        { "name": "Z", "description": "New Z position value", "optional": true },
+        { "name": "E", "description": "New E (extruder) position value", "optional": true }
+      ],
+      "examples": [
+        { "code": "G92 X0 Y0 Z0", "description": "Set current position as origin" },
+        { "code": "G92 E0", "description": "Reset extruder position to 0" }
+      ],
+      "relatedCodes": ["G10", "G54"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "G92", "note": "Same behavior. Both apply a coordinate offset. Note: grbl persists G92 offset across resets; RRF does not." },
+        { "firmwareId": "linuxcnc", "code": "G92", "note": "Same behavior. LinuxCNC persists G92 across resets by default." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g92-set-position"],
+      "notes": "For CNC use, prefer G10 L20 to set work coordinates rather than G92. G92 applies an additional offset on top of the active WCS, which can be confusing. G92 offsets are cleared on reset/reboot."
+    },
+    {
+      "code": "G93",
+      "type": "G",
+      "name": "Inverse Time Feed Rate Mode",
+      "description": "Set inverse time feed rate mode. F value specifies the number of moves per minute (1/time). Each move must include an F word.",
+      "parameters": [],
+      "examples": [
+        { "code": "G93", "description": "Enable inverse time feed rate mode" },
+        { "code": "G93\nG1 X10 Y10 F2", "description": "Move should complete in 0.5 minutes (30 seconds)" }
+      ],
+      "relatedCodes": ["G94"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": null, "note": "grbl does not support inverse time feed rate mode." },
+        { "firmwareId": "linuxcnc", "code": "G93", "note": "Same behavior per NIST standard." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g93-inverse-time-mode"],
+      "notes": "Added in RRF 3.x. Primarily used for non-Cartesian kinematics (e.g., 5-axis) where units-per-minute feed rates are not meaningful."
+    },
+    {
+      "code": "G94",
+      "type": "G",
+      "name": "Units Per Minute Feed Rate Mode",
+      "description": "Set standard feed rate mode (units per minute). This is the default mode.",
+      "parameters": [],
+      "examples": [
+        { "code": "G94", "description": "Return to standard feed rate mode (mm/min)" }
+      ],
+      "relatedCodes": ["G93"],
+      "crossReferences": [
+        { "firmwareId": "linuxcnc", "code": "G94", "note": "Same behavior per NIST standard." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#g94-units-per-minute-mode"],
+      "notes": "Default feed rate mode. Added in RRF 3.x."
+    },
+    {
+      "code": "M0",
+      "type": "M",
+      "name": "Stop",
+      "description": "Stop the current job. Runs the stop.g macro file if present. Turns off heaters and motors after timeout.",
+      "parameters": [
+        { "name": "H", "description": "1=leave heaters on", "optional": true }
+      ],
+      "examples": [
+        { "code": "M0", "description": "Stop, run stop.g macro" },
+        { "code": "M0 H1", "description": "Stop but keep heaters on" }
+      ],
+      "relatedCodes": ["M1", "M112"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "M0", "note": "grbl M0 = program pause (requires cycle start to resume). RRF M0 = program stop with macro execution." },
+        { "firmwareId": "linuxcnc", "code": "M0", "note": "LinuxCNC M0 = optional program stop (pauses, operator resumes). RRF M0 runs stop.g macro." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m0-stop"],
+      "notes": "Runs stop.g macro which can contain cleanup commands (park, coolant off, etc.). Different from M112 emergency stop."
+    },
+    {
+      "code": "M1",
+      "type": "M",
+      "name": "Sleep",
+      "description": "Put the machine into sleep mode. Runs sleep.g macro. Turns off motors and heaters.",
+      "parameters": [],
+      "examples": [
+        { "code": "M1", "description": "Enter sleep mode, run sleep.g macro" }
+      ],
+      "relatedCodes": ["M0"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "M1", "note": "grbl M1 = optional program stop. RRF M1 = sleep mode." },
+        { "firmwareId": "linuxcnc", "code": "M1", "note": "LinuxCNC M1 = optional stop. RRF M1 = sleep." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m1-sleep"],
+      "notes": "Runs sleep.g macro. Different behavior from NIST standard M1 (optional stop)."
+    },
+    {
+      "code": "M3",
+      "type": "M",
+      "name": "Spindle On (CW) / Laser On",
+      "description": "In CNC mode (M453), starts the spindle clockwise. In Laser mode (M452), turns on the laser. Behavior depends on the active mode set by M451/M452/M453. Supports multiple spindles via P parameter.",
+      "parameters": [
+        { "name": "S", "description": "Spindle speed (RPM) in CNC mode, or laser power (0.0-1.0) in laser mode", "optional": true },
+        { "name": "P", "description": "Spindle number (0-based) when multiple spindles configured", "optional": true }
+      ],
+      "examples": [
+        { "code": "M3 S24000", "description": "CNC mode: start spindle at 24000 RPM" },
+        { "code": "M3 S0.5", "description": "Laser mode: enable laser at 50% power" },
+        { "code": "M3 P1 S18000", "description": "Start spindle 1 at 18000 RPM" }
+      ],
+      "relatedCodes": ["M4", "M5", "M451", "M452", "M453"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "M3", "note": "WARNING: Laser power control is fundamentally different. grbl uses S on M3 to set laser power (integer 0-$30 max). RRF in laser mode uses S on G1 moves for per-move power control (0.0-1.0 range). M3 S in RRF laser mode enables the laser but per-move S on G1 overrides." },
+        { "firmwareId": "linuxcnc", "code": "M3", "note": "LinuxCNC M3 sets spindle CW. Same concept but RRF's mode-dependent behavior (M451/M452/M453) is unique." }
+      ],
+      "modeNotes": [
+        { "mode": "CNC mode (M453)", "description": "Controls spindle direction and speed via configured spindle. Supports multiple spindles with P parameter." },
+        { "mode": "Laser mode (M452)", "description": "Enables the laser. However, actual cutting power is typically controlled per-move using S on G1. M3 S sets a default/maximum power level." },
+        { "mode": "FDM mode (M451)", "description": "No spindle/laser functionality in FDM mode." }
+      ],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m3-spindle-on-clockwise"],
+      "notes": "RRF's multi-mode system (M451/M452/M453) is unique. The P parameter for multiple spindles is also unique to RRF. In laser mode, the preferred method is S on G1 for per-move power control, not M3 S."
+    },
+    {
+      "code": "M4",
+      "type": "M",
+      "name": "Spindle On (CCW)",
+      "description": "Starts spindle counter-clockwise in CNC mode. In laser mode, same as M3.",
+      "parameters": [
+        { "name": "S", "description": "Spindle speed (RPM) or laser power", "optional": true },
+        { "name": "P", "description": "Spindle number when multiple spindles configured", "optional": true }
+      ],
+      "examples": [
+        { "code": "M4 S18000", "description": "CNC mode: start spindle CCW at 18000 RPM" }
+      ],
+      "relatedCodes": ["M3", "M5"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "M4", "note": "In grbl, M4 = dynamic laser power mode (power scales with speed). RRF has no such M3/M4 distinction — dynamic power is handled differently via S on G1." }
+      ],
+      "modeNotes": [
+        { "mode": "CNC mode (M453)", "description": "Counter-clockwise spindle rotation." },
+        { "mode": "Laser mode (M452)", "description": "Same as M3. No dynamic vs constant power distinction like grbl M3/M4." }
+      ],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m4-spindle-on-counter-clockwise"],
+      "notes": "In RRF, M3 and M4 differ only in spindle direction. There is no grbl-style M3-constant vs M4-dynamic laser power distinction."
+    },
+    {
+      "code": "M5",
+      "type": "M",
+      "name": "Spindle Off / Laser Off",
+      "description": "Stop the spindle or turn off the laser.",
+      "parameters": [
+        { "name": "P", "description": "Spindle number to stop (if multiple spindles)", "optional": true }
+      ],
+      "examples": [
+        { "code": "M5", "description": "Stop spindle/laser" },
+        { "code": "M5 P1", "description": "Stop spindle 1" }
+      ],
+      "relatedCodes": ["M3", "M4"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "M5", "note": "Same behavior — stop spindle/laser." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m5-spindle-off"],
+      "notes": "Stops all spindles if no P parameter specified."
+    },
+    {
+      "code": "M6",
+      "type": "M",
+      "name": "Tool Change",
+      "description": "Change to a specified tool. RRF uses a macro-based tool change system with separate macro files for each phase: tfreeN.g (free current tool), tpreN.g (pre-select new tool), tpostN.g (post-select new tool).",
+      "parameters": [
+        { "name": "T", "description": "Tool number to change to (often used as T command rather than M6)", "optional": true }
+      ],
+      "examples": [
+        { "code": "T1", "description": "Select tool 1 (triggers macro-based tool change)" },
+        { "code": "T-1", "description": "Deselect current tool (free tool)" }
+      ],
+      "relatedCodes": ["M98"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "M6", "note": "grbl ignores M6 by default. grblHAL can handle M6 with tool change macros. RRF has a comprehensive macro-based tool change system." },
+        { "firmwareId": "linuxcnc", "code": "M6", "note": "LinuxCNC M6 performs tool change with manual or automatic tool changer. RRF uses .g macro files for full customization." }
+      ],
+      "modeNotes": [
+        { "mode": "CNC mode (M453)", "description": "Tool change macros can include spindle stop, movement to tool change position, probing for tool length, etc." }
+      ],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m6-tool-change"],
+      "notes": "UNIQUE approach: RRF uses .g macro files for tool changes. The sequence is: tfreeN.g (free old tool) -> tpreN.g (prepare new tool) -> tpostN.g (activate new tool). This provides enormous flexibility for custom tool changers, manual tool changes with probing, etc. Tools are defined with M563."
+    },
+    {
+      "code": "M7",
+      "type": "M",
+      "name": "Mist Coolant On",
+      "description": "Turn on mist coolant.",
+      "parameters": [],
+      "examples": [
+        { "code": "M7", "description": "Enable mist coolant" }
+      ],
+      "relatedCodes": ["M8", "M9"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "M7", "note": "Same behavior. grbl uses coolant pins defined in cpu_map.h." },
+        { "firmwareId": "linuxcnc", "code": "M7", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m7-mist-coolant-on"],
+      "notes": "Requires coolant output to be configured in config.g."
+    },
+    {
+      "code": "M8",
+      "type": "M",
+      "name": "Flood Coolant On",
+      "description": "Turn on flood coolant.",
+      "parameters": [],
+      "examples": [
+        { "code": "M8", "description": "Enable flood coolant" }
+      ],
+      "relatedCodes": ["M7", "M9"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "M8", "note": "Same behavior." },
+        { "firmwareId": "linuxcnc", "code": "M8", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m8-flood-coolant-on"],
+      "notes": "Requires coolant output to be configured in config.g."
+    },
+    {
+      "code": "M9",
+      "type": "M",
+      "name": "All Coolant Off",
+      "description": "Turn off all coolant (both mist and flood).",
+      "parameters": [],
+      "examples": [
+        { "code": "M9", "description": "Turn off all coolant" }
+      ],
+      "relatedCodes": ["M7", "M8"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "M9", "note": "Same behavior." },
+        { "firmwareId": "linuxcnc", "code": "M9", "note": "Same behavior." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m9-coolant-off"],
+      "notes": "Turns off both mist (M7) and flood (M8) coolant."
+    },
+    {
+      "code": "M17",
+      "type": "M",
+      "name": "Enable Motors",
+      "description": "Enable (power on) stepper motors.",
+      "parameters": [
+        { "name": "X", "description": "Enable X motor", "optional": true },
+        { "name": "Y", "description": "Enable Y motor", "optional": true },
+        { "name": "Z", "description": "Enable Z motor", "optional": true },
+        { "name": "E", "description": "Enable extruder motor(s)", "optional": true }
+      ],
+      "examples": [
+        { "code": "M17", "description": "Enable all motors" },
+        { "code": "M17 X Y", "description": "Enable X and Y motors only" }
+      ],
+      "relatedCodes": ["M18", "M84"],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m17-enable-motors"],
+      "notes": "Motors are automatically enabled when movement commands are issued."
+    },
+    {
+      "code": "M18",
+      "type": "M",
+      "name": "Disable Motors",
+      "description": "Disable (release) stepper motors. Same as M84. Machine will lose position after this command.",
+      "parameters": [
+        { "name": "X", "description": "Disable X motor", "optional": true },
+        { "name": "Y", "description": "Disable Y motor", "optional": true },
+        { "name": "Z", "description": "Disable Z motor", "optional": true },
+        { "name": "E", "description": "Disable extruder motor(s)", "optional": true },
+        { "name": "S", "description": "Idle timeout in seconds (0 = disable immediately)", "optional": true }
+      ],
+      "examples": [
+        { "code": "M18", "description": "Disable all motors immediately" },
+        { "code": "M18 X Y", "description": "Disable X and Y motors" },
+        { "code": "M18 S30", "description": "Set motor idle timeout to 30 seconds" }
+      ],
+      "relatedCodes": ["M17"],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m18-disable-motors"],
+      "notes": "WARNING: Disabling motors loses the current position. The machine must be re-homed after motors are disabled."
+    },
+    {
+      "code": "M82",
+      "type": "M",
+      "name": "Absolute Extruder Mode",
+      "description": "Set the extruder to absolute positioning mode, independent of the G90/G91 state.",
+      "parameters": [],
+      "examples": [
+        { "code": "M82", "description": "Set extruder to absolute mode" }
+      ],
+      "relatedCodes": ["M83", "G90", "G91"],
+      "crossReferences": [],
+      "modeNotes": [
+        { "mode": "FDM mode (M451)", "description": "Controls how E values are interpreted in G0/G1 commands." }
+      ],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m82-set-extruder-to-absolute-mode"],
+      "notes": "Only relevant for 3D printing (FDM mode). Independent from G90/G91 axis positioning mode."
+    },
+    {
+      "code": "M83",
+      "type": "M",
+      "name": "Relative Extruder Mode",
+      "description": "Set the extruder to relative positioning mode, independent of the G90/G91 state. Most slicers use this mode.",
+      "parameters": [],
+      "examples": [
+        { "code": "M83", "description": "Set extruder to relative mode" }
+      ],
+      "relatedCodes": ["M82", "G90", "G91"],
+      "crossReferences": [],
+      "modeNotes": [
+        { "mode": "FDM mode (M451)", "description": "E values on G0/G1 are relative (amount to extrude, not absolute position)." }
+      ],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m83-set-extruder-to-relative-mode"],
+      "notes": "Most 3D printing slicers use G90 (absolute XYZ) with M83 (relative E). This combination is the standard for modern 3D printing."
+    },
+    {
+      "code": "M98",
+      "type": "M",
+      "name": "Call Macro",
+      "description": "Call a macro file from the SD card. Fundamental to RRF's architecture — config.g, homing files, tool change files are all macros. In RRF 3.x, macros support conditional G-code (if/elif/else/while) and expressions.",
+      "parameters": [
+        { "name": "P", "description": "Macro filename (path relative to /sys or /macros directory)", "optional": false },
+        { "name": "R", "description": "Number: restart the macro from the given line after power failure recovery", "optional": true }
+      ],
+      "examples": [
+        { "code": "M98 P\"tool_probe.g\"", "description": "Run the tool_probe.g macro" },
+        { "code": "M98 P\"/macros/my_routine.g\"", "description": "Run a macro from the macros directory" },
+        { "code": "M98 P\"probe_center.g\"", "description": "Run a probing routine macro" }
+      ],
+      "relatedCodes": ["M99"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": null, "note": "grbl has no macro system. All logic must be in the G-code sender software." },
+        { "firmwareId": "linuxcnc", "code": "O call", "note": "LinuxCNC uses O-word subroutines (O100 call). RRF uses file-based macros with M98/M99." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m98-call-macro"],
+      "notes": "Fundamental to RRF's architecture. Everything in RRF is macro-driven: config.g, homeall.g, tool change files, bed.g, etc. RRF 3.x added conditional G-code support (if/elif/else/while) and meta-commands, making macros extremely powerful."
+    },
+    {
+      "code": "M99",
+      "type": "M",
+      "name": "Return from Macro",
+      "description": "Return from a macro file called by M98. Execution continues at the line after the M98 call.",
+      "parameters": [],
+      "examples": [
+        { "code": "M99", "description": "Return from current macro" }
+      ],
+      "relatedCodes": ["M98"],
+      "crossReferences": [
+        { "firmwareId": "linuxcnc", "code": "O return", "note": "LinuxCNC uses O-word return. RRF uses M99." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m99-return-from-macro"],
+      "notes": "Implicit at end of file — not required if the macro runs to the end. Useful for early return (e.g., in conditional logic)."
+    },
+    {
+      "code": "M112",
+      "type": "M",
+      "name": "Emergency Stop",
+      "description": "Immediate emergency stop. Shuts down all motors, heaters, and other outputs immediately. Requires M999 to recover.",
+      "parameters": [],
+      "examples": [
+        { "code": "M112", "description": "Emergency stop — all outputs off immediately" }
+      ],
+      "relatedCodes": ["M0", "M999"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "Ctrl-X", "note": "grbl uses Ctrl-X (0x18) for soft reset. M112 is not standard in grbl." },
+        { "firmwareId": "linuxcnc", "code": "M112", "note": "Same concept — immediate emergency stop." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m112-emergency-stop"],
+      "notes": "This is a hard stop. All outputs are immediately disabled. Machine must be reset with M999 and re-homed before further operation."
+    },
+    {
+      "code": "M114",
+      "type": "M",
+      "name": "Get Current Position",
+      "description": "Report the current position of all axes.",
+      "parameters": [],
+      "examples": [
+        { "code": "M114", "description": "Report current position" }
+      ],
+      "relatedCodes": [],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "?", "note": "grbl uses ? for real-time position reporting. M114 is not real-time in RRF — it reports position after buffered moves complete." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m114-get-current-position"],
+      "notes": "Reports position after all buffered moves are complete. For real-time position, use the object model (RRF 3.x)."
+    },
+    {
+      "code": "M119",
+      "type": "M",
+      "name": "Get Endstop Status",
+      "description": "Report the current status of all configured endstops.",
+      "parameters": [],
+      "examples": [
+        { "code": "M119", "description": "Report endstop states" }
+      ],
+      "relatedCodes": [],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m119-get-endstop-status"],
+      "notes": "Useful for debugging homing and endstop wiring issues."
+    },
+    {
+      "code": "M400",
+      "type": "M",
+      "name": "Wait for Moves to Finish",
+      "description": "Wait for all buffered moves to complete before processing the next command.",
+      "parameters": [],
+      "examples": [
+        { "code": "M400", "description": "Wait for all pending moves to complete" }
+      ],
+      "relatedCodes": ["G4"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": null, "note": "grbl processes commands sequentially with its planner buffer. No explicit M400 equivalent needed — use G4 P0 for synchronization." },
+        { "firmwareId": "linuxcnc", "code": null, "note": "LinuxCNC processes commands synchronously in interpreter. M400 is not standard in LinuxCNC." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m400-wait-for-current-moves-to-finish"],
+      "notes": "Important for synchronizing moves with other commands (e.g., wait for positioning before probing, wait before reading sensors)."
+    },
+    {
+      "code": "M451",
+      "type": "M",
+      "name": "Select FDM Printer Mode",
+      "description": "Switch the firmware to FDM (Fused Deposition Modeling) 3D printing mode. This is the default mode. Disables spindle/laser control, enables extruder/heater functionality.",
+      "parameters": [],
+      "examples": [
+        { "code": "M451", "description": "Switch to FDM 3D printing mode" }
+      ],
+      "relatedCodes": ["M452", "M453"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": null, "note": "UNIQUE to RRF: Runtime mode switching. grbl requires recompilation or $32 setting for laser mode only. RRF can switch between FDM/Laser/CNC at runtime." },
+        { "firmwareId": "linuxcnc", "code": null, "note": "UNIQUE to RRF: LinuxCNC does not have runtime mode switching. Machine type is determined by HAL configuration." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m451-select-fdm-printer-mode"],
+      "notes": "CRITICAL mode switch command. Part of RRF's unique M451/M452/M453 system. Changes how M3/M4/M5 and S parameter on G1 behave. Default mode on startup unless changed in config.g."
+    },
+    {
+      "code": "M452",
+      "type": "M",
+      "name": "Select Laser Mode",
+      "description": "Switch the firmware to laser cutting/engraving mode. Changes how G1 S parameter works — S on G1 directly controls laser power (0.0-1.0). G0 moves automatically disable laser output.",
+      "parameters": [
+        { "name": "P", "description": "Logical pin number for laser PWM control", "optional": true },
+        { "name": "S", "description": "Laser PWM signal inversion: 0=normal, 1=inverted", "optional": true },
+        { "name": "R", "description": "Default power range (e.g., 255 for 8-bit PWM)", "optional": true },
+        { "name": "F", "description": "PWM frequency in Hz", "optional": true },
+        { "name": "I", "description": "Intensity: S parameter represents full power", "optional": true }
+      ],
+      "examples": [
+        { "code": "M452 P2 R255 F1000", "description": "Enable laser mode on pin 2, 0-255 range, 1kHz PWM" },
+        { "code": "M452", "description": "Switch to laser mode with current configuration" }
+      ],
+      "relatedCodes": ["M451", "M453", "M3", "M5", "G1"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$32=1", "note": "CRITICAL DIFFERENCE: grbl uses $32=1 to enable laser mode, then S on M3/M4 sets power (integer 0-$30 max). RRF uses M452 for laser mode, then S on G1 sets power per-move (0.0-1.0 range). Fundamentally different laser power control paradigm." },
+        { "firmwareId": "linuxcnc", "code": null, "note": "LinuxCNC uses M3 S for spindle/laser power control. RRF's M452 mode with S-on-G1 is unique." }
+      ],
+      "modeNotes": [
+        { "mode": "Laser mode (M452)", "description": "When active: S on G1 controls laser power (0.0-1.0). G0 moves turn off laser. M3/M5 can enable/disable the laser globally." }
+      ],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m452-select-laser-mode"],
+      "notes": "CRITICAL: M452 fundamentally changes how the S parameter on G1 works. In laser mode, S on G1 sets laser power (0.0-1.0 range). G0 moves automatically disable the laser. This is the opposite of grbl where laser power is set with M3/M4 S and remains constant until changed. RRF's approach gives per-move power control."
+    },
+    {
+      "code": "M453",
+      "type": "M",
+      "name": "Select CNC Mode",
+      "description": "Switch the firmware to CNC milling mode. Enables spindle control via M3/M4/M5. Spindle speed set with S parameter on M3/M4.",
+      "parameters": [
+        { "name": "P", "description": "Spindle number (0-based)", "optional": true },
+        { "name": "S", "description": "PWM inversion: 0=normal, 1=inverted", "optional": true },
+        { "name": "R", "description": "Spindle RPM range mapping", "optional": true },
+        { "name": "F", "description": "PWM frequency in Hz", "optional": true }
+      ],
+      "examples": [
+        { "code": "M453 P0 R24000 F1000", "description": "Enable CNC mode, spindle 0, max 24000 RPM, 1kHz PWM" },
+        { "code": "M453", "description": "Switch to CNC mode with current configuration" }
+      ],
+      "relatedCodes": ["M451", "M452", "M3", "M4", "M5"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": null, "note": "UNIQUE to RRF: grbl is always in CNC mode (with optional $32 for laser). RRF requires M453 to enable spindle control." },
+        { "firmwareId": "linuxcnc", "code": null, "note": "UNIQUE to RRF: LinuxCNC does not need a mode switch for spindle control." }
+      ],
+      "modeNotes": [
+        { "mode": "CNC mode (M453)", "description": "When active: M3/M4 S controls spindle speed in RPM. M5 stops spindle. S on G1 has no laser effect." }
+      ],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m453-select-cnc-mode"],
+      "notes": "CRITICAL: Must be set in config.g for CNC machines. Without M453, spindle commands (M3/M4/M5) will not work. Part of RRF's unique runtime mode switching system."
+    },
+    {
+      "code": "M486",
+      "type": "M",
+      "name": "Object Cancellation",
+      "description": "Cancel individual objects during a print. Allows cancelling a single failed part while the rest of the print continues.",
+      "parameters": [
+        { "name": "T", "description": "Total number of objects", "optional": true },
+        { "name": "S", "description": "Object index being defined (-1 to indicate non-object moves)", "optional": true },
+        { "name": "P", "description": "Cancel object with this index", "optional": true },
+        { "name": "U", "description": "Un-cancel object with this index", "optional": true },
+        { "name": "A", "description": "Object name (for display purposes)", "optional": true },
+        { "name": "C", "description": "Cancel current object", "optional": true }
+      ],
+      "examples": [
+        { "code": "M486 T5", "description": "Declare 5 objects in this print" },
+        { "code": "M486 S0 A\"Part_1\"", "description": "Start defining object 0 named Part_1" },
+        { "code": "M486 P2", "description": "Cancel object 2" },
+        { "code": "M486 U2", "description": "Un-cancel object 2" }
+      ],
+      "relatedCodes": [],
+      "crossReferences": [],
+      "modeNotes": [
+        { "mode": "FDM mode (M451)", "description": "Primarily used in FDM printing to cancel individual failed parts." }
+      ],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m486-object-cancellation"],
+      "notes": "Available in RRF 3.3+. Slicers like PrusaSlicer and SuperSlicer can automatically add M486 labels to G-code."
+    },
+    {
+      "code": "M500",
+      "type": "M",
+      "name": "Save Settings",
+      "description": "Save current settings to the config-override.g file on the SD card.",
+      "parameters": [],
+      "examples": [
+        { "code": "M500", "description": "Save current settings to config-override.g" }
+      ],
+      "relatedCodes": ["M501", "M503"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": null, "note": "grbl saves settings automatically to EEPROM with $ commands. RRF saves to config-override.g file." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m500-store-parameters"],
+      "notes": "Settings are saved to config-override.g, which can be loaded at startup by adding M501 at the end of config.g."
+    },
+    {
+      "code": "M501",
+      "type": "M",
+      "name": "Load Settings",
+      "description": "Load settings from config-override.g. Usually placed at the end of config.g to load saved overrides at startup.",
+      "parameters": [],
+      "examples": [
+        { "code": "M501", "description": "Load settings from config-override.g" }
+      ],
+      "relatedCodes": ["M500", "M503"],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m501-read-parameters"],
+      "notes": "Typically the last command in config.g to apply any saved overrides."
+    },
+    {
+      "code": "M503",
+      "type": "M",
+      "name": "Report Settings",
+      "description": "Report current configuration settings.",
+      "parameters": [],
+      "examples": [
+        { "code": "M503", "description": "Display current settings" }
+      ],
+      "relatedCodes": ["M500", "M501"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$$", "note": "grbl uses $$ to display settings. RRF uses M503." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m503-report-current-settings"],
+      "notes": "Outputs the current configuration in G-code format."
+    },
+    {
+      "code": "M552",
+      "type": "M",
+      "name": "Set Network State",
+      "description": "Enable or disable network interface (Ethernet or WiFi).",
+      "parameters": [
+        { "name": "S", "description": "0=disable network, 1=enable network, -1=reset network", "optional": true },
+        { "name": "P", "description": "IP address (for static IP configuration)", "optional": true },
+        { "name": "I", "description": "Network interface number", "optional": true }
+      ],
+      "examples": [
+        { "code": "M552 S1", "description": "Enable network" },
+        { "code": "M552 S0", "description": "Disable network" },
+        { "code": "M552 S1 P192.168.1.100", "description": "Enable with static IP" }
+      ],
+      "relatedCodes": ["M553", "M554", "M587"],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m552-set-ip-address-enable-disable-network-interface"],
+      "notes": "Part of RRF's built-in network stack. Duet boards have built-in Ethernet or WiFi."
+    },
+    {
+      "code": "M553",
+      "type": "M",
+      "name": "Set Netmask",
+      "description": "Set the network subnet mask.",
+      "parameters": [
+        { "name": "P", "description": "Subnet mask (e.g., 255.255.255.0)", "optional": false }
+      ],
+      "examples": [
+        { "code": "M553 P255.255.255.0", "description": "Set subnet mask" }
+      ],
+      "relatedCodes": ["M552", "M554"],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m553-set-netmask"],
+      "notes": "Only needed for static IP configuration."
+    },
+    {
+      "code": "M554",
+      "type": "M",
+      "name": "Set Gateway",
+      "description": "Set the network gateway address.",
+      "parameters": [
+        { "name": "P", "description": "Gateway IP address", "optional": false }
+      ],
+      "examples": [
+        { "code": "M554 P192.168.1.1", "description": "Set gateway to 192.168.1.1" }
+      ],
+      "relatedCodes": ["M552", "M553"],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m554-set-gateway"],
+      "notes": "Only needed for static IP configuration."
+    },
+    {
+      "code": "M587",
+      "type": "M",
+      "name": "Add WiFi Network",
+      "description": "Store WiFi network credentials for automatic connection.",
+      "parameters": [
+        { "name": "S", "description": "WiFi SSID (network name)", "optional": false },
+        { "name": "P", "description": "WiFi password", "optional": false },
+        { "name": "I", "description": "Static IP address (optional, uses DHCP if omitted)", "optional": true },
+        { "name": "J", "description": "Gateway IP (required if using static IP)", "optional": true },
+        { "name": "K", "description": "Subnet mask (required if using static IP)", "optional": true }
+      ],
+      "examples": [
+        { "code": "M587 S\"MyNetwork\" P\"MyPassword\"", "description": "Add WiFi network with DHCP" },
+        { "code": "M587 S\"MyNetwork\" P\"MyPassword\" I192.168.1.100 J192.168.1.1 K255.255.255.0", "description": "Add WiFi with static IP" }
+      ],
+      "relatedCodes": ["M588", "M589", "M552"],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m587-add-wifi-host-network"],
+      "notes": "Credentials are stored persistently. Use M552 S1 to connect after adding credentials."
+    },
+    {
+      "code": "M588",
+      "type": "M",
+      "name": "Remove WiFi Network",
+      "description": "Remove stored WiFi network credentials.",
+      "parameters": [
+        { "name": "S", "description": "WiFi SSID to remove. Use S\"*\" to remove all.", "optional": false }
+      ],
+      "examples": [
+        { "code": "M588 S\"MyNetwork\"", "description": "Remove stored credentials for MyNetwork" },
+        { "code": "M588 S\"*\"", "description": "Remove all stored WiFi credentials" }
+      ],
+      "relatedCodes": ["M587", "M589"],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m588-forget-wifi-host-network"],
+      "notes": "Removes credentials from persistent storage."
+    },
+    {
+      "code": "M589",
+      "type": "M",
+      "name": "Configure WiFi Access Point",
+      "description": "Configure the Duet to act as a WiFi access point.",
+      "parameters": [
+        { "name": "S", "description": "SSID for the access point", "optional": false },
+        { "name": "P", "description": "Password for the access point (min 8 characters)", "optional": false },
+        { "name": "I", "description": "IP address for the access point", "optional": true },
+        { "name": "T", "description": "WiFi channel number", "optional": true }
+      ],
+      "examples": [
+        { "code": "M589 S\"DuetAP\" P\"mypassword\" I192.168.4.1 T6", "description": "Create access point on channel 6" }
+      ],
+      "relatedCodes": ["M587", "M588", "M552"],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m589-configure-access-point-parameters"],
+      "notes": "Used when the Duet needs to create its own WiFi network (e.g., for initial setup or when no infrastructure network is available)."
+    },
+    {
+      "code": "M593",
+      "type": "M",
+      "name": "Input Shaping",
+      "description": "Configure input shaping to reduce ringing/ghosting artifacts caused by mechanical resonances.",
+      "parameters": [
+        { "name": "P", "description": "Shaping type: \"none\", \"mzv\", \"zvd\", \"zvdd\", \"zvddd\", \"ei2\", \"ei3\", \"custom\"", "optional": true },
+        { "name": "F", "description": "Frequency in Hz to counteract", "optional": true },
+        { "name": "S", "description": "Damping factor (0.0-1.0)", "optional": true }
+      ],
+      "examples": [
+        { "code": "M593 P\"mzv\" F40", "description": "Enable MZV input shaping at 40Hz" },
+        { "code": "M593 P\"zvd\" F35 S0.1", "description": "ZVD shaping at 35Hz with 0.1 damping" },
+        { "code": "M593 P\"none\"", "description": "Disable input shaping" }
+      ],
+      "relatedCodes": [],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m593-configure-input-shaping"],
+      "notes": "Requires tuning to find the correct resonant frequency of the machine. Use an accelerometer for best results. Available shaping algorithms vary by RRF version."
+    },
+    {
+      "code": "M669",
+      "type": "M",
+      "name": "Set Kinematics Type",
+      "description": "Configure the machine kinematics type. RRF supports Cartesian, CoreXY, Delta, SCARA, Polar, rotary delta, Hangprinter, and more.",
+      "parameters": [
+        { "name": "K", "description": "Kinematics type: 0=Cartesian, 1=CoreXY, 2=CoreXZ, 3=Delta (linear), 4=SCARA, 5=CoreXYU, 6=Hangprinter, 7=Polar, 8=CoreXYUV, 9=FiveBarScara, 10=Rotary delta, 11=MarkForged", "optional": false }
+      ],
+      "examples": [
+        { "code": "M669 K0", "description": "Set Cartesian kinematics" },
+        { "code": "M669 K1", "description": "Set CoreXY kinematics" },
+        { "code": "M669 K3", "description": "Set Delta kinematics" }
+      ],
+      "relatedCodes": [],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": null, "note": "grbl only supports Cartesian kinematics (or CoreXY with compile-time option). RRF supports many kinematics types configurable at runtime." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m669-set-kinematics-type-and-parameters"],
+      "notes": "Must be set in config.g before any movement commands. RRF's runtime-configurable kinematics is a unique feature."
+    },
+    {
+      "code": "M906",
+      "type": "M",
+      "name": "Set Motor Current",
+      "description": "Set the peak current for stepper motors in milliamps. Duet boards have integrated stepper drivers with software-configurable current.",
+      "parameters": [
+        { "name": "X", "description": "X motor current in mA", "optional": true },
+        { "name": "Y", "description": "Y motor current in mA", "optional": true },
+        { "name": "Z", "description": "Z motor current in mA", "optional": true },
+        { "name": "E", "description": "Extruder motor current in mA (colon-separated for multiple)", "optional": true },
+        { "name": "I", "description": "Motor idle current percentage (0-100)", "optional": true }
+      ],
+      "examples": [
+        { "code": "M906 X1200 Y1200 Z1200", "description": "Set XYZ motor currents to 1200mA" },
+        { "code": "M906 X1800 Y1800 Z800 E800 I30", "description": "Set motor currents with 30% idle current" }
+      ],
+      "relatedCodes": ["M913"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": null, "note": "grbl does not control motor current — set via hardware potentiometer or DIP switches on external drivers. RRF has software-configurable motor current." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m906-set-motor-currents"],
+      "notes": "Duet boards have onboard TMC stepper drivers with software current control. This is a significant advantage over grbl-based boards that require hardware adjustment."
+    },
+    {
+      "code": "M913",
+      "type": "M",
+      "name": "Set Motor Current Percentage",
+      "description": "Set motor current as a percentage of the value set by M906. Useful for reducing current during specific operations.",
+      "parameters": [
+        { "name": "X", "description": "X motor current percentage", "optional": true },
+        { "name": "Y", "description": "Y motor current percentage", "optional": true },
+        { "name": "Z", "description": "Z motor current percentage", "optional": true },
+        { "name": "E", "description": "Extruder motor current percentage", "optional": true }
+      ],
+      "examples": [
+        { "code": "M913 X50 Y50", "description": "Reduce X and Y motors to 50% of configured current" },
+        { "code": "M913 X100 Y100 Z100", "description": "Restore all motors to full configured current" }
+      ],
+      "relatedCodes": ["M906"],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m913-set-motor-current-percent"],
+      "notes": "Useful for sensorless homing (reduce current to make stall detection more sensitive) or reducing holding current during idle periods."
+    },
+    {
+      "code": "M999",
+      "type": "M",
+      "name": "Reset Controller",
+      "description": "Reset the controller board. Used to recover from M112 emergency stop or to reboot the firmware.",
+      "parameters": [
+        { "name": "P", "description": "PERASE — reset to factory defaults (use with caution)", "optional": true }
+      ],
+      "examples": [
+        { "code": "M999", "description": "Reset the board" },
+        { "code": "M999 P\"PERASE\"", "description": "Factory reset (erases all configuration!)" }
+      ],
+      "relatedCodes": ["M112"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "Ctrl-X", "note": "grbl uses Ctrl-X (0x18) for soft reset. RRF uses M999." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m999-reset"],
+      "notes": "Required after M112 emergency stop. The board re-reads config.g on reset. Use P\"PERASE\" for factory reset only as a last resort — it erases all configuration."
+    }
+  ]
+}
