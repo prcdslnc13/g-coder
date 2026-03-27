@@ -48,12 +48,14 @@ export default function Home() {
     }
 
     if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase();
-      codes = codes.filter(
-        (c) =>
-          c.code.toLowerCase().includes(q) ||
-          c.name.toLowerCase().includes(q) ||
-          c.description.toLowerCase().includes(q)
+      const terms = searchQuery.split(",").map((t) => t.trim().toLowerCase()).filter(Boolean);
+      codes = codes.filter((c) =>
+        terms.some(
+          (q) =>
+            c.code.toLowerCase().includes(q) ||
+            c.name.toLowerCase().includes(q) ||
+            c.description.toLowerCase().includes(q)
+        )
       );
     }
 
@@ -113,7 +115,7 @@ export default function Home() {
           <div className="flex gap-3 items-center">
             <input
               type="text"
-              placeholder="Search codes, names, or descriptions..."
+              placeholder="Search codes (comma-separated for multiple, e.g. $20, $21, $22)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
