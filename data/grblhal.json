@@ -3588,6 +3588,1066 @@
       "modeNotes": [],
       "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
       "notes": "New in grblHAL. Default: 0 (persistent, matching grbl). Many users prefer $384=1 because persistent G92 offsets are a frequent source of confusion — the machine appears to be in the wrong position after a restart because a forgotten G92 offset is still active. Using G54-G59 work coordinates instead of G92 is generally recommended."
+    },
+    {
+      "code": "$70",
+      "type": "$",
+      "name": "Network Services",
+      "description": "Bitmask enabling network services. bit0=Telnet, bit1=Websocket, bit2=HTTP, bit3=FTP, bit4=DNS, bit5=mDNS, bit6=SSDP, bit7=WebDAV.",
+      "parameters": [],
+      "examples": [
+        { "code": "$70=3", "description": "Enable Telnet and Websocket" },
+        { "code": "$70=7", "description": "Enable Telnet, Websocket, and HTTP" }
+      ],
+      "relatedCodes": ["$73", "$300"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl has no networking support." },
+        { "firmwareId": "fluidnc", "code": "$HTTP/Enable", "note": "FluidNC uses separate $HTTP/Enable, $Telnet/Enable settings instead of a bitmask." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "New in grblHAL. Driver dependent — not all drivers support networking."
+    },
+    {
+      "code": "$71",
+      "type": "$",
+      "name": "Bluetooth Device Name",
+      "description": "Sets the Bluetooth device name. Maximum 32 characters.",
+      "parameters": [],
+      "examples": [
+        { "code": "$71=GRBL", "description": "Default Bluetooth name" },
+        { "code": "$71=MyCNC", "description": "Custom Bluetooth name" }
+      ],
+      "relatedCodes": ["$72"],
+      "crossReferences": [
+        { "firmwareId": "fluidnc", "code": "$Bluetooth/Name", "note": "FluidNC uses $Bluetooth/Name for the same purpose. Default: 'FluidNC'." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "New in grblHAL. Default: 'GRBL'. Driver dependent."
+    },
+    {
+      "code": "$72",
+      "type": "$",
+      "name": "Bluetooth Service Name",
+      "description": "Sets the Bluetooth service name. Maximum 32 characters.",
+      "parameters": [],
+      "examples": [
+        { "code": "$72=GRBL serial port", "description": "Default service name" }
+      ],
+      "relatedCodes": ["$71"],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "New in grblHAL. Default: 'GRBL serial port'."
+    },
+    {
+      "code": "$73",
+      "type": "$",
+      "name": "WiFi Mode",
+      "description": "Sets the WiFi operating mode. 0=Off, 1=Station (connect to existing network), 2=Access Point (create network), 3=Station+AP (both).",
+      "parameters": [],
+      "examples": [
+        { "code": "$73=0", "description": "WiFi off" },
+        { "code": "$73=1", "description": "Station mode (join network)" },
+        { "code": "$73=2", "description": "Access Point mode (create network)" },
+        { "code": "$73=3", "description": "Station + AP mode" }
+      ],
+      "relatedCodes": ["$70", "$74", "$75", "$76", "$77"],
+      "crossReferences": [
+        { "firmwareId": "fluidnc", "code": "$WiFi/Mode", "note": "FluidNC uses $WiFi/Mode with values Off, STA, AP, STA>AP." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "New in grblHAL. Driver dependent."
+    },
+    {
+      "code": "$74",
+      "type": "$",
+      "name": "WiFi Station SSID",
+      "description": "Sets the SSID of the WiFi network to connect to in Station mode. Maximum 64 characters.",
+      "parameters": [],
+      "examples": [
+        { "code": "$74=MyWiFiNetwork", "description": "Set Station SSID" }
+      ],
+      "relatedCodes": ["$73", "$75"],
+      "crossReferences": [
+        { "firmwareId": "fluidnc", "code": "$Sta/SSID", "note": "FluidNC uses $Sta/SSID for the same purpose." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"]
+    },
+    {
+      "code": "$75",
+      "type": "$",
+      "name": "WiFi Station Password",
+      "description": "Sets the WiFi password for Station mode. Maximum 32 characters.",
+      "parameters": [],
+      "examples": [
+        { "code": "$75=MyPassword", "description": "Set Station password" }
+      ],
+      "relatedCodes": ["$73", "$74"],
+      "crossReferences": [
+        { "firmwareId": "fluidnc", "code": "$Sta/Password", "note": "FluidNC uses $Sta/Password for the same purpose." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"]
+    },
+    {
+      "code": "$76",
+      "type": "$",
+      "name": "WiFi AP SSID",
+      "description": "Sets the SSID for Access Point mode. Maximum 64 characters.",
+      "parameters": [],
+      "examples": [
+        { "code": "$76=GRBL_AP", "description": "Set AP SSID" }
+      ],
+      "relatedCodes": ["$73", "$77"],
+      "crossReferences": [
+        { "firmwareId": "fluidnc", "code": "$AP/SSID", "note": "FluidNC uses $AP/SSID. Default: 'FluidNC'." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"]
+    },
+    {
+      "code": "$77",
+      "type": "$",
+      "name": "WiFi AP Password",
+      "description": "Sets the password for Access Point mode. Blank for open network. Maximum 32 characters.",
+      "parameters": [],
+      "examples": [
+        { "code": "$77=", "description": "Open AP (no password)" },
+        { "code": "$77=12345678", "description": "Set AP password" }
+      ],
+      "relatedCodes": ["$73", "$76"],
+      "crossReferences": [
+        { "firmwareId": "fluidnc", "code": "$AP/Password", "note": "FluidNC uses $AP/Password. Default: '12345678'." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"]
+    },
+    {
+      "code": "$78",
+      "type": "$",
+      "name": "WiFi AP Country",
+      "description": "Sets the regulatory country code for Access Point mode. Maximum 3 characters.",
+      "parameters": [],
+      "examples": [
+        { "code": "$78=US", "description": "Set country to US" }
+      ],
+      "relatedCodes": ["$73", "$76", "$79"],
+      "crossReferences": [
+        { "firmwareId": "fluidnc", "code": "$AP/Country", "note": "FluidNC uses $AP/Country for the same purpose." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"]
+    },
+    {
+      "code": "$79",
+      "type": "$",
+      "name": "WiFi AP Channel",
+      "description": "Sets the WiFi channel for Access Point mode. 0 for automatic.",
+      "parameters": [],
+      "examples": [
+        { "code": "$79=0", "description": "Auto channel (default)" },
+        { "code": "$79=6", "description": "Channel 6" }
+      ],
+      "relatedCodes": ["$73", "$76"],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"]
+    },
+    {
+      "code": "$300",
+      "type": "$",
+      "name": "Network Hostname",
+      "description": "Sets the network hostname for the primary network interface (interface 0, usually WiFi Station or Ethernet). Used for mDNS and DHCP identification. Maximum 32 characters.",
+      "parameters": [],
+      "examples": [
+        { "code": "$300=grblHAL", "description": "Set hostname to grblHAL" }
+      ],
+      "relatedCodes": ["$301", "$302", "$303", "$304"],
+      "crossReferences": [
+        { "firmwareId": "fluidnc", "code": "$Hostname", "note": "FluidNC uses $Hostname. Default: 'FluidNC'." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "New in grblHAL. Interface 0 settings: $300-$308. Interface 1 (AP): $310-$318. Interface 2: $320-$328."
+    },
+    {
+      "code": "$301",
+      "type": "$",
+      "name": "Network IP Mode",
+      "description": "Sets the IP address mode for the primary network interface. 0=Static, 1=DHCP, 2=AutoIP.",
+      "parameters": [],
+      "examples": [
+        { "code": "$301=1", "description": "Use DHCP (auto assign)" },
+        { "code": "$301=0", "description": "Use static IP" }
+      ],
+      "relatedCodes": ["$300", "$302", "$303", "$304"],
+      "crossReferences": [
+        { "firmwareId": "fluidnc", "code": "$Sta/IPMode", "note": "FluidNC uses $Sta/IPMode with values DHCP or Static." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"]
+    },
+    {
+      "code": "$302",
+      "type": "$",
+      "name": "Network IP Address",
+      "description": "Sets the static IP address for the primary network interface.",
+      "parameters": [],
+      "examples": [
+        { "code": "$302=192.168.1.100", "description": "Set static IP" }
+      ],
+      "relatedCodes": ["$301", "$303", "$304"],
+      "crossReferences": [
+        { "firmwareId": "fluidnc", "code": "$Sta/IP", "note": "FluidNC uses $Sta/IP for the same purpose." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"]
+    },
+    {
+      "code": "$303",
+      "type": "$",
+      "name": "Network Gateway",
+      "description": "Sets the gateway address for the primary network interface.",
+      "parameters": [],
+      "examples": [
+        { "code": "$303=192.168.1.1", "description": "Set gateway" }
+      ],
+      "relatedCodes": ["$301", "$302", "$304"],
+      "crossReferences": [
+        { "firmwareId": "fluidnc", "code": "$Sta/Gateway", "note": "FluidNC uses $Sta/Gateway for the same purpose." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"]
+    },
+    {
+      "code": "$304",
+      "type": "$",
+      "name": "Network Subnet Mask",
+      "description": "Sets the subnet mask for the primary network interface.",
+      "parameters": [],
+      "examples": [
+        { "code": "$304=255.255.255.0", "description": "Standard /24 subnet (default)" }
+      ],
+      "relatedCodes": ["$301", "$302", "$303"],
+      "crossReferences": [
+        { "firmwareId": "fluidnc", "code": "$Sta/Netmask", "note": "FluidNC uses $Sta/Netmask for the same purpose." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"]
+    },
+    {
+      "code": "$305",
+      "type": "$",
+      "name": "Network Telnet Port",
+      "description": "Sets the Telnet/serial emulation port for the primary network interface.",
+      "parameters": [],
+      "examples": [
+        { "code": "$305=23", "description": "Default Telnet port" }
+      ],
+      "relatedCodes": ["$70", "$306", "$307"],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Default: 23. Range: 1-65536."
+    },
+    {
+      "code": "$306",
+      "type": "$",
+      "name": "Network HTTP Port",
+      "description": "Sets the HTTP web server port for the primary network interface.",
+      "parameters": [],
+      "examples": [
+        { "code": "$306=80", "description": "Default HTTP port" }
+      ],
+      "relatedCodes": ["$70", "$305", "$307"],
+      "crossReferences": [
+        { "firmwareId": "fluidnc", "code": "$HTTP/Port", "note": "FluidNC uses $HTTP/Port. Default: 80." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"]
+    },
+    {
+      "code": "$307",
+      "type": "$",
+      "name": "Network Websocket Port",
+      "description": "Sets the Websocket port for the primary network interface.",
+      "parameters": [],
+      "examples": [
+        { "code": "$307=81", "description": "Default Websocket port" }
+      ],
+      "relatedCodes": ["$70", "$305", "$306"],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Default: 81."
+    },
+    {
+      "code": "$308",
+      "type": "$",
+      "name": "Network FTP Port",
+      "description": "Sets the FTP server port for the primary network interface.",
+      "parameters": [],
+      "examples": [
+        { "code": "$308=21", "description": "Default FTP port" }
+      ],
+      "relatedCodes": ["$70"],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "Default: 21."
+    },
+    {
+      "code": "$460",
+      "type": "$",
+      "name": "VFD Modbus Address",
+      "description": "Sets the primary VFD (Variable Frequency Drive) Modbus slave address for spindle control over RS485.",
+      "parameters": [],
+      "examples": [
+        { "code": "$460=1", "description": "Modbus address 1 (common default)" }
+      ],
+      "relatedCodes": ["$461", "$476", "$374"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support VFD spindle control." },
+        { "firmwareId": "fluidnc", "code": "", "note": "FluidNC supports VFD spindles through its YAML config spindle section." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "New in grblHAL. Requires VFD plugin and Modbus RTU connection. Common VFD types supported: Huanyang, H100, YL620-A, GS20, and others."
+    },
+    {
+      "code": "$461",
+      "type": "$",
+      "name": "VFD RPM to Hz",
+      "description": "Conversion factor from RPM to Hz for VFD control. Used to translate the S (RPM) value to the frequency the VFD expects.",
+      "parameters": [],
+      "examples": [
+        { "code": "$461=60.0", "description": "60 RPM per Hz (2-pole motor at 60Hz = 3600 RPM)" }
+      ],
+      "relatedCodes": ["$460", "$30", "$31"],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "New in grblHAL. The exact formula depends on motor poles: RPM = (120 × Hz) / poles. For a 2-pole motor, 1 Hz = 60 RPM. For a 4-pole motor, 1 Hz = 30 RPM."
+    },
+    {
+      "code": "$476",
+      "type": "$",
+      "name": "VFD Modbus Address (Spindle 0)",
+      "description": "Modbus address for spindle 0 when multiple spindles are configured.",
+      "parameters": [],
+      "examples": [
+        { "code": "$476=1", "description": "Spindle 0 at Modbus address 1" }
+      ],
+      "relatedCodes": ["$460", "$477", "$478", "$479"],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "New in grblHAL. For multi-spindle VFD setups."
+    },
+    {
+      "code": "$477",
+      "type": "$",
+      "name": "VFD Modbus Address (Spindle 1)",
+      "description": "Modbus address for spindle 1 when multiple spindles are configured.",
+      "parameters": [],
+      "examples": [
+        { "code": "$477=2", "description": "Spindle 1 at Modbus address 2" }
+      ],
+      "relatedCodes": ["$476", "$478", "$479"],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"]
+    },
+    {
+      "code": "$478",
+      "type": "$",
+      "name": "VFD Modbus Address (Spindle 2)",
+      "description": "Modbus address for spindle 2 when multiple spindles are configured.",
+      "parameters": [],
+      "examples": [
+        { "code": "$478=3", "description": "Spindle 2 at Modbus address 3" }
+      ],
+      "relatedCodes": ["$476", "$477", "$479"],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"]
+    },
+    {
+      "code": "$479",
+      "type": "$",
+      "name": "VFD Modbus Address (Spindle 3)",
+      "description": "Modbus address for spindle 3 when multiple spindles are configured.",
+      "parameters": [],
+      "examples": [
+        { "code": "$479=4", "description": "Spindle 3 at Modbus address 4" }
+      ],
+      "relatedCodes": ["$476", "$477", "$478"],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"]
+    },
+    {
+      "code": "$340",
+      "type": "$",
+      "name": "Spindle At-Speed Tolerance",
+      "description": "Percentage tolerance for spindle at-speed detection. If greater than 0, alarm 14 is raised if the spindle speed is not within this tolerance of the commanded speed. Set to 0 to disable.",
+      "parameters": [],
+      "examples": [
+        { "code": "$340=0", "description": "Disabled (default)" },
+        { "code": "$340=10", "description": "10% tolerance" }
+      ],
+      "relatedCodes": ["$341", "M3", "M4"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support at-speed detection." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "New in grblHAL. Requires spindle encoder or VFD feedback."
+    },
+    {
+      "code": "$345",
+      "type": "$",
+      "name": "Tool Change Pulloff Rate",
+      "description": "Feed rate in mm/min for tool change pulloff/retract motion.",
+      "parameters": [],
+      "examples": [
+        { "code": "$345=200", "description": "200 mm/min pulloff rate" }
+      ],
+      "relatedCodes": ["$341", "$342", "$343", "$344"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "New in grblHAL. grbl does not support tool changes." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"]
+    },
+    {
+      "code": "$374",
+      "type": "$",
+      "name": "Modbus Baud Rate",
+      "description": "Sets the baud rate for Modbus RTU communication (used for VFD spindle control and other Modbus devices).",
+      "parameters": [],
+      "examples": [
+        { "code": "$374=9600", "description": "9600 baud (common for Huanyang VFDs)" },
+        { "code": "$374=19200", "description": "19200 baud" }
+      ],
+      "relatedCodes": ["$460", "$375"],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"],
+      "notes": "New in grblHAL. Must match the baud rate configured on the VFD or Modbus device."
+    },
+    {
+      "code": "$375",
+      "type": "$",
+      "name": "Modbus RX Timeout",
+      "description": "Sets the Modbus receive timeout in milliseconds. If no response is received within this time, a communication error occurs.",
+      "parameters": [],
+      "examples": [
+        { "code": "$375=50", "description": "50ms timeout" }
+      ],
+      "relatedCodes": ["$374", "$460"],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"]
+    },
+    {
+      "code": "RT:0x19",
+      "type": "$",
+      "name": "Stop",
+      "description": "Similar to soft reset (0x18) but does not perform a warm reset — leaves more internal states intact. Stops motion without full re-initialization.",
+      "parameters": [],
+      "examples": [
+        { "code": "0x19", "description": "Stop without full reset" }
+      ],
+      "relatedCodes": ["RT:0x18"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "RT:0x18", "note": "grblHAL extension. grbl only has full soft reset (0x18)." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"],
+      "notes": "grblHAL extension. Real-time command."
+    },
+    {
+      "code": "RT:0x18",
+      "type": "$",
+      "name": "Soft Reset (Ctrl+X)",
+      "description": "Immediately halts and safely resets grblHAL without a power cycle. If reset while in motion, throws an alarm indicating position may be lost.",
+      "parameters": [],
+      "examples": [
+        { "code": "Ctrl+X (0x18)", "description": "Send soft reset" }
+      ],
+      "relatedCodes": ["$X", "$H", "RT:0x19"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "RT:0x18", "note": "Identical behavior inherited from grbl." },
+        { "firmwareId": "fluidnc", "code": "RT:0x18", "note": "Identical behavior in FluidNC." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"],
+      "notes": "Real-time command (single byte 0x18). Processed immediately regardless of buffer state."
+    },
+    {
+      "code": "RT:?",
+      "type": "$",
+      "name": "Status Report Query",
+      "description": "Requests a real-time status report. grblHAL extends the report format with additional fields compared to grbl.",
+      "parameters": [],
+      "examples": [
+        { "code": "? (0x3F)", "description": "Query status" }
+      ],
+      "relatedCodes": ["$10", "RT:0x80", "RT:0x87"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "RT:?", "note": "Inherited from grbl. grblHAL extends with additional report fields." },
+        { "firmwareId": "fluidnc", "code": "RT:?", "note": "Identical behavior in FluidNC." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"],
+      "notes": "Real-time command. Also available as 0x80 (extended alternative safe for use in strings)."
+    },
+    {
+      "code": "RT:!",
+      "type": "$",
+      "name": "Feed Hold",
+      "description": "Places grblHAL into a suspend/HOLD state. If in motion, decelerates to a controlled stop. Does not disable spindle or coolant.",
+      "parameters": [],
+      "examples": [
+        { "code": "! (0x21)", "description": "Pause motion" }
+      ],
+      "relatedCodes": ["RT:~", "RT:0x82"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "RT:!", "note": "Identical behavior inherited from grbl." },
+        { "firmwareId": "fluidnc", "code": "RT:!", "note": "Identical behavior in FluidNC." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"],
+      "notes": "Real-time command. Also available as 0x82 (extended alternative)."
+    },
+    {
+      "code": "RT:~",
+      "type": "$",
+      "name": "Cycle Start / Resume",
+      "description": "Resumes from feed hold, safety door, or M0 pause.",
+      "parameters": [],
+      "examples": [
+        { "code": "~ (0x7E)", "description": "Resume" }
+      ],
+      "relatedCodes": ["RT:!", "RT:0x81"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "RT:~", "note": "Identical behavior inherited from grbl." },
+        { "firmwareId": "fluidnc", "code": "RT:~", "note": "Identical behavior in FluidNC." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"],
+      "notes": "Real-time command. Also available as 0x81 (extended alternative)."
+    },
+    {
+      "code": "RT:0x80",
+      "type": "$",
+      "name": "Status Report (Alternative)",
+      "description": "Alternative to '?' for requesting a status report. Safe for use inside strings and passwords since it's not a printable character.",
+      "parameters": [],
+      "examples": [
+        { "code": "0x80", "description": "Query status (non-printable alternative)" }
+      ],
+      "relatedCodes": ["RT:?", "RT:0x87"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "RT:?", "note": "grblHAL extension. grbl only supports '?' for status queries." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"],
+      "notes": "grblHAL extension. Also 0x05 (Ctrl-E) works as a status query."
+    },
+    {
+      "code": "RT:0x83",
+      "type": "$",
+      "name": "Parser State Report",
+      "description": "Requests a parser state report (shortcut for $G command). Returns current modal G-code states.",
+      "parameters": [],
+      "examples": [
+        { "code": "0x83", "description": "Query parser state" }
+      ],
+      "relatedCodes": ["$G"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "$G", "note": "grblHAL extension. grbl requires $G text command, not a real-time character." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"],
+      "notes": "grblHAL extension. Real-time command."
+    },
+    {
+      "code": "RT:0x84",
+      "type": "$",
+      "name": "Safety Door",
+      "description": "Toggles safety door state. Immediately suspends, disables spindle and coolant. If parking is enabled, retracts spindle to safe position.",
+      "parameters": [],
+      "examples": [
+        { "code": "0x84", "description": "Trigger safety door" }
+      ],
+      "relatedCodes": ["RT:!", "RT:~"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "RT:0x84", "note": "Identical behavior inherited from grbl." },
+        { "firmwareId": "fluidnc", "code": "RT:0x84", "note": "Identical behavior in FluidNC." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"],
+      "notes": "Real-time command."
+    },
+    {
+      "code": "RT:0x85",
+      "type": "$",
+      "name": "Jog Cancel",
+      "description": "Cancels the current jog motion and flushes remaining jog commands. Ignored if not in JOG state.",
+      "parameters": [],
+      "examples": [
+        { "code": "0x85", "description": "Cancel jog" }
+      ],
+      "relatedCodes": ["$J"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "RT:0x85", "note": "Identical behavior inherited from grbl." },
+        { "firmwareId": "fluidnc", "code": "RT:0x85", "note": "Identical behavior in FluidNC." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"],
+      "notes": "Real-time command."
+    },
+    {
+      "code": "RT:0x87",
+      "type": "$",
+      "name": "Complete Status Report",
+      "description": "Requests a full real-time report with ALL elements including those normally only sent on change. If in alarm state, includes alarm substate. Key command for sender applications to detect grblHAL.",
+      "parameters": [],
+      "examples": [
+        { "code": "0x87", "description": "Request complete status report" }
+      ],
+      "relatedCodes": ["RT:?", "RT:0x80", "$10"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "RT:?", "note": "grblHAL extension. grbl only has standard status query '?'." },
+        { "firmwareId": "fluidnc", "code": "RT:?", "note": "Not available in FluidNC. Use standard '?' query." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"],
+      "notes": "grblHAL extension. Real-time command. Sender applications should use this to detect grblHAL vs standard grbl — if a response is received, it's grblHAL."
+    },
+    {
+      "code": "RT:0x88",
+      "type": "$",
+      "name": "Optional Stop Toggle",
+      "description": "Toggles the virtual optional stop switch (M1 behavior). When enabled, M1 causes a feed hold like M0. When disabled, M1 is ignored. Useful when no physical optional stop switch is available.",
+      "parameters": [],
+      "examples": [
+        { "code": "0x88", "description": "Toggle optional stop on/off" }
+      ],
+      "relatedCodes": ["M1", "RT:0x89"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "M1", "note": "grblHAL extension. grbl has no virtual toggle for optional stop." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"],
+      "notes": "grblHAL extension. Real-time command."
+    },
+    {
+      "code": "RT:0x89",
+      "type": "$",
+      "name": "Single Step Toggle",
+      "description": "Toggles virtual single stepping mode. When enabled, the machine executes one G-code line at a time and pauses after each, requiring a cycle start to continue. Useful for debugging G-code programs.",
+      "parameters": [],
+      "examples": [
+        { "code": "0x89", "description": "Toggle single step mode" }
+      ],
+      "relatedCodes": ["RT:~", "RT:0x88"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "grblHAL extension. No grbl equivalent." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"],
+      "notes": "grblHAL extension. Real-time command."
+    },
+    {
+      "code": "RT:0x8A",
+      "type": "$",
+      "name": "Fan 0 Toggle",
+      "description": "Toggles fan 0 on/off. Requires fans plugin with fan0 configured.",
+      "parameters": [],
+      "examples": [
+        { "code": "0x8A", "description": "Toggle fan 0" }
+      ],
+      "relatedCodes": [],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "grblHAL extension. No grbl equivalent." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"],
+      "notes": "grblHAL extension. Plugin dependent."
+    },
+    {
+      "code": "RT:0xA3",
+      "type": "$",
+      "name": "Tool Change Acknowledge",
+      "description": "Acknowledges a manual tool change request. Part of the grblHAL manual tool change protocol — sent after the operator has completed the physical tool change.",
+      "parameters": [],
+      "examples": [
+        { "code": "0xA3", "description": "Acknowledge tool change complete" }
+      ],
+      "relatedCodes": ["M6", "$341"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "grblHAL extension. grbl does not support tool changes." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"],
+      "notes": "grblHAL extension. Real-time command."
+    },
+    {
+      "code": "RT:0x90",
+      "type": "$",
+      "name": "Feed Override Reset (100%)",
+      "description": "Resets feed rate override to 100% of programmed rate.",
+      "parameters": [],
+      "examples": [
+        { "code": "0x90", "description": "Reset feed override to 100%" }
+      ],
+      "relatedCodes": ["RT:0x91", "RT:0x92", "RT:0x93", "RT:0x94"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "RT:0x90", "note": "Identical behavior inherited from grbl." },
+        { "firmwareId": "fluidnc", "code": "RT:0x90", "note": "Identical behavior in FluidNC." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"],
+      "notes": "Real-time command. Feed overrides range 10%-200%."
+    },
+    {
+      "code": "RT:0x91",
+      "type": "$",
+      "name": "Feed Override +10%",
+      "description": "Increases feed rate override by 10%.",
+      "parameters": [],
+      "examples": [{ "code": "0x91", "description": "Increase feed +10%" }],
+      "relatedCodes": ["RT:0x90", "RT:0x92"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "RT:0x91", "note": "Identical." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"]
+    },
+    {
+      "code": "RT:0x92",
+      "type": "$",
+      "name": "Feed Override -10%",
+      "description": "Decreases feed rate override by 10%.",
+      "parameters": [],
+      "examples": [{ "code": "0x92", "description": "Decrease feed -10%" }],
+      "relatedCodes": ["RT:0x90", "RT:0x91"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "RT:0x92", "note": "Identical." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"]
+    },
+    {
+      "code": "RT:0x93",
+      "type": "$",
+      "name": "Feed Override +1%",
+      "description": "Increases feed rate override by 1%.",
+      "parameters": [],
+      "examples": [{ "code": "0x93", "description": "Increase feed +1%" }],
+      "relatedCodes": ["RT:0x90"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "RT:0x93", "note": "Identical." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"]
+    },
+    {
+      "code": "RT:0x94",
+      "type": "$",
+      "name": "Feed Override -1%",
+      "description": "Decreases feed rate override by 1%.",
+      "parameters": [],
+      "examples": [{ "code": "0x94", "description": "Decrease feed -1%" }],
+      "relatedCodes": ["RT:0x90"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "RT:0x94", "note": "Identical." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"]
+    },
+    {
+      "code": "RT:0x95",
+      "type": "$",
+      "name": "Rapid Override 100%",
+      "description": "Resets rapid rate override to 100%.",
+      "parameters": [],
+      "examples": [{ "code": "0x95", "description": "Reset rapid to 100%" }],
+      "relatedCodes": ["RT:0x96", "RT:0x97"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "RT:0x95", "note": "Identical." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"]
+    },
+    {
+      "code": "RT:0x96",
+      "type": "$",
+      "name": "Rapid Override 50%",
+      "description": "Sets rapid rate override to 50%.",
+      "parameters": [],
+      "examples": [{ "code": "0x96", "description": "Set rapid to 50%" }],
+      "relatedCodes": ["RT:0x95", "RT:0x97"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "RT:0x96", "note": "Identical." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"]
+    },
+    {
+      "code": "RT:0x97",
+      "type": "$",
+      "name": "Rapid Override 25%",
+      "description": "Sets rapid rate override to 25%.",
+      "parameters": [],
+      "examples": [{ "code": "0x97", "description": "Set rapid to 25%" }],
+      "relatedCodes": ["RT:0x95", "RT:0x96"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "RT:0x97", "note": "Identical." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"]
+    },
+    {
+      "code": "RT:0x99",
+      "type": "$",
+      "name": "Spindle Override Reset (100%)",
+      "description": "Resets spindle speed override to 100%.",
+      "parameters": [],
+      "examples": [{ "code": "0x99", "description": "Reset spindle override to 100%" }],
+      "relatedCodes": ["RT:0x9A", "RT:0x9B", "RT:0x9C", "RT:0x9D"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "RT:0x99", "note": "Identical." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"]
+    },
+    {
+      "code": "RT:0x9A",
+      "type": "$",
+      "name": "Spindle Override +10%",
+      "description": "Increases spindle speed override by 10%.",
+      "parameters": [],
+      "examples": [{ "code": "0x9A", "description": "Increase spindle +10%" }],
+      "relatedCodes": ["RT:0x99"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "RT:0x9A", "note": "Identical." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"]
+    },
+    {
+      "code": "RT:0x9B",
+      "type": "$",
+      "name": "Spindle Override -10%",
+      "description": "Decreases spindle speed override by 10%.",
+      "parameters": [],
+      "examples": [{ "code": "0x9B", "description": "Decrease spindle -10%" }],
+      "relatedCodes": ["RT:0x99"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "RT:0x9B", "note": "Identical." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"]
+    },
+    {
+      "code": "RT:0x9C",
+      "type": "$",
+      "name": "Spindle Override +1%",
+      "description": "Increases spindle speed override by 1%.",
+      "parameters": [],
+      "examples": [{ "code": "0x9C", "description": "Increase spindle +1%" }],
+      "relatedCodes": ["RT:0x99"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "RT:0x9C", "note": "Identical." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"]
+    },
+    {
+      "code": "RT:0x9D",
+      "type": "$",
+      "name": "Spindle Override -1%",
+      "description": "Decreases spindle speed override by 1%.",
+      "parameters": [],
+      "examples": [{ "code": "0x9D", "description": "Decrease spindle -1%" }],
+      "relatedCodes": ["RT:0x99"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "RT:0x9D", "note": "Identical." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"]
+    },
+    {
+      "code": "RT:0x9E",
+      "type": "$",
+      "name": "Toggle Spindle Stop",
+      "description": "Toggles spindle on/off during HOLD state. When motion resumes, spindle state is restored with a delay.",
+      "parameters": [],
+      "examples": [{ "code": "0x9E", "description": "Toggle spindle during hold" }],
+      "relatedCodes": ["RT:!", "M3", "M5"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "RT:0x9E", "note": "Identical." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"],
+      "notes": "Only functional during HOLD state."
+    },
+    {
+      "code": "RT:0xA0",
+      "type": "$",
+      "name": "Toggle Flood Coolant",
+      "description": "Toggles flood coolant (M8/M9) output. May be commanded in IDLE, RUN, or HOLD states.",
+      "parameters": [],
+      "examples": [{ "code": "0xA0", "description": "Toggle flood coolant" }],
+      "relatedCodes": ["M8", "M9", "RT:0xA1"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "RT:0xA0", "note": "Identical." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"]
+    },
+    {
+      "code": "RT:0xA1",
+      "type": "$",
+      "name": "Toggle Mist Coolant",
+      "description": "Toggles mist coolant (M7/M9) output. May be commanded in IDLE, RUN, or HOLD states.",
+      "parameters": [],
+      "examples": [{ "code": "0xA1", "description": "Toggle mist coolant" }],
+      "relatedCodes": ["M7", "M9", "RT:0xA0"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "RT:0xA1", "note": "Identical." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/For-sender-developers"]
+    },
+    {
+      "code": "NGC:IF",
+      "type": "$",
+      "name": "Conditional: if/elseif/else/endif",
+      "description": "Flow control for conditional execution of G-code. Supports if, elseif, else, and endif statements. Works both in streamed G-code and local files/macros.",
+      "parameters": [
+        { "name": "expression", "description": "Boolean expression using comparison operators (EQ, NE, GT, GE, LT, LE) and logical operators (AND, OR, XOR)", "optional": false }
+      ],
+      "examples": [
+        { "code": "o<test> if [#<_metric> EQ 1]", "description": "Execute block if in metric mode" },
+        { "code": "o<test> elseif [#5070 EQ 0]", "description": "Alternative: if probe failed" },
+        { "code": "o<test> else", "description": "Default branch" },
+        { "code": "o<test> endif", "description": "End conditional" }
+      ],
+      "relatedCodes": ["NGC:WHILE", "NGC:SUB", "NGC:PARAM"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "Not available in grbl. grbl has no expression or flow control support." },
+        { "firmwareId": "linuxcnc", "code": "NGC:IF", "note": "Same syntax and behavior — grblHAL implements LinuxCNC-compatible NGC expressions." },
+        { "firmwareId": "fluidnc", "code": "", "note": "FluidNC does not support flow control statements." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Expressions-and-flow-control"],
+      "notes": "Requires NGC expression support enabled at build time. Labels (o<name>) must match between if/elseif/else/endif. Expressions use square brackets: [#var OP value]."
+    },
+    {
+      "code": "NGC:WHILE",
+      "type": "$",
+      "name": "Loop: while/do-while/repeat",
+      "description": "Flow control for loops. Supports while/endwhile, do/while, and repeat/endrepeat. Only available in files stored on SD card or local filesystem, not from streamed G-code.",
+      "parameters": [
+        { "name": "expression", "description": "Boolean loop condition or repeat count", "optional": false }
+      ],
+      "examples": [
+        { "code": "o<loop> while [#100 LT 10]", "description": "Loop while #100 < 10" },
+        { "code": "o<loop> endwhile", "description": "End while loop" },
+        { "code": "o<loop> do", "description": "Begin do-while loop" },
+        { "code": "o<loop> while [#100 GT 0]", "description": "Continue while #100 > 0" },
+        { "code": "o<rep> repeat [5]", "description": "Repeat 5 times" },
+        { "code": "o<rep> endrepeat", "description": "End repeat" },
+        { "code": "o<loop> break", "description": "Exit loop early" },
+        { "code": "o<loop> continue", "description": "Skip to next iteration" }
+      ],
+      "relatedCodes": ["NGC:IF", "NGC:SUB", "NGC:PARAM"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "Not available in grbl." },
+        { "firmwareId": "linuxcnc", "code": "NGC:WHILE", "note": "Same syntax — LinuxCNC-compatible. LinuxCNC also supports loops from streamed code." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Expressions-and-flow-control"],
+      "notes": "Only available in local files (SD/littlefs), not streamed G-code. Supports break and continue for early exit/skip."
+    },
+    {
+      "code": "NGC:SUB",
+      "type": "$",
+      "name": "Subroutines: sub/endsub/call/return",
+      "description": "Define and call reusable G-code subroutines. Subroutines can accept arguments and return values. Only available in local files (SD/littlefs).",
+      "parameters": [],
+      "examples": [
+        { "code": "o<mysub> sub", "description": "Define subroutine 'mysub'" },
+        { "code": "G0 X[#1] Y[#2]", "description": "Use arguments inside subroutine" },
+        { "code": "o<mysub> return [#5070]", "description": "Return probe result" },
+        { "code": "o<mysub> endsub", "description": "End subroutine definition" },
+        { "code": "o<mysub> call [10] [20]", "description": "Call mysub with args #1=10, #2=20" }
+      ],
+      "relatedCodes": ["NGC:IF", "NGC:WHILE", "NGC:PARAM", "G65"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "Not available in grbl." },
+        { "firmwareId": "linuxcnc", "code": "NGC:SUB", "note": "Same syntax — LinuxCNC O-code subroutines." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Expressions-and-flow-control"],
+      "notes": "Only in local files. Arguments are passed as #1-#26 (mapped from letters: A=#1, B=#2, etc. via G65 call convention). Return value available as #<_value>. Nesting level available as #<_call_level>."
+    },
+    {
+      "code": "NGC:PARAM",
+      "type": "$",
+      "name": "Parameters and Expressions",
+      "description": "NGC parameter system for storing and computing values in G-code. Supports numbered parameters (#1-#5000), named parameters (#<name>), predefined system parameters, and mathematical expressions with operators and functions.",
+      "parameters": [],
+      "examples": [
+        { "code": "#100 = 25.4", "description": "Set numbered parameter #100 to 25.4" },
+        { "code": "#<depth> = -5.0", "description": "Set named parameter 'depth'" },
+        { "code": "G1 Z[#<depth>] F[#<_feed>]", "description": "Use parameters in G-code" },
+        { "code": "#200 = [#100 * 2 + SQRT[#101]]", "description": "Expression with math" },
+        { "code": "(print, Depth is #<depth>)", "description": "Print parameter value to console" },
+        { "code": "(debug, Position X=#<_abs_x>)", "description": "Debug output (requires $534=1)" }
+      ],
+      "relatedCodes": ["NGC:IF", "NGC:WHILE", "NGC:SUB"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "Not available in grbl." },
+        { "firmwareId": "linuxcnc", "code": "NGC:PARAM", "note": "Compatible with LinuxCNC NGC parameter system. grblHAL adds extensions like #<_probe_state>, #<_homed_state>." },
+        { "firmwareId": "fluidnc", "code": "$PL", "note": "FluidNC supports basic parameters (#<_current_tool>, #<_abs_x>, #5063, #5399) but not full expressions or flow control." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Expressions-and-flow-control"],
+      "notes": "Key system parameters: #5061-#5069 (probe result XYZ), #5070 (probe success 1/0), #5220 (current coord system), #5400 (current tool), #<_abs_x/y/z> (machine position), #<_metric/#<_imperial> (unit mode), #<_current_tool>, #<_homed_state>. Operators: +, -, *, /, MOD, ** (power), EQ, NE, GT, GE, LT, LE, AND, OR, XOR. Functions: ABS, ACOS, ASIN, ATAN, COS, SIN, TAN, EXP, LN, SQRT, ROUND, FIX, FUP, EXISTS."
+    },
+    {
+      "code": "NGC:ALARM",
+      "type": "$",
+      "name": "Raise Alarm/Error from G-code",
+      "description": "grblHAL extensions to raise alarms or errors from within G-code programs. Useful for safety checks in macros and subroutines.",
+      "parameters": [
+        { "name": "expression", "description": "Alarm or error code number", "optional": false }
+      ],
+      "examples": [
+        { "code": "o<chk> if [#<_homed_state> NE 1]", "description": "Check if homed" },
+        { "code": "o<chk> alarm [14]", "description": "Raise alarm 14 (unhomed) if not homed" },
+        { "code": "o<chk> endif", "description": "End check" },
+        { "code": "o<err> error [253]", "description": "Raise custom error" }
+      ],
+      "relatedCodes": ["NGC:IF", "NGC:SUB"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "Not available in grbl." },
+        { "firmwareId": "linuxcnc", "code": "", "note": "grblHAL extension. LinuxCNC uses (abort,...) comments or M2 for error handling." },
+        { "firmwareId": "fluidnc", "code": "$Alarm/Send", "note": "FluidNC has $Alarm/Send for triggering alarms, but not from within G-code expressions." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://github.com/grblHAL/core/wiki/Expressions-and-flow-control"],
+      "notes": "grblHAL extension. Also supports (abort, message) comment syntax to raise error 253 with a message."
     }
   ]
 }

@@ -2013,6 +2013,185 @@
       "modeNotes": [],
       "sources": ["https://www.linuxcnc.org/docs/stable/html/gcode/m-code.html#mcode:m100-m199"],
       "notes": "Unique to LinuxCNC. The external program can be any executable (shell script, Python, compiled binary). It receives P and Q as arguments. The program is searched for in the directory specified by [DISPLAY]PROGRAM_PREFIX in the INI file. Execution pauses until the external program completes."
+    },
+    {
+      "code": "O:sub",
+      "type": "$",
+      "name": "Define Subroutine",
+      "description": "Defines a reusable subroutine. Lines between 'sub' and 'endsub' are not executed until the subroutine is called. Subroutine bodies may not be nested. Maximum nesting level for calls is 10. Subroutines can optionally return a value via an expression on endsub or return.",
+      "parameters": [],
+      "examples": [
+        { "code": "o100 sub\n  G53 G0 X0 Y0 Z0\no100 endsub\n\no100 call", "description": "Define and call a simple subroutine" },
+        { "code": "o<move_home> sub\n  G53 G0 X0 Y0 Z0\no<move_home> endsub\n\no<move_home> call", "description": "Named subroutine" },
+        { "code": "o200 sub\no200 endsub [#1 * #2]\n; return value in #<_value>", "description": "Subroutine with return value" }
+      ],
+      "relatedCodes": ["O:call", "O:return", "O:if", "O:while"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "Not available in grbl." },
+        { "firmwareId": "grblhal", "code": "NGC:SUB", "note": "grblHAL implements LinuxCNC-compatible O-code subroutines. Same syntax." },
+        { "firmwareId": "reprapfirmware", "code": "M98", "note": "RepRapFirmware uses M98 to call macro files instead of O-code subroutines." },
+        { "firmwareId": "fluidnc", "code": "", "note": "FluidNC does not support subroutines." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://linuxcnc.org/docs/stable/html/gcode/o-code.html"],
+      "notes": "O-codes can be numbered (o100) or named (o<myname>). Named codes are converted to lowercase. Use the letter 'O' (or 'o'), NOT the digit zero. Subroutines must be defined before they are called."
+    },
+    {
+      "code": "O:call",
+      "type": "$",
+      "name": "Call Subroutine",
+      "description": "Calls a subroutine, optionally passing up to 30 arguments. Arguments are accessed as #1 through #30 inside the subroutine and are local — restored to pre-call values on return. Parameters above #30 are global and changes persist after return.",
+      "parameters": [
+        { "name": "[arg1]...[argN]", "description": "Up to 30 arguments in square brackets", "optional": true }
+      ],
+      "examples": [
+        { "code": "o100 call", "description": "Call subroutine 100 with no arguments" },
+        { "code": "o100 call [100] [2] [325]", "description": "Call with #1=100, #2=2, #3=325" },
+        { "code": "o<myfile> call", "description": "Call named subroutine (also searches for file myfile.ngc)" },
+        { "code": "o[#101+2] call", "description": "Computed O-number (indirection)" }
+      ],
+      "relatedCodes": ["O:sub", "O:return"],
+      "crossReferences": [
+        { "firmwareId": "grblhal", "code": "NGC:SUB", "note": "grblHAL implements compatible O-code call syntax." },
+        { "firmwareId": "reprapfirmware", "code": "M98", "note": "RepRapFirmware uses M98 P\"file.g\" with param.<letter> for parameters." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://linuxcnc.org/docs/stable/html/gcode/o-code.html"],
+      "notes": "Arguments MUST be in square brackets (e.g., [100] not 100). Named subroutines can call external files — the file is searched in PROGRAM_PREFIX or SUBROUTINE_PATH directories. Recursive calls are supported."
+    },
+    {
+      "code": "O:return",
+      "type": "$",
+      "name": "Return from Subroutine",
+      "description": "Immediately returns to the calling code, as though endsub was encountered. May optionally return a value via an expression, which is stored in the predefined named parameter #<_value>.",
+      "parameters": [
+        { "name": "[expression]", "description": "Optional return value", "optional": true }
+      ],
+      "examples": [
+        { "code": "o100 return", "description": "Return with no value" },
+        { "code": "o100 return [#2 * 5]", "description": "Return computed value (stored in #<_value>)" }
+      ],
+      "relatedCodes": ["O:sub", "O:call"],
+      "crossReferences": [
+        { "firmwareId": "grblhal", "code": "NGC:SUB", "note": "grblHAL implements compatible return syntax." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://linuxcnc.org/docs/stable/html/gcode/o-code.html"],
+      "notes": "Return value stored in #<_value>, and #<_value_returned> is set to 1. Both are global and cleared before the next subroutine call."
+    },
+    {
+      "code": "O:if",
+      "type": "$",
+      "name": "Conditional: if/elseif/else/endif",
+      "description": "Conditional execution of G-code blocks. Evaluates conditions in order until one is true. Supports if, elseif (optional, repeatable), else (optional), and endif. All must share the same O-number.",
+      "parameters": [
+        { "name": "[condition]", "description": "Boolean expression using comparison operators (EQ, NE, GT, GE, LT, LE) and logical operators (AND, OR, XOR)", "optional": false }
+      ],
+      "examples": [
+        { "code": "o101 if [#31 EQ 3]\n  S2000\no101 endif", "description": "Simple conditional" },
+        { "code": "o102 if [#2 GT 5]\n  F100\no102 elseif [#2 LT 2]\n  F200\no102 else\n  F150\no102 endif", "description": "Full if/elseif/else/endif" }
+      ],
+      "relatedCodes": ["O:while", "O:sub"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "Not available in grbl." },
+        { "firmwareId": "grblhal", "code": "NGC:IF", "note": "grblHAL implements compatible O-code if/endif syntax." },
+        { "firmwareId": "reprapfirmware", "code": "META:if", "note": "RepRapFirmware uses indentation-based if/elif/else with object model expressions instead of O-numbers." },
+        { "firmwareId": "fluidnc", "code": "", "note": "FluidNC does not support conditional G-code." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://linuxcnc.org/docs/stable/html/gcode/o-code.html"],
+      "notes": "All branches (if/elseif/else/endif) must use the same O-number. Conditions use square brackets with comparison operators: EQ, NE, GT, GE, LT, LE, AND, OR, XOR."
+    },
+    {
+      "code": "O:while",
+      "type": "$",
+      "name": "Loop: while/endwhile",
+      "description": "Executes a block of G-code repeatedly while a condition is true. Tests the condition first, then executes the body. The while and endwhile must share the same O-number.",
+      "parameters": [
+        { "name": "[condition]", "description": "Boolean loop condition", "optional": false }
+      ],
+      "examples": [
+        { "code": "#1 = 0\no101 while [#1 LT 10]\n  G1 X0\n  G1 Y[#1/10] X1\n  #1 = [#1+1]\no101 endwhile", "description": "Draw sawtooth pattern" }
+      ],
+      "relatedCodes": ["O:do", "O:repeat", "O:break", "O:continue", "O:if"],
+      "crossReferences": [
+        { "firmwareId": "grblhal", "code": "NGC:WHILE", "note": "grblHAL implements compatible O-code while/endwhile." },
+        { "firmwareId": "reprapfirmware", "code": "META:while", "note": "RepRapFirmware uses indentation-based while with 'iterations' counter." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://linuxcnc.org/docs/stable/html/gcode/o-code.html"]
+    },
+    {
+      "code": "O:do",
+      "type": "$",
+      "name": "Loop: do/while",
+      "description": "Executes a block at least once, then repeats while the condition is true. The body executes before the condition is tested. The do and while must share the same O-number.",
+      "parameters": [
+        { "name": "[condition]", "description": "Boolean loop condition (evaluated after body)", "optional": false }
+      ],
+      "examples": [
+        { "code": "#1 = 0\no100 do\n  (debug, parameter 1 = #1)\n  #1 = [#1 + 1]\no100 while [#1 LT 3]", "description": "Execute body at least once" }
+      ],
+      "relatedCodes": ["O:while", "O:repeat", "O:break", "O:continue"],
+      "crossReferences": [
+        { "firmwareId": "grblhal", "code": "NGC:WHILE", "note": "grblHAL implements compatible do/while syntax." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://linuxcnc.org/docs/stable/html/gcode/o-code.html"]
+    },
+    {
+      "code": "O:repeat",
+      "type": "$",
+      "name": "Loop: repeat/endrepeat",
+      "description": "Executes a block a specified number of times. The count is evaluated once at the start.",
+      "parameters": [
+        { "name": "[count]", "description": "Number of times to repeat", "optional": false }
+      ],
+      "examples": [
+        { "code": "G91\no103 repeat [5]\n  G1 X10 F500\n  G0 X-10 Y5\no103 endrepeat\nG90", "description": "Mill 5 diagonal shapes" }
+      ],
+      "relatedCodes": ["O:while", "O:do", "O:break", "O:continue"],
+      "crossReferences": [
+        { "firmwareId": "grblhal", "code": "NGC:WHILE", "note": "grblHAL implements compatible repeat/endrepeat." },
+        { "firmwareId": "reprapfirmware", "code": "META:while", "note": "RepRapFirmware uses 'while iterations < N' for counted loops." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://linuxcnc.org/docs/stable/html/gcode/o-code.html"]
+    },
+    {
+      "code": "O:break",
+      "type": "$",
+      "name": "Break (Exit Loop)",
+      "description": "Immediately exits the enclosing while, do/while, or repeat loop. The O-number must match the loop's O-number.",
+      "parameters": [],
+      "examples": [
+        { "code": "o100 while [1]\n  o110 if [#1 GT 10]\n    o100 break\n  o110 endif\n  #1 = [#1 + 1]\no100 endwhile", "description": "Break out of while loop" }
+      ],
+      "relatedCodes": ["O:while", "O:do", "O:repeat", "O:continue"],
+      "crossReferences": [
+        { "firmwareId": "grblhal", "code": "NGC:WHILE", "note": "grblHAL implements compatible break." },
+        { "firmwareId": "reprapfirmware", "code": "META:break", "note": "RepRapFirmware uses 'break' keyword (no O-number needed)." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://linuxcnc.org/docs/stable/html/gcode/o-code.html"],
+      "notes": "The O-number on break must match the enclosing loop's O-number."
+    },
+    {
+      "code": "O:continue",
+      "type": "$",
+      "name": "Continue (Next Iteration)",
+      "description": "Skips the rest of the current loop body and jumps to the next evaluation of the loop condition. The O-number must match the enclosing loop's O-number.",
+      "parameters": [],
+      "examples": [
+        { "code": "o100 do\n  o110 if [#1 EQ 2]\n    #1 = 3\n    o100 continue\n  o110 endif\n  #1 = [#1 + 1]\no100 while [#1 LT 3]", "description": "Skip iteration when #1 equals 2" }
+      ],
+      "relatedCodes": ["O:while", "O:do", "O:repeat", "O:break"],
+      "crossReferences": [
+        { "firmwareId": "grblhal", "code": "NGC:WHILE", "note": "grblHAL implements compatible continue." },
+        { "firmwareId": "reprapfirmware", "code": "META:continue", "note": "RepRapFirmware uses 'continue' keyword." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://linuxcnc.org/docs/stable/html/gcode/o-code.html"]
     }
   ]
 }

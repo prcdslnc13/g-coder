@@ -1,4 +1,4 @@
-export type FirmwareId = "grbl" | "grblhal" | "linuxcnc" | "smoothieware" | "reprapfirmware";
+export type FirmwareId = "grbl" | "grblhal" | "linuxcnc" | "smoothieware" | "reprapfirmware" | "fluidnc";
 
 export interface FirmwareInfo {
   id: FirmwareId;

@@ -43,6 +43,7 @@ One JSON file per firmware:
 - `linuxcnc.json` — LinuxCNC (NIST reference implementation)
 - `smoothieware.json` — Smoothieware (3D printing origin, module-based)
 - `reprapfirmware.json` — RepRapFirmware/Duet3D (multi-mode: M451/M452/M453)
+- `fluidnc.json` — FluidNC (ESP32, YAML config, WiFi/Bluetooth, grbl-compatible)
 
 ### Loading (`src/lib/data.ts`)
 
@@ -81,7 +82,7 @@ Floating dialog (modal) that opens when a code is clicked. Sections:
 ## Key Domain Concepts
 
 ### Firmware Lineage
-NIST RS274/NGC → LinuxCNC → grbl → grblHAL. Each descendant makes adaptations and subsets from its parent. Cross-references document where behavior diverges.
+NIST RS274/NGC → LinuxCNC → grbl → grblHAL. Additionally, grbl → Grbl_ESP32 → FluidNC. Each descendant makes adaptations and subsets from its parent. Cross-references document where behavior diverges.
 
 ### G28 Conflict
 The most critical cross-firmware conflict: In grbl/LinuxCNC (NIST), G28 moves to a stored position. In Smoothieware/RepRapFirmware (RepRap convention), G28 performs homing. Sending the wrong G28 can crash a machine.
@@ -90,7 +91,7 @@ The most critical cross-firmware conflict: In grbl/LinuxCNC (NIST), G28 moves to
 grbl/grblHAL differentiate M3 (constant power) and M4 (dynamic power) in laser mode ($32=1). Smoothieware uses module config. RepRapFirmware uses mode commands (M452 for laser mode) and S parameter on G1 moves. These differences mean G-code for one laser system often won't work correctly on another without modification.
 
 ### $ Commands
-grbl and grblHAL use $ commands for configuration and real-time control ($H for homing, $J for jogging, $$ for settings). These have no equivalent in LinuxCNC, Smoothieware, or RepRapFirmware — those systems use G/M codes or external configuration.
+grbl, grblHAL, and FluidNC use $ commands for configuration and real-time control ($H for homing, $J for jogging, $$ for settings). FluidNC extends this significantly with filesystem commands ($SD/*, $LocalFS/*), networking ($WiFi/*, $HTTP/*), macros ($RM), and diagnostics ($Heap, $GD, $Limits). These have no equivalent in LinuxCNC, Smoothieware, or RepRapFirmware — those systems use G/M codes or external configuration.
 
 ## Deployment
 

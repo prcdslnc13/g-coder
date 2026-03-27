@@ -1556,6 +1556,224 @@
       "modeNotes": [],
       "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcodes#m999-reset"],
       "notes": "Required after M112 emergency stop. The board re-reads config.g on reset. Use P\"PERASE\" for factory reset only as a last resort — it erases all configuration."
+    },
+    {
+      "code": "META:if",
+      "type": "$",
+      "name": "Conditional: if/elif/else",
+      "description": "Conditional execution of G-code blocks. Evaluates a boolean expression and executes the indented body if true. Supports elif for additional conditions and else for a default branch. The body of each branch must be indented from the keyword. Introduced in RepRapFirmware 3.01.",
+      "parameters": [
+        { "name": "expression", "description": "Boolean expression using object model values, variables, operators, and functions", "optional": false }
+      ],
+      "examples": [
+        { "code": "if !move.axes[0].homed || !move.axes[1].homed\n  G28", "description": "Home if X or Y not homed" },
+        { "code": "if move.calibration.initial.deviation <= 0.03\n  break", "description": "Break if calibration deviation is acceptable" },
+        { "code": "if exists(param.S)\n  G1 X{param.S}\nelif exists(param.D)\n  G1 X{param.D * 2}\nelse\n  echo \"No parameter passed\"", "description": "Check for macro parameters" }
+      ],
+      "relatedCodes": ["META:while", "META:var", "META:set", "META:echo", "META:abort"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "Not available in grbl." },
+        { "firmwareId": "grblhal", "code": "NGC:IF", "note": "grblHAL uses o<name> if [...] syntax from LinuxCNC NGC. RRF uses indentation-based blocks and object model expressions." },
+        { "firmwareId": "linuxcnc", "code": "NGC:IF", "note": "LinuxCNC uses o-word if/endif syntax. RRF uses indentation-based syntax with object model access." },
+        { "firmwareId": "fluidnc", "code": "", "note": "FluidNC does not support conditional G-code." }
+      ],
+      "modeNotes": [
+        { "mode": "CNC mode", "description": "In CNC mode, round brackets () are treated as comments. Use curly braces {} for sub-expressions within meta commands." }
+      ],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcode_meta_commands"],
+      "notes": "Available since RRF 3.01. Indentation determines block scope — the body ends at the first line that is not indented from the keyword."
+    },
+    {
+      "code": "META:while",
+      "type": "$",
+      "name": "Loop: while",
+      "description": "Repeats an indented block of G-code while a boolean expression is true. The built-in constant 'iterations' provides the zero-based count of completed iterations (0 during first pass, 1 during second, etc.).",
+      "parameters": [
+        { "name": "expression", "description": "Boolean loop condition", "optional": false }
+      ],
+      "examples": [
+        { "code": "while iterations < 5\n  echo \"Iteration \" ^ iterations", "description": "Loop 5 times" },
+        { "code": "while true\n  if iterations = 10\n    abort \"Too many attempts\"\n  G30 P0 X0 Y140 Z-99999\n  if result != 0\n    continue\n  if move.calibration.initial.deviation <= 0.03\n    break", "description": "Calibration loop with break/continue" }
+      ],
+      "relatedCodes": ["META:if", "META:break", "META:continue"],
+      "crossReferences": [
+        { "firmwareId": "grbl", "code": "", "note": "Not available in grbl." },
+        { "firmwareId": "grblhal", "code": "NGC:WHILE", "note": "grblHAL uses o<name> while [...] syntax. RRF uses indentation-based blocks." },
+        { "firmwareId": "linuxcnc", "code": "NGC:WHILE", "note": "LinuxCNC uses o-word while/endwhile. RRF uses indentation." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcode_meta_commands"],
+      "notes": "WARNING: An infinite loop (while true without break) will hang the machine with no way to exit except a hardware reset. Always include a bounded exit condition. In job files (not macros), use M400 at the end of the loop and before continue statements. Nested loops each have their own 'iterations' counter — save outer counters to variables to access them."
+    },
+    {
+      "code": "META:break",
+      "type": "$",
+      "name": "Break (Exit Loop)",
+      "description": "Exits the current while loop immediately. Control transfers to the line after the loop body.",
+      "parameters": [],
+      "examples": [
+        { "code": "while true\n  if iterations >= 10\n    break", "description": "Exit loop after 10 iterations" }
+      ],
+      "relatedCodes": ["META:while", "META:continue"],
+      "crossReferences": [
+        { "firmwareId": "grblhal", "code": "NGC:WHILE", "note": "grblHAL uses o<name> break. Same concept." },
+        { "firmwareId": "linuxcnc", "code": "", "note": "LinuxCNC does not have a break statement for O-word loops." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcode_meta_commands"]
+    },
+    {
+      "code": "META:continue",
+      "type": "$",
+      "name": "Continue (Next Iteration)",
+      "description": "Skips the rest of the current loop body, increments the iteration counter, and re-evaluates the while condition.",
+      "parameters": [],
+      "examples": [
+        { "code": "while true\n  G30 P0 X0 Y140 Z-99999\n  if result != 0\n    continue", "description": "Skip to next iteration if probe failed" }
+      ],
+      "relatedCodes": ["META:while", "META:break"],
+      "crossReferences": [
+        { "firmwareId": "grblhal", "code": "NGC:WHILE", "note": "grblHAL uses o<name> continue. Same concept." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcode_meta_commands"],
+      "notes": "In job files (not macros), place M400 immediately before continue."
+    },
+    {
+      "code": "META:var",
+      "type": "$",
+      "name": "Declare Local Variable",
+      "description": "Creates a new local variable with the given name and initial value. The variable is accessed as var.<name> and is scoped to the remainder of the block in which it is declared. Supported types: bool, int, float, string, arrays (RRF 3.5+).",
+      "parameters": [
+        { "name": "name", "description": "Variable name (must start with a letter, followed by letters/digits/underscores)", "optional": false },
+        { "name": "expression", "description": "Initial value expression", "optional": false }
+      ],
+      "examples": [
+        { "code": "var temperature = 0", "description": "Declare integer variable" },
+        { "code": "var name = \"default\"", "description": "Declare string variable" },
+        { "code": "var tool = exists(param.T) ? param.T : max(state.currentTool, 0)", "description": "Declare with ternary expression" },
+        { "code": "var filepath = \"globals/\" ^ {var.id}", "description": "Declare with string concatenation" }
+      ],
+      "relatedCodes": ["META:global", "META:set"],
+      "crossReferences": [
+        { "firmwareId": "grblhal", "code": "NGC:PARAM", "note": "grblHAL uses #<name> = value for named parameters. RRF uses var <name> = value." },
+        { "firmwareId": "linuxcnc", "code": "NGC:PARAM", "note": "LinuxCNC uses #<name> = value for named parameters." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcode_meta_commands"],
+      "notes": "Available since RRF 3.3. Total expression length using the variable must be < 250 characters."
+    },
+    {
+      "code": "META:global",
+      "type": "$",
+      "name": "Declare Global Variable",
+      "description": "Creates a new global variable with the given name and initial value. Global variables persist across macros and are accessed as global.<name> from any context. The name must not already be in use.",
+      "parameters": [
+        { "name": "name", "description": "Variable name", "optional": false },
+        { "name": "expression", "description": "Initial value expression", "optional": false }
+      ],
+      "examples": [
+        { "code": "global T1heat = 0", "description": "Declare global for heater tracking" },
+        { "code": "global defaultSpeed = 6000", "description": "Declare global default speed" },
+        { "code": "G1 X0 Y0 F{global.defaultSpeed}", "description": "Use global in G-code" }
+      ],
+      "relatedCodes": ["META:var", "META:set"],
+      "crossReferences": [
+        { "firmwareId": "grblhal", "code": "NGC:PARAM", "note": "grblHAL global parameters use #<_name> (predefined) or #number (numbered). RRF uses explicit global keyword." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcode_meta_commands"],
+      "notes": "Available since RRF 3.3. Global variables are accessible from all macros and the job file. Typically declared in config.g or a startup macro."
+    },
+    {
+      "code": "META:set",
+      "type": "$",
+      "name": "Assign Variable",
+      "description": "Assigns a new value to an existing local (var.) or global (global.) variable. The variable must already exist — use var or global to create it first.",
+      "parameters": [
+        { "name": "variable", "description": "var.<name> or global.<name>", "optional": false },
+        { "name": "expression", "description": "New value expression", "optional": false }
+      ],
+      "examples": [
+        { "code": "set var.temperature = heat.heaters[1].current", "description": "Update from object model" },
+        { "code": "set global.T1heat = heat.heaters[1].active", "description": "Update global variable" },
+        { "code": "set var.loopCounter = iterations", "description": "Save loop counter" }
+      ],
+      "relatedCodes": ["META:var", "META:global"],
+      "crossReferences": [
+        { "firmwareId": "grblhal", "code": "NGC:PARAM", "note": "grblHAL uses #<name> = value for reassignment. RRF requires the set keyword." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcode_meta_commands"]
+    },
+    {
+      "code": "META:echo",
+      "type": "$",
+      "name": "Echo (Output)",
+      "description": "Outputs one or more expressions to the console, converted to strings with spaces between each pair. Can also redirect output to files using >, >>, or >>> operators.",
+      "parameters": [
+        { "name": "expression", "description": "One or more comma-separated expressions to output", "optional": false }
+      ],
+      "examples": [
+        { "code": "echo move.axes[0].homed, move.axes[1].homed", "description": "Print homed status of X and Y" },
+        { "code": "echo \"Current tool: \" ^ state.currentTool", "description": "Print with string concatenation" },
+        { "code": "echo >\"mymacro.g\" \"G1 F3000 X\" ^ {move.axes[0].max - 10}", "description": "Write G-code to a new file" },
+        { "code": "echo >>\"log.txt\" \"Temp: \" ^ heat.heaters[0].current", "description": "Append to file" }
+      ],
+      "relatedCodes": ["META:abort", "M118"],
+      "crossReferences": [
+        { "firmwareId": "grblhal", "code": "NGC:PARAM", "note": "grblHAL uses (print, ...) comments for output. RRF uses echo keyword with full expression support." },
+        { "firmwareId": "linuxcnc", "code": "", "note": "LinuxCNC uses (print, ...) comment syntax." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcode_meta_commands"],
+      "notes": "File output with > (create), >> (append line), >>> (append no newline, RRF 3.5+). Default folder is /sys. echo only outputs to the channel it was received on — use M118 to send to all channels."
+    },
+    {
+      "code": "META:abort",
+      "type": "$",
+      "name": "Abort (Stop with Message)",
+      "description": "Terminates all nested macros and the current print file. The optional expression is converted to a string and included in the error message presented to the user and written to the log.",
+      "parameters": [
+        { "name": "expression", "description": "Error message (optional)", "optional": true }
+      ],
+      "examples": [
+        { "code": "abort \"Too many calibration attempts\"", "description": "Abort with message" },
+        { "code": "abort \"Deviation too high: \" ^ move.calibration.initial.deviation ^ \"mm\"", "description": "Abort with computed message" },
+        { "code": "if sensors.probes[0].value[0] > 1000\n  abort \"Probe error: value out of range\"", "description": "Conditional abort" }
+      ],
+      "relatedCodes": ["META:if", "M112"],
+      "crossReferences": [
+        { "firmwareId": "grblhal", "code": "NGC:ALARM", "note": "grblHAL uses o<name> alarm [code] or (abort, message) for similar functionality." },
+        { "firmwareId": "linuxcnc", "code": "", "note": "LinuxCNC uses M2 for program end or custom error handling through HAL." }
+      ],
+      "modeNotes": [],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcode_meta_commands"],
+      "notes": "Unlike M112 (emergency stop), abort does not require M999 to recover. It simply terminates the current execution context."
+    },
+    {
+      "code": "META:expr",
+      "type": "$",
+      "name": "Expressions and Object Model",
+      "description": "RepRapFirmware supports inline expressions using {expression} syntax within any G-code command. Expressions can access the full object model (machine state, sensor values, positions, etc.), use arithmetic/comparison/logical operators, built-in math functions, and the ternary operator.",
+      "parameters": [],
+      "examples": [
+        { "code": "G1 X{move.axes[0].max - 10} F3000", "description": "Move using object model value" },
+        { "code": "M104 S{global.T1heat}", "description": "Set temperature from global variable" },
+        { "code": "G1 Z{exists(param.Z) ? param.Z : 5}", "description": "Ternary with exists() check" },
+        { "code": "echo {abs(move.axes[2].machinePosition)}", "description": "Using abs() function" },
+        { "code": "echo {sqrt(pow(#var.xDist, 2) + pow(#var.yDist, 2))}", "description": "Pythagorean distance" }
+      ],
+      "relatedCodes": ["META:var", "META:global", "META:if"],
+      "crossReferences": [
+        { "firmwareId": "grblhal", "code": "NGC:PARAM", "note": "grblHAL uses [...] for expressions with #-parameters. RRF uses {...} with object model access." },
+        { "firmwareId": "linuxcnc", "code": "NGC:PARAM", "note": "LinuxCNC uses [...] for expressions. RRF's object model provides far more accessible machine state." }
+      ],
+      "modeNotes": [
+        { "mode": "CNC mode", "description": "In CNC mode, round brackets () are treated as comments. Use them for sub-expressions only within {} curly braces." }
+      ],
+      "sources": ["https://docs.duet3d.com/en/User_manual/Reference/Gcode_meta_commands"],
+      "notes": "Key object model paths: move.axes[n].machinePosition, move.axes[n].homed, move.axes[n].max/min, heat.heaters[n].current/active, state.currentTool, sensors.probes[n].value[0], move.calibration.initial.deviation. Operators: +, -, *, /, = (or ==), !=, <, <=, >, >=, & (and), | (or), ^ (string concat), ! (not), # (length), ? : (ternary). Functions: abs, acos, asin, atan, atan2, ceil, cos, degrees, exists, exp, fileexists, floor, isnan, log, max, min, mod, pow, radians, random, round, sin, sqrt, tan, vector."
     }
   ]
 }

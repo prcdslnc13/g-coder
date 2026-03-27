@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-g-coder is an interactive G-code/M-code wiki and troubleshooter for CNC firmware systems. Built as a support tool for agents working with LightBurn and MillMage software. Target firmwares: grbl, grblHAL, LinuxCNC, Smoothieware, RepRapFirmware (Duet3D).
+g-coder is an interactive G-code/M-code wiki and troubleshooter for CNC firmware systems. Built as a support tool for agents working with LightBurn and MillMage software. Target firmwares: grbl, grblHAL, LinuxCNC, Smoothieware, RepRapFirmware (Duet3D), FluidNC.
 
 ## Commands
 
@@ -30,7 +30,7 @@ See [ARCHITECTURE.md](ARCHITECTURE.md) for full details.
 
 **Data flow:** JSON files → `src/lib/data.ts` → page component → child components. All data is static and bundled at build time. No API routes or database.
 
-**Firmware lineage:** NIST RS274/NGC standard → LinuxCNC → grbl → grblHAL. grbl and grblHAL are distinct systems with documented differences. The $ commands are grbl/grblHAL-specific.
+**Firmware lineage:** NIST RS274/NGC standard → LinuxCNC → grbl → grblHAL. Also grbl → Grbl_ESP32 → FluidNC. grbl and grblHAL are distinct systems with documented differences. The $ commands are grbl/grblHAL/FluidNC-specific.
 
 ## Agent Instructions
 1. First think through the problem, read the codebase for the relevant files or resources.
