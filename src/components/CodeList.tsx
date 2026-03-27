@@ -78,7 +78,7 @@ export function CodeList({
             }`}
           >
             <div className="flex items-center gap-3">
-              <span className="font-mono font-bold text-emerald-400 w-16 shrink-0">
+              <span className="font-mono font-bold text-emerald-400 min-w-16 shrink-0">
                 {entry.code}
               </span>
               <span className="text-gray-200 font-medium">{entry.name}</span>

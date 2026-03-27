@@ -12,27 +12,50 @@ export default function Home() {
   const [selectedFirmware, setSelectedFirmware] = useState<FirmwareId>("grbl");
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedCode, setSelectedCode] = useState<GCodeEntry | null>(null);
-  const [typeFilter, setTypeFilter] = useState<"all" | "G" | "M" | "$">("all");
+  const [typeFilter, setTypeFilter] = useState<string>("all");
   const [compareCode, setCompareCode] = useState<string | null>(null);
 
   const firmwareList = getFirmwareList();
   const firmwareData = getFirmwareData(selectedFirmware);
   const allFirmwareData = getAllFirmwareData();
 
+  // Prefix-based code categories for contextual filter buttons
+  const codeCategories = useMemo(() => {
+    const prefixes = [
+      { id: "G", label: "G", match: (c: GCodeEntry) => c.type === "G" },
+      { id: "M", label: "M", match: (c: GCodeEntry) => c.type === "M" },
+      { id: "$", label: "$", match: (c: GCodeEntry) => c.type === "$" && c.code.startsWith("$") },
+      { id: "RT", label: "RT", match: (c: GCodeEntry) => c.code.startsWith("RT:") },
+      { id: "ERR", label: "Errors", match: (c: GCodeEntry) => c.code.startsWith("ERR:") },
+      { id: "ALARM", label: "Alarms", match: (c: GCodeEntry) => c.code.startsWith("ALARM:") },
+      { id: "META", label: "Meta", match: (c: GCodeEntry) => c.code.startsWith("META:") },
+      { id: "NGC", label: "NGC", match: (c: GCodeEntry) => c.code.startsWith("NGC:") },
+      { id: "O", label: "O-codes", match: (c: GCodeEntry) => c.code.startsWith("O:") },
+    ];
+    return prefixes.filter((p) => firmwareData.codes.some(p.match));
+  }, [firmwareData.codes]);
+
+  const filterMatch = useMemo(() => {
+    const cat = codeCategories.find((c) => c.id === typeFilter);
+    return cat?.match;
+  }, [typeFilter, codeCategories]);
+
   const filteredCodes = useMemo(() => {
     let codes = firmwareData.codes;
 
-    if (typeFilter !== "all") {
-      codes = codes.filter((c) => c.type === typeFilter);
+    if (typeFilter !== "all" && filterMatch) {
+      codes = codes.filter(filterMatch);
     }
 
     if (searchQuery.trim()) {
-      const q = searchQuery.toLowerCase();
-      codes = codes.filter(
-        (c) =>
-          c.code.toLowerCase().includes(q) ||
-          c.name.toLowerCase().includes(q) ||
-          c.description.toLowerCase().includes(q)
+      const terms = searchQuery.split(",").map((t) => t.trim().toLowerCase()).filter(Boolean);
+      codes = codes.filter((c) =>
+        terms.some(
+          (q) =>
+            c.code.toLowerCase().includes(q) ||
+            c.name.toLowerCase().includes(q) ||
+            c.description.toLowerCase().includes(q)
+        )
       );
     }
 
@@ -43,9 +66,7 @@ export default function Home() {
       const numB = parseFloat(b.code.replace(/[^0-9.]/g, "")) || 0;
       return numA - numB;
     });
-  }, [firmwareData.codes, searchQuery, typeFilter]);
-
-  const hasDollarCodes = firmwareData.codes.some((c) => c.type === "$");
+  }, [firmwareData.codes, searchQuery, typeFilter, filterMatch]);
 
   function handleNavigate(code: string, firmwareId?: FirmwareId) {
     if (firmwareId && firmwareId !== selectedFirmware) {
@@ -94,27 +115,35 @@ export default function Home() {
           <div className="flex gap-3 items-center">
             <input
               type="text"
-              placeholder="Search codes, names, or descriptions..."
+              placeholder="Search codes (comma-separated for multiple, e.g. $20, $21, $22)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
             />
-            <div className="flex gap-1">
-              {(["all", "G", "M", ...(hasDollarCodes ? ["$"] : [])] as const).map(
-                (t) => (
-                  <button
-                    key={t}
-                    onClick={() => setTypeFilter(t as typeof typeFilter)}
-                    className={`px-3 py-2 text-sm rounded-lg font-medium transition-colors ${
-                      typeFilter === t
-                        ? "bg-emerald-600 text-white"
-                        : "bg-gray-800 text-gray-400 hover:text-gray-200 hover:bg-gray-750"
-                    }`}
-                  >
-                    {t === "all" ? "All" : `${t}-codes`}
-                  </button>
-                )
-              )}
+            <div className="flex gap-1 flex-wrap">
+              <button
+                onClick={() => setTypeFilter("all")}
+                className={`px-3 py-2 text-sm rounded-lg font-medium transition-colors ${
+                  typeFilter === "all"
+                    ? "bg-emerald-600 text-white"
+                    : "bg-gray-800 text-gray-400 hover:text-gray-200 hover:bg-gray-750"
+                }`}
+              >
+                All
+              </button>
+              {codeCategories.map((cat) => (
+                <button
+                  key={cat.id}
+                  onClick={() => setTypeFilter(cat.id)}
+                  className={`px-3 py-2 text-sm rounded-lg font-medium transition-colors ${
+                    typeFilter === cat.id
+                      ? "bg-emerald-600 text-white"
+                      : "bg-gray-800 text-gray-400 hover:text-gray-200 hover:bg-gray-750"
+                  }`}
+                >
+                  {cat.label}
+                </button>
+              ))}
             </div>
           </div>
         </div>
