@@ -118,6 +118,7 @@ export default function Home() {
               placeholder="Search codes (comma-separated for multiple, e.g. $20, $21, $22)..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
+              suppressHydrationWarning
               className="flex-1 bg-gray-800 border border-gray-700 rounded-lg px-4 py-2 text-sm text-gray-100 placeholder-gray-500 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
             />
             <div className="flex gap-1 flex-wrap">
