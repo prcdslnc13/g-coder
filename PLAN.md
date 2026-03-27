@@ -4,6 +4,15 @@
 - [x] Clickable navigation between related codes and cross-firmware references
 - [x] Cross-firmware comparison mode (side-by-side view)
 - [x] $ settings reference for grbl ($0-$132) and grblHAL (key extended settings)
+- [x] Data Expansion (all 5 steps — see below)
+- [x] Contextual filter buttons for RT, Errors, Alarms, Meta, NGC, O-codes
+- [x] Comma-separated multi-term search
+- [x] Fix code column overflow for long code names (META:, NGC:, etc.)
+
+## Current State
+- **6 firmwares**: grbl, grblHAL, LinuxCNC, Smoothieware, RepRapFirmware, FluidNC
+- **794 total entries** (up from 544)
+- Branch: `expansion` (ahead of `main`)
 
 ## Remaining
 
@@ -14,10 +23,10 @@
 - [ ] Add a "back" button or breadcrumb when navigating cross-firmware from the detail dialog
 
 ### Data Verification
-- [ ] Expert review of all 544 entries for accuracy (especially cross-references and conflict warnings)
+- [ ] Expert review of all 794 entries for accuracy (especially cross-references and conflict warnings)
 - [ ] Verify source URLs are still live and correct
 - [ ] Check for missing codes in each firmware (compare against official docs)
-- [ ] Validate grbl/grblHAL lineage notes — ensure "same as grbl" / "modified" / "new" labels are correct
+- [ ] Validate grbl/grblHAL/FluidNC lineage notes — ensure "same as grbl" / "modified" / "new" labels are correct
 
 ### Feature Enhancements
 - [ ] Search across all firmwares simultaneously (not just the selected one)
@@ -26,7 +35,7 @@
 - [ ] Print-friendly view for offline reference
 - [ ] Dark/light theme toggle
 
-### Data Expansion
+### Data Expansion (Complete)
 
 **Step 1 — Add FluidNC as a firmware target**
 - [x] Add `"fluidnc"` to the `FirmwareId` type union
