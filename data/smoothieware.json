@@ -13,25 +13,67 @@
       "name": "Rapid Move",
       "description": "Rapid move to the specified position. In Smoothieware, G0 uses a separately configurable maximum rate (alpha_max_rate, beta_max_rate, gamma_max_rate in config). In laser mode, G0 moves with the laser OFF regardless of the current S value.",
       "parameters": [
-        { "name": "X", "description": "Target X position", "optional": true },
-        { "name": "Y", "description": "Target Y position", "optional": true },
-        { "name": "Z", "description": "Target Z position", "optional": true },
-        { "name": "E", "description": "Extruder position (3D printing)", "optional": true },
-        { "name": "F", "description": "Feed rate in mm/min (optional for G0, overrides rapid rate)", "optional": true }
+        {
+          "name": "X",
+          "description": "Target X position",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Target Y position",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Target Z position",
+          "optional": true
+        },
+        {
+          "name": "E",
+          "description": "Extruder position (3D printing)",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Feed rate in mm/min (optional for G0, overrides rapid rate)",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G0 X0 Y0 Z5", "description": "Rapid to origin at Z5" },
-        { "code": "G0 X100 Y50", "description": "Rapid positioning to X100 Y50" }
+        {
+          "code": "G0 X0 Y0 Z5",
+          "description": "Rapid to origin at Z5"
+        },
+        {
+          "code": "G0 X100 Y50",
+          "description": "Rapid positioning to X100 Y50"
+        }
       ],
-      "relatedCodes": ["G1"],
+      "relatedCodes": [
+        "G1"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G0", "note": "Similar behavior. Smoothieware adds E axis for extruder control. Both disable laser during G0 in laser mode." },
-        { "firmwareId": "reprapfirmware", "code": "G0", "note": "In RepRapFirmware, G0 and G1 are identical. In Smoothieware, G0 uses separate max rates and disables laser." }
+        {
+          "firmwareId": "grbl",
+          "code": "G0",
+          "note": "Similar behavior. Smoothieware adds E axis for extruder control. Both disable laser during G0 in laser mode."
+        },
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "G0",
+          "note": "In RepRapFirmware, G0 and G1 are identical. In Smoothieware, G0 uses separate max rates and disables laser."
+        }
       ],
       "modeNotes": [
-        { "mode": "Laser mode", "description": "G0 moves automatically disable the laser (PWM output is 0), preventing burning during positioning moves. This matches grbl's laser mode behavior." }
+        {
+          "mode": "Laser mode",
+          "description": "G0 moves automatically disable the laser (PWM output is 0), preventing burning during positioning moves. This matches grbl's laser mode behavior."
+        }
       ],
-      "sources": ["https://smoothieware.org/supported-g-codes", "https://smoothieware.org/laser"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes",
+        "https://smoothieware.org/laser"
+      ],
       "notes": "Smoothieware treats G0 as a rapid move with configurable per-axis maximum rates defined in the config file. G0 is modal."
     },
     {
@@ -40,27 +82,73 @@
       "name": "Linear Move",
       "description": "Controlled straight-line move at the specified feed rate. In laser mode, G1 moves with the laser ON at the current S power level.",
       "parameters": [
-        { "name": "X", "description": "Target X position", "optional": true },
-        { "name": "Y", "description": "Target Y position", "optional": true },
-        { "name": "Z", "description": "Target Z position", "optional": true },
-        { "name": "E", "description": "Extruder position", "optional": true },
-        { "name": "F", "description": "Feed rate in mm/min", "optional": true },
-        { "name": "S", "description": "Laser power (in laser mode, can be set inline)", "optional": true }
+        {
+          "name": "X",
+          "description": "Target X position",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Target Y position",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Target Z position",
+          "optional": true
+        },
+        {
+          "name": "E",
+          "description": "Extruder position",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Feed rate in mm/min",
+          "optional": true
+        },
+        {
+          "name": "S",
+          "description": "Laser power (in laser mode, can be set inline)",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G1 X50 Y30 F1200", "description": "Linear move at 1200mm/min" },
-        { "code": "G1 X100 Y100 F600 S0.8", "description": "Linear move with laser power at 0.8" }
+        {
+          "code": "G1 X50 Y30 F1200",
+          "description": "Linear move at 1200mm/min"
+        },
+        {
+          "code": "G1 X100 Y100 F600 S0.8",
+          "description": "Linear move with laser power at 0.8"
+        }
       ],
-      "relatedCodes": ["G0"],
+      "relatedCodes": [
+        "G0"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G1", "note": "Same behavior for XYZ. Smoothieware adds E axis. Both support inline S for laser power." },
-        { "firmwareId": "reprapfirmware", "code": "G1", "note": "RepRapFirmware also supports inline S for laser. Both add E axis for extrusion." }
+        {
+          "firmwareId": "grbl",
+          "code": "G1",
+          "note": "Same behavior for XYZ. Smoothieware adds E axis. Both support inline S for laser power."
+        },
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "G1",
+          "note": "RepRapFirmware also supports inline S for laser. Both add E axis for extrusion."
+        }
       ],
       "modeNotes": [
-        { "mode": "Laser mode", "description": "Laser is active during G1 moves at the power level set by M3 S value or inline S parameter. Unlike grbl, there is no M4 dynamic power mode — power does NOT automatically scale with speed." }
+        {
+          "mode": "Laser mode",
+          "description": "Laser is active during G1 moves at the power level set by M3 S value or inline S parameter. Unlike grbl, there is no M4 dynamic power mode \u2014 power does NOT automatically scale with speed."
+        }
       ],
-      "sources": ["https://smoothieware.org/supported-g-codes", "https://smoothieware.org/laser"],
-      "notes": "Feed rate is modal. In laser mode, G1 fires the laser while G0 does not — this G0/G1 distinction is the primary way to control laser on/off during motion."
+      "sources": [
+        "https://smoothieware.org/supported-g-codes",
+        "https://smoothieware.org/laser"
+      ],
+      "notes": "Feed rate is modal. In laser mode, G1 fires the laser while G0 does not \u2014 this G0/G1 distinction is the primary way to control laser on/off during motion."
     },
     {
       "code": "G2",
@@ -68,28 +156,84 @@
       "name": "Clockwise Arc",
       "description": "Clockwise circular interpolation in the currently selected plane (G17/G18/G19). Arc center is specified by IJK offsets or R radius.",
       "parameters": [
-        { "name": "X", "description": "Arc endpoint X", "optional": true },
-        { "name": "Y", "description": "Arc endpoint Y", "optional": true },
-        { "name": "Z", "description": "Arc endpoint Z (helical)", "optional": true },
-        { "name": "I", "description": "Arc center offset in X (incremental from current position)", "optional": true },
-        { "name": "J", "description": "Arc center offset in Y (incremental from current position)", "optional": true },
-        { "name": "K", "description": "Arc center offset in Z (incremental from current position)", "optional": true },
-        { "name": "R", "description": "Arc radius (alternative to IJK)", "optional": true },
-        { "name": "F", "description": "Feed rate in mm/min", "optional": true }
+        {
+          "name": "X",
+          "description": "Arc endpoint X",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Arc endpoint Y",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Arc endpoint Z (helical)",
+          "optional": true
+        },
+        {
+          "name": "I",
+          "description": "Arc center offset in X (incremental from current position)",
+          "optional": true
+        },
+        {
+          "name": "J",
+          "description": "Arc center offset in Y (incremental from current position)",
+          "optional": true
+        },
+        {
+          "name": "K",
+          "description": "Arc center offset in Z (incremental from current position)",
+          "optional": true
+        },
+        {
+          "name": "R",
+          "description": "Arc radius (alternative to IJK)",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Feed rate in mm/min",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G2 X10 Y10 I5 J0 F600", "description": "CW arc to X10 Y10 with center offset I5 J0" },
-        { "code": "G2 X10 Y10 R5 F600", "description": "CW arc to X10 Y10 with radius 5" }
+        {
+          "code": "G2 X10 Y10 I5 J0 F600",
+          "description": "CW arc to X10 Y10 with center offset I5 J0"
+        },
+        {
+          "code": "G2 X10 Y10 R5 F600",
+          "description": "CW arc to X10 Y10 with radius 5"
+        }
       ],
-      "relatedCodes": ["G3", "G17", "G18", "G19"],
+      "relatedCodes": [
+        "G3",
+        "G17",
+        "G18",
+        "G19"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G2", "note": "Same behavior. Both use incremental IJK offsets (G91.1 mode only)." },
-        { "firmwareId": "linuxcnc", "code": "G2", "note": "Same behavior. LinuxCNC additionally supports absolute IJK mode (G90.1)." }
+        {
+          "firmwareId": "grbl",
+          "code": "G2",
+          "note": "Same behavior. Both use incremental IJK offsets (G91.1 mode only)."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G2",
+          "note": "Same behavior. LinuxCNC additionally supports absolute IJK mode (G90.1)."
+        }
       ],
       "modeNotes": [
-        { "mode": "Laser mode", "description": "Laser is active during arc moves at the current S power level." }
+        {
+          "mode": "Laser mode",
+          "description": "Laser is active during arc moves at the current S power level."
+        }
       ],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "Only incremental IJK mode is supported. Use either IJK offsets or R radius, not both. Arc segments are internally rendered as small line segments."
     },
     {
@@ -98,26 +242,75 @@
       "name": "Counter-Clockwise Arc",
       "description": "Counter-clockwise circular interpolation. Same as G2 but in the opposite direction.",
       "parameters": [
-        { "name": "X", "description": "Arc endpoint X", "optional": true },
-        { "name": "Y", "description": "Arc endpoint Y", "optional": true },
-        { "name": "Z", "description": "Arc endpoint Z (helical)", "optional": true },
-        { "name": "I", "description": "Arc center offset in X", "optional": true },
-        { "name": "J", "description": "Arc center offset in Y", "optional": true },
-        { "name": "K", "description": "Arc center offset in Z", "optional": true },
-        { "name": "R", "description": "Arc radius (alternative to IJK)", "optional": true },
-        { "name": "F", "description": "Feed rate in mm/min", "optional": true }
+        {
+          "name": "X",
+          "description": "Arc endpoint X",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Arc endpoint Y",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Arc endpoint Z (helical)",
+          "optional": true
+        },
+        {
+          "name": "I",
+          "description": "Arc center offset in X",
+          "optional": true
+        },
+        {
+          "name": "J",
+          "description": "Arc center offset in Y",
+          "optional": true
+        },
+        {
+          "name": "K",
+          "description": "Arc center offset in Z",
+          "optional": true
+        },
+        {
+          "name": "R",
+          "description": "Arc radius (alternative to IJK)",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Feed rate in mm/min",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G3 X10 Y10 R5 F600", "description": "CCW arc to X10 Y10 with radius 5" }
+        {
+          "code": "G3 X10 Y10 R5 F600",
+          "description": "CCW arc to X10 Y10 with radius 5"
+        }
       ],
-      "relatedCodes": ["G2", "G17", "G18", "G19"],
+      "relatedCodes": [
+        "G2",
+        "G17",
+        "G18",
+        "G19"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G3", "note": "Same behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "G3",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [
-        { "mode": "Laser mode", "description": "Same laser behavior as G2." }
+        {
+          "mode": "Laser mode",
+          "description": "Same laser behavior as G2."
+        }
       ],
-      "sources": ["https://smoothieware.org/supported-g-codes"]
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ]
     },
     {
       "code": "G4",
@@ -125,22 +318,53 @@
       "name": "Dwell",
       "description": "Pauses execution for a specified duration. P interpretation depends on config: in RepRap mode (default), P is milliseconds. In GRBL-compatible mode, P is seconds. S always means seconds.",
       "parameters": [
-        { "name": "P", "description": "Dwell time — milliseconds in RepRap mode (default), seconds in GRBL mode", "optional": true },
-        { "name": "S", "description": "Dwell time in seconds (always seconds regardless of mode)", "optional": true }
+        {
+          "name": "P",
+          "description": "Dwell time \u2014 milliseconds in RepRap mode (default), seconds in GRBL mode",
+          "optional": true
+        },
+        {
+          "name": "S",
+          "description": "Dwell time in seconds (always seconds regardless of mode)",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G4 P1000", "description": "Pause for 1 second (RepRap mode, P=milliseconds)" },
-        { "code": "G4 S1", "description": "Pause for 1 second (S always seconds)" },
-        { "code": "G4 P1", "description": "Pause for 1 second (GRBL mode, P=seconds) OR 1 millisecond (RepRap mode) — AMBIGUOUS" }
+        {
+          "code": "G4 P1000",
+          "description": "Pause for 1 second (RepRap mode, P=milliseconds)"
+        },
+        {
+          "code": "G4 S1",
+          "description": "Pause for 1 second (S always seconds)"
+        },
+        {
+          "code": "G4 P1",
+          "description": "Pause for 1 second (GRBL mode, P=seconds) OR 1 millisecond (RepRap mode) \u2014 AMBIGUOUS"
+        }
       ],
       "relatedCodes": [],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G4", "note": "grbl uses P in seconds. Smoothieware P interpretation depends on config mode. Use S parameter for unambiguous seconds across both." },
-        { "firmwareId": "linuxcnc", "code": "G4", "note": "LinuxCNC uses P in seconds. Smoothieware RepRap mode uses P in milliseconds." },
-        { "firmwareId": "reprapfirmware", "code": "G4", "note": "Both use P in milliseconds and S in seconds in RepRap mode." }
+        {
+          "firmwareId": "grbl",
+          "code": "G4",
+          "note": "grbl uses P in seconds. Smoothieware P interpretation depends on config mode. Use S parameter for unambiguous seconds across both."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G4",
+          "note": "LinuxCNC uses P in seconds. Smoothieware RepRap mode uses P in milliseconds."
+        },
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "G4",
+          "note": "Both use P in milliseconds and S in seconds in RepRap mode."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "WARNING: P parameter interpretation varies by firmware mode. Use S (seconds) for cross-firmware compatibility. In RepRap mode (grbl_mode false), P=milliseconds. In GRBL mode (grbl_mode true), P=seconds."
     },
     {
@@ -150,14 +374,28 @@
       "description": "Performs a firmware-controlled retraction of the extruder filament. Retraction parameters are configured with M207. Part of the firmware retraction feature used in 3D printing.",
       "parameters": [],
       "examples": [
-        { "code": "G10", "description": "Retract filament using firmware retraction settings" }
+        {
+          "code": "G10",
+          "description": "Retract filament using firmware retraction settings"
+        }
       ],
-      "relatedCodes": ["G11", "M207", "M208"],
+      "relatedCodes": [
+        "G11",
+        "M207",
+        "M208"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "G10", "note": "RepRapFirmware also supports G10 for firmware retraction, but G10 is overloaded — with P/L parameters it sets tool offsets or coordinate systems. Smoothieware separates these: G10 alone = retract, G10 L2/L20 = coordinate systems." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "G10",
+          "note": "RepRapFirmware also supports G10 for firmware retraction, but G10 is overloaded \u2014 with P/L parameters it sets tool offsets or coordinate systems. Smoothieware separates these: G10 alone = retract, G10 L2/L20 = coordinate systems."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes", "https://smoothieware.org/extruder#firmware-retract"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes",
+        "https://smoothieware.org/extruder#firmware-retract"
+      ],
       "notes": "Requires the extruder module to be loaded. Retraction length and speed are configured via M207. Using firmware retraction allows the slicer to output G10/G11 commands instead of explicit E moves, making it easy to tune retraction settings without re-slicing."
     },
     {
@@ -167,14 +405,28 @@
       "description": "Performs a firmware-controlled un-retraction (prime) of the extruder filament. Unretraction parameters are configured with M208.",
       "parameters": [],
       "examples": [
-        { "code": "G11", "description": "Unretract filament (prime) using firmware settings" }
+        {
+          "code": "G11",
+          "description": "Unretract filament (prime) using firmware settings"
+        }
       ],
-      "relatedCodes": ["G10", "M207", "M208"],
+      "relatedCodes": [
+        "G10",
+        "M207",
+        "M208"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "G11", "note": "Same firmware unretract behavior." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "G11",
+          "note": "Same firmware unretract behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes", "https://smoothieware.org/extruder#firmware-retract"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes",
+        "https://smoothieware.org/extruder#firmware-retract"
+      ],
       "notes": "Unretraction length can include extra prime length configured via M208."
     },
     {
@@ -183,21 +435,58 @@
       "name": "Set Work Coordinate Offset (Absolute)",
       "description": "Sets a work coordinate system offset (G54-G59.3) to absolute values.",
       "parameters": [
-        { "name": "P", "description": "Coordinate system number: 1=G54, 2=G55, 3=G56, 4=G57, 5=G58, 6=G59, 7=G59.1, 8=G59.2, 9=G59.3", "optional": false },
-        { "name": "X", "description": "X offset value", "optional": true },
-        { "name": "Y", "description": "Y offset value", "optional": true },
-        { "name": "Z", "description": "Z offset value", "optional": true }
+        {
+          "name": "P",
+          "description": "Coordinate system number: 1=G54, 2=G55, 3=G56, 4=G57, 5=G58, 6=G59, 7=G59.1, 8=G59.2, 9=G59.3",
+          "optional": false
+        },
+        {
+          "name": "X",
+          "description": "X offset value",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Y offset value",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Z offset value",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G10 L2 P1 X10 Y20 Z0", "description": "Set G54 offset to X10 Y20 Z0" }
+        {
+          "code": "G10 L2 P1 X10 Y20 Z0",
+          "description": "Set G54 offset to X10 Y20 Z0"
+        }
       ],
-      "relatedCodes": ["G10 L20", "G54", "G55", "G56", "G57", "G58", "G59"],
+      "relatedCodes": [
+        "G10 L20",
+        "G54",
+        "G55",
+        "G56",
+        "G57",
+        "G58",
+        "G59"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G10 L2", "note": "Same behavior. grbl supports P1-P6 (G54-G59). Smoothieware supports P1-P9 (G54-G59.3)." },
-        { "firmwareId": "linuxcnc", "code": "G10 L2", "note": "Same behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "G10 L2",
+          "note": "Same behavior. grbl supports P1-P6 (G54-G59). Smoothieware supports P1-P9 (G54-G59.3)."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G10 L2",
+          "note": "Same behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "Smoothieware supports 9 coordinate systems (G54-G59.3), more than grbl's 6."
     },
     {
@@ -206,21 +495,58 @@
       "name": "Set Work Coordinate Offset (Relative to Current Position)",
       "description": "Sets a work coordinate system offset such that the current position becomes the specified coordinate value.",
       "parameters": [
-        { "name": "P", "description": "Coordinate system number: 1=G54 through 9=G59.3", "optional": false },
-        { "name": "X", "description": "Desired X position at current location", "optional": true },
-        { "name": "Y", "description": "Desired Y position at current location", "optional": true },
-        { "name": "Z", "description": "Desired Z position at current location", "optional": true }
+        {
+          "name": "P",
+          "description": "Coordinate system number: 1=G54 through 9=G59.3",
+          "optional": false
+        },
+        {
+          "name": "X",
+          "description": "Desired X position at current location",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Desired Y position at current location",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Desired Z position at current location",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G10 L20 P1 X0 Y0 Z0", "description": "Set G54 so current position reads as origin" }
+        {
+          "code": "G10 L20 P1 X0 Y0 Z0",
+          "description": "Set G54 so current position reads as origin"
+        }
       ],
-      "relatedCodes": ["G10 L2", "G54", "G55", "G56", "G57", "G58", "G59"],
+      "relatedCodes": [
+        "G10 L2",
+        "G54",
+        "G55",
+        "G56",
+        "G57",
+        "G58",
+        "G59"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G10 L20", "note": "Same behavior." },
-        { "firmwareId": "linuxcnc", "code": "G10 L20", "note": "Same behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "G10 L20",
+          "note": "Same behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G10 L20",
+          "note": "Same behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"]
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ]
     },
     {
       "code": "G17",
@@ -229,14 +555,28 @@
       "description": "Selects the XY plane for arc commands (G2/G3). This is the default plane.",
       "parameters": [],
       "examples": [
-        { "code": "G17", "description": "Select XY plane for arcs" }
+        {
+          "code": "G17",
+          "description": "Select XY plane for arcs"
+        }
       ],
-      "relatedCodes": ["G18", "G19", "G2", "G3"],
+      "relatedCodes": [
+        "G18",
+        "G19",
+        "G2",
+        "G3"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G17", "note": "Same behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "G17",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "Default plane. Arcs use I and J offsets in this plane."
     },
     {
@@ -246,14 +586,28 @@
       "description": "Selects the XZ plane for arc commands (G2/G3).",
       "parameters": [],
       "examples": [
-        { "code": "G18", "description": "Select XZ plane for arcs" }
+        {
+          "code": "G18",
+          "description": "Select XZ plane for arcs"
+        }
       ],
-      "relatedCodes": ["G17", "G19", "G2", "G3"],
+      "relatedCodes": [
+        "G17",
+        "G19",
+        "G2",
+        "G3"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G18", "note": "Same behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "G18",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "Arcs use I and K offsets in this plane."
     },
     {
@@ -263,14 +617,28 @@
       "description": "Selects the YZ plane for arc commands (G2/G3).",
       "parameters": [],
       "examples": [
-        { "code": "G19", "description": "Select YZ plane for arcs" }
+        {
+          "code": "G19",
+          "description": "Select YZ plane for arcs"
+        }
       ],
-      "relatedCodes": ["G17", "G18", "G2", "G3"],
+      "relatedCodes": [
+        "G17",
+        "G18",
+        "G2",
+        "G3"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G19", "note": "Same behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "G19",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "Arcs use J and K offsets in this plane."
     },
     {
@@ -280,15 +648,30 @@
       "description": "Sets all subsequent coordinates and feed rates to inches.",
       "parameters": [],
       "examples": [
-        { "code": "G20", "description": "Switch to inch units" }
+        {
+          "code": "G20",
+          "description": "Switch to inch units"
+        }
       ],
-      "relatedCodes": ["G21"],
+      "relatedCodes": [
+        "G21"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G20", "note": "Same behavior." },
-        { "firmwareId": "linuxcnc", "code": "G20", "note": "Same behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "G20",
+          "note": "Same behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G20",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "Modal. Affects coordinate values and feed rates."
     },
     {
@@ -298,15 +681,30 @@
       "description": "Sets all subsequent coordinates and feed rates to millimeters. This is the default.",
       "parameters": [],
       "examples": [
-        { "code": "G21", "description": "Switch to millimeter units" }
+        {
+          "code": "G21",
+          "description": "Switch to millimeter units"
+        }
       ],
-      "relatedCodes": ["G20"],
+      "relatedCodes": [
+        "G20"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G21", "note": "Same behavior." },
-        { "firmwareId": "linuxcnc", "code": "G21", "note": "Same behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "G21",
+          "note": "Same behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G21",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "Default unit mode for Smoothieware."
     },
     {
@@ -315,23 +713,67 @@
       "name": "Home Axes",
       "description": "Homes the specified axes (or all axes if none specified) by moving toward endstops. WARNING: This is NOT the same as G28 in grbl/LinuxCNC, which moves to a stored position.",
       "parameters": [
-        { "name": "X", "description": "Home X axis", "optional": true },
-        { "name": "Y", "description": "Home Y axis", "optional": true },
-        { "name": "Z", "description": "Home Z axis", "optional": true }
+        {
+          "name": "X",
+          "description": "Home X axis",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Home Y axis",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Home Z axis",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G28", "description": "Home all axes" },
-        { "code": "G28 X Y", "description": "Home only X and Y axes" },
-        { "code": "G28 Z", "description": "Home only Z axis" }
+        {
+          "code": "G28",
+          "description": "Home all axes"
+        },
+        {
+          "code": "G28 X Y",
+          "description": "Home only X and Y axes"
+        },
+        {
+          "code": "G28 Z",
+          "description": "Home only Z axis"
+        }
       ],
-      "relatedCodes": ["G28.1", "G28.2", "G28.3", "G28.4", "G28.5", "G28.6", "G28.7"],
+      "relatedCodes": [
+        "G28.1",
+        "G28.2",
+        "G28.3",
+        "G28.4",
+        "G28.5",
+        "G28.6",
+        "G28.7"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "$H", "note": "CRITICAL CONFLICT: Smoothieware G28 = homing (equivalent to grbl's $H command). grbl's G28 moves to a stored position — completely different behavior. Sending grbl G-code with G28 to a Smoothieware machine will trigger an unexpected homing cycle." },
-        { "firmwareId": "linuxcnc", "code": "G28", "note": "CRITICAL CONFLICT: LinuxCNC G28 moves to a stored predefined position. Smoothieware G28 homes to endstops." },
-        { "firmwareId": "reprapfirmware", "code": "G28", "note": "Same homing behavior as Smoothieware. Both follow the RepRap/3D-printing convention." }
+        {
+          "firmwareId": "grbl",
+          "code": "$H",
+          "note": "CRITICAL CONFLICT: Smoothieware G28 = homing (equivalent to grbl's $H command). grbl's G28 moves to a stored position \u2014 completely different behavior. Sending grbl G-code with G28 to a Smoothieware machine will trigger an unexpected homing cycle."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G28",
+          "note": "CRITICAL CONFLICT: LinuxCNC G28 moves to a stored predefined position. Smoothieware G28 homes to endstops."
+        },
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "G28",
+          "note": "Same homing behavior as Smoothieware. Both follow the RepRap/3D-printing convention."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes", "https://smoothieware.org/endstops"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes",
+        "https://smoothieware.org/endstops"
+      ],
       "notes": "CRITICAL CROSS-FIRMWARE CONFLICT: G28 in Smoothieware performs homing (moves to endstops). In grbl and LinuxCNC, G28 moves to a stored predefined position. This is the single biggest source of cross-firmware confusion. Homing direction and speed are configured in the config file (alpha_homing_direction, alpha_fast_homing_rate, etc.)."
     },
     {
@@ -341,14 +783,25 @@
       "description": "Moves to a predefined park position. This is closer to the NIST G28 stored-position behavior.",
       "parameters": [],
       "examples": [
-        { "code": "G28.1", "description": "Move to configured park position" }
+        {
+          "code": "G28.1",
+          "description": "Move to configured park position"
+        }
       ],
-      "relatedCodes": ["G28"],
+      "relatedCodes": [
+        "G28"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G28", "note": "Smoothieware G28.1 is functionally similar to grbl's G28 (move to stored position)." }
+        {
+          "firmwareId": "grbl",
+          "code": "G28",
+          "note": "Smoothieware G28.1 is functionally similar to grbl's G28 (move to stored position)."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "Park position is configured in the config file. Use this instead of G28 when you want to move to a predefined position without homing."
     },
     {
@@ -357,17 +810,36 @@
       "name": "Home Axes (Explicit)",
       "description": "Homes the specified axes. Functionally identical to G28 but explicitly signals homing intent.",
       "parameters": [
-        { "name": "X", "description": "Home X axis", "optional": true },
-        { "name": "Y", "description": "Home Y axis", "optional": true },
-        { "name": "Z", "description": "Home Z axis", "optional": true }
+        {
+          "name": "X",
+          "description": "Home X axis",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Home Y axis",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Home Z axis",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G28.2 X Y Z", "description": "Home all axes explicitly" }
+        {
+          "code": "G28.2 X Y Z",
+          "description": "Home all axes explicitly"
+        }
       ],
-      "relatedCodes": ["G28"],
+      "relatedCodes": [
+        "G28"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "Alternative homing command. Axes must be specified explicitly."
     },
     {
@@ -376,17 +848,37 @@
       "name": "Manual Homing / Set Position",
       "description": "Sets the specified axis positions without moving. Used for manual homing when no endstops are available.",
       "parameters": [
-        { "name": "X", "description": "Set X position", "optional": true },
-        { "name": "Y", "description": "Set Y position", "optional": true },
-        { "name": "Z", "description": "Set Z position", "optional": true }
+        {
+          "name": "X",
+          "description": "Set X position",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Set Y position",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Set Z position",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G28.3 X0 Y0 Z0", "description": "Tell firmware current position is origin (manual home)" }
+        {
+          "code": "G28.3 X0 Y0 Z0",
+          "description": "Tell firmware current position is origin (manual home)"
+        }
       ],
-      "relatedCodes": ["G28", "G92"],
+      "relatedCodes": [
+        "G28",
+        "G92"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "Useful for machines without endstops. Sets the current position to the given coordinates and marks the axis as homed."
     },
     {
@@ -395,17 +887,37 @@
       "name": "Home Axes (Fast Only)",
       "description": "Homes using only the fast homing rate, skipping the slow approach phase.",
       "parameters": [
-        { "name": "X", "description": "Home X axis", "optional": true },
-        { "name": "Y", "description": "Home Y axis", "optional": true },
-        { "name": "Z", "description": "Home Z axis", "optional": true }
+        {
+          "name": "X",
+          "description": "Home X axis",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Home Y axis",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Home Z axis",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G28.4 X Y Z", "description": "Fast-only home all axes" }
+        {
+          "code": "G28.4 X Y Z",
+          "description": "Fast-only home all axes"
+        }
       ],
-      "relatedCodes": ["G28", "G28.5"],
+      "relatedCodes": [
+        "G28",
+        "G28.5"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "Less accurate than normal homing (G28) since it skips the slow approach. Useful for rough homing when speed matters more than precision."
     },
     {
@@ -414,17 +926,36 @@
       "name": "Home Axes (With Homing Order)",
       "description": "Homes axes in the order specified by the homing_order config setting.",
       "parameters": [
-        { "name": "X", "description": "Home X axis", "optional": true },
-        { "name": "Y", "description": "Home Y axis", "optional": true },
-        { "name": "Z", "description": "Home Z axis", "optional": true }
+        {
+          "name": "X",
+          "description": "Home X axis",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Home Y axis",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Home Z axis",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G28.5", "description": "Home axes using configured homing order" }
+        {
+          "code": "G28.5",
+          "description": "Home axes using configured homing order"
+        }
       ],
-      "relatedCodes": ["G28"],
+      "relatedCodes": [
+        "G28"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "Uses homing_order from config to determine axis homing sequence."
     },
     {
@@ -433,17 +964,36 @@
       "name": "Home Individual Axis",
       "description": "Homes a single specified axis.",
       "parameters": [
-        { "name": "X", "description": "Home X axis only", "optional": true },
-        { "name": "Y", "description": "Home Y axis only", "optional": true },
-        { "name": "Z", "description": "Home Z axis only", "optional": true }
+        {
+          "name": "X",
+          "description": "Home X axis only",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Home Y axis only",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Home Z axis only",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G28.6 Z", "description": "Home only the Z axis" }
+        {
+          "code": "G28.6 Z",
+          "description": "Home only the Z axis"
+        }
       ],
-      "relatedCodes": ["G28"],
+      "relatedCodes": [
+        "G28"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"]
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ]
     },
     {
       "code": "G28.7",
@@ -451,18 +1001,37 @@
       "name": "Home with Stallguard",
       "description": "Homes using stepper driver stallguard (sensorless homing). Requires compatible stepper drivers (e.g., TMC2130, TMC2209).",
       "parameters": [
-        { "name": "X", "description": "Home X axis", "optional": true },
-        { "name": "Y", "description": "Home Y axis", "optional": true },
-        { "name": "Z", "description": "Home Z axis", "optional": true }
+        {
+          "name": "X",
+          "description": "Home X axis",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Home Y axis",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Home Z axis",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G28.7 X Y", "description": "Home X and Y using stallguard" }
+        {
+          "code": "G28.7 X Y",
+          "description": "Home X and Y using stallguard"
+        }
       ],
-      "relatedCodes": ["G28"],
+      "relatedCodes": [
+        "G28"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
-      "notes": "Sensorless homing — requires TMC stepper drivers with stallguard capability."
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
+      "notes": "Sensorless homing \u2014 requires TMC stepper drivers with stallguard capability."
     },
     {
       "code": "G29",
@@ -471,14 +1040,27 @@
       "description": "Runs an automatic bed leveling probe routine. Probes a grid of points and applies compensation. Requires the ZProbe module.",
       "parameters": [],
       "examples": [
-        { "code": "G29", "description": "Run auto bed leveling routine" }
+        {
+          "code": "G29",
+          "description": "Run auto bed leveling routine"
+        }
       ],
-      "relatedCodes": ["G30", "G32"],
+      "relatedCodes": [
+        "G30",
+        "G32"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "G29", "note": "Similar auto-leveling purpose. Implementation details differ." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "G29",
+          "note": "Similar auto-leveling purpose. Implementation details differ."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes", "https://smoothieware.org/zprobe"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes",
+        "https://smoothieware.org/zprobe"
+      ],
       "notes": "Grid size and probe parameters are configured in the config file (leveling-strategy settings). Stores compensation data that is applied to all subsequent moves."
     },
     {
@@ -487,19 +1069,43 @@
       "name": "Single Z Probe",
       "description": "Probes downward at the current XY position to determine the Z height. Reports the probed position. WARNING: Different from NIST/grbl G30.",
       "parameters": [
-        { "name": "Z", "description": "Target probe depth (optional, defaults to config)", "optional": true }
+        {
+          "name": "Z",
+          "description": "Target probe depth (optional, defaults to config)",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G30", "description": "Probe Z at current position" },
-        { "code": "G30 Z-10", "description": "Probe downward with Z-10 limit" }
+        {
+          "code": "G30",
+          "description": "Probe Z at current position"
+        },
+        {
+          "code": "G30 Z-10",
+          "description": "Probe downward with Z-10 limit"
+        }
       ],
-      "relatedCodes": ["G29", "G38.2"],
+      "relatedCodes": [
+        "G29",
+        "G38.2"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G30", "note": "CONFLICT: grbl G30 moves to a second stored position (like G28 but with a different stored location). Smoothieware G30 performs a Z probe. Completely different behavior." },
-        { "firmwareId": "linuxcnc", "code": "G30", "note": "CONFLICT: LinuxCNC G30 moves to a second predefined position. Smoothieware G30 is a Z probe." }
+        {
+          "firmwareId": "grbl",
+          "code": "G30",
+          "note": "CONFLICT: grbl G30 moves to a second stored position (like G28 but with a different stored location). Smoothieware G30 performs a Z probe. Completely different behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G30",
+          "note": "CONFLICT: LinuxCNC G30 moves to a second predefined position. Smoothieware G30 is a Z probe."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes", "https://smoothieware.org/zprobe"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes",
+        "https://smoothieware.org/zprobe"
+      ],
       "notes": "CROSS-FIRMWARE CONFLICT: Smoothieware G30 = Z probe. grbl/LinuxCNC G30 = move to second stored position. Requires ZProbe module. Probe speed and other parameters are configured in the config file."
     },
     {
@@ -509,12 +1115,23 @@
       "description": "Runs delta auto-calibration routine. Probes multiple points and adjusts delta geometry parameters (endstop offsets, arm length, delta radius, etc.).",
       "parameters": [],
       "examples": [
-        { "code": "G32", "description": "Run delta auto-calibration" }
+        {
+          "code": "G32",
+          "description": "Run delta auto-calibration"
+        }
       ],
-      "relatedCodes": ["G29", "G30", "M665", "M666"],
+      "relatedCodes": [
+        "G29",
+        "G30",
+        "M665",
+        "M666"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes", "https://smoothieware.org/delta"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes",
+        "https://smoothieware.org/delta"
+      ],
       "notes": "Delta kinematics only. Iteratively probes and adjusts delta parameters. Use M665/M666 to view and manually set delta parameters. Results can be saved with M500."
     },
     {
@@ -523,21 +1140,56 @@
       "name": "Probe Toward Workpiece (Stop on Contact, Error if No Contact)",
       "description": "Moves toward the target position and stops when the probe input triggers. Errors if probe does not trigger before reaching the target.",
       "parameters": [
-        { "name": "X", "description": "Target X position", "optional": true },
-        { "name": "Y", "description": "Target Y position", "optional": true },
-        { "name": "Z", "description": "Target Z position", "optional": true },
-        { "name": "F", "description": "Probe feed rate", "optional": true }
+        {
+          "name": "X",
+          "description": "Target X position",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Target Y position",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Target Z position",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Probe feed rate",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G38.2 Z-10 F100", "description": "Probe down to Z-10 at 100mm/min, error if no contact" }
+        {
+          "code": "G38.2 Z-10 F100",
+          "description": "Probe down to Z-10 at 100mm/min, error if no contact"
+        }
       ],
-      "relatedCodes": ["G38.3", "G38.4", "G38.5", "G30"],
+      "relatedCodes": [
+        "G38.3",
+        "G38.4",
+        "G38.5",
+        "G30"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G38.2", "note": "Same behavior per NIST standard." },
-        { "firmwareId": "linuxcnc", "code": "G38.2", "note": "Same behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "G38.2",
+          "note": "Same behavior per NIST standard."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G38.2",
+          "note": "Same behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes", "https://smoothieware.org/zprobe"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes",
+        "https://smoothieware.org/zprobe"
+      ],
       "notes": "Standard NIST probing command. Requires ZProbe module."
     },
     {
@@ -546,20 +1198,49 @@
       "name": "Probe Toward Workpiece (Stop on Contact, No Error)",
       "description": "Same as G38.2 but does not error if the probe does not trigger.",
       "parameters": [
-        { "name": "X", "description": "Target X position", "optional": true },
-        { "name": "Y", "description": "Target Y position", "optional": true },
-        { "name": "Z", "description": "Target Z position", "optional": true },
-        { "name": "F", "description": "Probe feed rate", "optional": true }
+        {
+          "name": "X",
+          "description": "Target X position",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Target Y position",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Target Z position",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Probe feed rate",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G38.3 Z-10 F100", "description": "Probe down to Z-10, no error if no contact" }
+        {
+          "code": "G38.3 Z-10 F100",
+          "description": "Probe down to Z-10, no error if no contact"
+        }
       ],
-      "relatedCodes": ["G38.2", "G38.4", "G38.5"],
+      "relatedCodes": [
+        "G38.2",
+        "G38.4",
+        "G38.5"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G38.3", "note": "Same behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "G38.3",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"]
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ]
     },
     {
       "code": "G38.4",
@@ -567,20 +1248,49 @@
       "name": "Probe Away from Workpiece (Stop on Loss of Contact, Error)",
       "description": "Moves away from workpiece, stops when probe deactivates. Errors if probe does not deactivate.",
       "parameters": [
-        { "name": "X", "description": "Target X position", "optional": true },
-        { "name": "Y", "description": "Target Y position", "optional": true },
-        { "name": "Z", "description": "Target Z position", "optional": true },
-        { "name": "F", "description": "Probe feed rate", "optional": true }
+        {
+          "name": "X",
+          "description": "Target X position",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Target Y position",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Target Z position",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Probe feed rate",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G38.4 Z10 F100", "description": "Probe upward until probe releases, error if no release" }
+        {
+          "code": "G38.4 Z10 F100",
+          "description": "Probe upward until probe releases, error if no release"
+        }
       ],
-      "relatedCodes": ["G38.2", "G38.3", "G38.5"],
+      "relatedCodes": [
+        "G38.2",
+        "G38.3",
+        "G38.5"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G38.4", "note": "Same behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "G38.4",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"]
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ]
     },
     {
       "code": "G38.5",
@@ -588,20 +1298,49 @@
       "name": "Probe Away from Workpiece (Stop on Loss of Contact, No Error)",
       "description": "Same as G38.4 but does not error if the probe does not deactivate.",
       "parameters": [
-        { "name": "X", "description": "Target X position", "optional": true },
-        { "name": "Y", "description": "Target Y position", "optional": true },
-        { "name": "Z", "description": "Target Z position", "optional": true },
-        { "name": "F", "description": "Probe feed rate", "optional": true }
+        {
+          "name": "X",
+          "description": "Target X position",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Target Y position",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Target Z position",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Probe feed rate",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G38.5 Z10 F100", "description": "Probe upward until probe releases, no error" }
+        {
+          "code": "G38.5 Z10 F100",
+          "description": "Probe upward until probe releases, no error"
+        }
       ],
-      "relatedCodes": ["G38.2", "G38.3", "G38.4"],
+      "relatedCodes": [
+        "G38.2",
+        "G38.3",
+        "G38.4"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G38.5", "note": "Same behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "G38.5",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"]
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ]
     },
     {
       "code": "G43.2",
@@ -609,42 +1348,93 @@
       "name": "Baby Steps / Z Offset",
       "description": "Applies a Z offset (baby stepping) to all subsequent moves. Used for fine-tuning first layer height during 3D printing.",
       "parameters": [
-        { "name": "Z", "description": "Z offset to apply", "optional": false }
+        {
+          "name": "Z",
+          "description": "Z offset to apply",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "G43.2 Z-0.1", "description": "Apply -0.1mm Z offset (move nozzle closer to bed)" },
-        { "code": "G43.2 Z0", "description": "Clear Z offset" }
+        {
+          "code": "G43.2 Z-0.1",
+          "description": "Apply -0.1mm Z offset (move nozzle closer to bed)"
+        },
+        {
+          "code": "G43.2 Z0",
+          "description": "Clear Z offset"
+        }
       ],
       "relatedCodes": [],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G43", "note": "LinuxCNC G43 is tool length offset from tool table. Smoothieware G43.2 is a simpler baby-step Z offset, not a full tool length compensation system." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G43",
+          "note": "LinuxCNC G43 is tool length offset from tool table. Smoothieware G43.2 is a simpler baby-step Z offset, not a full tool length compensation system."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "Commonly used to adjust first layer height while printing. Offset persists until cleared with G43.2 Z0 or reset."
     },
     {
       "code": "G53",
       "type": "G",
       "name": "Move in Machine Coordinates",
-      "description": "Next move uses machine (absolute) coordinates, ignoring any work coordinate system offsets (G54-G59.3) and G92 offsets. Non-modal — only affects the line it appears on.",
+      "description": "Next move uses machine (absolute) coordinates, ignoring any work coordinate system offsets (G54-G59.3) and G92 offsets. Non-modal \u2014 only affects the line it appears on.",
       "parameters": [
-        { "name": "X", "description": "Machine X position", "optional": true },
-        { "name": "Y", "description": "Machine Y position", "optional": true },
-        { "name": "Z", "description": "Machine Z position", "optional": true }
+        {
+          "name": "X",
+          "description": "Machine X position",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Machine Y position",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Machine Z position",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G53 G0 X0 Y0 Z0", "description": "Rapid to machine origin" },
-        { "code": "G53 G0 Z0", "description": "Rapid Z to machine zero (useful for tool changes)" }
+        {
+          "code": "G53 G0 X0 Y0 Z0",
+          "description": "Rapid to machine origin"
+        },
+        {
+          "code": "G53 G0 Z0",
+          "description": "Rapid Z to machine zero (useful for tool changes)"
+        }
       ],
-      "relatedCodes": ["G54", "G55", "G56", "G57", "G58", "G59"],
+      "relatedCodes": [
+        "G54",
+        "G55",
+        "G56",
+        "G57",
+        "G58",
+        "G59"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G53", "note": "Same behavior per NIST standard." },
-        { "firmwareId": "linuxcnc", "code": "G53", "note": "Same behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "G53",
+          "note": "Same behavior per NIST standard."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G53",
+          "note": "Same behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
-      "notes": "Non-modal — must be repeated on each line where machine coordinates are desired. Must be used with G0 or G1 on the same line."
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
+      "notes": "Non-modal \u2014 must be repeated on each line where machine coordinates are desired. Must be used with G0 or G1 on the same line."
     },
     {
       "code": "G54",
@@ -653,14 +1443,31 @@
       "description": "Selects work coordinate system 1. This is the default coordinate system.",
       "parameters": [],
       "examples": [
-        { "code": "G54", "description": "Select work coordinate system 1 (default)" }
+        {
+          "code": "G54",
+          "description": "Select work coordinate system 1 (default)"
+        }
       ],
-      "relatedCodes": ["G55", "G56", "G57", "G58", "G59", "G10 L2", "G10 L20"],
+      "relatedCodes": [
+        "G55",
+        "G56",
+        "G57",
+        "G58",
+        "G59",
+        "G10 L2",
+        "G10 L20"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G54", "note": "Same behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "G54",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "Default WCS. Set offsets with G10 L2 P1 or G10 L20 P1."
     },
     {
@@ -670,14 +1477,30 @@
       "description": "Selects work coordinate system 2.",
       "parameters": [],
       "examples": [
-        { "code": "G55", "description": "Select work coordinate system 2" }
+        {
+          "code": "G55",
+          "description": "Select work coordinate system 2"
+        }
       ],
-      "relatedCodes": ["G54", "G56", "G57", "G58", "G59", "G10 L2"],
+      "relatedCodes": [
+        "G54",
+        "G56",
+        "G57",
+        "G58",
+        "G59",
+        "G10 L2"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G55", "note": "Same behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "G55",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"]
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ]
     },
     {
       "code": "G56",
@@ -686,14 +1509,30 @@
       "description": "Selects work coordinate system 3.",
       "parameters": [],
       "examples": [
-        { "code": "G56", "description": "Select work coordinate system 3" }
+        {
+          "code": "G56",
+          "description": "Select work coordinate system 3"
+        }
       ],
-      "relatedCodes": ["G54", "G55", "G57", "G58", "G59", "G10 L2"],
+      "relatedCodes": [
+        "G54",
+        "G55",
+        "G57",
+        "G58",
+        "G59",
+        "G10 L2"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G56", "note": "Same behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "G56",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"]
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ]
     },
     {
       "code": "G57",
@@ -702,14 +1541,30 @@
       "description": "Selects work coordinate system 4.",
       "parameters": [],
       "examples": [
-        { "code": "G57", "description": "Select work coordinate system 4" }
+        {
+          "code": "G57",
+          "description": "Select work coordinate system 4"
+        }
       ],
-      "relatedCodes": ["G54", "G55", "G56", "G58", "G59", "G10 L2"],
+      "relatedCodes": [
+        "G54",
+        "G55",
+        "G56",
+        "G58",
+        "G59",
+        "G10 L2"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G57", "note": "Same behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "G57",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"]
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ]
     },
     {
       "code": "G58",
@@ -718,14 +1573,30 @@
       "description": "Selects work coordinate system 5.",
       "parameters": [],
       "examples": [
-        { "code": "G58", "description": "Select work coordinate system 5" }
+        {
+          "code": "G58",
+          "description": "Select work coordinate system 5"
+        }
       ],
-      "relatedCodes": ["G54", "G55", "G56", "G57", "G59", "G10 L2"],
+      "relatedCodes": [
+        "G54",
+        "G55",
+        "G56",
+        "G57",
+        "G59",
+        "G10 L2"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G58", "note": "Same behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "G58",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"]
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ]
     },
     {
       "code": "G59",
@@ -734,14 +1605,30 @@
       "description": "Selects work coordinate system 6.",
       "parameters": [],
       "examples": [
-        { "code": "G59", "description": "Select work coordinate system 6" }
+        {
+          "code": "G59",
+          "description": "Select work coordinate system 6"
+        }
       ],
-      "relatedCodes": ["G54", "G55", "G56", "G57", "G58", "G10 L2"],
+      "relatedCodes": [
+        "G54",
+        "G55",
+        "G56",
+        "G57",
+        "G58",
+        "G10 L2"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G59", "note": "Same behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "G59",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"]
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ]
     },
     {
       "code": "G59.1",
@@ -750,14 +1637,28 @@
       "description": "Selects work coordinate system 7.",
       "parameters": [],
       "examples": [
-        { "code": "G59.1", "description": "Select work coordinate system 7" }
+        {
+          "code": "G59.1",
+          "description": "Select work coordinate system 7"
+        }
       ],
-      "relatedCodes": ["G54", "G59.2", "G59.3", "G10 L2"],
+      "relatedCodes": [
+        "G54",
+        "G59.2",
+        "G59.3",
+        "G10 L2"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G59.1", "note": "Same behavior. grbl does not support G59.1-G59.3." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G59.1",
+          "note": "Same behavior. grbl does not support G59.1-G59.3."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "Extended WCS not available in grbl (grbl only supports G54-G59)."
     },
     {
@@ -767,14 +1668,28 @@
       "description": "Selects work coordinate system 8.",
       "parameters": [],
       "examples": [
-        { "code": "G59.2", "description": "Select work coordinate system 8" }
+        {
+          "code": "G59.2",
+          "description": "Select work coordinate system 8"
+        }
       ],
-      "relatedCodes": ["G54", "G59.1", "G59.3", "G10 L2"],
+      "relatedCodes": [
+        "G54",
+        "G59.1",
+        "G59.3",
+        "G10 L2"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G59.2", "note": "Same behavior." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G59.2",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"]
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ]
     },
     {
       "code": "G59.3",
@@ -783,14 +1698,28 @@
       "description": "Selects work coordinate system 9.",
       "parameters": [],
       "examples": [
-        { "code": "G59.3", "description": "Select work coordinate system 9" }
+        {
+          "code": "G59.3",
+          "description": "Select work coordinate system 9"
+        }
       ],
-      "relatedCodes": ["G54", "G59.1", "G59.2", "G10 L2"],
+      "relatedCodes": [
+        "G54",
+        "G59.1",
+        "G59.2",
+        "G10 L2"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G59.3", "note": "Same behavior." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G59.3",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"]
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ]
     },
     {
       "code": "G90",
@@ -799,15 +1728,32 @@
       "description": "Set absolute positioning mode for XYZ axes. All coordinate values are interpreted as absolute positions.",
       "parameters": [],
       "examples": [
-        { "code": "G90", "description": "Enable absolute positioning" }
+        {
+          "code": "G90",
+          "description": "Enable absolute positioning"
+        }
       ],
-      "relatedCodes": ["G91", "M82", "M83"],
+      "relatedCodes": [
+        "G91",
+        "M82",
+        "M83"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G90", "note": "Same behavior for XYZ. Smoothieware additionally supports M82/M83 for independent extruder positioning mode." },
-        { "firmwareId": "linuxcnc", "code": "G90", "note": "Same behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "G90",
+          "note": "Same behavior for XYZ. Smoothieware additionally supports M82/M83 for independent extruder positioning mode."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G90",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "In Smoothieware, G90/G91 control XYZ positioning mode. Extruder (E) positioning mode is controlled independently by M82 (absolute) and M83 (relative). This is different from grbl where G90/G91 affects all axes."
     },
     {
@@ -817,16 +1763,33 @@
       "description": "Set incremental (relative) positioning mode for XYZ axes. All coordinate values are interpreted as offsets from the current position.",
       "parameters": [],
       "examples": [
-        { "code": "G91", "description": "Enable relative positioning" }
+        {
+          "code": "G91",
+          "description": "Enable relative positioning"
+        }
       ],
-      "relatedCodes": ["G90", "M82", "M83"],
+      "relatedCodes": [
+        "G90",
+        "M82",
+        "M83"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G91", "note": "Same behavior for XYZ." },
-        { "firmwareId": "linuxcnc", "code": "G91", "note": "Same behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "G91",
+          "note": "Same behavior for XYZ."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G91",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
-      "notes": "Does not affect extruder positioning mode — use M82/M83 for that. This independence is important for 3D printing where XYZ may be absolute while E is relative."
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
+      "notes": "Does not affect extruder positioning mode \u2014 use M82/M83 for that. This independence is important for 3D printing where XYZ may be absolute while E is relative."
     },
     {
       "code": "G92",
@@ -834,22 +1797,58 @@
       "name": "Set Position (Coordinate Offset)",
       "description": "Sets the current position to the given values by applying a coordinate offset. Does not move any axes. The offset is applied on top of the active work coordinate system.",
       "parameters": [
-        { "name": "X", "description": "Set current X position", "optional": true },
-        { "name": "Y", "description": "Set current Y position", "optional": true },
-        { "name": "Z", "description": "Set current Z position", "optional": true },
-        { "name": "E", "description": "Set current E position", "optional": true }
+        {
+          "name": "X",
+          "description": "Set current X position",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Set current Y position",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Set current Z position",
+          "optional": true
+        },
+        {
+          "name": "E",
+          "description": "Set current E position",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G92 X0 Y0 Z0", "description": "Set current position as origin" },
-        { "code": "G92 E0", "description": "Reset extruder position to zero" }
+        {
+          "code": "G92 X0 Y0 Z0",
+          "description": "Set current position as origin"
+        },
+        {
+          "code": "G92 E0",
+          "description": "Reset extruder position to zero"
+        }
       ],
-      "relatedCodes": ["G92.1", "G92.4", "G10 L20"],
+      "relatedCodes": [
+        "G92.1",
+        "G92.4",
+        "G10 L20"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G92", "note": "Same behavior. Both apply an offset, not a true machine position change." },
-        { "firmwareId": "linuxcnc", "code": "G92", "note": "Same behavior per NIST standard. LinuxCNC G92 offsets persist across power cycles; Smoothieware behavior depends on config." }
+        {
+          "firmwareId": "grbl",
+          "code": "G92",
+          "note": "Same behavior. Both apply an offset, not a true machine position change."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G92",
+          "note": "Same behavior per NIST standard. LinuxCNC G92 offsets persist across power cycles; Smoothieware behavior depends on config."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "G92 E0 is extremely common in 3D printing G-code to reset the extruder position. For CNC work, prefer G10 L20 to set WCS offsets instead of G92."
     },
     {
@@ -859,14 +1858,26 @@
       "description": "Clears (zeroes) all G92 coordinate offsets.",
       "parameters": [],
       "examples": [
-        { "code": "G92.1", "description": "Clear all G92 offsets" }
+        {
+          "code": "G92.1",
+          "description": "Clear all G92 offsets"
+        }
       ],
-      "relatedCodes": ["G92", "G92.4"],
+      "relatedCodes": [
+        "G92",
+        "G92.4"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G92.1", "note": "Same behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "G92.1",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"]
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ]
     },
     {
       "code": "G92.4",
@@ -875,12 +1886,20 @@
       "description": "Clears G92 coordinate offsets. Functionally equivalent to G92.1 in Smoothieware.",
       "parameters": [],
       "examples": [
-        { "code": "G92.4", "description": "Clear G92 offsets" }
+        {
+          "code": "G92.4",
+          "description": "Clear G92 offsets"
+        }
       ],
-      "relatedCodes": ["G92", "G92.1"],
+      "relatedCodes": [
+        "G92",
+        "G92.1"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"]
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ]
     },
     {
       "code": "G94",
@@ -889,15 +1908,31 @@
       "description": "Sets the feed rate interpretation to units per minute (mm/min or inches/min depending on G20/G21). This is the default and only supported feed rate mode.",
       "parameters": [],
       "examples": [
-        { "code": "G94", "description": "Set units-per-minute feed rate mode" }
+        {
+          "code": "G94",
+          "description": "Set units-per-minute feed rate mode"
+        }
       ],
-      "relatedCodes": ["G20", "G21"],
+      "relatedCodes": [
+        "G20",
+        "G21"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G94", "note": "Same behavior. grbl also supports G93 (inverse time); Smoothieware does not." },
-        { "firmwareId": "linuxcnc", "code": "G94", "note": "Same behavior. LinuxCNC also supports G93 and G95." }
+        {
+          "firmwareId": "grbl",
+          "code": "G94",
+          "note": "Same behavior. grbl also supports G93 (inverse time); Smoothieware does not."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G94",
+          "note": "Same behavior. LinuxCNC also supports G93 and G95."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "Default feed rate mode. Smoothieware does not support G93 (inverse time) or G95 (units per revolution) feed rate modes."
     },
     {
@@ -907,33 +1942,64 @@
       "description": "Pauses the program and waits for user input (button press or resume command) to continue. All motion stops and heaters remain on.",
       "parameters": [],
       "examples": [
-        { "code": "M0", "description": "Pause and wait for user to resume" }
+        {
+          "code": "M0",
+          "description": "Pause and wait for user to resume"
+        }
       ],
-      "relatedCodes": ["M1", "M600"],
+      "relatedCodes": [
+        "M1",
+        "M600"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "M0", "note": "Same behavior — pauses program. grbl requires cycle start (~) to resume." },
-        { "firmwareId": "linuxcnc", "code": "M0", "note": "Same behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "M0",
+          "note": "Same behavior \u2014 pauses program. grbl requires cycle start (~) to resume."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M0",
+          "note": "Same behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "Useful for tool changes or manual interventions mid-program."
     },
     {
       "code": "M1",
       "type": "M",
       "name": "Optional Program Stop",
-      "description": "Optional stop — only pauses if the optional stop switch/setting is enabled.",
+      "description": "Optional stop \u2014 only pauses if the optional stop switch/setting is enabled.",
       "parameters": [],
       "examples": [
-        { "code": "M1", "description": "Optional pause point" }
+        {
+          "code": "M1",
+          "description": "Optional pause point"
+        }
       ],
-      "relatedCodes": ["M0"],
+      "relatedCodes": [
+        "M0"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "M1", "note": "Same behavior." },
-        { "firmwareId": "linuxcnc", "code": "M1", "note": "Same behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "M1",
+          "note": "Same behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M1",
+          "note": "Same behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"]
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ]
     },
     {
       "code": "M3",
@@ -941,24 +2007,57 @@
       "name": "Spindle On (CW) / Laser On",
       "description": "Turns on the spindle clockwise or enables the laser. Behavior depends on whether the spindle module or laser module is configured. S parameter sets speed/power. Laser power range depends on maximum_s_value config setting (commonly 1.0, 100, or 255).",
       "parameters": [
-        { "name": "S", "description": "Spindle speed (RPM) or laser power. Range is 0 to maximum_s_value (configured in config file, default 1.0)", "optional": true }
+        {
+          "name": "S",
+          "description": "Spindle speed (RPM) or laser power. Range is 0 to maximum_s_value (configured in config file, default 1.0)",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "M3 S1000", "description": "Turn on spindle at 1000 RPM" },
-        { "code": "M3 S0.8", "description": "Turn on laser at 80% power (if maximum_s_value is 1.0)" },
-        { "code": "M3 S200", "description": "Turn on laser at ~78% power (if maximum_s_value is 255)" }
+        {
+          "code": "M3 S1000",
+          "description": "Turn on spindle at 1000 RPM"
+        },
+        {
+          "code": "M3 S0.8",
+          "description": "Turn on laser at 80% power (if maximum_s_value is 1.0)"
+        },
+        {
+          "code": "M3 S200",
+          "description": "Turn on laser at ~78% power (if maximum_s_value is 255)"
+        }
       ],
-      "relatedCodes": ["M5"],
+      "relatedCodes": [
+        "M5"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "M3", "note": "In grbl, M3 is constant power mode (laser stays at set power). grbl also has M4 for dynamic power that scales with speed. Smoothieware has NO M4 dynamic power mode — M3 and M4 are identical for laser." },
-        { "firmwareId": "linuxcnc", "code": "M3", "note": "Same spindle CW behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "M3",
+          "note": "In grbl, M3 is constant power mode (laser stays at set power). grbl also has M4 for dynamic power that scales with speed. Smoothieware has NO M4 dynamic power mode \u2014 M3 and M4 are identical for laser."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M3",
+          "note": "Same spindle CW behavior."
+        }
       ],
       "modeNotes": [
-        { "mode": "Laser mode", "description": "Laser power is set by S parameter. The range depends on maximum_s_value in config (1.0 means S0.0 to S1.0, 255 means S0 to S255). Unlike grbl, there is no dynamic power mode — power does not automatically scale with acceleration/deceleration." },
-        { "mode": "CNC/Spindle mode", "description": "S sets spindle RPM. Direction is clockwise." }
+        {
+          "mode": "Laser mode",
+          "description": "Laser power is set by S parameter. The range depends on maximum_s_value in config (1.0 means S0.0 to S1.0, 255 means S0 to S255). Unlike grbl, there is no dynamic power mode \u2014 power does not automatically scale with acceleration/deceleration."
+        },
+        {
+          "mode": "CNC/Spindle mode",
+          "description": "S sets spindle RPM. Direction is clockwise."
+        }
       ],
-      "sources": ["https://smoothieware.org/supported-g-codes", "https://smoothieware.org/spindle-module", "https://smoothieware.org/laser"],
-      "notes": "IMPORTANT: Smoothieware does NOT have grbl's M3/M4 distinction for laser. grbl M4 (dynamic power) scales laser output with speed during acceleration — this prevents over-burn at corners. Smoothieware has no equivalent; laser power is always proportional to the S value regardless of speed. Configure maximum_s_value in config to match your G-code sender's expected S range."
+      "sources": [
+        "https://smoothieware.org/supported-g-codes",
+        "https://smoothieware.org/spindle-module",
+        "https://smoothieware.org/laser"
+      ],
+      "notes": "IMPORTANT: Smoothieware does NOT have grbl's M3/M4 distinction for laser. grbl M4 (dynamic power) scales laser output with speed during acceleration \u2014 this prevents over-burn at corners. Smoothieware has no equivalent; laser power is always proportional to the S value regardless of speed. Configure maximum_s_value in config to match your G-code sender's expected S range."
     },
     {
       "code": "M5",
@@ -967,15 +2066,30 @@
       "description": "Turns off the spindle or laser.",
       "parameters": [],
       "examples": [
-        { "code": "M5", "description": "Turn off spindle/laser" }
+        {
+          "code": "M5",
+          "description": "Turn off spindle/laser"
+        }
       ],
-      "relatedCodes": ["M3"],
+      "relatedCodes": [
+        "M3"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "M5", "note": "Same behavior." },
-        { "firmwareId": "linuxcnc", "code": "M5", "note": "Same behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "M5",
+          "note": "Same behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M5",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"]
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ]
     },
     {
       "code": "M17",
@@ -984,14 +2098,26 @@
       "description": "Enables (energizes) all stepper motors. Motors will hold position and resist movement.",
       "parameters": [],
       "examples": [
-        { "code": "M17", "description": "Enable all stepper motors" }
+        {
+          "code": "M17",
+          "description": "Enable all stepper motors"
+        }
       ],
-      "relatedCodes": ["M18", "M84"],
+      "relatedCodes": [
+        "M18",
+        "M84"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M17", "note": "Same behavior." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M17",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "Motors are automatically enabled when motion commands are received. M17 is useful for explicitly re-enabling motors after M18/M84."
     },
     {
@@ -1001,14 +2127,26 @@
       "description": "Disables (de-energizes) all stepper motors. Axes can be moved freely by hand. Machine position may be lost.",
       "parameters": [],
       "examples": [
-        { "code": "M18", "description": "Disable all stepper motors" }
+        {
+          "code": "M18",
+          "description": "Disable all stepper motors"
+        }
       ],
-      "relatedCodes": ["M17", "M84"],
+      "relatedCodes": [
+        "M17",
+        "M84"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M18", "note": "Same behavior." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M18",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "WARNING: Disabling motors causes the machine to lose its homed position. Re-homing (G28) will be required before running a job."
     },
     {
@@ -1018,14 +2156,26 @@
       "description": "Alias for M18. Disables all stepper motors.",
       "parameters": [],
       "examples": [
-        { "code": "M84", "description": "Disable all stepper motors" }
+        {
+          "code": "M84",
+          "description": "Disable all stepper motors"
+        }
       ],
-      "relatedCodes": ["M17", "M18"],
+      "relatedCodes": [
+        "M17",
+        "M18"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M84", "note": "Same behavior." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M84",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "Functionally identical to M18. Common in 3D printing G-code end scripts."
     },
     {
@@ -1035,14 +2185,29 @@
       "description": "Lists files on the SD card.",
       "parameters": [],
       "examples": [
-        { "code": "M20", "description": "List files on SD card" }
+        {
+          "code": "M20",
+          "description": "List files on SD card"
+        }
       ],
-      "relatedCodes": ["M21", "M22", "M23", "M24", "M25"],
+      "relatedCodes": [
+        "M21",
+        "M22",
+        "M23",
+        "M24",
+        "M25"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M20", "note": "Same behavior." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M20",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "Smoothieware stores config and G-code files on the onboard SD card. Configuration is via config file on SD rather than $ commands like grbl."
     },
     {
@@ -1052,14 +2217,26 @@
       "description": "Initializes the SD card. Usually performed automatically at boot.",
       "parameters": [],
       "examples": [
-        { "code": "M21", "description": "Initialize SD card" }
+        {
+          "code": "M21",
+          "description": "Initialize SD card"
+        }
       ],
-      "relatedCodes": ["M20", "M22"],
+      "relatedCodes": [
+        "M20",
+        "M22"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M21", "note": "Same behavior." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M21",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"]
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ]
     },
     {
       "code": "M22",
@@ -1068,14 +2245,26 @@
       "description": "Releases the SD card so it can be safely removed or accessed by the host.",
       "parameters": [],
       "examples": [
-        { "code": "M22", "description": "Release SD card" }
+        {
+          "code": "M22",
+          "description": "Release SD card"
+        }
       ],
-      "relatedCodes": ["M20", "M21"],
+      "relatedCodes": [
+        "M20",
+        "M21"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M22", "note": "Same behavior." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M22",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"]
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ]
     },
     {
       "code": "M23",
@@ -1083,17 +2272,35 @@
       "name": "Select SD File",
       "description": "Selects a file from the SD card for printing.",
       "parameters": [
-        { "name": "filename", "description": "Path to file on SD card", "optional": false }
+        {
+          "name": "filename",
+          "description": "Path to file on SD card",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "M23 test.gcode", "description": "Select test.gcode from SD card" }
+        {
+          "code": "M23 test.gcode",
+          "description": "Select test.gcode from SD card"
+        }
       ],
-      "relatedCodes": ["M24", "M25", "M26", "M27"],
+      "relatedCodes": [
+        "M24",
+        "M25",
+        "M26",
+        "M27"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M23", "note": "Same behavior." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M23",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"]
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ]
     },
     {
       "code": "M24",
@@ -1102,14 +2309,26 @@
       "description": "Starts or resumes printing the selected SD card file.",
       "parameters": [],
       "examples": [
-        { "code": "M24", "description": "Start or resume SD card print" }
+        {
+          "code": "M24",
+          "description": "Start or resume SD card print"
+        }
       ],
-      "relatedCodes": ["M23", "M25"],
+      "relatedCodes": [
+        "M23",
+        "M25"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M24", "note": "Same behavior." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M24",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"]
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ]
     },
     {
       "code": "M25",
@@ -1118,14 +2337,26 @@
       "description": "Pauses the current SD card print.",
       "parameters": [],
       "examples": [
-        { "code": "M25", "description": "Pause SD card print" }
+        {
+          "code": "M25",
+          "description": "Pause SD card print"
+        }
       ],
-      "relatedCodes": ["M24", "M600"],
+      "relatedCodes": [
+        "M24",
+        "M600"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M25", "note": "Same behavior." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M25",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"]
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ]
     },
     {
       "code": "M26",
@@ -1133,17 +2364,34 @@
       "name": "Set SD Position",
       "description": "Sets the file position for the next read from the SD card. Used for resuming prints at a specific position.",
       "parameters": [
-        { "name": "S", "description": "Byte position in file", "optional": false }
+        {
+          "name": "S",
+          "description": "Byte position in file",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "M26 S0", "description": "Reset SD file position to beginning" }
+        {
+          "code": "M26 S0",
+          "description": "Reset SD file position to beginning"
+        }
       ],
-      "relatedCodes": ["M23", "M24", "M27"],
+      "relatedCodes": [
+        "M23",
+        "M24",
+        "M27"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M26", "note": "Same behavior." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M26",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"]
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ]
     },
     {
       "code": "M27",
@@ -1152,14 +2400,26 @@
       "description": "Reports the current SD card print progress (bytes read / total bytes).",
       "parameters": [],
       "examples": [
-        { "code": "M27", "description": "Report SD print progress" }
+        {
+          "code": "M27",
+          "description": "Report SD print progress"
+        }
       ],
-      "relatedCodes": ["M23", "M24"],
+      "relatedCodes": [
+        "M23",
+        "M24"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M27", "note": "Same behavior." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M27",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"]
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ]
     },
     {
       "code": "M30",
@@ -1167,17 +2427,32 @@
       "name": "Delete SD File",
       "description": "Deletes a file from the SD card.",
       "parameters": [
-        { "name": "filename", "description": "Path to file to delete", "optional": false }
+        {
+          "name": "filename",
+          "description": "Path to file to delete",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "M30 test.gcode", "description": "Delete test.gcode from SD card" }
+        {
+          "code": "M30 test.gcode",
+          "description": "Delete test.gcode from SD card"
+        }
       ],
-      "relatedCodes": ["M20"],
+      "relatedCodes": [
+        "M20"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M30", "note": "Same behavior." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M30",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"]
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ]
     },
     {
       "code": "M32",
@@ -1185,15 +2460,27 @@
       "name": "Select and Start SD File",
       "description": "Selects a file from the SD card and immediately starts printing it. Combines M23 and M24.",
       "parameters": [
-        { "name": "filename", "description": "Path to file on SD card", "optional": false }
+        {
+          "name": "filename",
+          "description": "Path to file on SD card",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "M32 test.gcode", "description": "Select and start printing test.gcode" }
+        {
+          "code": "M32 test.gcode",
+          "description": "Select and start printing test.gcode"
+        }
       ],
-      "relatedCodes": ["M23", "M24"],
+      "relatedCodes": [
+        "M23",
+        "M24"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "Convenience command combining file selection and print start."
     },
     {
@@ -1203,14 +2490,27 @@
       "description": "Sets the extruder to absolute positioning mode. E values are interpreted as absolute positions. Independent from G90/G91.",
       "parameters": [],
       "examples": [
-        { "code": "M82", "description": "Set extruder to absolute mode" }
+        {
+          "code": "M82",
+          "description": "Set extruder to absolute mode"
+        }
       ],
-      "relatedCodes": ["M83", "G90", "G91"],
+      "relatedCodes": [
+        "M83",
+        "G90",
+        "G91"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M82", "note": "Same behavior — extruder mode is independent from XYZ distance mode." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M82",
+          "note": "Same behavior \u2014 extruder mode is independent from XYZ distance mode."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "IMPORTANT: Extruder distance mode (M82/M83) is independent from XYZ distance mode (G90/G91). This is a key difference from grbl where G90/G91 affects all axes. Most slicers output M82 at the start of G-code."
     },
     {
@@ -1220,15 +2520,78 @@
       "description": "Sets the extruder to relative positioning mode. E values are interpreted as distances to extrude. Independent from G90/G91.",
       "parameters": [],
       "examples": [
-        { "code": "M83", "description": "Set extruder to relative mode" }
+        {
+          "code": "M83",
+          "description": "Set extruder to relative mode"
+        }
       ],
-      "relatedCodes": ["M82", "G90", "G91"],
+      "relatedCodes": [
+        "M82",
+        "G90",
+        "G91"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M83", "note": "Same behavior." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M83",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "When in relative extruder mode, each E value specifies how much filament to extrude for that move, rather than an absolute position. Eliminates the need for G92 E0 resets."
+    },
+    {
+      "code": "M9",
+      "type": "M",
+      "name": "All Coolant Off",
+      "description": "Turns off all coolant outputs (mist and flood). Handled by the Switch module \u2014 M9 is the shared off command for switch instances configured with M7 (mist) and M8 (flood) as on commands. Waits for the motion queue to drain before turning off.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "M9",
+          "description": "Turn off all coolant"
+        }
+      ],
+      "relatedCodes": [
+        "M7",
+        "M8"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "M9",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "grblhal",
+          "code": "M9",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "M9",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M9",
+          "note": "Identical behavior per NIST standard."
+        },
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M9",
+          "note": "Same behavior in CNC mode."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/Smoothieware/Smoothieware/blob/edge/src/modules/tools/switch/Switch.cpp",
+        "https://smoothieware.org/supported-g-codes"
+      ],
+      "notes": "Requires Switch module instances configured for coolant (e.g. switch.flood.input_off_command M9). Both mist and flood switches typically share M9 as their off command. Also automatically issued by M2/M30 program end."
     },
     {
       "code": "M92",
@@ -1236,22 +2599,57 @@
       "name": "Set Steps Per Unit",
       "description": "Sets the steps per millimeter for each axis. Overrides the config file values temporarily (use M500 to save).",
       "parameters": [
-        { "name": "X", "description": "Steps per mm for X axis", "optional": true },
-        { "name": "Y", "description": "Steps per mm for Y axis", "optional": true },
-        { "name": "Z", "description": "Steps per mm for Z axis", "optional": true },
-        { "name": "E", "description": "Steps per mm for extruder", "optional": true }
+        {
+          "name": "X",
+          "description": "Steps per mm for X axis",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Steps per mm for Y axis",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Steps per mm for Z axis",
+          "optional": true
+        },
+        {
+          "name": "E",
+          "description": "Steps per mm for extruder",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "M92 X80 Y80 Z400 E420", "description": "Set steps/mm for all axes" },
-        { "code": "M92 E837", "description": "Set extruder steps/mm only" }
+        {
+          "code": "M92 X80 Y80 Z400 E420",
+          "description": "Set steps/mm for all axes"
+        },
+        {
+          "code": "M92 E837",
+          "description": "Set extruder steps/mm only"
+        }
       ],
-      "relatedCodes": ["M500", "M503"],
+      "relatedCodes": [
+        "M500",
+        "M503"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "$100/$101/$102", "note": "grbl uses $ settings ($100=X steps/mm, $101=Y, $102=Z). Smoothieware uses M92 command or config file (alpha_steps_per_mm, etc.)." },
-        { "firmwareId": "reprapfirmware", "code": "M92", "note": "Same behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "$100/$101/$102",
+          "note": "grbl uses $ settings ($100=X steps/mm, $101=Y, $102=Z). Smoothieware uses M92 command or config file (alpha_steps_per_mm, etc.)."
+        },
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M92",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "Changes are temporary unless saved with M500. The permanent way to set this is in the config file on SD card (alpha_steps_per_mm, beta_steps_per_mm, gamma_steps_per_mm, extruder.hotend.steps_per_mm). This is a key difference from grbl which uses $ commands stored in EEPROM."
     },
     {
@@ -1260,20 +2658,44 @@
       "name": "Set Extruder Temperature",
       "description": "Sets the target temperature for the extruder hotend. Returns immediately without waiting for the temperature to be reached.",
       "parameters": [
-        { "name": "S", "description": "Target temperature in degrees Celsius", "optional": false },
-        { "name": "T", "description": "Extruder index (for multi-extruder setups, default 0)", "optional": true }
+        {
+          "name": "S",
+          "description": "Target temperature in degrees Celsius",
+          "optional": false
+        },
+        {
+          "name": "T",
+          "description": "Extruder index (for multi-extruder setups, default 0)",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "M104 S200", "description": "Set hotend to 200°C" },
-        { "code": "M104 S0", "description": "Turn off hotend heater" }
+        {
+          "code": "M104 S200",
+          "description": "Set hotend to 200\u00b0C"
+        },
+        {
+          "code": "M104 S0",
+          "description": "Turn off hotend heater"
+        }
       ],
-      "relatedCodes": ["M105", "M109"],
+      "relatedCodes": [
+        "M105",
+        "M109"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M104", "note": "Same behavior." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M104",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes", "https://smoothieware.org/temperaturecontrol"],
-      "notes": "Non-blocking — returns immediately. Use M109 to wait for the temperature to be reached. Requires the TemperatureControl module."
+      "sources": [
+        "https://smoothieware.org/supported-g-codes",
+        "https://smoothieware.org/temperaturecontrol"
+      ],
+      "notes": "Non-blocking \u2014 returns immediately. Use M109 to wait for the temperature to be reached. Requires the TemperatureControl module."
     },
     {
       "code": "M105",
@@ -1282,14 +2704,29 @@
       "description": "Reports the current and target temperatures for all configured temperature controllers (hotend, bed, etc.).",
       "parameters": [],
       "examples": [
-        { "code": "M105", "description": "Report all temperatures" }
+        {
+          "code": "M105",
+          "description": "Report all temperatures"
+        }
       ],
-      "relatedCodes": ["M104", "M109", "M140", "M190"],
+      "relatedCodes": [
+        "M104",
+        "M109",
+        "M140",
+        "M190"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M105", "note": "Same behavior and response format." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M105",
+          "note": "Same behavior and response format."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes", "https://smoothieware.org/temperaturecontrol"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes",
+        "https://smoothieware.org/temperaturecontrol"
+      ],
       "notes": "Response format: ok T:XXX /YYY @ZZZ (where T=current temp, /=target, @=PWM output). Hosts typically poll this periodically for temperature monitoring."
     },
     {
@@ -1298,20 +2735,44 @@
       "name": "Set Extruder Temperature and Wait",
       "description": "Sets the target temperature for the extruder hotend and waits until the temperature is reached before continuing.",
       "parameters": [
-        { "name": "S", "description": "Target temperature in degrees Celsius", "optional": false },
-        { "name": "T", "description": "Extruder index (default 0)", "optional": true }
+        {
+          "name": "S",
+          "description": "Target temperature in degrees Celsius",
+          "optional": false
+        },
+        {
+          "name": "T",
+          "description": "Extruder index (default 0)",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "M109 S200", "description": "Heat hotend to 200°C and wait" },
-        { "code": "M109 S0", "description": "Turn off hotend and wait for cooldown" }
+        {
+          "code": "M109 S200",
+          "description": "Heat hotend to 200\u00b0C and wait"
+        },
+        {
+          "code": "M109 S0",
+          "description": "Turn off hotend and wait for cooldown"
+        }
       ],
-      "relatedCodes": ["M104", "M105"],
+      "relatedCodes": [
+        "M104",
+        "M105"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M109", "note": "Same behavior." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M109",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes", "https://smoothieware.org/temperaturecontrol"],
-      "notes": "Blocking command — G-code execution pauses until the target temperature is reached. Commonly used in start G-code before printing begins."
+      "sources": [
+        "https://smoothieware.org/supported-g-codes",
+        "https://smoothieware.org/temperaturecontrol"
+      ],
+      "notes": "Blocking command \u2014 G-code execution pauses until the target temperature is reached. Commonly used in start G-code before printing begins."
     },
     {
       "code": "M106",
@@ -1319,20 +2780,45 @@
       "name": "Fan On",
       "description": "Turns on the part cooling fan at the specified speed.",
       "parameters": [
-        { "name": "S", "description": "Fan speed (0-255, where 255 is full speed)", "optional": true },
-        { "name": "P", "description": "Fan index (for multiple fans)", "optional": true }
+        {
+          "name": "S",
+          "description": "Fan speed (0-255, where 255 is full speed)",
+          "optional": true
+        },
+        {
+          "name": "P",
+          "description": "Fan index (for multiple fans)",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "M106 S255", "description": "Fan on at full speed" },
-        { "code": "M106 S128", "description": "Fan on at ~50% speed" },
-        { "code": "M106", "description": "Fan on at full speed (default)" }
+        {
+          "code": "M106 S255",
+          "description": "Fan on at full speed"
+        },
+        {
+          "code": "M106 S128",
+          "description": "Fan on at ~50% speed"
+        },
+        {
+          "code": "M106",
+          "description": "Fan on at full speed (default)"
+        }
       ],
-      "relatedCodes": ["M107"],
+      "relatedCodes": [
+        "M107"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M106", "note": "Same behavior. RepRapFirmware also supports additional parameters for thermostatic mode." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M106",
+          "note": "Same behavior. RepRapFirmware also supports additional parameters for thermostatic mode."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "Requires the Switch module configured for fan control. S range is 0-255."
     },
     {
@@ -1342,14 +2828,25 @@
       "description": "Turns off the part cooling fan. Equivalent to M106 S0.",
       "parameters": [],
       "examples": [
-        { "code": "M107", "description": "Turn off fan" }
+        {
+          "code": "M107",
+          "description": "Turn off fan"
+        }
       ],
-      "relatedCodes": ["M106"],
+      "relatedCodes": [
+        "M106"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M107", "note": "Same behavior." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M107",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"]
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ]
     },
     {
       "code": "M112",
@@ -1358,15 +2855,30 @@
       "description": "Immediately shuts down the machine. All motors are disabled, all heaters are turned off, and the system halts. Requires M999 to recover.",
       "parameters": [],
       "examples": [
-        { "code": "M112", "description": "Emergency stop — halt everything" }
+        {
+          "code": "M112",
+          "description": "Emergency stop \u2014 halt everything"
+        }
       ],
-      "relatedCodes": ["M999"],
+      "relatedCodes": [
+        "M999"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "0x18 (Ctrl-X)", "note": "grbl uses Ctrl-X (0x18) for soft reset. M112 is the standard G-code emergency stop recognized by both firmwares." },
-        { "firmwareId": "reprapfirmware", "code": "M112", "note": "Same behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "0x18 (Ctrl-X)",
+          "note": "grbl uses Ctrl-X (0x18) for soft reset. M112 is the standard G-code emergency stop recognized by both firmwares."
+        },
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M112",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "CRITICAL: This halts the machine immediately. All heaters off, all motors off. The machine enters a HALT state and will not respond to commands until M999 is issued or the board is power-cycled. Use for genuine emergencies only."
     },
     {
@@ -1376,15 +2888,30 @@
       "description": "Reports the current position of all axes in both work and machine coordinates.",
       "parameters": [],
       "examples": [
-        { "code": "M114", "description": "Report current position" }
+        {
+          "code": "M114",
+          "description": "Report current position"
+        }
       ],
-      "relatedCodes": ["G53"],
+      "relatedCodes": [
+        "G53"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "?", "note": "grbl uses the ? realtime command for position reporting. M114 is the G-code standard way." },
-        { "firmwareId": "reprapfirmware", "code": "M114", "note": "Same behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "?",
+          "note": "grbl uses the ? realtime command for position reporting. M114 is the G-code standard way."
+        },
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M114",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "Reports work coordinates (with WCS offsets applied) and can include machine coordinates. Useful for debugging position issues."
     },
     {
@@ -1394,14 +2921,26 @@
       "description": "Reports the current state (triggered/not triggered) of all configured endstops.",
       "parameters": [],
       "examples": [
-        { "code": "M119", "description": "Report endstop states" }
+        {
+          "code": "M119",
+          "description": "Report endstop states"
+        }
       ],
-      "relatedCodes": ["G28"],
+      "relatedCodes": [
+        "G28"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M119", "note": "Same behavior." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M119",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes", "https://smoothieware.org/endstops"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes",
+        "https://smoothieware.org/endstops"
+      ],
       "notes": "Useful for diagnosing homing and endstop wiring issues. Reports each endstop as 'triggered' or 'not triggered'."
     },
     {
@@ -1410,19 +2949,39 @@
       "name": "Set Bed Temperature",
       "description": "Sets the target temperature for the heated bed. Returns immediately without waiting.",
       "parameters": [
-        { "name": "S", "description": "Target bed temperature in degrees Celsius", "optional": false }
+        {
+          "name": "S",
+          "description": "Target bed temperature in degrees Celsius",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "M140 S60", "description": "Set bed to 60°C" },
-        { "code": "M140 S0", "description": "Turn off bed heater" }
+        {
+          "code": "M140 S60",
+          "description": "Set bed to 60\u00b0C"
+        },
+        {
+          "code": "M140 S0",
+          "description": "Turn off bed heater"
+        }
       ],
-      "relatedCodes": ["M190", "M105"],
+      "relatedCodes": [
+        "M190",
+        "M105"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M140", "note": "Same behavior." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M140",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes", "https://smoothieware.org/temperaturecontrol"],
-      "notes": "Non-blocking — returns immediately. Use M190 to wait for temperature."
+      "sources": [
+        "https://smoothieware.org/supported-g-codes",
+        "https://smoothieware.org/temperaturecontrol"
+      ],
+      "notes": "Non-blocking \u2014 returns immediately. Use M190 to wait for temperature."
     },
     {
       "code": "M190",
@@ -1430,18 +2989,35 @@
       "name": "Set Bed Temperature and Wait",
       "description": "Sets the target temperature for the heated bed and waits until the temperature is reached.",
       "parameters": [
-        { "name": "S", "description": "Target bed temperature in degrees Celsius", "optional": false }
+        {
+          "name": "S",
+          "description": "Target bed temperature in degrees Celsius",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "M190 S60", "description": "Heat bed to 60°C and wait" }
+        {
+          "code": "M190 S60",
+          "description": "Heat bed to 60\u00b0C and wait"
+        }
       ],
-      "relatedCodes": ["M140", "M105"],
+      "relatedCodes": [
+        "M140",
+        "M105"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M190", "note": "Same behavior." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M190",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes", "https://smoothieware.org/temperaturecontrol"],
-      "notes": "Blocking command — G-code execution pauses until bed temperature is reached. Bed heating is slower than hotend, so this can take several minutes."
+      "sources": [
+        "https://smoothieware.org/supported-g-codes",
+        "https://smoothieware.org/temperaturecontrol"
+      ],
+      "notes": "Blocking command \u2014 G-code execution pauses until bed temperature is reached. Bed heating is slower than hotend, so this can take several minutes."
     },
     {
       "code": "M200",
@@ -1449,19 +3025,38 @@
       "name": "Set Filament Diameter / Volumetric Extrusion",
       "description": "Sets the filament diameter for volumetric extrusion mode. When enabled, E values are interpreted as cubic millimeters of filament rather than linear distance.",
       "parameters": [
-        { "name": "D", "description": "Filament diameter in mm (0 to disable volumetric mode)", "optional": false }
+        {
+          "name": "D",
+          "description": "Filament diameter in mm (0 to disable volumetric mode)",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "M200 D1.75", "description": "Enable volumetric mode with 1.75mm filament" },
-        { "code": "M200 D0", "description": "Disable volumetric mode (use linear extrusion)" }
+        {
+          "code": "M200 D1.75",
+          "description": "Enable volumetric mode with 1.75mm filament"
+        },
+        {
+          "code": "M200 D0",
+          "description": "Disable volumetric mode (use linear extrusion)"
+        }
       ],
-      "relatedCodes": ["M82", "M83"],
+      "relatedCodes": [
+        "M82",
+        "M83"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M200", "note": "Same behavior." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M200",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
-      "notes": "When volumetric mode is active, the firmware automatically converts volume (mm³) to linear E distance based on the filament cross-section area."
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
+      "notes": "When volumetric mode is active, the firmware automatically converts volume (mm\u00b3) to linear E distance based on the filament cross-section area."
     },
     {
       "code": "M207",
@@ -1469,19 +3064,45 @@
       "name": "Set Firmware Retraction Parameters",
       "description": "Configures the parameters used by firmware retraction (G10 command). Sets retraction length, speed, and Z-lift.",
       "parameters": [
-        { "name": "S", "description": "Retraction length in mm", "optional": true },
-        { "name": "F", "description": "Retraction feed rate in mm/min", "optional": true },
-        { "name": "Z", "description": "Z-lift during retraction in mm", "optional": true }
+        {
+          "name": "S",
+          "description": "Retraction length in mm",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Retraction feed rate in mm/min",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Z-lift during retraction in mm",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "M207 S1.0 F2400 Z0.2", "description": "Set 1mm retraction at 2400mm/min with 0.2mm Z-lift" }
+        {
+          "code": "M207 S1.0 F2400 Z0.2",
+          "description": "Set 1mm retraction at 2400mm/min with 0.2mm Z-lift"
+        }
       ],
-      "relatedCodes": ["M208", "G10", "G11"],
+      "relatedCodes": [
+        "M208",
+        "G10",
+        "G11"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M207", "note": "Same behavior and parameters." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M207",
+          "note": "Same behavior and parameters."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes", "https://smoothieware.org/extruder#firmware-retract"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes",
+        "https://smoothieware.org/extruder#firmware-retract"
+      ],
       "notes": "These parameters are used when G10 (retract) is executed. Allows tuning retraction without re-slicing."
     },
     {
@@ -1490,18 +3111,40 @@
       "name": "Set Firmware Unretraction Parameters",
       "description": "Configures parameters for firmware un-retraction (G11 command). Can set extra prime length and speed.",
       "parameters": [
-        { "name": "S", "description": "Extra unretraction length (added to M207 retraction length) in mm", "optional": true },
-        { "name": "F", "description": "Unretraction feed rate in mm/min", "optional": true }
+        {
+          "name": "S",
+          "description": "Extra unretraction length (added to M207 retraction length) in mm",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Unretraction feed rate in mm/min",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "M208 S0.05 F2400", "description": "Set 0.05mm extra prime at 2400mm/min unretraction speed" }
+        {
+          "code": "M208 S0.05 F2400",
+          "description": "Set 0.05mm extra prime at 2400mm/min unretraction speed"
+        }
       ],
-      "relatedCodes": ["M207", "G10", "G11"],
+      "relatedCodes": [
+        "M207",
+        "G10",
+        "G11"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M208", "note": "Same behavior." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M208",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes", "https://smoothieware.org/extruder#firmware-retract"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes",
+        "https://smoothieware.org/extruder#firmware-retract"
+      ],
       "notes": "The extra prime length (S) is added to the retraction length from M207 to compensate for oozing during retraction."
     },
     {
@@ -1510,20 +3153,45 @@
       "name": "Set Speed Override / Feed Rate Percentage",
       "description": "Sets a speed factor override as a percentage of the programmed feed rate.",
       "parameters": [
-        { "name": "S", "description": "Speed factor percentage (100 = normal speed)", "optional": false }
+        {
+          "name": "S",
+          "description": "Speed factor percentage (100 = normal speed)",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "M220 S100", "description": "Reset to 100% speed" },
-        { "code": "M220 S50", "description": "Reduce speed to 50%" },
-        { "code": "M220 S150", "description": "Increase speed to 150%" }
+        {
+          "code": "M220 S100",
+          "description": "Reset to 100% speed"
+        },
+        {
+          "code": "M220 S50",
+          "description": "Reduce speed to 50%"
+        },
+        {
+          "code": "M220 S150",
+          "description": "Increase speed to 150%"
+        }
       ],
-      "relatedCodes": ["M221"],
+      "relatedCodes": [
+        "M221"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "Feed override (realtime)", "note": "grbl uses realtime feed override characters (0x91-0x9D). Smoothieware uses the M220 G-code command." },
-        { "firmwareId": "reprapfirmware", "code": "M220", "note": "Same behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "Feed override (realtime)",
+          "note": "grbl uses realtime feed override characters (0x91-0x9D). Smoothieware uses the M220 G-code command."
+        },
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M220",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "Affects all feed rate moves (G1, G2, G3). Does not affect rapid moves (G0). Similar to the feed rate override knob on a CNC machine."
     },
     {
@@ -1532,23 +3200,55 @@
       "name": "Set Flow Rate Override / Extrusion Percentage",
       "description": "Sets an extrusion flow rate override as a percentage. In laser mode, this also controls laser power scaling.",
       "parameters": [
-        { "name": "S", "description": "Flow rate percentage (100 = normal, in laser mode: laser power scale)", "optional": false }
+        {
+          "name": "S",
+          "description": "Flow rate percentage (100 = normal, in laser mode: laser power scale)",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "M221 S100", "description": "Reset to 100% flow rate" },
-        { "code": "M221 S95", "description": "Reduce flow to 95% (compensate for over-extrusion)" },
-        { "code": "M221 S50", "description": "In laser mode: scale laser power to 50%" }
+        {
+          "code": "M221 S100",
+          "description": "Reset to 100% flow rate"
+        },
+        {
+          "code": "M221 S95",
+          "description": "Reduce flow to 95% (compensate for over-extrusion)"
+        },
+        {
+          "code": "M221 S50",
+          "description": "In laser mode: scale laser power to 50%"
+        }
       ],
-      "relatedCodes": ["M220"],
+      "relatedCodes": [
+        "M220"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "Spindle override (realtime)", "note": "grbl uses realtime spindle override characters (0x99-0x9C). Smoothieware uses M221 for laser power scaling." },
-        { "firmwareId": "reprapfirmware", "code": "M221", "note": "Same behavior for extrusion. RepRapFirmware does not overload M221 for laser power." }
+        {
+          "firmwareId": "grbl",
+          "code": "Spindle override (realtime)",
+          "note": "grbl uses realtime spindle override characters (0x99-0x9C). Smoothieware uses M221 for laser power scaling."
+        },
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M221",
+          "note": "Same behavior for extrusion. RepRapFirmware does not overload M221 for laser power."
+        }
       ],
       "modeNotes": [
-        { "mode": "3D printing", "description": "Scales the extrusion amount (E values) by the given percentage." },
-        { "mode": "Laser mode", "description": "Scales the laser power output by the given percentage. M221 S50 would halve all laser power values." }
+        {
+          "mode": "3D printing",
+          "description": "Scales the extrusion amount (E values) by the given percentage."
+        },
+        {
+          "mode": "Laser mode",
+          "description": "Scales the laser power output by the given percentage. M221 S50 would halve all laser power values."
+        }
       ],
-      "sources": ["https://smoothieware.org/supported-g-codes", "https://smoothieware.org/laser"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes",
+        "https://smoothieware.org/laser"
+      ],
       "notes": "Dual-purpose command: controls extrusion flow in 3D printing mode, and laser power scaling in laser mode. This overloading can be surprising when switching between modes."
     },
     {
@@ -1557,20 +3257,49 @@
       "name": "Set PID Parameters",
       "description": "Sets the PID controller parameters for a temperature controller (hotend or bed).",
       "parameters": [
-        { "name": "S", "description": "Heater index (which temperature controller)", "optional": true },
-        { "name": "P", "description": "Proportional gain (Kp)", "optional": true },
-        { "name": "I", "description": "Integral gain (Ki)", "optional": true },
-        { "name": "D", "description": "Derivative gain (Kd)", "optional": true }
+        {
+          "name": "S",
+          "description": "Heater index (which temperature controller)",
+          "optional": true
+        },
+        {
+          "name": "P",
+          "description": "Proportional gain (Kp)",
+          "optional": true
+        },
+        {
+          "name": "I",
+          "description": "Integral gain (Ki)",
+          "optional": true
+        },
+        {
+          "name": "D",
+          "description": "Derivative gain (Kd)",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "M301 S0 P10.5 I0.5 D50", "description": "Set PID for hotend (index 0)" }
+        {
+          "code": "M301 S0 P10.5 I0.5 D50",
+          "description": "Set PID for hotend (index 0)"
+        }
       ],
-      "relatedCodes": ["M303", "M500"],
+      "relatedCodes": [
+        "M303",
+        "M500"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M301", "note": "Same behavior." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M301",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes", "https://smoothieware.org/temperaturecontrol"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes",
+        "https://smoothieware.org/temperaturecontrol"
+      ],
       "notes": "PID values can also be set in the config file. Use M303 to auto-tune PID parameters, then M301 or M500 to save them."
     },
     {
@@ -1579,19 +3308,43 @@
       "name": "PID Auto-Tune",
       "description": "Runs a PID auto-tuning cycle for a temperature controller. Oscillates the heater and measures response to calculate optimal PID values.",
       "parameters": [
-        { "name": "S", "description": "Target temperature for tuning", "optional": false },
-        { "name": "E", "description": "Heater index (0=hotend, 1=bed, etc.)", "optional": true }
+        {
+          "name": "S",
+          "description": "Target temperature for tuning",
+          "optional": false
+        },
+        {
+          "name": "E",
+          "description": "Heater index (0=hotend, 1=bed, etc.)",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "M303 S200 E0", "description": "Auto-tune hotend PID at 200°C" },
-        { "code": "M303 S60 E1", "description": "Auto-tune bed PID at 60°C" }
+        {
+          "code": "M303 S200 E0",
+          "description": "Auto-tune hotend PID at 200\u00b0C"
+        },
+        {
+          "code": "M303 S60 E1",
+          "description": "Auto-tune bed PID at 60\u00b0C"
+        }
       ],
-      "relatedCodes": ["M301", "M500"],
+      "relatedCodes": [
+        "M301",
+        "M500"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M303", "note": "Same behavior." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M303",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes", "https://smoothieware.org/temperaturecontrol"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes",
+        "https://smoothieware.org/temperaturecontrol"
+      ],
       "notes": "Takes several minutes to complete. After tuning, use M500 to save the new PID values to the config override file. Tune at the temperature you typically print at for best results."
     },
     {
@@ -1601,15 +3354,32 @@
       "description": "Saves current settings to the config-override file on the SD card. Saved settings are loaded on boot if 'config-override' is enabled.",
       "parameters": [],
       "examples": [
-        { "code": "M500", "description": "Save current settings to config-override" }
+        {
+          "code": "M500",
+          "description": "Save current settings to config-override"
+        }
       ],
-      "relatedCodes": ["M501", "M503"],
+      "relatedCodes": [
+        "M501",
+        "M503"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "$ settings", "note": "grbl stores settings in EEPROM via $ commands. Smoothieware saves to a config-override file on SD card. Fundamentally different storage approach." },
-        { "firmwareId": "reprapfirmware", "code": "M500", "note": "Same behavior — saves to config-override.g file." }
+        {
+          "firmwareId": "grbl",
+          "code": "$ settings",
+          "note": "grbl stores settings in EEPROM via $ commands. Smoothieware saves to a config-override file on SD card. Fundamentally different storage approach."
+        },
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M500",
+          "note": "Same behavior \u2014 saves to config-override.g file."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes", "https://smoothieware.org/configuring-smoothie"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes",
+        "https://smoothieware.org/configuring-smoothie"
+      ],
       "notes": "KEY ARCHITECTURAL DIFFERENCE: Smoothieware uses a config file on SD card for settings, not EEPROM $ commands like grbl. M500 saves overrides to /sd/config-override. The config-override file is sourced at boot if enabled in the main config. Edit the main config file directly for permanent changes."
     },
     {
@@ -1619,14 +3389,27 @@
       "description": "Loads settings from the config-override file on the SD card.",
       "parameters": [],
       "examples": [
-        { "code": "M501", "description": "Load saved settings from config-override" }
+        {
+          "code": "M501",
+          "description": "Load saved settings from config-override"
+        }
       ],
-      "relatedCodes": ["M500", "M503"],
+      "relatedCodes": [
+        "M500",
+        "M503"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M501", "note": "Same behavior." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M501",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes", "https://smoothieware.org/configuring-smoothie"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes",
+        "https://smoothieware.org/configuring-smoothie"
+      ],
       "notes": "Loads the /sd/config-override file. This is automatically done at boot if enabled."
     },
     {
@@ -1636,15 +3419,31 @@
       "description": "Reports the current configuration settings.",
       "parameters": [],
       "examples": [
-        { "code": "M503", "description": "Display current settings" }
+        {
+          "code": "M503",
+          "description": "Display current settings"
+        }
       ],
-      "relatedCodes": ["M500", "M501"],
+      "relatedCodes": [
+        "M500",
+        "M501"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "$$", "note": "grbl uses $$ to display settings. Smoothieware uses M503." },
-        { "firmwareId": "reprapfirmware", "code": "M503", "note": "Same behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "$$",
+          "note": "grbl uses $$ to display settings. Smoothieware uses M503."
+        },
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M503",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
       "notes": "Useful for verifying current settings. Shows values from both the main config and any config-override values."
     },
     {
@@ -1654,14 +3453,26 @@
       "description": "Suspends the current print. Saves the current position, retracts filament, and moves to a park position. Used for filament changes or manual intervention.",
       "parameters": [],
       "examples": [
-        { "code": "M600", "description": "Suspend print for filament change" }
+        {
+          "code": "M600",
+          "description": "Suspend print for filament change"
+        }
       ],
-      "relatedCodes": ["M601"],
+      "relatedCodes": [
+        "M601"
+      ],
       "crossReferences": [
-        { "firmwareId": "reprapfirmware", "code": "M600", "note": "Similar filament change behavior." }
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M600",
+          "note": "Similar filament change behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes", "https://smoothieware.org/player"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes",
+        "https://smoothieware.org/player"
+      ],
       "notes": "The suspend behavior (retraction amount, park position, custom G-code) is configurable via the after_suspend_gcode config setting. Use M601 to resume after the filament change."
     },
     {
@@ -1671,12 +3482,20 @@
       "description": "Resumes a suspended print. Restores the saved position and continues execution.",
       "parameters": [],
       "examples": [
-        { "code": "M601", "description": "Resume suspended print" }
+        {
+          "code": "M601",
+          "description": "Resume suspended print"
+        }
       ],
-      "relatedCodes": ["M600"],
+      "relatedCodes": [
+        "M600"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes", "https://smoothieware.org/player"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes",
+        "https://smoothieware.org/player"
+      ],
       "notes": "Executes the before_resume_gcode config settings (typically primes the nozzle), then restores position and continues printing."
     },
     {
@@ -1685,17 +3504,38 @@
       "name": "Delta Configuration",
       "description": "Sets delta geometry parameters: arm length, delta radius, and other delta-specific values.",
       "parameters": [
-        { "name": "L", "description": "Arm length (diagonal rod length) in mm", "optional": true },
-        { "name": "R", "description": "Delta radius in mm", "optional": true },
-        { "name": "Z", "description": "Maximum Z height in mm", "optional": true }
+        {
+          "name": "L",
+          "description": "Arm length (diagonal rod length) in mm",
+          "optional": true
+        },
+        {
+          "name": "R",
+          "description": "Delta radius in mm",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Maximum Z height in mm",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "M665 L250 R120 Z300", "description": "Set arm length 250mm, radius 120mm, max height 300mm" }
+        {
+          "code": "M665 L250 R120 Z300",
+          "description": "Set arm length 250mm, radius 120mm, max height 300mm"
+        }
       ],
-      "relatedCodes": ["M666", "G32"],
+      "relatedCodes": [
+        "M666",
+        "G32"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes", "https://smoothieware.org/delta"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes",
+        "https://smoothieware.org/delta"
+      ],
       "notes": "Delta kinematics only. These parameters are critical for print accuracy. Use G32 for auto-calibration, or set manually. Save with M500."
     },
     {
@@ -1704,17 +3544,38 @@
       "name": "Delta Endstop Offsets",
       "description": "Sets the endstop trim/offset values for each delta tower. Used to fine-tune delta calibration.",
       "parameters": [
-        { "name": "X", "description": "X tower (A tower) endstop offset in mm", "optional": true },
-        { "name": "Y", "description": "Y tower (B tower) endstop offset in mm", "optional": true },
-        { "name": "Z", "description": "Z tower (C tower) endstop offset in mm", "optional": true }
+        {
+          "name": "X",
+          "description": "X tower (A tower) endstop offset in mm",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Y tower (B tower) endstop offset in mm",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Z tower (C tower) endstop offset in mm",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "M666 X-0.5 Y0.2 Z0.1", "description": "Set endstop trim offsets for each tower" }
+        {
+          "code": "M666 X-0.5 Y0.2 Z0.1",
+          "description": "Set endstop trim offsets for each tower"
+        }
       ],
-      "relatedCodes": ["M665", "G32"],
+      "relatedCodes": [
+        "M665",
+        "G32"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes", "https://smoothieware.org/delta"],
+      "sources": [
+        "https://smoothieware.org/supported-g-codes",
+        "https://smoothieware.org/delta"
+      ],
       "notes": "Delta kinematics only. Small adjustments to endstop positions to level the print surface. G32 auto-calibration sets these automatically."
     },
     {
@@ -1723,22 +3584,53 @@
       "name": "Set Motor Current",
       "description": "Sets the stepper motor current in milliamps. Smoothieware boards have built-in stepper drivers with digitally adjustable current.",
       "parameters": [
-        { "name": "X", "description": "X motor current in mA", "optional": true },
-        { "name": "Y", "description": "Y motor current in mA", "optional": true },
-        { "name": "Z", "description": "Z motor current in mA", "optional": true },
-        { "name": "E", "description": "Extruder motor current in mA", "optional": true }
+        {
+          "name": "X",
+          "description": "X motor current in mA",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Y motor current in mA",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Z motor current in mA",
+          "optional": true
+        },
+        {
+          "name": "E",
+          "description": "Extruder motor current in mA",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "M907 X800 Y800 Z800 E600", "description": "Set motor currents for all axes" },
-        { "code": "M907 E500", "description": "Reduce extruder current to 500mA" }
+        {
+          "code": "M907 X800 Y800 Z800 E600",
+          "description": "Set motor currents for all axes"
+        },
+        {
+          "code": "M907 E500",
+          "description": "Reduce extruder current to 500mA"
+        }
       ],
-      "relatedCodes": ["M500"],
+      "relatedCodes": [
+        "M500"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "N/A", "note": "grbl does not control motor current — it is set with physical potentiometers or jumpers on external stepper drivers. Smoothieware's integrated drivers allow software-controlled current." }
+        {
+          "firmwareId": "grbl",
+          "code": "N/A",
+          "note": "grbl does not control motor current \u2014 it is set with physical potentiometers or jumpers on external stepper drivers. Smoothieware's integrated drivers allow software-controlled current."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes", "https://smoothieware.org/currentcontrol"],
-      "notes": "A key advantage of Smoothieware boards — motor current is digitally controlled rather than requiring physical potentiometer adjustment. Current values are also set in the config file (alpha_current, beta_current, gamma_current, delta_current). Typical values: 600-1200mA depending on motor size."
+      "sources": [
+        "https://smoothieware.org/supported-g-codes",
+        "https://smoothieware.org/currentcontrol"
+      ],
+      "notes": "A key advantage of Smoothieware boards \u2014 motor current is digitally controlled rather than requiring physical potentiometer adjustment. Current values are also set in the config file (alpha_current, beta_current, gamma_current, delta_current). Typical values: 600-1200mA depending on motor size."
     },
     {
       "code": "M999",
@@ -1747,16 +3639,31 @@
       "description": "Clears the HALT state caused by M112 (emergency stop) and resets the firmware to a ready state.",
       "parameters": [],
       "examples": [
-        { "code": "M999", "description": "Clear emergency stop and reset" }
+        {
+          "code": "M999",
+          "description": "Clear emergency stop and reset"
+        }
       ],
-      "relatedCodes": ["M112"],
+      "relatedCodes": [
+        "M112"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "0x18 (Ctrl-X)", "note": "grbl uses Ctrl-X for soft reset. Smoothieware uses M999 to clear the HALT state." },
-        { "firmwareId": "reprapfirmware", "code": "M999", "note": "Same behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "0x18 (Ctrl-X)",
+          "note": "grbl uses Ctrl-X for soft reset. Smoothieware uses M999 to clear the HALT state."
+        },
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M999",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://smoothieware.org/supported-g-codes"],
-      "notes": "After M999, the machine is in a reset state — axes are not homed. You must re-home (G28) before running any job. This is the only way to recover from M112 without power-cycling the board."
+      "sources": [
+        "https://smoothieware.org/supported-g-codes"
+      ],
+      "notes": "After M999, the machine is in a reset state \u2014 axes are not homed. You must re-home (G28) before running any job. This is the only way to recover from M112 without power-cycling the board."
     }
   ]
 }
