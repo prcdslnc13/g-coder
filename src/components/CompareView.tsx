@@ -26,13 +26,14 @@ export function CompareView({
 
   const firmwareEntries = Object.entries(allFirmwareData)
     .map(([id, fw]) => {
-      const entry = fw.codes.find((c) => c.code === code);
+      const entry = fw.codes.find((c) => c.code === code) ??
+        fw.codes.find((c) => c.code.startsWith(code + " "));
       return { id: id as FirmwareId, firmware: fw.firmware, entry };
     })
     .filter((f) => f.entry);
 
   const missingFirmwares = Object.entries(allFirmwareData)
-    .filter(([, fw]) => !fw.codes.some((c) => c.code === code))
+    .filter(([, fw]) => !fw.codes.some((c) => c.code === code || c.code.startsWith(code + " ")))
     .map(([, fw]) => fw.firmware.name);
 
   return (

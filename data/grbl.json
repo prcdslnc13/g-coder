@@ -13,25 +13,65 @@
       "name": "Rapid Move",
       "description": "Moves to target coordinates at maximum traverse rate (seek rate). No feed rate required. Each axis moves at its own maximum rate, so the path is not guaranteed to be a straight line. Subject to rapid overrides (100%/50%/25%).",
       "parameters": [
-        { "name": "X", "description": "Target X position", "optional": true, "example": "X10" },
-        { "name": "Y", "description": "Target Y position", "optional": true, "example": "Y20" },
-        { "name": "Z", "description": "Target Z position", "optional": true, "example": "Z5" }
+        {
+          "name": "X",
+          "description": "Target X position",
+          "optional": true,
+          "example": "X10"
+        },
+        {
+          "name": "Y",
+          "description": "Target Y position",
+          "optional": true,
+          "example": "Y20"
+        },
+        {
+          "name": "Z",
+          "description": "Target Z position",
+          "optional": true,
+          "example": "Z5"
+        }
       ],
       "examples": [
-        { "code": "G0 X0 Y0 Z5", "description": "Rapid move to origin at Z safe height" },
-        { "code": "G0 Z10", "description": "Rapid retract Z axis to 10mm" }
+        {
+          "code": "G0 X0 Y0 Z5",
+          "description": "Rapid move to origin at Z safe height"
+        },
+        {
+          "code": "G0 Z10",
+          "description": "Rapid retract Z axis to 10mm"
+        }
       ],
-      "relatedCodes": ["G1"],
+      "relatedCodes": [
+        "G1"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G0", "note": "Identical behavior per NIST standard. LinuxCNC may blend rapids with G64 path blending; grbl does not support path blending." },
-        { "firmwareId": "smoothieware", "code": "G0", "note": "Smoothieware treats G0 identically but uses separately configurable per-axis max rates." },
-        { "firmwareId": "reprapfirmware", "code": "G0", "note": "In RepRapFirmware, G0 and G1 are identical — both use the F parameter. In grbl, G0 always moves at maximum rate regardless of F." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G0",
+          "note": "Identical behavior per NIST standard. LinuxCNC may blend rapids with G64 path blending; grbl does not support path blending."
+        },
+        {
+          "firmwareId": "smoothieware",
+          "code": "G0",
+          "note": "Smoothieware treats G0 identically but uses separately configurable per-axis max rates."
+        },
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "G0",
+          "note": "In RepRapFirmware, G0 and G1 are identical \u2014 both use the F parameter. In grbl, G0 always moves at maximum rate regardless of F."
+        }
       ],
       "modeNotes": [
-        { "mode": "Laser mode ($32=1)", "description": "G0 moves automatically disable the laser (S value is preserved but PWM output is 0). This prevents burning during positioning moves." }
+        {
+          "mode": "Laser mode ($32=1)",
+          "description": "G0 moves automatically disable the laser (S value is preserved but PWM output is 0). This prevents burning during positioning moves."
+        }
       ],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
-      "notes": "G0 is modal — once set, subsequent lines without a G command will continue to use G0. Rapids may not follow a straight line because each axis moves at its own max rate independently. Rapid overrides (50%/25%) are a grbl extension not found in NIST standard."
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
+      "notes": "G0 is modal \u2014 once set, subsequent lines without a G command will continue to use G0. Rapids may not follow a straight line because each axis moves at its own max rate independently. Rapid overrides (50%/25%) are a grbl extension not found in NIST standard."
     },
     {
       "code": "G1",
@@ -39,25 +79,66 @@
       "name": "Linear Move",
       "description": "Controlled straight-line move at the specified feed rate. The tool path is always a precise straight line with all axes arriving simultaneously. Subject to feed rate overrides (10%-200%).",
       "parameters": [
-        { "name": "X", "description": "Target X position", "optional": true, "example": "X50" },
-        { "name": "Y", "description": "Target Y position", "optional": true, "example": "Y30" },
-        { "name": "Z", "description": "Target Z position", "optional": true, "example": "Z-1" },
-        { "name": "F", "description": "Feed rate in units/min", "optional": true, "example": "F500" }
+        {
+          "name": "X",
+          "description": "Target X position",
+          "optional": true,
+          "example": "X50"
+        },
+        {
+          "name": "Y",
+          "description": "Target Y position",
+          "optional": true,
+          "example": "Y30"
+        },
+        {
+          "name": "Z",
+          "description": "Target Z position",
+          "optional": true,
+          "example": "Z-1"
+        },
+        {
+          "name": "F",
+          "description": "Feed rate in units/min",
+          "optional": true,
+          "example": "F500"
+        }
       ],
       "examples": [
-        { "code": "G1 X50 Y30 F500", "description": "Linear move to X50 Y30 at 500 units/min" },
-        { "code": "G1 Z-1 F100", "description": "Plunge cut to Z-1 at 100 units/min" }
+        {
+          "code": "G1 X50 Y30 F500",
+          "description": "Linear move to X50 Y30 at 500 units/min"
+        },
+        {
+          "code": "G1 Z-1 F100",
+          "description": "Plunge cut to Z-1 at 100 units/min"
+        }
       ],
-      "relatedCodes": ["G0"],
+      "relatedCodes": [
+        "G0"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G1", "note": "Identical behavior. LinuxCNC supports additional axes (A, B, C, U, V, W) not available in grbl." },
-        { "firmwareId": "reprapfirmware", "code": "G1", "note": "RepRapFirmware uses the S parameter on G1 for laser power (since RRF 2.02+). In grbl, laser power is always set with S on M3/M4, not on G1." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G1",
+          "note": "Identical behavior. LinuxCNC supports additional axes (A, B, C, U, V, W) not available in grbl."
+        },
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "G1",
+          "note": "RepRapFirmware uses the S parameter on G1 for laser power (since RRF 2.02+). In grbl, laser power is always set with S on M3/M4, not on G1."
+        }
       ],
       "modeNotes": [
-        { "mode": "Laser mode ($32=1)", "description": "Laser is active during G1 moves at the power level set by M3/M4 S value. With M4 dynamic mode, power scales proportionally with speed during acceleration/deceleration. Inline S value changes update PWM instantaneously without stopping motion." }
+        {
+          "mode": "Laser mode ($32=1)",
+          "description": "Laser is active during G1 moves at the power level set by M3/M4 S value. With M4 dynamic mode, power scales proportionally with speed during acceleration/deceleration. Inline S value changes update PWM instantaneously without stopping motion."
+        }
       ],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
-      "notes": "G1 is modal. The F parameter is also modal — once set, it persists until changed."
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
+      "notes": "G1 is modal. The F parameter is also modal \u2014 once set, it persists until changed."
     },
     {
       "code": "G2",
@@ -65,28 +146,80 @@
       "name": "Clockwise Arc",
       "description": "Clockwise circular or helical interpolation in the currently selected plane (G17/G18/G19). Internally rendered as tiny line segments controlled by $12 (arc tolerance).",
       "parameters": [
-        { "name": "X", "description": "Arc endpoint X", "optional": true },
-        { "name": "Y", "description": "Arc endpoint Y", "optional": true },
-        { "name": "Z", "description": "Arc endpoint Z (helical)", "optional": true },
-        { "name": "I", "description": "Arc center offset in X (incremental from current position)", "optional": true },
-        { "name": "J", "description": "Arc center offset in Y (incremental from current position)", "optional": true },
-        { "name": "K", "description": "Arc center offset in Z (incremental from current position)", "optional": true },
-        { "name": "R", "description": "Arc radius (alternative to IJK)", "optional": true },
-        { "name": "F", "description": "Feed rate", "optional": true }
+        {
+          "name": "X",
+          "description": "Arc endpoint X",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Arc endpoint Y",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Arc endpoint Z (helical)",
+          "optional": true
+        },
+        {
+          "name": "I",
+          "description": "Arc center offset in X (incremental from current position)",
+          "optional": true
+        },
+        {
+          "name": "J",
+          "description": "Arc center offset in Y (incremental from current position)",
+          "optional": true
+        },
+        {
+          "name": "K",
+          "description": "Arc center offset in Z (incremental from current position)",
+          "optional": true
+        },
+        {
+          "name": "R",
+          "description": "Arc radius (alternative to IJK)",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Feed rate",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G2 X10 Y10 I5 J0 F100", "description": "CW arc to X10 Y10 with center offset I5 J0" },
-        { "code": "G2 X10 Y10 R5 F100", "description": "CW arc to X10 Y10 with radius 5 (shorter arc)" }
+        {
+          "code": "G2 X10 Y10 I5 J0 F100",
+          "description": "CW arc to X10 Y10 with center offset I5 J0"
+        },
+        {
+          "code": "G2 X10 Y10 R5 F100",
+          "description": "CW arc to X10 Y10 with radius 5 (shorter arc)"
+        }
       ],
-      "relatedCodes": ["G3", "G17", "G18", "G19"],
+      "relatedCodes": [
+        "G3",
+        "G17",
+        "G18",
+        "G19"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G2", "note": "Same behavior. LinuxCNC also supports absolute IJK mode (G90.1); grbl only supports incremental IJK (G91.1)." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G2",
+          "note": "Same behavior. LinuxCNC also supports absolute IJK mode (G90.1); grbl only supports incremental IJK (G91.1)."
+        }
       ],
       "modeNotes": [
-        { "mode": "Laser mode ($32=1)", "description": "Laser is active during arcs. With M4, dynamic power scales with instantaneous speed." }
+        {
+          "mode": "Laser mode ($32=1)",
+          "description": "Laser is active during arcs. With M4, dynamic power scales with instantaneous speed."
+        }
       ],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
-      "notes": "Only incremental IJK mode (G91.1) is supported — arc center offsets are always relative to the current position. Absolute IJK (G90.1) is NOT supported. Use either IJK offsets or R radius, not both."
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
+      "notes": "Only incremental IJK mode (G91.1) is supported \u2014 arc center offsets are always relative to the current position. Absolute IJK (G90.1) is NOT supported. Use either IJK offsets or R radius, not both."
     },
     {
       "code": "G3",
@@ -94,26 +227,75 @@
       "name": "Counter-Clockwise Arc",
       "description": "Counter-clockwise circular or helical interpolation. Same as G2 but in the opposite direction.",
       "parameters": [
-        { "name": "X", "description": "Arc endpoint X", "optional": true },
-        { "name": "Y", "description": "Arc endpoint Y", "optional": true },
-        { "name": "Z", "description": "Arc endpoint Z (helical)", "optional": true },
-        { "name": "I", "description": "Arc center offset in X", "optional": true },
-        { "name": "J", "description": "Arc center offset in Y", "optional": true },
-        { "name": "K", "description": "Arc center offset in Z", "optional": true },
-        { "name": "R", "description": "Arc radius (alternative to IJK)", "optional": true },
-        { "name": "F", "description": "Feed rate", "optional": true }
+        {
+          "name": "X",
+          "description": "Arc endpoint X",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Arc endpoint Y",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Arc endpoint Z (helical)",
+          "optional": true
+        },
+        {
+          "name": "I",
+          "description": "Arc center offset in X",
+          "optional": true
+        },
+        {
+          "name": "J",
+          "description": "Arc center offset in Y",
+          "optional": true
+        },
+        {
+          "name": "K",
+          "description": "Arc center offset in Z",
+          "optional": true
+        },
+        {
+          "name": "R",
+          "description": "Arc radius (alternative to IJK)",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Feed rate",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G3 X10 Y10 R5 F100", "description": "CCW arc to X10 Y10 with radius 5" }
+        {
+          "code": "G3 X10 Y10 R5 F100",
+          "description": "CCW arc to X10 Y10 with radius 5"
+        }
       ],
-      "relatedCodes": ["G2", "G17", "G18", "G19"],
+      "relatedCodes": [
+        "G2",
+        "G17",
+        "G18",
+        "G19"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G3", "note": "Same behavior, same IJK limitation as G2." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G3",
+          "note": "Same behavior, same IJK limitation as G2."
+        }
       ],
       "modeNotes": [
-        { "mode": "Laser mode ($32=1)", "description": "Same laser behavior as G2." }
+        {
+          "mode": "Laser mode ($32=1)",
+          "description": "Same laser behavior as G2."
+        }
       ],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "G4",
@@ -121,21 +303,122 @@
       "name": "Dwell",
       "description": "Pauses execution for a specified duration. Ignored in check mode ($C). Non-modal.",
       "parameters": [
-        { "name": "P", "description": "Dwell time in seconds", "optional": false, "example": "P0.5" }
+        {
+          "name": "P",
+          "description": "Dwell time in seconds",
+          "optional": false,
+          "example": "P0.5"
+        }
       ],
       "examples": [
-        { "code": "G4 P1", "description": "Pause for 1 second" },
-        { "code": "G4 P0.1", "description": "Pause for 100 milliseconds" }
+        {
+          "code": "G4 P1",
+          "description": "Pause for 1 second"
+        },
+        {
+          "code": "G4 P0.1",
+          "description": "Pause for 100 milliseconds"
+        }
       ],
       "relatedCodes": [],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G4", "note": "LinuxCNC also supports Q parameter for seconds. Some implementations interpret P as milliseconds — grbl uses seconds." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G4",
+          "note": "LinuxCNC also supports Q parameter for seconds. Some implementations interpret P as milliseconds \u2014 grbl uses seconds."
+        }
       ],
       "modeNotes": [
-        { "mode": "Laser mode ($32=1)", "description": "With M3 (constant), laser stays on during dwell. With M4 (dynamic), laser turns off during dwell since speed is zero." }
+        {
+          "mode": "Laser mode ($32=1)",
+          "description": "With M3 (constant), laser stays on during dwell. With M4 (dynamic), laser turns off during dwell since speed is zero."
+        }
       ],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "P is in seconds (not milliseconds). This can differ from some other controllers."
+    },
+    {
+      "code": "G10",
+      "type": "G",
+      "name": "Set Coordinate System Data",
+      "description": "Sets work coordinate system offsets. Always used with an L word to specify the operation: L2 sets absolute offsets, L20 sets offsets relative to current position. Defined by the NIST RS274/NGC standard.",
+      "parameters": [
+        {
+          "name": "L",
+          "description": "Operation type: L2 = set absolute offset, L20 = set offset relative to current position",
+          "optional": false
+        },
+        {
+          "name": "P",
+          "description": "Coordinate system number: 1=G54, 2=G55, 3=G56, 4=G57, 5=G58, 6=G59",
+          "optional": false
+        },
+        {
+          "name": "X",
+          "description": "X offset value",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Y offset value",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Z offset value",
+          "optional": true
+        }
+      ],
+      "examples": [
+        {
+          "code": "G10 L2 P1 X10 Y20 Z0",
+          "description": "Set G54 offset to absolute values X10 Y20 Z0"
+        },
+        {
+          "code": "G10 L20 P1 X0 Y0 Z0",
+          "description": "Set G54 so current position becomes X0 Y0 Z0"
+        }
+      ],
+      "relatedCodes": [
+        "G10 L2",
+        "G10 L20",
+        "G54",
+        "G55",
+        "G56",
+        "G57",
+        "G58",
+        "G59"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grblhal",
+          "code": "G10",
+          "note": "grblHAL extends G10 with additional L words (L1, L10, L11) for tool offsets and supports P7-P9 for G59.1-G59.3."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G10",
+          "note": "LinuxCNC supports the same L2/L20 operations plus L1/L10/L11 for tool offsets and the R parameter for coordinate system rotation."
+        },
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "G10",
+          "note": "RepRapFirmware overloads G10: without parameters it performs firmware retract; with L/P parameters it sets offsets like grbl."
+        },
+        {
+          "firmwareId": "smoothieware",
+          "code": "G10",
+          "note": "Smoothieware uses bare G10 for firmware retract only. Coordinate offsets use G10 L2/L20 as separate commands."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands",
+        "https://www.nist.gov/publications/nist-rs274ngc-interpreter-version-3"
+      ],
+      "notes": "grbl supports L2 and L20 only. Offsets are stored persistently in EEPROM. Do not place in $N startup blocks as this causes an EEPROM write on every startup. Supports 6 coordinate systems (P1-P6, mapping to G54-G59)."
     },
     {
       "code": "G10 L2",
@@ -143,20 +426,53 @@
       "name": "Set Work Coordinate Offset (Absolute)",
       "description": "Sets a work coordinate system offset (G54-G59) to absolute values. The offset is stored persistently in EEPROM.",
       "parameters": [
-        { "name": "P", "description": "Coordinate system number: 1=G54, 2=G55, 3=G56, 4=G57, 5=G58, 6=G59", "optional": false },
-        { "name": "X", "description": "X offset value", "optional": true },
-        { "name": "Y", "description": "Y offset value", "optional": true },
-        { "name": "Z", "description": "Z offset value", "optional": true }
+        {
+          "name": "P",
+          "description": "Coordinate system number: 1=G54, 2=G55, 3=G56, 4=G57, 5=G58, 6=G59",
+          "optional": false
+        },
+        {
+          "name": "X",
+          "description": "X offset value",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Y offset value",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Z offset value",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G10 L2 P1 X10 Y20 Z0", "description": "Set G54 offset to X10 Y20 Z0" }
+        {
+          "code": "G10 L2 P1 X10 Y20 Z0",
+          "description": "Set G54 offset to X10 Y20 Z0"
+        }
       ],
-      "relatedCodes": ["G10 L20", "G54", "G55", "G56", "G57", "G58", "G59"],
+      "relatedCodes": [
+        "G10 L20",
+        "G54",
+        "G55",
+        "G56",
+        "G57",
+        "G58",
+        "G59"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G10 L2", "note": "Identical behavior per NIST standard." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G10 L2",
+          "note": "Identical behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "Persistent in EEPROM. Do not place in $N startup blocks (EEPROM write on every startup)."
     },
     {
@@ -165,20 +481,53 @@
       "name": "Set Work Coordinate Offset (Relative)",
       "description": "Sets a work coordinate system offset such that the current position becomes the specified coordinate value. Persistent in EEPROM.",
       "parameters": [
-        { "name": "P", "description": "Coordinate system number: 1=G54 through 6=G59", "optional": false },
-        { "name": "X", "description": "Desired X position at current location", "optional": true },
-        { "name": "Y", "description": "Desired Y position at current location", "optional": true },
-        { "name": "Z", "description": "Desired Z position at current location", "optional": true }
+        {
+          "name": "P",
+          "description": "Coordinate system number: 1=G54 through 6=G59",
+          "optional": false
+        },
+        {
+          "name": "X",
+          "description": "Desired X position at current location",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Desired Y position at current location",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Desired Z position at current location",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G10 L20 P1 X0 Y0 Z0", "description": "Set G54 so current position reads as X0 Y0 Z0" }
+        {
+          "code": "G10 L20 P1 X0 Y0 Z0",
+          "description": "Set G54 so current position reads as X0 Y0 Z0"
+        }
       ],
-      "relatedCodes": ["G10 L2", "G54", "G55", "G56", "G57", "G58", "G59"],
+      "relatedCodes": [
+        "G10 L2",
+        "G54",
+        "G55",
+        "G56",
+        "G57",
+        "G58",
+        "G59"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G10 L20", "note": "Identical behavior per NIST standard." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G10 L20",
+          "note": "Identical behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "Commonly used for setting work zero at the current position. Do not place in $N startup blocks."
     },
     {
@@ -188,14 +537,28 @@
       "description": "Selects XY as the active plane for arc commands (G2/G3). I and J specify arc center offsets. Default plane.",
       "parameters": [],
       "examples": [
-        { "code": "G17 G2 X10 Y10 I5 J0 F100", "description": "CW arc in XY plane" }
+        {
+          "code": "G17 G2 X10 Y10 I5 J0 F100",
+          "description": "CW arc in XY plane"
+        }
       ],
-      "relatedCodes": ["G18", "G19", "G2", "G3"],
+      "relatedCodes": [
+        "G18",
+        "G19",
+        "G2",
+        "G3"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G17", "note": "Identical. LinuxCNC also supports G17.1 (UW plane) not available in grbl." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G17",
+          "note": "Identical. LinuxCNC also supports G17.1 (UW plane) not available in grbl."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "G18",
@@ -204,12 +567,22 @@
       "description": "Selects ZX as the active plane for arc commands. I and K specify arc center offsets.",
       "parameters": [],
       "examples": [
-        { "code": "G18 G2 X10 Z-5 I5 K0 F100", "description": "CW arc in ZX plane" }
+        {
+          "code": "G18 G2 X10 Z-5 I5 K0 F100",
+          "description": "CW arc in ZX plane"
+        }
       ],
-      "relatedCodes": ["G17", "G19", "G2", "G3"],
+      "relatedCodes": [
+        "G17",
+        "G19",
+        "G2",
+        "G3"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "G19",
@@ -218,12 +591,22 @@
       "description": "Selects YZ as the active plane for arc commands. J and K specify arc center offsets.",
       "parameters": [],
       "examples": [
-        { "code": "G19 G3 Y10 Z5 J5 K0 F100", "description": "CCW arc in YZ plane" }
+        {
+          "code": "G19 G3 Y10 Z5 J5 K0 F100",
+          "description": "CCW arc in YZ plane"
+        }
       ],
-      "relatedCodes": ["G17", "G18", "G2", "G3"],
+      "relatedCodes": [
+        "G17",
+        "G18",
+        "G2",
+        "G3"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "G20",
@@ -232,14 +615,25 @@
       "description": "Interprets all coordinate and feed rate values in inches.",
       "parameters": [],
       "examples": [
-        { "code": "G20 G1 X1 F10", "description": "Move to X=1 inch at 10 inches/min" }
+        {
+          "code": "G20 G1 X1 F10",
+          "description": "Move to X=1 inch at 10 inches/min"
+        }
       ],
-      "relatedCodes": ["G21"],
+      "relatedCodes": [
+        "G21"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G20", "note": "Identical behavior." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G20",
+          "note": "Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "G21",
@@ -248,39 +642,89 @@
       "description": "Interprets all coordinate and feed rate values in millimeters. This is the default.",
       "parameters": [],
       "examples": [
-        { "code": "G21 G1 X10 F200", "description": "Move to X=10mm at 200mm/min" }
+        {
+          "code": "G21 G1 X10 F200",
+          "description": "Move to X=10mm at 200mm/min"
+        }
       ],
-      "relatedCodes": ["G20"],
+      "relatedCodes": [
+        "G20"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G21", "note": "Identical behavior." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G21",
+          "note": "Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "G28",
       "type": "G",
       "name": "Go to Predefined Position 1",
-      "description": "Moves to the predefined home position stored in EEPROM (set by G28.1). If axis words are given, moves to those coordinates first as an intermediate point, then to the stored position. This is NOT homing — use $H for homing.",
+      "description": "Moves to the predefined home position stored in EEPROM (set by G28.1). If axis words are given, moves to those coordinates first as an intermediate point, then to the stored position. This is NOT homing \u2014 use $H for homing.",
       "parameters": [
-        { "name": "X", "description": "Intermediate X position", "optional": true },
-        { "name": "Y", "description": "Intermediate Y position", "optional": true },
-        { "name": "Z", "description": "Intermediate Z position", "optional": true }
+        {
+          "name": "X",
+          "description": "Intermediate X position",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Intermediate Y position",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Intermediate Z position",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G28", "description": "Move directly to stored G28 position" },
-        { "code": "G28 Z5", "description": "Move Z to 5 first, then go to stored G28 position" }
+        {
+          "code": "G28",
+          "description": "Move directly to stored G28 position"
+        },
+        {
+          "code": "G28 Z5",
+          "description": "Move Z to 5 first, then go to stored G28 position"
+        }
       ],
-      "relatedCodes": ["G28.1", "G30", "G30.1"],
+      "relatedCodes": [
+        "G28.1",
+        "G30",
+        "G30.1"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G28", "note": "Identical behavior per NIST standard." },
-        { "firmwareId": "smoothieware", "code": "G28", "note": "WARNING: In Smoothieware, G28 performs a homing cycle (equivalent to grbl's $H), NOT a move to a stored position. This is a critical difference that can cause crashes." },
-        { "firmwareId": "reprapfirmware", "code": "G28", "note": "WARNING: In RepRapFirmware, G28 also performs a homing cycle via macro files, not a move to a stored position." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G28",
+          "note": "Identical behavior per NIST standard."
+        },
+        {
+          "firmwareId": "smoothieware",
+          "code": "G28",
+          "note": "WARNING: In Smoothieware, G28 performs a homing cycle (equivalent to grbl's $H), NOT a move to a stored position. This is a critical difference that can cause crashes."
+        },
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "G28",
+          "note": "WARNING: In RepRapFirmware, G28 also performs a homing cycle via macro files, not a move to a stored position."
+        }
       ],
       "modeNotes": [
-        { "mode": "Laser mode ($32=1)", "description": "Treated as a rapid move — laser is disabled during G28 motion." }
+        {
+          "mode": "Laser mode ($32=1)",
+          "description": "Treated as a rapid move \u2014 laser is disabled during G28 motion."
+        }
       ],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "CRITICAL: G28 is NOT homing. In grbl, homing is $H. In 3D printing firmwares (Smoothieware, RepRapFirmware), G28 IS the homing command. This difference can cause machine crashes when sharing G-code between CNC and 3D printing firmware."
     },
     {
@@ -290,15 +734,27 @@
       "description": "Stores the current machine position as the G28 target position. Persistent in EEPROM.",
       "parameters": [],
       "examples": [
-        { "code": "G28.1", "description": "Save current position as G28 target" }
+        {
+          "code": "G28.1",
+          "description": "Save current position as G28 target"
+        }
       ],
-      "relatedCodes": ["G28", "G30.1"],
+      "relatedCodes": [
+        "G28",
+        "G30.1"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G28.1", "note": "Identical behavior." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G28.1",
+          "note": "Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
-      "notes": "Do not place in $N startup blocks — causes an EEPROM write on every startup."
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
+      "notes": "Do not place in $N startup blocks \u2014 causes an EEPROM write on every startup."
     },
     {
       "code": "G30",
@@ -306,20 +762,49 @@
       "name": "Go to Predefined Position 2",
       "description": "Same as G28 but uses a second stored position (set by G30.1).",
       "parameters": [
-        { "name": "X", "description": "Intermediate X position", "optional": true },
-        { "name": "Y", "description": "Intermediate Y position", "optional": true },
-        { "name": "Z", "description": "Intermediate Z position", "optional": true }
+        {
+          "name": "X",
+          "description": "Intermediate X position",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Intermediate Y position",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Intermediate Z position",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G30", "description": "Move to stored G30 position" }
+        {
+          "code": "G30",
+          "description": "Move to stored G30 position"
+        }
       ],
-      "relatedCodes": ["G30.1", "G28", "G28.1"],
+      "relatedCodes": [
+        "G30.1",
+        "G28",
+        "G28.1"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G30", "note": "Identical behavior." },
-        { "firmwareId": "smoothieware", "code": "G30", "note": "In Smoothieware, G30 is a single-point probe command, NOT a move to a stored position." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G30",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "smoothieware",
+          "code": "G30",
+          "note": "In Smoothieware, G30 is a single-point probe command, NOT a move to a stored position."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "G30.1",
@@ -328,12 +813,20 @@
       "description": "Stores the current machine position as the G30 target position. Persistent in EEPROM.",
       "parameters": [],
       "examples": [
-        { "code": "G30.1", "description": "Save current position as G30 target" }
+        {
+          "code": "G30.1",
+          "description": "Save current position as G30 target"
+        }
       ],
-      "relatedCodes": ["G30", "G28.1"],
+      "relatedCodes": [
+        "G30",
+        "G28.1"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "Do not place in $N startup blocks."
     },
     {
@@ -342,24 +835,60 @@
       "name": "Probe Toward Workpiece (Error on No Contact)",
       "description": "Linear probe move toward workpiece. If the probe does not make contact before reaching the target position, an alarm is thrown. Probe result stored in PRB parameter (viewable via $#).",
       "parameters": [
-        { "name": "X", "description": "Probe target X", "optional": true },
-        { "name": "Y", "description": "Probe target Y", "optional": true },
-        { "name": "Z", "description": "Probe target Z", "optional": true },
-        { "name": "F", "description": "Probe feed rate", "optional": false }
+        {
+          "name": "X",
+          "description": "Probe target X",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Probe target Y",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Probe target Z",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Probe feed rate",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "G38.2 Z-10 F50", "description": "Probe downward to Z-10 at 50mm/min; alarm if no contact" }
+        {
+          "code": "G38.2 Z-10 F50",
+          "description": "Probe downward to Z-10 at 50mm/min; alarm if no contact"
+        }
       ],
-      "relatedCodes": ["G38.3", "G38.4", "G38.5"],
+      "relatedCodes": [
+        "G38.3",
+        "G38.4",
+        "G38.5"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G38.2", "note": "Same behavior per NIST standard." },
-        { "firmwareId": "grblhal", "code": "G38.2", "note": "Identical behavior." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G38.2",
+          "note": "Same behavior per NIST standard."
+        },
+        {
+          "firmwareId": "grblhal",
+          "code": "G38.2",
+          "note": "Identical behavior."
+        }
       ],
       "modeNotes": [
-        { "mode": "Laser mode ($32=1)", "description": "Laser is automatically disabled during probe cycles." }
+        {
+          "mode": "Laser mode ($32=1)",
+          "description": "Laser is automatically disabled during probe cycles."
+        }
       ],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
-      "notes": "PRB result includes success flag (:1 or :0). Non-persistent — cleared on reset."
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
+      "notes": "PRB result includes success flag (:1 or :0). Non-persistent \u2014 cleared on reset."
     },
     {
       "code": "G38.3",
@@ -367,20 +896,49 @@
       "name": "Probe Toward Workpiece (No Error)",
       "description": "Same as G38.2 but does not alarm on failure. Sets PRB flag to :0 if no contact made.",
       "parameters": [
-        { "name": "X", "description": "Probe target X", "optional": true },
-        { "name": "Y", "description": "Probe target Y", "optional": true },
-        { "name": "Z", "description": "Probe target Z", "optional": true },
-        { "name": "F", "description": "Probe feed rate", "optional": false }
+        {
+          "name": "X",
+          "description": "Probe target X",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Probe target Y",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Probe target Z",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Probe feed rate",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "G38.3 Z-10 F50", "description": "Probe downward; no alarm if contact missed" }
+        {
+          "code": "G38.3 Z-10 F50",
+          "description": "Probe downward; no alarm if contact missed"
+        }
       ],
-      "relatedCodes": ["G38.2", "G38.4", "G38.5"],
+      "relatedCodes": [
+        "G38.2",
+        "G38.4",
+        "G38.5"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G38.3", "note": "Same behavior." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G38.3",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "G38.4",
@@ -388,18 +946,43 @@
       "name": "Probe Away from Workpiece (Error on No Contact)",
       "description": "Probe expects to start in contact and moves away. Alarm if still in contact at target position.",
       "parameters": [
-        { "name": "X", "description": "Probe target X", "optional": true },
-        { "name": "Y", "description": "Probe target Y", "optional": true },
-        { "name": "Z", "description": "Probe target Z", "optional": true },
-        { "name": "F", "description": "Probe feed rate", "optional": false }
+        {
+          "name": "X",
+          "description": "Probe target X",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Probe target Y",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Probe target Z",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Probe feed rate",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "G38.4 Z5 F50", "description": "Probe upward away from surface; alarm if still in contact" }
+        {
+          "code": "G38.4 Z5 F50",
+          "description": "Probe upward away from surface; alarm if still in contact"
+        }
       ],
-      "relatedCodes": ["G38.2", "G38.3", "G38.5"],
+      "relatedCodes": [
+        "G38.2",
+        "G38.3",
+        "G38.5"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "G38.5",
@@ -407,53 +990,107 @@
       "name": "Probe Away from Workpiece (No Error)",
       "description": "Same as G38.4 but does not alarm on failure.",
       "parameters": [
-        { "name": "X", "description": "Probe target X", "optional": true },
-        { "name": "Y", "description": "Probe target Y", "optional": true },
-        { "name": "Z", "description": "Probe target Z", "optional": true },
-        { "name": "F", "description": "Probe feed rate", "optional": false }
+        {
+          "name": "X",
+          "description": "Probe target X",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Probe target Y",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Probe target Z",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Probe feed rate",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "G38.5 Z5 F50", "description": "Probe away from surface; no alarm if still in contact" }
+        {
+          "code": "G38.5 Z5 F50",
+          "description": "Probe away from surface; no alarm if still in contact"
+        }
       ],
-      "relatedCodes": ["G38.2", "G38.3", "G38.4"],
+      "relatedCodes": [
+        "G38.2",
+        "G38.3",
+        "G38.4"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "G40",
       "type": "G",
       "name": "Cutter Compensation Off",
-      "description": "Disables cutter radius compensation. This is the default and only supported mode — grbl does NOT support G41/G42 cutter compensation.",
+      "description": "Disables cutter radius compensation. This is the default and only supported mode \u2014 grbl does NOT support G41/G42 cutter compensation.",
       "parameters": [],
       "examples": [],
       "relatedCodes": [],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G40", "note": "LinuxCNC supports full cutter compensation (G40/G41/G42). grbl only supports G40 (off)." },
-        { "firmwareId": "grblhal", "code": "G40", "note": "grblHAL also only supports G40." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G40",
+          "note": "LinuxCNC supports full cutter compensation (G40/G41/G42). grbl only supports G40 (off)."
+        },
+        {
+          "firmwareId": "grblhal",
+          "code": "G40",
+          "note": "grblHAL also only supports G40."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "G41/G42 cutter radius compensation is NOT implemented in grbl. CAM software must handle tool offset compensation."
     },
     {
       "code": "G43.1",
       "type": "G",
       "name": "Dynamic Tool Length Offset",
-      "description": "Applies a tool length offset. Only the dynamic form (G43.1) is supported — grbl has no tool table. Non-persistent (cleared on reset). Only applies to the configured tool axis (typically Z).",
+      "description": "Applies a tool length offset. Only the dynamic form (G43.1) is supported \u2014 grbl has no tool table. Non-persistent (cleared on reset). Only applies to the configured tool axis (typically Z).",
       "parameters": [
-        { "name": "Z", "description": "Tool length offset value", "optional": false }
+        {
+          "name": "Z",
+          "description": "Tool length offset value",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "G43.1 Z-5.0", "description": "Apply -5mm tool length offset" }
+        {
+          "code": "G43.1 Z-5.0",
+          "description": "Apply -5mm tool length offset"
+        }
       ],
-      "relatedCodes": ["G49"],
+      "relatedCodes": [
+        "G49"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G43.1", "note": "LinuxCNC supports both G43 (from tool table) and G43.1 (dynamic). grbl only supports G43.1." },
-        { "firmwareId": "grblhal", "code": "G43.1", "note": "grblHAL supports both G43 (with tool table) and G43.1. grbl only supports G43.1." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G43.1",
+          "note": "LinuxCNC supports both G43 (from tool table) and G43.1 (dynamic). grbl only supports G43.1."
+        },
+        {
+          "firmwareId": "grblhal",
+          "code": "G43.1",
+          "note": "grblHAL supports both G43 (with tool table) and G43.1. grbl only supports G43.1."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "Only G43.1 (dynamic) is supported, not G43 (from tool table). Returns error:37 if applied to wrong axis."
     },
     {
@@ -463,33 +1100,71 @@
       "description": "Cancels any active tool length offset. Default state.",
       "parameters": [],
       "examples": [
-        { "code": "G49", "description": "Cancel tool length offset" }
+        {
+          "code": "G49",
+          "description": "Cancel tool length offset"
+        }
       ],
-      "relatedCodes": ["G43.1"],
+      "relatedCodes": [
+        "G43.1"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "G53",
       "type": "G",
       "name": "Move in Machine Coordinates",
-      "description": "Overrides the active work coordinate system for the current line only. Must be paired with G0 or G1. Non-modal — only applies to the line it's on.",
+      "description": "Overrides the active work coordinate system for the current line only. Must be paired with G0 or G1. Non-modal \u2014 only applies to the line it's on.",
       "parameters": [
-        { "name": "X", "description": "Machine X coordinate", "optional": true },
-        { "name": "Y", "description": "Machine Y coordinate", "optional": true },
-        { "name": "Z", "description": "Machine Z coordinate", "optional": true }
+        {
+          "name": "X",
+          "description": "Machine X coordinate",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Machine Y coordinate",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Machine Z coordinate",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G53 G0 X0 Y0 Z0", "description": "Rapid to machine origin" },
-        { "code": "G53 G0 Z0", "description": "Rapid Z to machine zero (top of travel)" }
+        {
+          "code": "G53 G0 X0 Y0 Z0",
+          "description": "Rapid to machine origin"
+        },
+        {
+          "code": "G53 G0 Z0",
+          "description": "Rapid Z to machine zero (top of travel)"
+        }
       ],
-      "relatedCodes": ["G54", "G55", "G56", "G57", "G58", "G59"],
+      "relatedCodes": [
+        "G54",
+        "G55",
+        "G56",
+        "G57",
+        "G58",
+        "G59"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G53", "note": "Same behavior. Must be on same line as G0 or G1." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G53",
+          "note": "Same behavior. Must be on same line as G0 or G1."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "Returns error:30 if not paired with G0 or G1. Also accepted in $J jog commands (grbl extension)."
     },
     {
@@ -499,14 +1174,31 @@
       "description": "Selects work coordinate system 1. This is the default coordinate system. Offset is stored in EEPROM and set via G10 L2/L20.",
       "parameters": [],
       "examples": [
-        { "code": "G54", "description": "Switch to work coordinate system 1" }
+        {
+          "code": "G54",
+          "description": "Switch to work coordinate system 1"
+        }
       ],
-      "relatedCodes": ["G55", "G56", "G57", "G58", "G59", "G10 L2", "G10 L20"],
+      "relatedCodes": [
+        "G55",
+        "G56",
+        "G57",
+        "G58",
+        "G59",
+        "G10 L2",
+        "G10 L20"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G54", "note": "Identical. LinuxCNC also supports G59.1/G59.2/G59.3 (9 total systems); grbl only has 6." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G54",
+          "note": "Identical. LinuxCNC also supports G59.1/G59.2/G59.3 (9 total systems); grbl only has 6."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "grbl supports G54-G59 (6 work coordinate systems). G59.1/G59.2/G59.3 are NOT supported (error:29). View offsets with $#."
     },
     {
@@ -515,11 +1207,24 @@
       "name": "Work Coordinate System 2",
       "description": "Selects work coordinate system 2.",
       "parameters": [],
-      "examples": [{ "code": "G55", "description": "Switch to WCS 2" }],
-      "relatedCodes": ["G54", "G56", "G57", "G58", "G59"],
+      "examples": [
+        {
+          "code": "G55",
+          "description": "Switch to WCS 2"
+        }
+      ],
+      "relatedCodes": [
+        "G54",
+        "G56",
+        "G57",
+        "G58",
+        "G59"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "G56",
@@ -527,11 +1232,24 @@
       "name": "Work Coordinate System 3",
       "description": "Selects work coordinate system 3.",
       "parameters": [],
-      "examples": [{ "code": "G56", "description": "Switch to WCS 3" }],
-      "relatedCodes": ["G54", "G55", "G57", "G58", "G59"],
+      "examples": [
+        {
+          "code": "G56",
+          "description": "Switch to WCS 3"
+        }
+      ],
+      "relatedCodes": [
+        "G54",
+        "G55",
+        "G57",
+        "G58",
+        "G59"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "G57",
@@ -539,11 +1257,24 @@
       "name": "Work Coordinate System 4",
       "description": "Selects work coordinate system 4.",
       "parameters": [],
-      "examples": [{ "code": "G57", "description": "Switch to WCS 4" }],
-      "relatedCodes": ["G54", "G55", "G56", "G58", "G59"],
+      "examples": [
+        {
+          "code": "G57",
+          "description": "Switch to WCS 4"
+        }
+      ],
+      "relatedCodes": [
+        "G54",
+        "G55",
+        "G56",
+        "G58",
+        "G59"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "G58",
@@ -551,11 +1282,24 @@
       "name": "Work Coordinate System 5",
       "description": "Selects work coordinate system 5.",
       "parameters": [],
-      "examples": [{ "code": "G58", "description": "Switch to WCS 5" }],
-      "relatedCodes": ["G54", "G55", "G56", "G57", "G59"],
+      "examples": [
+        {
+          "code": "G58",
+          "description": "Switch to WCS 5"
+        }
+      ],
+      "relatedCodes": [
+        "G54",
+        "G55",
+        "G56",
+        "G57",
+        "G59"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "G59",
@@ -563,11 +1307,24 @@
       "name": "Work Coordinate System 6",
       "description": "Selects work coordinate system 6.",
       "parameters": [],
-      "examples": [{ "code": "G59", "description": "Switch to WCS 6" }],
-      "relatedCodes": ["G54", "G55", "G56", "G57", "G58"],
+      "examples": [
+        {
+          "code": "G59",
+          "description": "Switch to WCS 6"
+        }
+      ],
+      "relatedCodes": [
+        "G54",
+        "G55",
+        "G56",
+        "G57",
+        "G58"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "G61",
@@ -576,14 +1333,23 @@
       "description": "Machine decelerates to a complete stop at the end of each motion command before executing the next. Default path control mode in grbl.",
       "parameters": [],
       "examples": [
-        { "code": "G61", "description": "Enable exact stop mode" }
+        {
+          "code": "G61",
+          "description": "Enable exact stop mode"
+        }
       ],
       "relatedCodes": [],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G61", "note": "LinuxCNC also supports G61.1 (exact path) and G64 (path blending with tolerance). grbl only supports G61." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G61",
+          "note": "LinuxCNC also supports G61.1 (exact path) and G64 (path blending with tolerance). grbl only supports G61."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "G64 path blending is NOT supported. grbl handles cornering via the $11 junction deviation setting instead."
     },
     {
@@ -593,12 +1359,22 @@
       "description": "Cancels the active motion mode. No axis words should be present when G80 is active.",
       "parameters": [],
       "examples": [
-        { "code": "G80", "description": "Cancel current motion mode" }
+        {
+          "code": "G80",
+          "description": "Cancel current motion mode"
+        }
       ],
-      "relatedCodes": ["G0", "G1", "G2", "G3"],
+      "relatedCodes": [
+        "G0",
+        "G1",
+        "G2",
+        "G3"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "Returns error:31 if axis words are given while G80 is active."
     },
     {
@@ -608,15 +1384,30 @@
       "description": "All subsequent movement coordinates are interpreted as absolute positions relative to the current work coordinate system origin (set by G54-G59). Default mode.",
       "parameters": [],
       "examples": [
-        { "code": "G90\nG0 X10 Y10\nG0 X20 Y20", "description": "Moves to absolute positions: first to (10,10), then to (20,20)" }
+        {
+          "code": "G90\nG0 X10 Y10\nG0 X20 Y20",
+          "description": "Moves to absolute positions: first to (10,10), then to (20,20)"
+        }
       ],
-      "relatedCodes": ["G91"],
+      "relatedCodes": [
+        "G91"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G90", "note": "Identical behavior." },
-        { "firmwareId": "smoothieware", "code": "G90", "note": "Same for XYZ. Smoothieware also supports M82/M83 for independent extruder positioning mode." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G90",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "smoothieware",
+          "code": "G90",
+          "note": "Same for XYZ. Smoothieware also supports M82/M83 for independent extruder positioning mode."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "Default mode. Coordinates are relative to the active work coordinate system, not machine zero. Use G53 for machine coordinate moves."
     },
     {
@@ -626,15 +1417,26 @@
       "description": "All subsequent movement coordinates are interpreted as incremental distances from the current position.",
       "parameters": [],
       "examples": [
-        { "code": "G91\nG0 X10 Y10\nG0 X10 Y10", "description": "Moves incrementally: first +10 in X/Y, then another +10. Final position is (20,20) from start." }
+        {
+          "code": "G91\nG0 X10 Y10\nG0 X10 Y10",
+          "description": "Moves incrementally: first +10 in X/Y, then another +10. Final position is (20,20) from start."
+        }
       ],
-      "relatedCodes": ["G90"],
+      "relatedCodes": [
+        "G90"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G91", "note": "Identical behavior per NIST standard." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G91",
+          "note": "Identical behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
-      "notes": "Be cautious with G91 — if a program is interrupted and restarted without resetting to G90, moves will be relative to the interrupted position."
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
+      "notes": "Be cautious with G91 \u2014 if a program is interrupted and restarted without resetting to G90, moves will be relative to the interrupted position."
     },
     {
       "code": "G91.1",
@@ -643,33 +1445,66 @@
       "description": "Arc center offsets (I, J, K) are always relative to the current position. This is the default and ONLY arc offset mode grbl supports.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["G2", "G3"],
+      "relatedCodes": [
+        "G2",
+        "G3"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G91.1", "note": "LinuxCNC also supports G90.1 (absolute arc offsets). grbl does not." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G91.1",
+          "note": "LinuxCNC also supports G90.1 (absolute arc offsets). grbl does not."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "G90.1 (absolute arc center mode) is NOT supported in grbl. IJK offsets are always incremental."
     },
     {
       "code": "G92",
       "type": "G",
       "name": "Set Coordinate System Offset",
-      "description": "Sets a temporary coordinate offset so that the current position reads as the specified value. Non-persistent — cleared on reset.",
+      "description": "Sets a temporary coordinate offset so that the current position reads as the specified value. Non-persistent \u2014 cleared on reset.",
       "parameters": [
-        { "name": "X", "description": "Desired X position at current location", "optional": true },
-        { "name": "Y", "description": "Desired Y position at current location", "optional": true },
-        { "name": "Z", "description": "Desired Z position at current location", "optional": true }
+        {
+          "name": "X",
+          "description": "Desired X position at current location",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Desired Y position at current location",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Desired Z position at current location",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G92 X0 Y0", "description": "Set current position as X0 Y0 temporarily" }
+        {
+          "code": "G92 X0 Y0",
+          "description": "Set current position as X0 Y0 temporarily"
+        }
       ],
-      "relatedCodes": ["G92.1", "G10 L20"],
+      "relatedCodes": [
+        "G92.1",
+        "G10 L20"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G92", "note": "Same behavior but LinuxCNC can optionally persist G92 offsets (configurable)." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G92",
+          "note": "Same behavior but LinuxCNC can optionally persist G92 offsets (configurable)."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "Non-persistent in grbl (cleared on reset). Prefer G10 L20 for persistent work offsets. G92 applies on top of the active work coordinate system."
     },
     {
@@ -679,12 +1514,19 @@
       "description": "Cancels the G92 offset, resetting it to zero.",
       "parameters": [],
       "examples": [
-        { "code": "G92.1", "description": "Clear temporary coordinate offset" }
+        {
+          "code": "G92.1",
+          "description": "Clear temporary coordinate offset"
+        }
       ],
-      "relatedCodes": ["G92"],
+      "relatedCodes": [
+        "G92"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "G93",
@@ -693,29 +1535,47 @@
       "description": "Feed rate F specifies the inverse of time in minutes to complete the move. Each motion command MUST include an F word. F2 means the move should complete in 0.5 minutes (1/2).",
       "parameters": [],
       "examples": [
-        { "code": "G93\nG1 X10 F2", "description": "Move to X10 in 0.5 minutes (F = 1/time_in_min)" }
+        {
+          "code": "G93\nG1 X10 F2",
+          "description": "Move to X10 in 0.5 minutes (F = 1/time_in_min)"
+        }
       ],
-      "relatedCodes": ["G94"],
+      "relatedCodes": [
+        "G94"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "G93", "note": "Identical behavior per NIST standard." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G93",
+          "note": "Identical behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "Every motion line must include F in inverse time mode. Commonly used with 4th/5th axis work or complex tool paths."
     },
     {
       "code": "G94",
       "type": "G",
       "name": "Units Per Minute Feed Rate Mode",
-      "description": "Feed rate F is in units (mm or inches) per minute. This is the default mode. F is modal — persists until changed.",
+      "description": "Feed rate F is in units (mm or inches) per minute. This is the default mode. F is modal \u2014 persists until changed.",
       "parameters": [],
       "examples": [
-        { "code": "G94\nG1 X50 F500", "description": "Move at 500 units/min" }
+        {
+          "code": "G94\nG1 X50 F500",
+          "description": "Move at 500 units/min"
+        }
       ],
-      "relatedCodes": ["G93"],
+      "relatedCodes": [
+        "G93"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "M0",
@@ -724,14 +1584,27 @@
       "description": "Halts program execution. Resume with cycle start (~). Spindle and coolant remain in current state.",
       "parameters": [],
       "examples": [
-        { "code": "M0", "description": "Pause program — wait for operator to resume" }
+        {
+          "code": "M0",
+          "description": "Pause program \u2014 wait for operator to resume"
+        }
       ],
-      "relatedCodes": ["M1", "M2", "M30"],
+      "relatedCodes": [
+        "M1",
+        "M2",
+        "M30"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "M0", "note": "Identical behavior." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M0",
+          "note": "Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "M1",
@@ -740,15 +1613,26 @@
       "description": "Conditional program pause. In grbl, M1 always pauses (same as M0) because there is no optional stop switch.",
       "parameters": [],
       "examples": [
-        { "code": "M1", "description": "Optional pause (always pauses in grbl)" }
+        {
+          "code": "M1",
+          "description": "Optional pause (always pauses in grbl)"
+        }
       ],
-      "relatedCodes": ["M0"],
+      "relatedCodes": [
+        "M0"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "M1", "note": "In LinuxCNC, M1 only pauses if the optional stop switch is active. In grbl, it always pauses." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M1",
+          "note": "In LinuxCNC, M1 only pauses if the optional stop switch is active. In grbl, it always pauses."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
-      "notes": "Always pauses in grbl — no optional stop switch support."
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
+      "notes": "Always pauses in grbl \u2014 no optional stop switch support."
     },
     {
       "code": "M2",
@@ -757,14 +1641,25 @@
       "description": "Ends the program. Stops spindle and coolant. Does not rewind.",
       "parameters": [],
       "examples": [
-        { "code": "M2", "description": "End program" }
+        {
+          "code": "M2",
+          "description": "End program"
+        }
       ],
-      "relatedCodes": ["M30"],
+      "relatedCodes": [
+        "M30"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "M2", "note": "Similar behavior." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M2",
+          "note": "Similar behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "M3",
@@ -772,25 +1667,64 @@
       "name": "Spindle On (CW) / Laser On (Constant)",
       "description": "Turns the spindle on clockwise at the speed specified by S. In laser mode, enables constant power mode.",
       "parameters": [
-        { "name": "S", "description": "Spindle speed (RPM) or laser power (0 to $30 max)", "optional": false, "example": "S12000" }
+        {
+          "name": "S",
+          "description": "Spindle speed (RPM) or laser power (0 to $30 max)",
+          "optional": false,
+          "example": "S12000"
+        }
       ],
       "examples": [
-        { "code": "M3 S12000", "description": "Start spindle at 12000 RPM" },
-        { "code": "M3 S500\nG1 X10 F300", "description": "Laser mode: constant power cut to X10" }
+        {
+          "code": "M3 S12000",
+          "description": "Start spindle at 12000 RPM"
+        },
+        {
+          "code": "M3 S500\nG1 X10 F300",
+          "description": "Laser mode: constant power cut to X10"
+        }
       ],
-      "relatedCodes": ["M4", "M5"],
+      "relatedCodes": [
+        "M4",
+        "M5"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "M3", "note": "Identical for spindle control. LinuxCNC does not have a built-in laser mode." },
-        { "firmwareId": "grblhal", "code": "M3", "note": "Same behavior. grblHAL extends S value range and adds spindle sync features." },
-        { "firmwareId": "smoothieware", "code": "M3", "note": "Smoothieware does not differentiate M3/M4 for laser mode — laser behavior is module-configured." },
-        { "firmwareId": "reprapfirmware", "code": "M3", "note": "In RRF, the mode (FDM/Laser/CNC) is set by M451/M452/M453. Laser power can also be set per-move via S on G1." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M3",
+          "note": "Identical for spindle control. LinuxCNC does not have a built-in laser mode."
+        },
+        {
+          "firmwareId": "grblhal",
+          "code": "M3",
+          "note": "Same behavior. grblHAL extends S value range and adds spindle sync features."
+        },
+        {
+          "firmwareId": "smoothieware",
+          "code": "M3",
+          "note": "Smoothieware does not differentiate M3/M4 for laser mode \u2014 laser behavior is module-configured."
+        },
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M3",
+          "note": "In RRF, the mode (FDM/Laser/CNC) is set by M451/M452/M453. Laser power can also be set per-move via S on G1."
+        }
       ],
       "modeNotes": [
-        { "mode": "Normal mode ($32=0)", "description": "Controls spindle direction and speed. grbl waits for spindle to reach speed before motion. Spindle remains on during G0 moves." },
-        { "mode": "Laser mode ($32=1)", "description": "Constant power mode — laser fires at the S power level during ALL moves including G0. Power stays on even when stationary. Use M4 instead for safe laser operation in most cases." }
+        {
+          "mode": "Normal mode ($32=0)",
+          "description": "Controls spindle direction and speed. grbl waits for spindle to reach speed before motion. Spindle remains on during G0 moves."
+        },
+        {
+          "mode": "Laser mode ($32=1)",
+          "description": "Constant power mode \u2014 laser fires at the S power level during ALL moves including G0. Power stays on even when stationary. Use M4 instead for safe laser operation in most cases."
+        }
       ],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Laser-Mode", "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
-      "notes": "In laser mode, M3 keeps the laser on even during G0 rapids and when stationary. This is usually NOT what you want — use M4 for dynamic power mode which automatically disables the laser during rapids and scales with speed."
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Laser-Mode",
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
+      "notes": "In laser mode, M3 keeps the laser on even during G0 rapids and when stationary. This is usually NOT what you want \u2014 use M4 for dynamic power mode which automatically disables the laser during rapids and scales with speed."
     },
     {
       "code": "M4",
@@ -798,21 +1732,48 @@
       "name": "Spindle On (CCW) / Laser On (Dynamic)",
       "description": "Turns the spindle on counter-clockwise. In laser mode, enables dynamic power mode where laser power scales proportionally with speed and disables during rapids.",
       "parameters": [
-        { "name": "S", "description": "Spindle speed (RPM) or laser power (0 to $30 max)", "optional": false, "example": "S1000" }
+        {
+          "name": "S",
+          "description": "Spindle speed (RPM) or laser power (0 to $30 max)",
+          "optional": false,
+          "example": "S1000"
+        }
       ],
       "examples": [
-        { "code": "M4 S1000\nG1 X50 F600", "description": "Laser mode: dynamic power cut to X50" }
+        {
+          "code": "M4 S1000\nG1 X50 F600",
+          "description": "Laser mode: dynamic power cut to X50"
+        }
       ],
-      "relatedCodes": ["M3", "M5"],
+      "relatedCodes": [
+        "M3",
+        "M5"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "M4", "note": "In LinuxCNC, M4 is only CCW spindle rotation. No laser mode behavior." },
-        { "firmwareId": "smoothieware", "code": "M4", "note": "Smoothieware does not differentiate M3/M4 for laser mode. No dynamic power scaling equivalent." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M4",
+          "note": "In LinuxCNC, M4 is only CCW spindle rotation. No laser mode behavior."
+        },
+        {
+          "firmwareId": "smoothieware",
+          "code": "M4",
+          "note": "Smoothieware does not differentiate M3/M4 for laser mode. No dynamic power scaling equivalent."
+        }
       ],
       "modeNotes": [
-        { "mode": "Normal mode ($32=0)", "description": "Counter-clockwise spindle rotation at the specified S speed." },
-        { "mode": "Laser mode ($32=1)", "description": "Dynamic power mode. Power scales proportionally to current speed vs. programmed feed rate. Laser off when stationary, off during G0, reduced during acceleration/deceleration. Prevents burn marks at corners and start/stop points." }
+        {
+          "mode": "Normal mode ($32=0)",
+          "description": "Counter-clockwise spindle rotation at the specified S speed."
+        },
+        {
+          "mode": "Laser mode ($32=1)",
+          "description": "Dynamic power mode. Power scales proportionally to current speed vs. programmed feed rate. Laser off when stationary, off during G0, reduced during acceleration/deceleration. Prevents burn marks at corners and start/stop points."
+        }
       ],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Laser-Mode"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Laser-Mode"
+      ],
       "notes": "M4 dynamic mode is the preferred and recommended mode for most laser operations. It produces consistent energy delivery along the cut path and is safer than M3 because the laser turns off when not moving."
     },
     {
@@ -822,12 +1783,20 @@
       "description": "Turns the spindle or laser off. In laser mode, S0 also disables the laser instantaneously without stopping motion.",
       "parameters": [],
       "examples": [
-        { "code": "M5", "description": "Turn off spindle/laser" }
+        {
+          "code": "M5",
+          "description": "Turn off spindle/laser"
+        }
       ],
-      "relatedCodes": ["M3", "M4"],
+      "relatedCodes": [
+        "M3",
+        "M4"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "Default state. In laser mode, inline S0 on a motion command also disables laser without halting the motion planner."
     },
     {
@@ -837,15 +1806,31 @@
       "description": "Enables mist coolant output. Requires ENABLE_M7 compile-time option to be enabled in grbl config.h.",
       "parameters": [],
       "examples": [
-        { "code": "M7", "description": "Enable mist coolant" }
+        {
+          "code": "M7",
+          "description": "Enable mist coolant"
+        }
       ],
-      "relatedCodes": ["M8", "M9"],
+      "relatedCodes": [
+        "M8",
+        "M9"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "M7", "note": "Always available in grblHAL (no compile-time option needed)." },
-        { "firmwareId": "linuxcnc", "code": "M7", "note": "Same behavior." }
+        {
+          "firmwareId": "grblhal",
+          "code": "M7",
+          "note": "Always available in grblHAL (no compile-time option needed)."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M7",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "Requires compile-time ENABLE_M7 option. Can be toggled in real-time via 0xA1 command."
     },
     {
@@ -855,14 +1840,26 @@
       "description": "Enables flood coolant output.",
       "parameters": [],
       "examples": [
-        { "code": "M8", "description": "Enable flood coolant" }
+        {
+          "code": "M8",
+          "description": "Enable flood coolant"
+        }
       ],
-      "relatedCodes": ["M7", "M9"],
+      "relatedCodes": [
+        "M7",
+        "M9"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "M8", "note": "Same behavior." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M8",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "Can be toggled in real-time via 0xA0 command."
     },
     {
@@ -872,12 +1869,20 @@
       "description": "Disables both mist and flood coolant. Default state.",
       "parameters": [],
       "examples": [
-        { "code": "M9", "description": "Turn off all coolant" }
+        {
+          "code": "M9",
+          "description": "Turn off all coolant"
+        }
       ],
-      "relatedCodes": ["M7", "M8"],
+      "relatedCodes": [
+        "M7",
+        "M8"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "M30",
@@ -886,34 +1891,69 @@
       "description": "Ends the program, stops spindle and coolant, and rewinds to beginning. Triggers a feedback message.",
       "parameters": [],
       "examples": [
-        { "code": "M30", "description": "End program and rewind" }
+        {
+          "code": "M30",
+          "description": "End program and rewind"
+        }
       ],
-      "relatedCodes": ["M2"],
+      "relatedCodes": [
+        "M2"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "M30", "note": "Same behavior." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M30",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "$H",
       "type": "$",
       "name": "Run Homing Cycle",
-      "description": "Initiates the homing sequence — moves each axis toward its limit switches to establish machine zero. Only available when $22=1 (homing enabled). Searches at $25 seek rate, re-approaches at $24 feed rate, then pulls off by $27 distance.",
+      "description": "Initiates the homing sequence \u2014 moves each axis toward its limit switches to establish machine zero. Only available when $22=1 (homing enabled). Searches at $25 seek rate, re-approaches at $24 feed rate, then pulls off by $27 distance.",
       "parameters": [],
       "examples": [
-        { "code": "$H", "description": "Home all axes" }
+        {
+          "code": "$H",
+          "description": "Home all axes"
+        }
       ],
-      "relatedCodes": ["G28", "G28.1"],
+      "relatedCodes": [
+        "G28",
+        "G28.1"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$H", "note": "grblHAL adds single-axis homing ($HX, $HY, $HZ) and auto-squaring for ganged axes. grbl only homes all axes at once." },
-        { "firmwareId": "smoothieware", "code": "G28", "note": "Smoothieware uses G28 for homing. No $ command equivalent." },
-        { "firmwareId": "reprapfirmware", "code": "G28", "note": "RepRapFirmware uses G28 for homing with configurable macro files." },
-        { "firmwareId": "linuxcnc", "code": "", "note": "LinuxCNC handles homing through the GUI/HAL interface, not G-code commands." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$H",
+          "note": "grblHAL adds single-axis homing ($HX, $HY, $HZ) and auto-squaring for ganged axes. grbl only homes all axes at once."
+        },
+        {
+          "firmwareId": "smoothieware",
+          "code": "G28",
+          "note": "Smoothieware uses G28 for homing. No $ command equivalent."
+        },
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "G28",
+          "note": "RepRapFirmware uses G28 for homing with configurable macro files."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "",
+          "note": "LinuxCNC handles homing through the GUI/HAL interface, not G-code commands."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
-      "notes": "grbl locks out all G-code until homing is complete when $22=1. Homing order and direction are configurable via $23. Pull-off distance via $27. grbl only supports homing all axes at once — single-axis homing requires grblHAL."
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
+      "notes": "grbl locks out all G-code until homing is complete when $22=1. Homing order and direction are configurable via $23. Pull-off distance via $27. grbl only supports homing all axes at once \u2014 single-axis homing requires grblHAL."
     },
     {
       "code": "$J",
@@ -921,46 +1961,113 @@
       "name": "Jog Command",
       "description": "Executes a jogging motion that can be cancelled in real-time. Unlike G0/G1, jog commands do not affect the G-code parser state and can be interrupted instantly. Introduced in grbl 1.1.",
       "parameters": [
-        { "name": "X", "description": "Jog distance/position in X", "optional": true },
-        { "name": "Y", "description": "Jog distance/position in Y", "optional": true },
-        { "name": "Z", "description": "Jog distance/position in Z", "optional": true },
-        { "name": "F", "description": "Jog feed rate (REQUIRED, always units/min regardless of G93)", "optional": false },
-        { "name": "G90/G91", "description": "Distance mode override for this jog only", "optional": true },
-        { "name": "G20/G21", "description": "Units override for this jog only", "optional": true },
-        { "name": "G53", "description": "Machine coordinate override", "optional": true }
+        {
+          "name": "X",
+          "description": "Jog distance/position in X",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Jog distance/position in Y",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Jog distance/position in Z",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Jog feed rate (REQUIRED, always units/min regardless of G93)",
+          "optional": false
+        },
+        {
+          "name": "G90/G91",
+          "description": "Distance mode override for this jog only",
+          "optional": true
+        },
+        {
+          "name": "G20/G21",
+          "description": "Units override for this jog only",
+          "optional": true
+        },
+        {
+          "name": "G53",
+          "description": "Machine coordinate override",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "$J=G91 X10 F1000", "description": "Jog 10mm in +X at 1000mm/min (incremental)" },
-        { "code": "$J=G90 X0 Y0 F500", "description": "Jog to X0 Y0 at 500mm/min (absolute)" },
-        { "code": "$J=G53 Y5.0 F100", "description": "Jog to Y5 in machine coordinates" },
-        { "code": "$J=G91 G20 X0.5 F10", "description": "Jog +0.5 inches" }
+        {
+          "code": "$J=G91 X10 F1000",
+          "description": "Jog 10mm in +X at 1000mm/min (incremental)"
+        },
+        {
+          "code": "$J=G90 X0 Y0 F500",
+          "description": "Jog to X0 Y0 at 500mm/min (absolute)"
+        },
+        {
+          "code": "$J=G53 Y5.0 F100",
+          "description": "Jog to Y5 in machine coordinates"
+        },
+        {
+          "code": "$J=G91 G20 X0.5 F10",
+          "description": "Jog +0.5 inches"
+        }
       ],
-      "relatedCodes": ["G0"],
+      "relatedCodes": [
+        "G0"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$J", "note": "Identical syntax and behavior." },
-        { "firmwareId": "smoothieware", "code": "", "note": "Smoothieware has no dedicated jog command. Jogging is done with G0 moves." },
-        { "firmwareId": "linuxcnc", "code": "", "note": "LinuxCNC handles jogging through the UI/HAL interface, not G-code commands." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$J",
+          "note": "Identical syntax and behavior."
+        },
+        {
+          "firmwareId": "smoothieware",
+          "code": "",
+          "note": "Smoothieware has no dedicated jog command. Jogging is done with G0 moves."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "",
+          "note": "LinuxCNC handles jogging through the UI/HAL interface, not G-code commands."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Jogging"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Jogging"
+      ],
       "notes": "The = sign after $J is required. Cancel with jog-cancel (0x85), feed hold (!), or safety door. Does NOT alter modal state. S and T words are NOT accepted. Soft-limit violations return errors instead of alarms. Send G4P0 after jog cancel to synchronize."
     },
     {
       "code": "$X",
       "type": "$",
       "name": "Kill Alarm Lock",
-      "description": "Overrides the alarm lock to allow movement. Use carefully — machine position may be lost after alarm. Recommended to use G91 incremental mode after unlocking.",
+      "description": "Overrides the alarm lock to allow movement. Use carefully \u2014 machine position may be lost after alarm. Recommended to use G91 incremental mode after unlocking.",
       "parameters": [],
       "examples": [
-        { "code": "$X", "description": "Unlock from alarm state" }
+        {
+          "code": "$X",
+          "description": "Unlock from alarm state"
+        }
       ],
-      "relatedCodes": ["$H"],
+      "relatedCodes": [
+        "$H"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$X", "note": "Same behavior." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$X",
+          "note": "Same behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
-      "notes": "Does not execute startup blocks. Use for emergency recovery only — position may be unknown after alarm."
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
+      "notes": "Does not execute startup blocks. Use for emergency recovery only \u2014 position may be unknown after alarm."
     },
     {
       "code": "$C",
@@ -969,12 +2076,17 @@
       "description": "Toggles check mode on/off. In check mode, grbl parses G-code and reports errors without moving any axes. Dwells are ignored, spindle and coolant are disabled. Auto-resets when toggled off.",
       "parameters": [],
       "examples": [
-        { "code": "$C", "description": "Toggle check mode on/off" }
+        {
+          "code": "$C",
+          "description": "Toggle check mode on/off"
+        }
       ],
       "relatedCodes": [],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "Useful for validating G-code files before running them. Machine performs a soft-reset when exiting check mode."
     },
     {
@@ -984,14 +2096,23 @@
       "description": "Displays all current grbl settings ($0 through $132) stored in EEPROM.",
       "parameters": [],
       "examples": [
-        { "code": "$$", "description": "Display all settings (returns $0=10, $1=25, etc.)" }
+        {
+          "code": "$$",
+          "description": "Display all settings (returns $0=10, $1=25, etc.)"
+        }
       ],
       "relatedCodes": [],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$$", "note": "grblHAL has additional settings beyond $132 for extra axes, networking, tool change, etc." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$$",
+          "note": "grblHAL has additional settings beyond $132 for extra axes, networking, tool change, etc."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Settings include step configuration ($0-$6), motion parameters ($11-$12), limits/homing ($20-$27), spindle ($30-$32), steps/mm ($100-$102), max rates ($110-$112), acceleration ($120-$122), and max travel ($130-$132)."
     },
     {
@@ -1001,12 +2122,22 @@
       "description": "Displays G54-G59 work coordinate offsets, G28/G30 stored positions, G92 offset, tool length offset (TLO), and last probe result (PRB) with success flag.",
       "parameters": [],
       "examples": [
-        { "code": "$#", "description": "View coordinate parameters (returns [G54:0.000,0.000,0.000], etc.)" }
+        {
+          "code": "$#",
+          "description": "View coordinate parameters (returns [G54:0.000,0.000,0.000], etc.)"
+        }
       ],
-      "relatedCodes": ["G54", "G10 L2", "G28.1", "G38.2"],
+      "relatedCodes": [
+        "G54",
+        "G10 L2",
+        "G28.1",
+        "G38.2"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "$G",
@@ -1015,12 +2146,17 @@
       "description": "Returns the current active modal states including motion mode, coordinate system, plane, units, distance mode, feed rate mode, tool, spindle speed, and feed rate.",
       "parameters": [],
       "examples": [
-        { "code": "$G", "description": "Returns [GC:G0 G54 G17 G21 G90 G94 M5 M9 T0 S0 F0]" }
+        {
+          "code": "$G",
+          "description": "Returns [GC:G0 G54 G17 G21 G90 G94 M5 M9 T0 S0 F0]"
+        }
       ],
       "relatedCodes": [],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "$I",
@@ -1029,12 +2165,17 @@
       "description": "Returns grbl version, build date, and optional custom user string. User string can be set with $I=xxx (max 80 chars).",
       "parameters": [],
       "examples": [
-        { "code": "$I", "description": "Returns [VER:1.1f.20170801:] and [OPT:V,15,128]" }
+        {
+          "code": "$I",
+          "description": "Returns [VER:1.1f.20170801:] and [OPT:V,15,128]"
+        }
       ],
       "relatedCodes": [],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "$N",
@@ -1043,13 +2184,21 @@
       "description": "Shows the two startup G-code lines ($N0 and $N1) that execute on every power-up or reset after homing (if enabled).",
       "parameters": [],
       "examples": [
-        { "code": "$N", "description": "View startup blocks" },
-        { "code": "$N0=G54 G21", "description": "Set first startup line to select G54 and mm mode" }
+        {
+          "code": "$N",
+          "description": "View startup blocks"
+        },
+        {
+          "code": "$N0=G54 G21",
+          "description": "Set first startup line to select G54 and mm mode"
+        }
       ],
       "relatedCodes": [],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "Never place EEPROM-writing commands (G10, G28.1, G30.1) in startup blocks. Startup blocks do NOT execute after $X unlock."
     },
     {
@@ -1059,12 +2208,17 @@
       "description": "De-powers spindle, coolant, and stepper enable pins. Blocks all commands. Can only exit via soft-reset (Ctrl-X) or power cycle. Returns to ALARM state on re-init.",
       "parameters": [],
       "examples": [
-        { "code": "$SLP", "description": "Enter sleep mode" }
+        {
+          "code": "$SLP",
+          "description": "Enter sleep mode"
+        }
       ],
       "relatedCodes": [],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "grbl extension. Not part of any G-code standard."
     },
     {
@@ -1074,12 +2228,20 @@
       "description": "Restores all $0-$132 settings to their compile-time default values.",
       "parameters": [],
       "examples": [
-        { "code": "$RST=$", "description": "Reset all settings to defaults" }
+        {
+          "code": "$RST=$",
+          "description": "Reset all settings to defaults"
+        }
       ],
-      "relatedCodes": ["$RST=#", "$RST=*"],
+      "relatedCodes": [
+        "$RST=#",
+        "$RST=*"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "$RST=#",
@@ -1088,12 +2250,20 @@
       "description": "Clears all G54-G59 work coordinate offsets and G28/G30 stored positions from EEPROM.",
       "parameters": [],
       "examples": [
-        { "code": "$RST=#", "description": "Clear all stored coordinate data" }
+        {
+          "code": "$RST=#",
+          "description": "Clear all stored coordinate data"
+        }
       ],
-      "relatedCodes": ["$RST=$", "$RST=*"],
+      "relatedCodes": [
+        "$RST=$",
+        "$RST=*"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "$RST=*",
@@ -1102,12 +2272,20 @@
       "description": "Clears ALL EEPROM data: settings, coordinate parameters, startup lines, and build info string.",
       "parameters": [],
       "examples": [
-        { "code": "$RST=*", "description": "Full factory reset — clears everything" }
+        {
+          "code": "$RST=*",
+          "description": "Full factory reset \u2014 clears everything"
+        }
       ],
-      "relatedCodes": ["$RST=$", "$RST=#"],
+      "relatedCodes": [
+        "$RST=$",
+        "$RST=#"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "$0",
@@ -1116,15 +2294,31 @@
       "description": "Sets the length of each step pulse in microseconds. This is the duration the step pin is held HIGH for each motor step. Most stepper drivers need at least 2-3us, but noisy or optocoupled setups may need more. Increase if you experience missed steps or erratic motion.",
       "parameters": [],
       "examples": [
-        { "code": "$0=10", "description": "Set step pulse to 10 microseconds (default)" },
-        { "code": "$0=5", "description": "Set step pulse to 5us for faster drivers" }
+        {
+          "code": "$0=10",
+          "description": "Set step pulse to 10 microseconds (default)"
+        },
+        {
+          "code": "$0=5",
+          "description": "Set step pulse to 5us for faster drivers"
+        }
       ],
-      "relatedCodes": ["$1", "$2", "$3"],
+      "relatedCodes": [
+        "$1",
+        "$2",
+        "$3"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$0", "note": "Same setting in grblHAL. Identical behavior." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$0",
+          "note": "Same setting in grblHAL. Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 10us. Valid range: 3-255us. Most modern stepper drivers (DRV8825, TMC2209) work fine at 3-5us. Increase to 10+ if using optocoupled breakout boards."
     },
     {
@@ -1134,16 +2328,30 @@
       "description": "Sets the delay in milliseconds before stepper motors are disabled after completing a motion. When set to 255, steppers are never disabled (always energized). Lower values save power and reduce heat but allow the machine to drift out of position when idle.",
       "parameters": [],
       "examples": [
-        { "code": "$1=25", "description": "Disable steppers 25ms after motion stops (default)" },
-        { "code": "$1=255", "description": "Keep steppers always energized (prevents drift)" }
+        {
+          "code": "$1=25",
+          "description": "Disable steppers 25ms after motion stops (default)"
+        },
+        {
+          "code": "$1=255",
+          "description": "Keep steppers always energized (prevents drift)"
+        }
       ],
-      "relatedCodes": ["$0"],
+      "relatedCodes": [
+        "$0"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$1", "note": "Same setting in grblHAL. grblHAL also adds $37 (stepper deenergize mask) for per-axis control." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$1",
+          "note": "Same setting in grblHAL. grblHAL also adds $37 (stepper deenergize mask) for per-axis control."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
-      "notes": "Default: 25ms. Set to 255 for machines where losing position is unacceptable (e.g., vertical Z axis that drops under gravity). NEMA17 motors may get warm when always energized — that is normal."
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
+      "notes": "Default: 25ms. Set to 255 for machines where losing position is unacceptable (e.g., vertical Z axis that drops under gravity). NEMA17 motors may get warm when always energized \u2014 that is normal."
     },
     {
       "code": "$2",
@@ -1152,17 +2360,35 @@
       "description": "Bitmask that inverts the step signal polarity for each axis. Bit 0=X, Bit 1=Y, Bit 2=Z. Use when a stepper driver expects active-low step signals instead of the default active-high.",
       "parameters": [],
       "examples": [
-        { "code": "$2=0", "description": "No inversion (default, all step signals active-high)" },
-        { "code": "$2=7", "description": "Invert all axes (binary 111)" },
-        { "code": "$2=4", "description": "Invert Z only (binary 100)" }
+        {
+          "code": "$2=0",
+          "description": "No inversion (default, all step signals active-high)"
+        },
+        {
+          "code": "$2=7",
+          "description": "Invert all axes (binary 111)"
+        },
+        {
+          "code": "$2=4",
+          "description": "Invert Z only (binary 100)"
+        }
       ],
-      "relatedCodes": ["$3", "$4"],
+      "relatedCodes": [
+        "$3",
+        "$4"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$2", "note": "Same setting in grblHAL. Identical behavior." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$2",
+          "note": "Same setting in grblHAL. Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
-      "notes": "Default: 0. Bitmask values: X=1, Y=2, Z=4. Combine by adding (e.g., X+Z = 1+4 = 5). Rarely needs changing — most drivers expect active-high."
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
+      "notes": "Default: 0. Bitmask values: X=1, Y=2, Z=4. Combine by adding (e.g., X+Z = 1+4 = 5). Rarely needs changing \u2014 most drivers expect active-high."
     },
     {
       "code": "$3",
@@ -1171,16 +2397,34 @@
       "description": "Bitmask that inverts the direction signal for each axis. Use to reverse the positive direction of an axis without rewiring the motor. Bit 0=X, Bit 1=Y, Bit 2=Z.",
       "parameters": [],
       "examples": [
-        { "code": "$3=0", "description": "No inversion (default)" },
-        { "code": "$3=1", "description": "Invert X direction" },
-        { "code": "$3=3", "description": "Invert X and Y direction (binary 011)" }
+        {
+          "code": "$3=0",
+          "description": "No inversion (default)"
+        },
+        {
+          "code": "$3=1",
+          "description": "Invert X direction"
+        },
+        {
+          "code": "$3=3",
+          "description": "Invert X and Y direction (binary 011)"
+        }
       ],
-      "relatedCodes": ["$2", "$23"],
+      "relatedCodes": [
+        "$2",
+        "$23"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$3", "note": "Same setting in grblHAL. Identical behavior." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$3",
+          "note": "Same setting in grblHAL. Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 0. Most common setting to change during initial machine setup. If an axis moves the wrong way, flip its bit here. Bitmask: X=1, Y=2, Z=4."
     },
     {
@@ -1190,15 +2434,29 @@
       "description": "Inverts the stepper enable pin logic. When disabled (0), the enable pin is LOW to enable drivers. Set to 1 if your drivers require HIGH to enable.",
       "parameters": [],
       "examples": [
-        { "code": "$4=0", "description": "Normal enable logic — LOW enables drivers (default)" },
-        { "code": "$4=1", "description": "Inverted — HIGH enables drivers" }
+        {
+          "code": "$4=0",
+          "description": "Normal enable logic \u2014 LOW enables drivers (default)"
+        },
+        {
+          "code": "$4=1",
+          "description": "Inverted \u2014 HIGH enables drivers"
+        }
       ],
-      "relatedCodes": ["$1"],
+      "relatedCodes": [
+        "$1"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$4", "note": "Modified in grblHAL: changed from a single boolean to a per-axis bitmask. In grbl, $4 is a simple 0/1 toggle for all axes." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$4",
+          "note": "Modified in grblHAL: changed from a single boolean to a per-axis bitmask. In grbl, $4 is a simple 0/1 toggle for all axes."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 0 (LOW=enabled). Boolean in grbl. If your motors are locked when they should be free and free when they should be locked, toggle this setting."
     },
     {
@@ -1208,15 +2466,30 @@
       "description": "Inverts the logic of the limit switch input pins. Set to 1 if using normally-closed (NC) limit switches, which is recommended for noise immunity.",
       "parameters": [],
       "examples": [
-        { "code": "$5=0", "description": "Normal logic — switches trigger on HIGH (default, for NO switches)" },
-        { "code": "$5=1", "description": "Inverted logic — switches trigger on LOW (for NC switches)" }
+        {
+          "code": "$5=0",
+          "description": "Normal logic \u2014 switches trigger on HIGH (default, for NO switches)"
+        },
+        {
+          "code": "$5=1",
+          "description": "Inverted logic \u2014 switches trigger on LOW (for NC switches)"
+        }
       ],
-      "relatedCodes": ["$21", "$22"],
+      "relatedCodes": [
+        "$21",
+        "$22"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$5", "note": "Same setting in grblHAL. Identical behavior." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$5",
+          "note": "Same setting in grblHAL. Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 0. Normally-closed (NC) switches are strongly recommended for CNC machines as they are more noise-resistant and fail-safe (a broken wire triggers the limit, alerting you to a problem)."
     },
     {
@@ -1226,15 +2499,30 @@
       "description": "Inverts the logic of the probe input pin. Use to match your probe's switch type (NO vs NC).",
       "parameters": [],
       "examples": [
-        { "code": "$6=0", "description": "Normal logic — probe triggers on HIGH (default)" },
-        { "code": "$6=1", "description": "Inverted — probe triggers on LOW" }
+        {
+          "code": "$6=0",
+          "description": "Normal logic \u2014 probe triggers on HIGH (default)"
+        },
+        {
+          "code": "$6=1",
+          "description": "Inverted \u2014 probe triggers on LOW"
+        }
       ],
-      "relatedCodes": ["G38.2", "G38.3"],
+      "relatedCodes": [
+        "G38.2",
+        "G38.3"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$6", "note": "Same setting in grblHAL. Identical behavior." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$6",
+          "note": "Same setting in grblHAL. Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 0. Set based on whether your touch plate or probe uses a normally-open (NO) or normally-closed (NC) switch."
     },
     {
@@ -1244,17 +2532,37 @@
       "description": "Configures what data the '?' real-time status report includes. Controls whether work position (WPos) or machine position (MPos) is reported, and whether planner/serial buffer data is included.",
       "parameters": [],
       "examples": [
-        { "code": "$10=0", "description": "Report WPos (work position) only" },
-        { "code": "$10=1", "description": "Report MPos (machine position) only (default)" },
-        { "code": "$10=2", "description": "Report WPos + buffer data" },
-        { "code": "$10=3", "description": "Report MPos + buffer data" }
+        {
+          "code": "$10=0",
+          "description": "Report WPos (work position) only"
+        },
+        {
+          "code": "$10=1",
+          "description": "Report MPos (machine position) only (default)"
+        },
+        {
+          "code": "$10=2",
+          "description": "Report WPos + buffer data"
+        },
+        {
+          "code": "$10=3",
+          "description": "Report MPos + buffer data"
+        }
       ],
-      "relatedCodes": ["$13"],
+      "relatedCodes": [
+        "$13"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$10", "note": "Same setting in grblHAL. grblHAL may report additional fields." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$10",
+          "note": "Same setting in grblHAL. grblHAL may report additional fields."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 1 (MPos). Bit 0: 0=WPos, 1=MPos. Bit 1: include buffer data (Buf:). Most UIs work with either WPos or MPos, as the other can be computed from the work coordinate offset. Buffer data is useful for debugging streaming."
     },
     {
@@ -1264,16 +2572,33 @@
       "description": "Sets the junction deviation value in mm, which controls how fast the machine takes corners between line segments. Higher values allow faster cornering but less precise path following. Lower values produce more accurate corners but slower motion.",
       "parameters": [],
       "examples": [
-        { "code": "$11=0.010", "description": "Default — good balance of speed and accuracy" },
-        { "code": "$11=0.002", "description": "Tighter corners, slower (for fine detail work)" },
-        { "code": "$11=0.050", "description": "Faster corners, less precise" }
+        {
+          "code": "$11=0.010",
+          "description": "Default \u2014 good balance of speed and accuracy"
+        },
+        {
+          "code": "$11=0.002",
+          "description": "Tighter corners, slower (for fine detail work)"
+        },
+        {
+          "code": "$11=0.050",
+          "description": "Faster corners, less precise"
+        }
       ],
-      "relatedCodes": ["$12"],
+      "relatedCodes": [
+        "$12"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$11", "note": "Same setting in grblHAL. Identical behavior." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$11",
+          "note": "Same setting in grblHAL. Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 0.010mm. This is an advanced setting. The junction deviation algorithm determines how much the machine slows down at corners. Most users should leave this at the default unless experiencing issues with corner quality."
     },
     {
@@ -1283,33 +2608,65 @@
       "description": "Sets the precision of arc rendering in mm. Arcs (G2/G3) are internally converted to tiny line segments; this value controls how closely those segments approximate the ideal arc. Smaller values produce smoother arcs but generate more segments.",
       "parameters": [],
       "examples": [
-        { "code": "$12=0.002", "description": "Default — good for most CNC work" },
-        { "code": "$12=0.001", "description": "Smoother arcs (more segments, potentially slower)" }
+        {
+          "code": "$12=0.002",
+          "description": "Default \u2014 good for most CNC work"
+        },
+        {
+          "code": "$12=0.001",
+          "description": "Smoother arcs (more segments, potentially slower)"
+        }
       ],
-      "relatedCodes": ["$11", "G2", "G3"],
+      "relatedCodes": [
+        "$11",
+        "G2",
+        "G3"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$12", "note": "Same setting in grblHAL. Identical behavior." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$12",
+          "note": "Same setting in grblHAL. Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 0.002mm. The arc tolerance is the maximum deviation between the ideal arc and the line segment approximation. Lower values produce smoother arcs but may slow down motion on resource-constrained hardware."
     },
     {
       "code": "$13",
       "type": "$",
       "name": "Report Inches",
-      "description": "Switches status report position values between mm (0) and inches (1). This only affects the reporting format — internal calculations and G-code parsing remain the same and follow G20/G21.",
+      "description": "Switches status report position values between mm (0) and inches (1). This only affects the reporting format \u2014 internal calculations and G-code parsing remain the same and follow G20/G21.",
       "parameters": [],
       "examples": [
-        { "code": "$13=0", "description": "Report positions in mm (default)" },
-        { "code": "$13=1", "description": "Report positions in inches" }
+        {
+          "code": "$13=0",
+          "description": "Report positions in mm (default)"
+        },
+        {
+          "code": "$13=1",
+          "description": "Report positions in inches"
+        }
       ],
-      "relatedCodes": ["$10", "G20", "G21"],
+      "relatedCodes": [
+        "$10",
+        "G20",
+        "G21"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$13", "note": "Same setting in grblHAL. Identical behavior." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$13",
+          "note": "Same setting in grblHAL. Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 0 (mm). Only affects the ? status report output. G-code parsing uses the current G20/G21 mode. Most users leave this at 0 (mm) since most sender software handles unit conversion."
     },
     {
@@ -1319,15 +2676,33 @@
       "description": "Enables software-enforced travel limits. When enabled, grbl checks if a move would exceed the max travel ($130-$132) and rejects it with an error before motion starts. Requires homing ($22=1) to establish a reference position.",
       "parameters": [],
       "examples": [
-        { "code": "$20=0", "description": "Soft limits disabled (default)" },
-        { "code": "$20=1", "description": "Enable soft limits (requires $22=1)" }
+        {
+          "code": "$20=0",
+          "description": "Soft limits disabled (default)"
+        },
+        {
+          "code": "$20=1",
+          "description": "Enable soft limits (requires $22=1)"
+        }
       ],
-      "relatedCodes": ["$21", "$22", "$130", "$131", "$132"],
+      "relatedCodes": [
+        "$21",
+        "$22",
+        "$130",
+        "$131",
+        "$132"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$20", "note": "Same setting in grblHAL. Identical behavior." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$20",
+          "note": "Same setting in grblHAL. Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 0. Requires $22=1 (homing enabled) and $130-$132 (max travel) properly set. Prevents the machine from crashing into its limits. Checks entire move path, including arcs. Does NOT protect jog commands ($J)."
     },
     {
@@ -1337,15 +2712,31 @@
       "description": "Enables hardware limit switches. When triggered during motion, grbl immediately halts all motion and enters an ALARM state. Strongly recommended for machine protection, but requires proper switch wiring and electrical noise filtering.",
       "parameters": [],
       "examples": [
-        { "code": "$21=0", "description": "Hard limits disabled (default)" },
-        { "code": "$21=1", "description": "Enable hard limits" }
+        {
+          "code": "$21=0",
+          "description": "Hard limits disabled (default)"
+        },
+        {
+          "code": "$21=1",
+          "description": "Enable hard limits"
+        }
       ],
-      "relatedCodes": ["$5", "$20", "$22"],
+      "relatedCodes": [
+        "$5",
+        "$20",
+        "$22"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$21", "note": "Same setting in grblHAL. Identical behavior." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$21",
+          "note": "Same setting in grblHAL. Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 0. Uses interrupt-driven detection for instant response. WARNING: Electrical noise from stepper motors or VFDs can cause false triggers. Use shielded cables, NC switches, and add filtering capacitors if experiencing false alarms. Recovery from a hard limit alarm requires $X then re-homing."
     },
     {
@@ -1355,15 +2746,34 @@
       "description": "Enables the homing cycle ($H command). When enabled, grbl locks out all G-code commands at startup until the machine is homed. Required for soft limits ($20) and accurate machine coordinates.",
       "parameters": [],
       "examples": [
-        { "code": "$22=0", "description": "Homing disabled (default)" },
-        { "code": "$22=1", "description": "Enable homing" }
+        {
+          "code": "$22=0",
+          "description": "Homing disabled (default)"
+        },
+        {
+          "code": "$22=1",
+          "description": "Enable homing"
+        }
       ],
-      "relatedCodes": ["$H", "$23", "$24", "$25", "$26", "$27"],
+      "relatedCodes": [
+        "$H",
+        "$23",
+        "$24",
+        "$25",
+        "$26",
+        "$27"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$22", "note": "Modified in grblHAL: changed from boolean to a bitmask with additional options — bit 0: enable homing, bit 1: enable single-axis homing, bit 2: force homing on startup, bit 3: manual homing via limit switches, etc." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$22",
+          "note": "Modified in grblHAL: changed from boolean to a bitmask with additional options \u2014 bit 0: enable homing, bit 1: enable single-axis homing, bit 2: force homing on startup, bit 3: manual homing via limit switches, etc."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 0. When enabled, the machine enters alarm state on startup and requires $H before any motion. Use $X to bypass homing lock if needed (not recommended for production). Configure homing behavior with $23-$27."
     },
     {
@@ -1373,16 +2783,34 @@
       "description": "Bitmask that controls which direction each axis moves during the homing search. By default, all axes home toward the negative direction. Set a bit to home that axis toward the positive direction instead.",
       "parameters": [],
       "examples": [
-        { "code": "$23=0", "description": "All axes home in negative direction (default)" },
-        { "code": "$23=1", "description": "X homes positive, Y and Z home negative" },
-        { "code": "$23=3", "description": "X and Y home positive, Z homes negative" }
+        {
+          "code": "$23=0",
+          "description": "All axes home in negative direction (default)"
+        },
+        {
+          "code": "$23=1",
+          "description": "X homes positive, Y and Z home negative"
+        },
+        {
+          "code": "$23=3",
+          "description": "X and Y home positive, Z homes negative"
+        }
       ],
-      "relatedCodes": ["$3", "$22"],
+      "relatedCodes": [
+        "$3",
+        "$22"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$23", "note": "Same setting in grblHAL. Identical behavior." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$23",
+          "note": "Same setting in grblHAL. Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 0. Bitmask: X=1, Y=2, Z=4. Most CNC machines home Z to positive (top) and X/Y to negative (front-left), so $23=4 is common. grbl always homes Z first, then X and Y simultaneously."
     },
     {
@@ -1392,15 +2820,31 @@
       "description": "Sets the slow feed rate in mm/min used during the second homing approach (locate phase). After the initial fast seek hits the switch, the axis backs off and re-approaches at this slower rate for precise home position determination.",
       "parameters": [],
       "examples": [
-        { "code": "$24=25.000", "description": "25 mm/min locate feed rate (default)" },
-        { "code": "$24=50.000", "description": "Faster locate (less precise)" }
+        {
+          "code": "$24=25.000",
+          "description": "25 mm/min locate feed rate (default)"
+        },
+        {
+          "code": "$24=50.000",
+          "description": "Faster locate (less precise)"
+        }
       ],
-      "relatedCodes": ["$25", "$26", "$27"],
+      "relatedCodes": [
+        "$25",
+        "$26",
+        "$27"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$24", "note": "Same setting in grblHAL. Identical behavior." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$24",
+          "note": "Same setting in grblHAL. Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 25.000 mm/min. This is the slow, precise second approach. Should be significantly slower than $25 (seek rate) for accuracy. Typical range: 10-100 mm/min."
     },
     {
@@ -1410,15 +2854,31 @@
       "description": "Sets the fast seek rate in mm/min used during the first homing approach. The axis moves at this rate until it hits the limit switch, then backs off and re-approaches at the slower $24 rate.",
       "parameters": [],
       "examples": [
-        { "code": "$25=500.000", "description": "500 mm/min seek rate (default)" },
-        { "code": "$25=1000.000", "description": "Faster initial seek" }
+        {
+          "code": "$25=500.000",
+          "description": "500 mm/min seek rate (default)"
+        },
+        {
+          "code": "$25=1000.000",
+          "description": "Faster initial seek"
+        }
       ],
-      "relatedCodes": ["$24", "$26", "$27"],
+      "relatedCodes": [
+        "$24",
+        "$26",
+        "$27"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$25", "note": "Same setting in grblHAL. Identical behavior." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$25",
+          "note": "Same setting in grblHAL. Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 500.000 mm/min. This is the initial fast search rate. Set high enough for reasonable homing time but not so fast that the machine overshoots or stalls. Must be less than the axis max rate ($110-$112)."
     },
     {
@@ -1428,15 +2888,31 @@
       "description": "Sets the debounce delay in milliseconds for homing limit switches. After a switch triggers, grbl waits this long for the signal to settle before confirming the switch state. Helps prevent false triggers from switch bounce.",
       "parameters": [],
       "examples": [
-        { "code": "$26=250", "description": "250ms debounce (default)" },
-        { "code": "$26=25", "description": "Shorter debounce for high-quality switches" }
+        {
+          "code": "$26=250",
+          "description": "250ms debounce (default)"
+        },
+        {
+          "code": "$26=25",
+          "description": "Shorter debounce for high-quality switches"
+        }
       ],
-      "relatedCodes": ["$24", "$25", "$27"],
+      "relatedCodes": [
+        "$24",
+        "$25",
+        "$27"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$26", "note": "Same setting in grblHAL. Identical behavior." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$26",
+          "note": "Same setting in grblHAL. Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 250ms. Mechanical switches may bounce for several milliseconds. Optical or hall-effect switches can use a much shorter debounce. If homing is unreliable, try increasing this value."
     },
     {
@@ -1446,16 +2922,31 @@
       "description": "Sets the distance in mm that each axis backs off from the limit switch after homing completes. This ensures the switch is fully deactivated after homing, preventing immediate hard limit alarms during normal operation.",
       "parameters": [],
       "examples": [
-        { "code": "$27=1.000", "description": "Pull off 1mm from switch (default)" },
-        { "code": "$27=5.000", "description": "Pull off 5mm (for switches with wide activation zones)" }
+        {
+          "code": "$27=1.000",
+          "description": "Pull off 1mm from switch (default)"
+        },
+        {
+          "code": "$27=5.000",
+          "description": "Pull off 5mm (for switches with wide activation zones)"
+        }
       ],
-      "relatedCodes": ["$22", "$23"],
+      "relatedCodes": [
+        "$22",
+        "$23"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$27", "note": "Same setting in grblHAL. Identical behavior." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$27",
+          "note": "Same setting in grblHAL. Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
-      "notes": "Default: 1.000mm. If you get an alarm immediately after homing completes, increase this value — the switch is not fully clearing. Must be large enough to completely deactivate the limit switch."
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
+      "notes": "Default: 1.000mm. If you get an alarm immediately after homing completes, increase this value \u2014 the switch is not fully clearing. Must be large enough to completely deactivate the limit switch."
     },
     {
       "code": "$30",
@@ -1464,17 +2955,37 @@
       "description": "Sets the maximum spindle speed in RPM. This value is mapped to the maximum PWM duty cycle output. Used by the S command to scale spindle speed proportionally across the PWM range.",
       "parameters": [],
       "examples": [
-        { "code": "$30=1000", "description": "Max spindle speed 1000 RPM (default)" },
-        { "code": "$30=24000", "description": "Max 24000 RPM (typical for CNC router spindles)" }
+        {
+          "code": "$30=1000",
+          "description": "Max spindle speed 1000 RPM (default)"
+        },
+        {
+          "code": "$30=24000",
+          "description": "Max 24000 RPM (typical for CNC router spindles)"
+        }
       ],
-      "relatedCodes": ["$31", "$32", "M3", "M4"],
+      "relatedCodes": [
+        "$31",
+        "$32",
+        "M3",
+        "M4"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$30", "note": "Same setting in grblHAL. Identical behavior." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$30",
+          "note": "Same setting in grblHAL. Identical behavior."
+        }
       ],
       "modeNotes": [
-        { "mode": "Laser mode ($32=1)", "description": "In laser mode, $30 represents the maximum laser power. S values above $30 are clamped to this value." }
+        {
+          "mode": "Laser mode ($32=1)",
+          "description": "In laser mode, $30 represents the maximum laser power. S values above $30 are clamped to this value."
+        }
       ],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 1000. Set to match your spindle's actual max RPM. The S value in G-code is mapped: S_value / $30 = PWM duty cycle. For a VFD-controlled spindle, set to the VFD's max RPM and configure the VFD to accept 0-5V/0-10V from the PWM output."
     },
     {
@@ -1484,17 +2995,37 @@
       "description": "Sets the minimum spindle speed in RPM. This value is mapped to the minimum PWM duty cycle. Any S value at or below this produces the minimum PWM output. Useful for spindles or lasers that have a minimum operating speed/power.",
       "parameters": [],
       "examples": [
-        { "code": "$31=0", "description": "Minimum spindle speed 0 RPM (default)" },
-        { "code": "$31=5000", "description": "Minimum 5000 RPM (for spindles with minimum operating speed)" }
+        {
+          "code": "$31=0",
+          "description": "Minimum spindle speed 0 RPM (default)"
+        },
+        {
+          "code": "$31=5000",
+          "description": "Minimum 5000 RPM (for spindles with minimum operating speed)"
+        }
       ],
-      "relatedCodes": ["$30", "$32", "M3", "M4"],
+      "relatedCodes": [
+        "$30",
+        "$32",
+        "M3",
+        "M4"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$31", "note": "Same setting in grblHAL. Identical behavior." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$31",
+          "note": "Same setting in grblHAL. Identical behavior."
+        }
       ],
       "modeNotes": [
-        { "mode": "Laser mode ($32=1)", "description": "In laser mode, $31 sets the minimum laser power threshold. S values below this will produce the minimum PWM output, not zero." }
+        {
+          "mode": "Laser mode ($32=1)",
+          "description": "In laser mode, $31 sets the minimum laser power threshold. S values below this will produce the minimum PWM output, not zero."
+        }
       ],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 0. Set this if your spindle or laser requires a minimum PWM duty cycle to operate. S0 with M3/M4 still outputs zero PWM (spindle off is always off)."
     },
     {
@@ -1504,17 +3035,37 @@
       "description": "Enables laser mode, which changes how the spindle PWM output behaves during motion. In laser mode, the laser automatically turns off during G0 rapids, and M4 enables dynamic power scaling that adjusts laser power proportionally with speed during acceleration/deceleration.",
       "parameters": [],
       "examples": [
-        { "code": "$32=0", "description": "Normal spindle mode (default)" },
-        { "code": "$32=1", "description": "Laser mode enabled" }
+        {
+          "code": "$32=0",
+          "description": "Normal spindle mode (default)"
+        },
+        {
+          "code": "$32=1",
+          "description": "Laser mode enabled"
+        }
       ],
-      "relatedCodes": ["$30", "$31", "M3", "M4"],
+      "relatedCodes": [
+        "$30",
+        "$31",
+        "M3",
+        "M4"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$32", "note": "Extended in grblHAL: 0=normal spindle, 1=laser mode, 2=lathe mode. grbl only supports 0 and 1." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$32",
+          "note": "Extended in grblHAL: 0=normal spindle, 1=laser mode, 2=lathe mode. grbl only supports 0 and 1."
+        }
       ],
       "modeNotes": [
-        { "mode": "Laser mode ($32=1)", "description": "G0 rapids disable laser output. M4 enables dynamic power scaling (power proportional to speed during accel/decel). Inline S value changes on G1/G2/G3 update PWM without stopping motion. G1 F0 or dwelling with laser on will produce constant output." }
+        {
+          "mode": "Laser mode ($32=1)",
+          "description": "G0 rapids disable laser output. M4 enables dynamic power scaling (power proportional to speed during accel/decel). Inline S value changes on G1/G2/G3 update PWM without stopping motion. G1 F0 or dwelling with laser on will produce constant output."
+        }
       ],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 0. CRITICAL SAFETY: Only enable laser mode with an actual laser. In laser mode, M4 dynamic power mode prevents burning during acceleration/deceleration by scaling power with feed rate. Use M3 for constant power (e.g., cutting), M4 for dynamic power (e.g., engraving)."
     },
     {
@@ -1524,15 +3075,30 @@
       "description": "Sets the number of step pulses required to move the X axis one millimeter. This is the fundamental calibration setting for X axis positioning accuracy. Calculated from motor steps/rev, microstepping, and drive mechanism (leadscrew pitch, belt/pulley, etc.).",
       "parameters": [],
       "examples": [
-        { "code": "$100=250.000", "description": "250 steps/mm (default)" },
-        { "code": "$100=800.000", "description": "800 steps/mm (e.g., 200 step motor, 1/16 microstep, 4mm pitch leadscrew)" }
+        {
+          "code": "$100=250.000",
+          "description": "250 steps/mm (default)"
+        },
+        {
+          "code": "$100=800.000",
+          "description": "800 steps/mm (e.g., 200 step motor, 1/16 microstep, 4mm pitch leadscrew)"
+        }
       ],
-      "relatedCodes": ["$101", "$102"],
+      "relatedCodes": [
+        "$101",
+        "$102"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$100", "note": "Same setting in grblHAL. Identical behavior. grblHAL extends with $103-$109 for axes A through W." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$100",
+          "note": "Same setting in grblHAL. Identical behavior. grblHAL extends with $103-$109 for axes A through W."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 250.000. Formula for leadscrews: (motor_steps * microstepping) / screw_pitch_mm. Formula for belts: (motor_steps * microstepping) / (tooth_count * belt_pitch_mm). Verify by commanding a known distance and measuring actual travel."
     },
     {
@@ -1542,14 +3108,26 @@
       "description": "Sets the number of step pulses required to move the Y axis one millimeter. Same calculation as $100 but for the Y axis.",
       "parameters": [],
       "examples": [
-        { "code": "$101=250.000", "description": "250 steps/mm (default)" }
+        {
+          "code": "$101=250.000",
+          "description": "250 steps/mm (default)"
+        }
       ],
-      "relatedCodes": ["$100", "$102"],
+      "relatedCodes": [
+        "$100",
+        "$102"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$101", "note": "Same setting in grblHAL. Identical behavior." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$101",
+          "note": "Same setting in grblHAL. Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 250.000. See $100 for calculation details."
     },
     {
@@ -1559,32 +3137,60 @@
       "description": "Sets the number of step pulses required to move the Z axis one millimeter. Same calculation as $100 but for the Z axis. Z often uses a different drive mechanism (e.g., ballscrew vs belt) so this value frequently differs from $100/$101.",
       "parameters": [],
       "examples": [
-        { "code": "$102=250.000", "description": "250 steps/mm (default)" }
+        {
+          "code": "$102=250.000",
+          "description": "250 steps/mm (default)"
+        }
       ],
-      "relatedCodes": ["$100", "$101"],
+      "relatedCodes": [
+        "$100",
+        "$101"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$102", "note": "Same setting in grblHAL. Identical behavior." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$102",
+          "note": "Same setting in grblHAL. Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 250.000. See $100 for calculation details."
     },
     {
       "code": "$110",
       "type": "$",
       "name": "X Max Rate",
-      "description": "Sets the maximum travel rate for the X axis in mm/min. grbl will never exceed this speed on the X axis regardless of the programmed feed rate. Set conservatively — if set too high, the stepper will stall and lose steps.",
+      "description": "Sets the maximum travel rate for the X axis in mm/min. grbl will never exceed this speed on the X axis regardless of the programmed feed rate. Set conservatively \u2014 if set too high, the stepper will stall and lose steps.",
       "parameters": [],
       "examples": [
-        { "code": "$110=500.000", "description": "500 mm/min max X rate (default)" },
-        { "code": "$110=5000.000", "description": "5000 mm/min (fast CNC router)" }
+        {
+          "code": "$110=500.000",
+          "description": "500 mm/min max X rate (default)"
+        },
+        {
+          "code": "$110=5000.000",
+          "description": "5000 mm/min (fast CNC router)"
+        }
       ],
-      "relatedCodes": ["$111", "$112", "$120"],
+      "relatedCodes": [
+        "$111",
+        "$112",
+        "$120"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$110", "note": "Same setting in grblHAL. Identical behavior. grblHAL extends with $113-$119 for axes A through W." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$110",
+          "note": "Same setting in grblHAL. Identical behavior. grblHAL extends with $113-$119 for axes A through W."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 500.000 mm/min. Start low and gradually increase until the motor stalls, then back off 10-20%. This limits G0 rapid speed and caps G1 feed rate for this axis. Also limits $25 homing seek rate."
     },
     {
@@ -1594,14 +3200,27 @@
       "description": "Sets the maximum travel rate for the Y axis in mm/min. Same as $110 but for the Y axis.",
       "parameters": [],
       "examples": [
-        { "code": "$111=500.000", "description": "500 mm/min max Y rate (default)" }
+        {
+          "code": "$111=500.000",
+          "description": "500 mm/min max Y rate (default)"
+        }
       ],
-      "relatedCodes": ["$110", "$112", "$121"],
+      "relatedCodes": [
+        "$110",
+        "$112",
+        "$121"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$111", "note": "Same setting in grblHAL. Identical behavior." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$111",
+          "note": "Same setting in grblHAL. Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 500.000 mm/min. See $110 for tuning guidance."
     },
     {
@@ -1611,14 +3230,27 @@
       "description": "Sets the maximum travel rate for the Z axis in mm/min. Z axis is often slower than X/Y due to gravity loading and the drive mechanism used.",
       "parameters": [],
       "examples": [
-        { "code": "$112=500.000", "description": "500 mm/min max Z rate (default)" }
+        {
+          "code": "$112=500.000",
+          "description": "500 mm/min max Z rate (default)"
+        }
       ],
-      "relatedCodes": ["$110", "$111", "$122"],
+      "relatedCodes": [
+        "$110",
+        "$111",
+        "$122"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$112", "note": "Same setting in grblHAL. Identical behavior." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$112",
+          "note": "Same setting in grblHAL. Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 500.000 mm/min. See $110 for tuning guidance. Z is often set lower than X/Y due to gravity and the mass of the spindle."
     },
     {
@@ -1628,15 +3260,31 @@
       "description": "Sets the acceleration for the X axis in mm/sec^2. Controls how quickly the axis ramps up to and down from the target speed. Higher values produce faster motion but risk losing steps if the motor cannot keep up.",
       "parameters": [],
       "examples": [
-        { "code": "$120=10.000", "description": "10 mm/sec^2 (default)" },
-        { "code": "$120=200.000", "description": "200 mm/sec^2 (aggressive, for light gantries)" }
+        {
+          "code": "$120=10.000",
+          "description": "10 mm/sec^2 (default)"
+        },
+        {
+          "code": "$120=200.000",
+          "description": "200 mm/sec^2 (aggressive, for light gantries)"
+        }
       ],
-      "relatedCodes": ["$110", "$121", "$122"],
+      "relatedCodes": [
+        "$110",
+        "$121",
+        "$122"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$120", "note": "Same setting in grblHAL. Identical behavior. grblHAL extends with $123-$129 for axes A through W." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$120",
+          "note": "Same setting in grblHAL. Identical behavior. grblHAL extends with $123-$129 for axes A through W."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 10.000 mm/sec^2. Start low and increase gradually. Too high causes stalling and lost steps. Too low makes the machine sluggish and increases cycle time. Typical CNC router values: 50-500 mm/sec^2 depending on machine mass and motor torque."
     },
     {
@@ -1646,14 +3294,27 @@
       "description": "Sets the acceleration for the Y axis in mm/sec^2. Same as $120 but for the Y axis.",
       "parameters": [],
       "examples": [
-        { "code": "$121=10.000", "description": "10 mm/sec^2 (default)" }
+        {
+          "code": "$121=10.000",
+          "description": "10 mm/sec^2 (default)"
+        }
       ],
-      "relatedCodes": ["$111", "$120", "$122"],
+      "relatedCodes": [
+        "$111",
+        "$120",
+        "$122"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$121", "note": "Same setting in grblHAL. Identical behavior." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$121",
+          "note": "Same setting in grblHAL. Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 10.000 mm/sec^2. See $120 for tuning guidance."
     },
     {
@@ -1663,14 +3324,27 @@
       "description": "Sets the acceleration for the Z axis in mm/sec^2. Same as $120 but for the Z axis. Z often needs lower acceleration due to gravity and spindle mass.",
       "parameters": [],
       "examples": [
-        { "code": "$122=10.000", "description": "10 mm/sec^2 (default)" }
+        {
+          "code": "$122=10.000",
+          "description": "10 mm/sec^2 (default)"
+        }
       ],
-      "relatedCodes": ["$112", "$120", "$121"],
+      "relatedCodes": [
+        "$112",
+        "$120",
+        "$121"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$122", "note": "Same setting in grblHAL. Identical behavior." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$122",
+          "note": "Same setting in grblHAL. Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 10.000 mm/sec^2. See $120 for tuning guidance. Z acceleration is often set lower than X/Y."
     },
     {
@@ -1680,15 +3354,31 @@
       "description": "Sets the maximum travel distance for the X axis in mm, measured from the home position. Used by soft limits ($20) to prevent the machine from moving beyond its physical range. Always specified as a positive value.",
       "parameters": [],
       "examples": [
-        { "code": "$130=200.000", "description": "200mm X travel (default)" },
-        { "code": "$130=750.000", "description": "750mm X travel" }
+        {
+          "code": "$130=200.000",
+          "description": "200mm X travel (default)"
+        },
+        {
+          "code": "$130=750.000",
+          "description": "750mm X travel"
+        }
       ],
-      "relatedCodes": ["$20", "$131", "$132"],
+      "relatedCodes": [
+        "$20",
+        "$131",
+        "$132"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$130", "note": "Same setting in grblHAL. Identical behavior. grblHAL extends with $133-$139 for axes A through W." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$130",
+          "note": "Same setting in grblHAL. Identical behavior. grblHAL extends with $133-$139 for axes A through W."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 200.000mm. Must be set accurately for soft limits ($20) to work. Measure the actual travel of your machine. Value is always positive regardless of homing direction."
     },
     {
@@ -1698,14 +3388,27 @@
       "description": "Sets the maximum travel distance for the Y axis in mm. Same as $130 but for the Y axis.",
       "parameters": [],
       "examples": [
-        { "code": "$131=200.000", "description": "200mm Y travel (default)" }
+        {
+          "code": "$131=200.000",
+          "description": "200mm Y travel (default)"
+        }
       ],
-      "relatedCodes": ["$20", "$130", "$132"],
+      "relatedCodes": [
+        "$20",
+        "$130",
+        "$132"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$131", "note": "Same setting in grblHAL. Identical behavior." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$131",
+          "note": "Same setting in grblHAL. Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 200.000mm. See $130 for details."
     },
     {
@@ -1715,14 +3418,27 @@
       "description": "Sets the maximum travel distance for the Z axis in mm. Same as $130 but for the Z axis.",
       "parameters": [],
       "examples": [
-        { "code": "$132=200.000", "description": "200mm Z travel (default)" }
+        {
+          "code": "$132=200.000",
+          "description": "200mm Z travel (default)"
+        }
       ],
-      "relatedCodes": ["$20", "$130", "$131"],
+      "relatedCodes": [
+        "$20",
+        "$130",
+        "$131"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "$132", "note": "Same setting in grblHAL. Identical behavior." }
+        {
+          "firmwareId": "grblhal",
+          "code": "$132",
+          "note": "Same setting in grblHAL. Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
+      ],
       "notes": "Default: 200.000mm. See $130 for details."
     },
     {

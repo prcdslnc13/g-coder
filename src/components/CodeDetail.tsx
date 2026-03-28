@@ -36,7 +36,7 @@ export function CodeDetail({
 
   // Count how many firmwares have this code
   const fwsWithCode = Object.entries(allFirmwareData).filter(([, fw]) =>
-    fw.codes.some((c) => c.code === entry.code)
+    fw.codes.some((c) => c.code === entry.code || c.code.startsWith(entry.code + " "))
   );
 
   return (
