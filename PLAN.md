@@ -8,11 +8,16 @@
 - [x] Contextual filter buttons for RT, Errors, Alarms, Meta, NGC, O-codes
 - [x] Comma-separated multi-term search
 - [x] Fix code column overflow for long code names (META:, NGC:, etc.)
+- [x] Add missing G10 base entries for grbl, grblHAL, LinuxCNC (was only variants like G10 L2/L20)
+- [x] Fix cross-firmware comparison matching to recognize variant codes (prefix fallback)
+- [x] Add 11 missing FluidNC codes (G28.1, G30.1, G59.1-G59.3, G61, G80, G91.1, G92.1, M1, M68)
+- [x] Add missing M9 (coolant off) to Smoothieware
+- [x] Add missing M30 (delete SD file) to RepRapFirmware with CRITICAL cross-firmware conflict warnings
 
 ## Current State
 - **6 firmwares**: grbl, grblHAL, LinuxCNC, Smoothieware, RepRapFirmware, FluidNC
-- **794 total entries** (up from 544)
-- Branch: `expansion` (ahead of `main`)
+- **810 total entries** (grbl: 165, grblHAL: 245, LinuxCNC: 110, Smoothieware: 93, RepRapFirmware: 87, FluidNC: 110)
+- Branch: `main`
 
 ## Remaining
 
@@ -23,9 +28,10 @@
 - [ ] Add a "back" button or breadcrumb when navigating cross-firmware from the detail dialog
 
 ### Data Verification
-- [ ] Expert review of all 794 entries for accuracy (especially cross-references and conflict warnings)
+- [ ] Expert review of all 810 entries for accuracy (especially cross-references and conflict warnings)
 - [ ] Verify source URLs are still live and correct
-- [ ] Check for missing codes in each firmware (compare against official docs)
+- [x] Check for missing codes in each firmware (compare against official docs) — gap analysis complete, key missing codes added
+- [x] Validate grbl/grblHAL/FluidNC lineage — confirmed grblHAL is full superset of grbl G/M codes; FluidNC gaps filled
 - [ ] Validate grbl/grblHAL/FluidNC lineage notes — ensure "same as grbl" / "modified" / "new" labels are correct
 
 ### Feature Enhancements
