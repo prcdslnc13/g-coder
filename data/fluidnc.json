@@ -13,29 +13,88 @@
       "name": "Rapid Move",
       "description": "Moves to target coordinates at maximum traverse rate. Multiple axis motion is coordinated (straight-line path). Some spindles (lasers) may automatically disable during rapid moves.",
       "parameters": [
-        { "name": "X", "description": "Target X position", "optional": true, "example": "X10" },
-        { "name": "Y", "description": "Target Y position", "optional": true, "example": "Y20" },
-        { "name": "Z", "description": "Target Z position", "optional": true, "example": "Z5" },
-        { "name": "A", "description": "Target A rotational position", "optional": true, "example": "A90" },
-        { "name": "B", "description": "Target B rotational position", "optional": true, "example": "B45" },
-        { "name": "C", "description": "Target C rotational position", "optional": true, "example": "C180" }
+        {
+          "name": "X",
+          "description": "Target X position",
+          "optional": true,
+          "example": "X10"
+        },
+        {
+          "name": "Y",
+          "description": "Target Y position",
+          "optional": true,
+          "example": "Y20"
+        },
+        {
+          "name": "Z",
+          "description": "Target Z position",
+          "optional": true,
+          "example": "Z5"
+        },
+        {
+          "name": "A",
+          "description": "Target A rotational position",
+          "optional": true,
+          "example": "A90"
+        },
+        {
+          "name": "B",
+          "description": "Target B rotational position",
+          "optional": true,
+          "example": "B45"
+        },
+        {
+          "name": "C",
+          "description": "Target C rotational position",
+          "optional": true,
+          "example": "C180"
+        }
       ],
       "examples": [
-        { "code": "G0 X0 Y0 Z5", "description": "Rapid move to origin at Z safe height" },
-        { "code": "G0 Z10", "description": "Rapid retract Z axis to 10mm" }
+        {
+          "code": "G0 X0 Y0 Z5",
+          "description": "Rapid move to origin at Z safe height"
+        },
+        {
+          "code": "G0 Z10",
+          "description": "Rapid retract Z axis to 10mm"
+        }
       ],
-      "relatedCodes": ["G1"],
+      "relatedCodes": [
+        "G1"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G0", "note": "Inherited from grbl. FluidNC supports additional A, B, C rotational axes not available in grbl." },
-        { "firmwareId": "linuxcnc", "code": "G0", "note": "Identical behavior per NIST standard. LinuxCNC may blend rapids with G64 path blending; FluidNC does not." },
-        { "firmwareId": "smoothieware", "code": "G0", "note": "Smoothieware treats G0 identically with separately configurable per-axis max rates." },
-        { "firmwareId": "reprapfirmware", "code": "G0", "note": "In RepRapFirmware, G0 and G1 are identical — both use the F parameter. In FluidNC, G0 always moves at maximum rate." }
+        {
+          "firmwareId": "grbl",
+          "code": "G0",
+          "note": "Inherited from grbl. FluidNC supports additional A, B, C rotational axes not available in grbl."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G0",
+          "note": "Identical behavior per NIST standard. LinuxCNC may blend rapids with G64 path blending; FluidNC does not."
+        },
+        {
+          "firmwareId": "smoothieware",
+          "code": "G0",
+          "note": "Smoothieware treats G0 identically with separately configurable per-axis max rates."
+        },
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "G0",
+          "note": "In RepRapFirmware, G0 and G1 are identical \u2014 both use the F parameter. In FluidNC, G0 always moves at maximum rate."
+        }
       ],
       "modeNotes": [
-        { "mode": "Laser mode", "description": "G0 moves automatically disable the laser (S value is preserved but PWM output is 0). This prevents burning during positioning moves." }
+        {
+          "mode": "Laser mode",
+          "description": "G0 moves automatically disable the laser (S value is preserved but PWM output is 0). This prevents burning during positioning moves."
+        }
       ],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"],
-      "notes": "G0 is modal — once set, subsequent lines without a G command will continue to use G0."
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ],
+      "notes": "G0 is modal \u2014 once set, subsequent lines without a G command will continue to use G0."
     },
     {
       "code": "G1",
@@ -43,29 +102,86 @@
       "name": "Linear Move",
       "description": "Controlled straight-line move at the specified feed rate. All axes arrive simultaneously. Error if no feed rate (F) has been set previously.",
       "parameters": [
-        { "name": "X", "description": "Target X position", "optional": true, "example": "X50" },
-        { "name": "Y", "description": "Target Y position", "optional": true, "example": "Y30" },
-        { "name": "Z", "description": "Target Z position", "optional": true, "example": "Z-1" },
-        { "name": "A", "description": "Target A rotational position", "optional": true },
-        { "name": "B", "description": "Target B rotational position", "optional": true },
-        { "name": "C", "description": "Target C rotational position", "optional": true },
-        { "name": "F", "description": "Feed rate in units/min", "optional": true, "example": "F500" }
+        {
+          "name": "X",
+          "description": "Target X position",
+          "optional": true,
+          "example": "X50"
+        },
+        {
+          "name": "Y",
+          "description": "Target Y position",
+          "optional": true,
+          "example": "Y30"
+        },
+        {
+          "name": "Z",
+          "description": "Target Z position",
+          "optional": true,
+          "example": "Z-1"
+        },
+        {
+          "name": "A",
+          "description": "Target A rotational position",
+          "optional": true
+        },
+        {
+          "name": "B",
+          "description": "Target B rotational position",
+          "optional": true
+        },
+        {
+          "name": "C",
+          "description": "Target C rotational position",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Feed rate in units/min",
+          "optional": true,
+          "example": "F500"
+        }
       ],
       "examples": [
-        { "code": "G1 X50 Y30 F500", "description": "Linear move to X50 Y30 at 500 units/min" },
-        { "code": "G1 Z-1 F100", "description": "Plunge cut to Z-1 at 100 units/min" }
+        {
+          "code": "G1 X50 Y30 F500",
+          "description": "Linear move to X50 Y30 at 500 units/min"
+        },
+        {
+          "code": "G1 Z-1 F100",
+          "description": "Plunge cut to Z-1 at 100 units/min"
+        }
       ],
-      "relatedCodes": ["G0"],
+      "relatedCodes": [
+        "G0"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G1", "note": "Inherited from grbl. FluidNC adds A, B, C axis support." },
-        { "firmwareId": "linuxcnc", "code": "G1", "note": "Identical behavior. LinuxCNC supports additional U, V, W axes." },
-        { "firmwareId": "reprapfirmware", "code": "G1", "note": "RepRapFirmware uses the S parameter on G1 for laser power. FluidNC uses M3/M4 S for laser power, not inline on G1." }
+        {
+          "firmwareId": "grbl",
+          "code": "G1",
+          "note": "Inherited from grbl. FluidNC adds A, B, C axis support."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G1",
+          "note": "Identical behavior. LinuxCNC supports additional U, V, W axes."
+        },
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "G1",
+          "note": "RepRapFirmware uses the S parameter on G1 for laser power. FluidNC uses M3/M4 S for laser power, not inline on G1."
+        }
       ],
       "modeNotes": [
-        { "mode": "Laser mode", "description": "Laser is active during G1 moves at the power set by M3/M4 S value. With M4 dynamic mode, power scales with speed during acceleration/deceleration." }
+        {
+          "mode": "Laser mode",
+          "description": "Laser is active during G1 moves at the power set by M3/M4 S value. With M4 dynamic mode, power scales with speed during acceleration/deceleration."
+        }
       ],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"],
-      "notes": "G1 is modal. The F parameter is also modal — once set, it persists until changed. At startup feed rate is 0; an error occurs if G1 is used without F > 0."
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ],
+      "notes": "G1 is modal. The F parameter is also modal \u2014 once set, it persists until changed. At startup feed rate is 0; an error occurs if G1 is used without F > 0."
     },
     {
       "code": "G2",
@@ -73,28 +189,123 @@
       "name": "Clockwise Arc",
       "description": "Clockwise circular or helical interpolation in the currently selected plane (G17/G18/G19). Can use center format (I/J/K offsets) or radius format (R). P parameter specifies number of full turns.",
       "parameters": [
-        { "name": "X", "description": "Arc endpoint X", "optional": true },
-        { "name": "Y", "description": "Arc endpoint Y", "optional": true },
-        { "name": "Z", "description": "Arc endpoint Z (helical)", "optional": true },
-        { "name": "I", "description": "Arc center offset in X", "optional": true },
-        { "name": "J", "description": "Arc center offset in Y", "optional": true },
-        { "name": "K", "description": "Arc center offset in Z", "optional": true },
-        { "name": "R", "description": "Arc radius (alternative to IJK)", "optional": true },
-        { "name": "P", "description": "Number of full turns", "optional": true },
-        { "name": "F", "description": "Feed rate", "optional": true }
+        {
+          "name": "X",
+          "description": "Arc endpoint X",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Arc endpoint Y",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Arc endpoint Z (helical)",
+          "optional": true
+        },
+        {
+          "name": "I",
+          "description": "Arc center offset in X",
+          "optional": true
+        },
+        {
+          "name": "J",
+          "description": "Arc center offset in Y",
+          "optional": true
+        },
+        {
+          "name": "K",
+          "description": "Arc center offset in Z",
+          "optional": true
+        },
+        {
+          "name": "R",
+          "description": "Arc radius (alternative to IJK)",
+          "optional": true
+        },
+        {
+          "name": "P",
+          "description": "Number of full turns",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Feed rate",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G2 X10 Y10 I5 J0 F100", "description": "CW arc to X10 Y10 with center offset I5 J0" },
-        { "code": "G2 X10 Y10 R5 F100", "description": "CW arc to X10 Y10 with radius 5" }
+        {
+          "code": "G2 X10 Y10 I5 J0 F100",
+          "description": "CW arc to X10 Y10 with center offset I5 J0"
+        },
+        {
+          "code": "G2 X10 Y10 R5 F100",
+          "description": "CW arc to X10 Y10 with radius 5"
+        }
       ],
-      "relatedCodes": ["G3", "G17", "G18", "G19"],
+      "relatedCodes": [
+        "G3",
+        "G17",
+        "G18",
+        "G19"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G2", "note": "Inherited from grbl. FluidNC adds the P parameter for multi-turn arcs." },
-        { "firmwareId": "linuxcnc", "code": "G2", "note": "Identical behavior including P parameter for multi-turn arcs." }
+        {
+          "firmwareId": "grbl",
+          "code": "G2",
+          "note": "Inherited from grbl. FluidNC adds the P parameter for multi-turn arcs."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G2",
+          "note": "Identical behavior including P parameter for multi-turn arcs."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"],
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ],
       "notes": "Error 33 if the arc geometry cannot fit the specified parameters."
+    },
+    {
+      "code": "G28.1",
+      "type": "G",
+      "name": "Store Predefined Position",
+      "description": "Stores the current machine position as the G28 predefined position in NVS.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "G28.1",
+          "description": "Store current position as G28 home position"
+        }
+      ],
+      "relatedCodes": [
+        "G28",
+        "G30.1"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "G28.1",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "grblhal",
+          "code": "G28.1",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G28.1",
+          "note": "Identical behavior per NIST standard."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/bdring/FluidNC/blob/main/FluidNC/src/GCode.cpp"
+      ]
     },
     {
       "code": "G3",
@@ -102,47 +313,166 @@
       "name": "Counter-Clockwise Arc",
       "description": "Counter-clockwise circular or helical interpolation in the currently selected plane. Same parameters and behavior as G2 but in the opposite direction.",
       "parameters": [
-        { "name": "X", "description": "Arc endpoint X", "optional": true },
-        { "name": "Y", "description": "Arc endpoint Y", "optional": true },
-        { "name": "Z", "description": "Arc endpoint Z (helical)", "optional": true },
-        { "name": "I", "description": "Arc center offset in X", "optional": true },
-        { "name": "J", "description": "Arc center offset in Y", "optional": true },
-        { "name": "K", "description": "Arc center offset in Z", "optional": true },
-        { "name": "R", "description": "Arc radius (alternative to IJK)", "optional": true },
-        { "name": "P", "description": "Number of full turns", "optional": true },
-        { "name": "F", "description": "Feed rate", "optional": true }
+        {
+          "name": "X",
+          "description": "Arc endpoint X",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Arc endpoint Y",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Arc endpoint Z (helical)",
+          "optional": true
+        },
+        {
+          "name": "I",
+          "description": "Arc center offset in X",
+          "optional": true
+        },
+        {
+          "name": "J",
+          "description": "Arc center offset in Y",
+          "optional": true
+        },
+        {
+          "name": "K",
+          "description": "Arc center offset in Z",
+          "optional": true
+        },
+        {
+          "name": "R",
+          "description": "Arc radius (alternative to IJK)",
+          "optional": true
+        },
+        {
+          "name": "P",
+          "description": "Number of full turns",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Feed rate",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G3 X10 Y10 I5 J0 F100", "description": "CCW arc to X10 Y10 with center offset I5 J0" }
+        {
+          "code": "G3 X10 Y10 I5 J0 F100",
+          "description": "CCW arc to X10 Y10 with center offset I5 J0"
+        }
       ],
-      "relatedCodes": ["G2", "G17", "G18", "G19"],
+      "relatedCodes": [
+        "G2",
+        "G17",
+        "G18",
+        "G19"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G3", "note": "Inherited from grbl. FluidNC adds the P parameter for multi-turn arcs." },
-        { "firmwareId": "linuxcnc", "code": "G3", "note": "Identical behavior including P parameter." }
+        {
+          "firmwareId": "grbl",
+          "code": "G3",
+          "note": "Inherited from grbl. FluidNC adds the P parameter for multi-turn arcs."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G3",
+          "note": "Identical behavior including P parameter."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
+    },
+    {
+      "code": "G30.1",
+      "type": "G",
+      "name": "Store Predefined Position 2",
+      "description": "Stores the current machine position as the G30 predefined position in NVS.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "G30.1",
+          "description": "Store current position as G30 position"
+        }
+      ],
+      "relatedCodes": [
+        "G30",
+        "G28.1"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "G30.1",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "grblhal",
+          "code": "G30.1",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G30.1",
+          "note": "Identical behavior per NIST standard."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/bdring/FluidNC/blob/main/FluidNC/src/GCode.cpp"
+      ]
     },
     {
       "code": "G4",
       "type": "G",
       "name": "Dwell",
-      "description": "Pauses motion for the specified duration. Synchronized command — all buffered G-code completes before the dwell starts.",
+      "description": "Pauses motion for the specified duration. Synchronized command \u2014 all buffered G-code completes before the dwell starts.",
       "parameters": [
-        { "name": "P", "description": "Dwell time in seconds", "optional": false, "example": "P1.5" }
+        {
+          "name": "P",
+          "description": "Dwell time in seconds",
+          "optional": false,
+          "example": "P1.5"
+        }
       ],
       "examples": [
-        { "code": "G4 P1", "description": "Pause for 1 second" },
-        { "code": "G4 P0.5", "description": "Pause for 0.5 seconds" }
+        {
+          "code": "G4 P1",
+          "description": "Pause for 1 second"
+        },
+        {
+          "code": "G4 P0.5",
+          "description": "Pause for 0.5 seconds"
+        }
       ],
-      "relatedCodes": ["M0"],
+      "relatedCodes": [
+        "M0"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G4", "note": "Identical behavior. Both use P in seconds." },
-        { "firmwareId": "linuxcnc", "code": "G4", "note": "LinuxCNC uses P in seconds. Identical behavior." },
-        { "firmwareId": "reprapfirmware", "code": "G4", "note": "WARNING: RepRapFirmware uses P in milliseconds and S in seconds. FluidNC uses P in seconds." }
+        {
+          "firmwareId": "grbl",
+          "code": "G4",
+          "note": "Identical behavior. Both use P in seconds."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G4",
+          "note": "LinuxCNC uses P in seconds. Identical behavior."
+        },
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "G4",
+          "note": "WARNING: RepRapFirmware uses P in milliseconds and S in seconds. FluidNC uses P in seconds."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "G10",
@@ -150,23 +480,72 @@
       "name": "Set Coordinate System Offset",
       "description": "Sets or modifies the offset for a coordinate system. L2 sets the offset value directly; L20 sets it so that the current position becomes the specified value.",
       "parameters": [
-        { "name": "L", "description": "Mode: L2 = set offset, L20 = set current position", "optional": false, "example": "L2" },
-        { "name": "P", "description": "Coordinate system: P0 = current, P1-P6 = G54-G59", "optional": false, "example": "P1" },
-        { "name": "X", "description": "X offset value", "optional": true },
-        { "name": "Y", "description": "Y offset value", "optional": true },
-        { "name": "Z", "description": "Z offset value", "optional": true }
+        {
+          "name": "L",
+          "description": "Mode: L2 = set offset, L20 = set current position",
+          "optional": false,
+          "example": "L2"
+        },
+        {
+          "name": "P",
+          "description": "Coordinate system: P0 = current, P1-P6 = G54-G59, P7-P9 = G59.1-G59.3",
+          "optional": false,
+          "example": "P1"
+        },
+        {
+          "name": "X",
+          "description": "X offset value",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Y offset value",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Z offset value",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G10 L2 P1 X10 Y20 Z0", "description": "Set G54 offset to X10 Y20 Z0" },
-        { "code": "G10 L20 P1 X0 Y0 Z0", "description": "Set G54 so current position is X0 Y0 Z0" }
+        {
+          "code": "G10 L2 P1 X10 Y20 Z0",
+          "description": "Set G54 offset to X10 Y20 Z0"
+        },
+        {
+          "code": "G10 L20 P1 X0 Y0 Z0",
+          "description": "Set G54 so current position is X0 Y0 Z0"
+        }
       ],
-      "relatedCodes": ["G54", "G55", "G56", "G57", "G58", "G59", "G92"],
+      "relatedCodes": [
+        "G54",
+        "G55",
+        "G56",
+        "G57",
+        "G58",
+        "G59",
+        "G92",
+        "G59.1",
+        "G59.2",
+        "G59.3"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G10", "note": "Identical behavior inherited from grbl." },
-        { "firmwareId": "linuxcnc", "code": "G10", "note": "LinuxCNC supports additional L1 mode for tool table offsets. FluidNC does not have a tool offset table." }
+        {
+          "firmwareId": "grbl",
+          "code": "G10",
+          "note": "Identical behavior inherited from grbl."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G10",
+          "note": "LinuxCNC supports additional L1 mode for tool table offsets. FluidNC does not have a tool offset table."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"],
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ],
       "notes": "Preferred over G92 for setting work coordinate offsets. Offsets are stored in NVS and persist across reboots."
     },
     {
@@ -176,15 +555,33 @@
       "description": "Selects the XY plane for arc commands (G2/G3). This is the default plane at startup.",
       "parameters": [],
       "examples": [
-        { "code": "G17 G2 X10 Y10 I5 J0 F100", "description": "Arc in XY plane" }
+        {
+          "code": "G17 G2 X10 Y10 I5 J0 F100",
+          "description": "Arc in XY plane"
+        }
       ],
-      "relatedCodes": ["G18", "G19", "G2", "G3"],
+      "relatedCodes": [
+        "G18",
+        "G19",
+        "G2",
+        "G3"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G17", "note": "Identical behavior." },
-        { "firmwareId": "linuxcnc", "code": "G17", "note": "Identical behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "G17",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G17",
+          "note": "Identical behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "G18",
@@ -193,15 +590,33 @@
       "description": "Selects the ZX plane for arc commands (G2/G3).",
       "parameters": [],
       "examples": [
-        { "code": "G18 G2 X10 Z5 I5 K0 F100", "description": "Arc in ZX plane" }
+        {
+          "code": "G18 G2 X10 Z5 I5 K0 F100",
+          "description": "Arc in ZX plane"
+        }
       ],
-      "relatedCodes": ["G17", "G19", "G2", "G3"],
+      "relatedCodes": [
+        "G17",
+        "G19",
+        "G2",
+        "G3"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G18", "note": "Identical behavior." },
-        { "firmwareId": "linuxcnc", "code": "G18", "note": "Identical behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "G18",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G18",
+          "note": "Identical behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "G19",
@@ -210,32 +625,65 @@
       "description": "Selects the YZ plane for arc commands (G2/G3).",
       "parameters": [],
       "examples": [
-        { "code": "G19 G2 Y10 Z5 J5 K0 F100", "description": "Arc in YZ plane" }
+        {
+          "code": "G19 G2 Y10 Z5 J5 K0 F100",
+          "description": "Arc in YZ plane"
+        }
       ],
-      "relatedCodes": ["G17", "G18", "G2", "G3"],
+      "relatedCodes": [
+        "G17",
+        "G18",
+        "G2",
+        "G3"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G19", "note": "Identical behavior." },
-        { "firmwareId": "linuxcnc", "code": "G19", "note": "Identical behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "G19",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G19",
+          "note": "Identical behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "G20",
       "type": "G",
       "name": "Set Units to Inches",
-      "description": "Sets the unit system to inches for subsequent commands. Only converts X, Y, Z values — A, B, C axes are considered rotary/unitless and are not converted. Configuration values are never converted.",
+      "description": "Sets the unit system to inches for subsequent commands. Only converts X, Y, Z values \u2014 A, B, C axes are considered rotary/unitless and are not converted. Configuration values are never converted.",
       "parameters": [],
       "examples": [
-        { "code": "G20", "description": "Switch to inch mode" }
+        {
+          "code": "G20",
+          "description": "Switch to inch mode"
+        }
       ],
-      "relatedCodes": ["G21"],
+      "relatedCodes": [
+        "G21"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G20", "note": "Identical behavior." },
-        { "firmwareId": "linuxcnc", "code": "G20", "note": "Identical behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "G20",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G20",
+          "note": "Identical behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"],
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ],
       "notes": "FluidNC's native units are millimeters (G21). G20 only affects G-code interpretation, not config values."
     },
     {
@@ -245,15 +693,30 @@
       "description": "Sets the unit system to millimeters. This is the default at startup and the native unit system of FluidNC.",
       "parameters": [],
       "examples": [
-        { "code": "G21", "description": "Switch to millimeter mode" }
+        {
+          "code": "G21",
+          "description": "Switch to millimeter mode"
+        }
       ],
-      "relatedCodes": ["G20"],
+      "relatedCodes": [
+        "G20"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G21", "note": "Identical behavior." },
-        { "firmwareId": "linuxcnc", "code": "G21", "note": "Identical behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "G21",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G21",
+          "note": "Identical behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "G28",
@@ -261,25 +724,67 @@
       "name": "Go to Predefined Position",
       "description": "Rapid move to stored predefined position. G28 alone rapids to stored location. G28 with axes rapids to the specified work position first, then rapids to the stored G28 position (only specified axes). G28.1 stores the current machine position as the G28 position.",
       "parameters": [
-        { "name": "X", "description": "Intermediate X position (optional)", "optional": true },
-        { "name": "Y", "description": "Intermediate Y position (optional)", "optional": true },
-        { "name": "Z", "description": "Intermediate Z position (optional)", "optional": true }
+        {
+          "name": "X",
+          "description": "Intermediate X position (optional)",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Intermediate Y position (optional)",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Intermediate Z position (optional)",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G28", "description": "Rapid to stored G28 position" },
-        { "code": "G28 Z0", "description": "Rapid to Z0, then to stored G28 Z position" },
-        { "code": "G28.1", "description": "Store current position as G28 position" }
+        {
+          "code": "G28",
+          "description": "Rapid to stored G28 position"
+        },
+        {
+          "code": "G28 Z0",
+          "description": "Rapid to Z0, then to stored G28 Z position"
+        },
+        {
+          "code": "G28.1",
+          "description": "Store current position as G28 position"
+        }
       ],
-      "relatedCodes": ["G30", "$H"],
+      "relatedCodes": [
+        "G30",
+        "$H"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G28", "note": "Identical behavior — stored position recall, not homing." },
-        { "firmwareId": "linuxcnc", "code": "G28", "note": "Identical behavior per NIST standard." },
-        { "firmwareId": "smoothieware", "code": "G28", "note": "CRITICAL: Smoothieware uses G28 for homing, NOT stored position recall. Sending G28 to a Smoothieware machine expecting stored position behavior will home all axes instead." },
-        { "firmwareId": "reprapfirmware", "code": "G28", "note": "CRITICAL: RepRapFirmware uses G28 for homing, NOT stored position recall. This is a dangerous incompatibility." }
+        {
+          "firmwareId": "grbl",
+          "code": "G28",
+          "note": "Identical behavior \u2014 stored position recall, not homing."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G28",
+          "note": "Identical behavior per NIST standard."
+        },
+        {
+          "firmwareId": "smoothieware",
+          "code": "G28",
+          "note": "CRITICAL: Smoothieware uses G28 for homing, NOT stored position recall. Sending G28 to a Smoothieware machine expecting stored position behavior will home all axes instead."
+        },
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "G28",
+          "note": "CRITICAL: RepRapFirmware uses G28 for homing, NOT stored position recall. This is a dangerous incompatibility."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"],
-      "notes": "Position is stored in NVS. Only use after homing — stored position is in machine coordinates."
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ],
+      "notes": "Position is stored in NVS. Only use after homing \u2014 stored position is in machine coordinates."
     },
     {
       "code": "G30",
@@ -287,21 +792,51 @@
       "name": "Go to Predefined Position 2",
       "description": "Same behavior as G28 but uses a separate stored position. G30.1 stores the current machine position as the G30 position.",
       "parameters": [
-        { "name": "X", "description": "Intermediate X position (optional)", "optional": true },
-        { "name": "Y", "description": "Intermediate Y position (optional)", "optional": true },
-        { "name": "Z", "description": "Intermediate Z position (optional)", "optional": true }
+        {
+          "name": "X",
+          "description": "Intermediate X position (optional)",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Intermediate Y position (optional)",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Intermediate Z position (optional)",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G30", "description": "Rapid to stored G30 position" },
-        { "code": "G30.1", "description": "Store current position as G30 position" }
+        {
+          "code": "G30",
+          "description": "Rapid to stored G30 position"
+        },
+        {
+          "code": "G30.1",
+          "description": "Store current position as G30 position"
+        }
       ],
-      "relatedCodes": ["G28"],
+      "relatedCodes": [
+        "G28"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G30", "note": "Identical behavior." },
-        { "firmwareId": "linuxcnc", "code": "G30", "note": "Identical behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "G30",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G30",
+          "note": "Identical behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "G38.2",
@@ -309,47 +844,129 @@
       "name": "Probe Toward Workpiece (Error on Fail)",
       "description": "Probes toward a workpiece, stopping on contact. Errors if probe does not make contact within travel distance. Error if probe is already triggered before command.",
       "parameters": [
-        { "name": "X", "description": "Probe target X", "optional": true },
-        { "name": "Y", "description": "Probe target Y", "optional": true },
-        { "name": "Z", "description": "Probe target Z", "optional": true },
-        { "name": "F", "description": "Probe feed rate", "optional": false, "example": "F50" },
-        { "name": "P", "description": "Offset value (touch plate thickness)", "optional": true }
+        {
+          "name": "X",
+          "description": "Probe target X",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Probe target Y",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Probe target Z",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Probe feed rate",
+          "optional": false,
+          "example": "F50"
+        },
+        {
+          "name": "P",
+          "description": "Offset value (touch plate thickness)",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G38.2 Z-20 F50", "description": "Probe Z downward at 50mm/min, error if no contact" },
-        { "code": "G38.2 Z-20 F50 P3.175", "description": "Probe with 3.175mm touch plate offset" }
+        {
+          "code": "G38.2 Z-20 F50",
+          "description": "Probe Z downward at 50mm/min, error if no contact"
+        },
+        {
+          "code": "G38.2 Z-20 F50 P3.175",
+          "description": "Probe with 3.175mm touch plate offset"
+        }
       ],
-      "relatedCodes": ["G38.3", "G38.4", "G38.5", "G38.6", "G38.7", "G38.8", "G38.9"],
+      "relatedCodes": [
+        "G38.3",
+        "G38.4",
+        "G38.5",
+        "G38.6",
+        "G38.7",
+        "G38.8",
+        "G38.9"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G38.2", "note": "Inherited from grbl. FluidNC adds the P parameter for touch plate offset." },
-        { "firmwareId": "linuxcnc", "code": "G38.2", "note": "Identical behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "G38.2",
+          "note": "Inherited from grbl. FluidNC adds the P parameter for touch plate offset."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G38.2",
+          "note": "Identical behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"],
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ],
       "notes": "G43 TLO and G92 offsets are accounted for when using the P parameter."
     },
     {
       "code": "G38.3",
       "type": "G",
       "name": "Probe Toward Workpiece (No Error on Fail)",
-      "description": "Probes toward a workpiece, stopping on contact. Does not error if no contact is made — machine simply stops at the target position.",
+      "description": "Probes toward a workpiece, stopping on contact. Does not error if no contact is made \u2014 machine simply stops at the target position.",
       "parameters": [
-        { "name": "X", "description": "Probe target X", "optional": true },
-        { "name": "Y", "description": "Probe target Y", "optional": true },
-        { "name": "Z", "description": "Probe target Z", "optional": true },
-        { "name": "F", "description": "Probe feed rate", "optional": false },
-        { "name": "P", "description": "Offset value (touch plate thickness)", "optional": true }
+        {
+          "name": "X",
+          "description": "Probe target X",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Probe target Y",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Probe target Z",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Probe feed rate",
+          "optional": false
+        },
+        {
+          "name": "P",
+          "description": "Offset value (touch plate thickness)",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G38.3 Z-20 F50", "description": "Probe Z downward, no error if no contact" }
+        {
+          "code": "G38.3 Z-20 F50",
+          "description": "Probe Z downward, no error if no contact"
+        }
       ],
-      "relatedCodes": ["G38.2", "G38.4", "G38.5"],
+      "relatedCodes": [
+        "G38.2",
+        "G38.4",
+        "G38.5"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G38.3", "note": "Identical behavior." },
-        { "firmwareId": "linuxcnc", "code": "G38.3", "note": "Identical behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "G38.3",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G38.3",
+          "note": "Identical behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "G38.4",
@@ -357,22 +974,59 @@
       "name": "Probe Away from Workpiece (Error on Fail)",
       "description": "Probes away from a workpiece, stopping when contact is lost. Errors if probe is not already in contact before command starts.",
       "parameters": [
-        { "name": "X", "description": "Probe target X", "optional": true },
-        { "name": "Y", "description": "Probe target Y", "optional": true },
-        { "name": "Z", "description": "Probe target Z", "optional": true },
-        { "name": "F", "description": "Probe feed rate", "optional": false },
-        { "name": "P", "description": "Offset value", "optional": true }
+        {
+          "name": "X",
+          "description": "Probe target X",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Probe target Y",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Probe target Z",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Probe feed rate",
+          "optional": false
+        },
+        {
+          "name": "P",
+          "description": "Offset value",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G38.4 Z5 F50", "description": "Probe away from surface, error if probe not initially touching" }
+        {
+          "code": "G38.4 Z5 F50",
+          "description": "Probe away from surface, error if probe not initially touching"
+        }
       ],
-      "relatedCodes": ["G38.2", "G38.3", "G38.5"],
+      "relatedCodes": [
+        "G38.2",
+        "G38.3",
+        "G38.5"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G38.4", "note": "Identical behavior." },
-        { "firmwareId": "linuxcnc", "code": "G38.4", "note": "Identical behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "G38.4",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G38.4",
+          "note": "Identical behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "G38.5",
@@ -380,22 +1034,59 @@
       "name": "Probe Away from Workpiece (No Error on Fail)",
       "description": "Probes away from a workpiece, stopping when contact is lost. Does not error if contact is never lost.",
       "parameters": [
-        { "name": "X", "description": "Probe target X", "optional": true },
-        { "name": "Y", "description": "Probe target Y", "optional": true },
-        { "name": "Z", "description": "Probe target Z", "optional": true },
-        { "name": "F", "description": "Probe feed rate", "optional": false },
-        { "name": "P", "description": "Offset value", "optional": true }
+        {
+          "name": "X",
+          "description": "Probe target X",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Probe target Y",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Probe target Z",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Probe feed rate",
+          "optional": false
+        },
+        {
+          "name": "P",
+          "description": "Offset value",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G38.5 Z5 F50", "description": "Probe away from surface, no error on fail" }
+        {
+          "code": "G38.5 Z5 F50",
+          "description": "Probe away from surface, no error on fail"
+        }
       ],
-      "relatedCodes": ["G38.2", "G38.3", "G38.4"],
+      "relatedCodes": [
+        "G38.2",
+        "G38.3",
+        "G38.4"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G38.5", "note": "Identical behavior." },
-        { "firmwareId": "linuxcnc", "code": "G38.5", "note": "Identical behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "G38.5",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G38.5",
+          "note": "Identical behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "G38.6",
@@ -403,21 +1094,55 @@
       "name": "Probe Toward (Incremental/mm, Error on Fail)",
       "description": "Like G38.2 but always uses incremental distance mode and millimeters, regardless of the current G20/G21 or G90/G91 state. Does not change the current modal state.",
       "parameters": [
-        { "name": "X", "description": "Incremental probe distance X (mm)", "optional": true },
-        { "name": "Y", "description": "Incremental probe distance Y (mm)", "optional": true },
-        { "name": "Z", "description": "Incremental probe distance Z (mm)", "optional": true },
-        { "name": "F", "description": "Probe feed rate (mm/min)", "optional": false }
+        {
+          "name": "X",
+          "description": "Incremental probe distance X (mm)",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Incremental probe distance Y (mm)",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Incremental probe distance Z (mm)",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Probe feed rate (mm/min)",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "G38.6 Z-25 F50", "description": "Probe 25mm downward in mm/incremental regardless of current mode" }
+        {
+          "code": "G38.6 Z-25 F50",
+          "description": "Probe 25mm downward in mm/incremental regardless of current mode"
+        }
       ],
-      "relatedCodes": ["G38.2", "G38.7", "G38.8", "G38.9"],
+      "relatedCodes": [
+        "G38.2",
+        "G38.7",
+        "G38.8",
+        "G38.9"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G38.2", "note": "FluidNC-only command (since v3.7.6). No grbl equivalent. Use G38.2 with explicit G91/G21 in grbl." },
-        { "firmwareId": "grblhal", "code": "G38.2", "note": "FluidNC-only command. No grblHAL equivalent." }
+        {
+          "firmwareId": "grbl",
+          "code": "G38.2",
+          "note": "FluidNC-only command (since v3.7.6). No grbl equivalent. Use G38.2 with explicit G91/G21 in grbl."
+        },
+        {
+          "firmwareId": "grblhal",
+          "code": "G38.2",
+          "note": "FluidNC-only command. No grblHAL equivalent."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"],
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ],
       "versionNotes": "Added in FluidNC v3.7.6."
     },
     {
@@ -426,20 +1151,50 @@
       "name": "Probe Toward (Incremental/mm, No Error on Fail)",
       "description": "Like G38.3 but always uses incremental distance mode and millimeters, regardless of the current G20/G21 or G90/G91 state.",
       "parameters": [
-        { "name": "X", "description": "Incremental probe distance X (mm)", "optional": true },
-        { "name": "Y", "description": "Incremental probe distance Y (mm)", "optional": true },
-        { "name": "Z", "description": "Incremental probe distance Z (mm)", "optional": true },
-        { "name": "F", "description": "Probe feed rate (mm/min)", "optional": false }
+        {
+          "name": "X",
+          "description": "Incremental probe distance X (mm)",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Incremental probe distance Y (mm)",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Incremental probe distance Z (mm)",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Probe feed rate (mm/min)",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "G38.7 Z-25 F50", "description": "Probe 25mm downward, no error on fail" }
+        {
+          "code": "G38.7 Z-25 F50",
+          "description": "Probe 25mm downward, no error on fail"
+        }
       ],
-      "relatedCodes": ["G38.3", "G38.6", "G38.8", "G38.9"],
+      "relatedCodes": [
+        "G38.3",
+        "G38.6",
+        "G38.8",
+        "G38.9"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G38.3", "note": "FluidNC-only command (since v3.7.6). No grbl equivalent." }
+        {
+          "firmwareId": "grbl",
+          "code": "G38.3",
+          "note": "FluidNC-only command (since v3.7.6). No grbl equivalent."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"],
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ],
       "versionNotes": "Added in FluidNC v3.7.6."
     },
     {
@@ -448,20 +1203,50 @@
       "name": "Probe Away (Incremental/mm, Error on Fail)",
       "description": "Like G38.4 but always uses incremental distance mode and millimeters, regardless of the current G20/G21 or G90/G91 state.",
       "parameters": [
-        { "name": "X", "description": "Incremental probe distance X (mm)", "optional": true },
-        { "name": "Y", "description": "Incremental probe distance Y (mm)", "optional": true },
-        { "name": "Z", "description": "Incremental probe distance Z (mm)", "optional": true },
-        { "name": "F", "description": "Probe feed rate (mm/min)", "optional": false }
+        {
+          "name": "X",
+          "description": "Incremental probe distance X (mm)",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Incremental probe distance Y (mm)",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Incremental probe distance Z (mm)",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Probe feed rate (mm/min)",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "G38.8 Z10 F50", "description": "Probe 10mm upward away from surface, error on fail" }
+        {
+          "code": "G38.8 Z10 F50",
+          "description": "Probe 10mm upward away from surface, error on fail"
+        }
       ],
-      "relatedCodes": ["G38.4", "G38.6", "G38.7", "G38.9"],
+      "relatedCodes": [
+        "G38.4",
+        "G38.6",
+        "G38.7",
+        "G38.9"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G38.4", "note": "FluidNC-only command (since v3.7.6). No grbl equivalent." }
+        {
+          "firmwareId": "grbl",
+          "code": "G38.4",
+          "note": "FluidNC-only command (since v3.7.6). No grbl equivalent."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"],
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ],
       "versionNotes": "Added in FluidNC v3.7.6."
     },
     {
@@ -470,20 +1255,50 @@
       "name": "Probe Away (Incremental/mm, No Error on Fail)",
       "description": "Like G38.5 but always uses incremental distance mode and millimeters, regardless of the current G20/G21 or G90/G91 state.",
       "parameters": [
-        { "name": "X", "description": "Incremental probe distance X (mm)", "optional": true },
-        { "name": "Y", "description": "Incremental probe distance Y (mm)", "optional": true },
-        { "name": "Z", "description": "Incremental probe distance Z (mm)", "optional": true },
-        { "name": "F", "description": "Probe feed rate (mm/min)", "optional": false }
+        {
+          "name": "X",
+          "description": "Incremental probe distance X (mm)",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Incremental probe distance Y (mm)",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Incremental probe distance Z (mm)",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Probe feed rate (mm/min)",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "G38.9 Z10 F50", "description": "Probe 10mm upward, no error on fail" }
+        {
+          "code": "G38.9 Z10 F50",
+          "description": "Probe 10mm upward, no error on fail"
+        }
       ],
-      "relatedCodes": ["G38.5", "G38.6", "G38.7", "G38.8"],
+      "relatedCodes": [
+        "G38.5",
+        "G38.6",
+        "G38.7",
+        "G38.8"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G38.5", "note": "FluidNC-only command (since v3.7.6). No grbl equivalent." }
+        {
+          "firmwareId": "grbl",
+          "code": "G38.5",
+          "note": "FluidNC-only command (since v3.7.6). No grbl equivalent."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"],
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ],
       "versionNotes": "Added in FluidNC v3.7.6."
     },
     {
@@ -493,36 +1308,76 @@
       "description": "Turns off cutter radius compensation. This is the default state.",
       "parameters": [],
       "examples": [
-        { "code": "G40", "description": "Cancel cutter compensation" }
+        {
+          "code": "G40",
+          "description": "Cancel cutter compensation"
+        }
       ],
       "relatedCodes": [],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G40", "note": "Identical — cutter compensation is accepted but not actively implemented in either firmware." },
-        { "firmwareId": "linuxcnc", "code": "G40", "note": "LinuxCNC fully implements cutter compensation (G41/G42). FluidNC only accepts G40." }
+        {
+          "firmwareId": "grbl",
+          "code": "G40",
+          "note": "Identical \u2014 cutter compensation is accepted but not actively implemented in either firmware."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G40",
+          "note": "LinuxCNC fully implements cutter compensation (G41/G42). FluidNC only accepts G40."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "G43.1",
       "type": "G",
       "name": "Dynamic Tool Length Offset",
-      "description": "Creates a tool length offset from the current coordinate system. No motion is generated. Does NOT support the G43 H<tool> format — FluidNC does not maintain a tool offset table.",
+      "description": "Creates a tool length offset from the current coordinate system. No motion is generated. Does NOT support the G43 H<tool> format \u2014 FluidNC does not maintain a tool offset table.",
       "parameters": [
-        { "name": "X", "description": "TLO X offset", "optional": true },
-        { "name": "Y", "description": "TLO Y offset", "optional": true },
-        { "name": "Z", "description": "TLO Z offset", "optional": true }
+        {
+          "name": "X",
+          "description": "TLO X offset",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "TLO Y offset",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "TLO Z offset",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G43.1 Z-5.2", "description": "Set tool length offset of -5.2mm in Z" }
+        {
+          "code": "G43.1 Z-5.2",
+          "description": "Set tool length offset of -5.2mm in Z"
+        }
       ],
-      "relatedCodes": ["G49"],
+      "relatedCodes": [
+        "G49"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G43.1", "note": "Identical behavior — grbl also only supports G43.1, not G43 H." },
-        { "firmwareId": "linuxcnc", "code": "G43", "note": "LinuxCNC supports both G43 H<tool> (from tool table) and G43.1 (dynamic). FluidNC only supports G43.1." }
+        {
+          "firmwareId": "grbl",
+          "code": "G43.1",
+          "note": "Identical behavior \u2014 grbl also only supports G43.1, not G43 H."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G43",
+          "note": "LinuxCNC supports both G43 H<tool> (from tool table) and G43.1 (dynamic). FluidNC only supports G43.1."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "G49",
@@ -531,37 +1386,83 @@
       "description": "Resets the tool length offset to zero.",
       "parameters": [],
       "examples": [
-        { "code": "G49", "description": "Clear tool length offset" }
+        {
+          "code": "G49",
+          "description": "Clear tool length offset"
+        }
       ],
-      "relatedCodes": ["G43.1"],
+      "relatedCodes": [
+        "G43.1"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G49", "note": "Identical behavior." },
-        { "firmwareId": "linuxcnc", "code": "G49", "note": "Identical behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "G49",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G49",
+          "note": "Identical behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "G53",
       "type": "G",
       "name": "Move in Machine Coordinates",
-      "description": "Moves to an absolute machine position, ignoring all work coordinate offsets. Not modal — only active for the line it appears on. Does not consider G90/G91.",
+      "description": "Moves to an absolute machine position, ignoring all work coordinate offsets. Not modal \u2014 only active for the line it appears on. Does not consider G90/G91.",
       "parameters": [
-        { "name": "X", "description": "Machine X position", "optional": true },
-        { "name": "Y", "description": "Machine Y position", "optional": true },
-        { "name": "Z", "description": "Machine Z position", "optional": true }
+        {
+          "name": "X",
+          "description": "Machine X position",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Machine Y position",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Machine Z position",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G53 G0 X0 Y0 Z0", "description": "Rapid to machine origin" },
-        { "code": "G53 G0 Z0", "description": "Rapid Z to machine zero (top of travel)" }
+        {
+          "code": "G53 G0 X0 Y0 Z0",
+          "description": "Rapid to machine origin"
+        },
+        {
+          "code": "G53 G0 Z0",
+          "description": "Rapid Z to machine zero (top of travel)"
+        }
       ],
-      "relatedCodes": ["G54", "G28"],
+      "relatedCodes": [
+        "G54",
+        "G28"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G53", "note": "Identical behavior." },
-        { "firmwareId": "linuxcnc", "code": "G53", "note": "Identical behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "G53",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G53",
+          "note": "Identical behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"],
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ],
       "notes": "The selected coordinate system is never changed by G53."
     },
     {
@@ -571,15 +1472,35 @@
       "description": "Selects work coordinate system 1. This is the default coordinate system at startup. Offsets are set with G10 and stored in NVS.",
       "parameters": [],
       "examples": [
-        { "code": "G54", "description": "Switch to coordinate system 1 (default)" }
+        {
+          "code": "G54",
+          "description": "Switch to coordinate system 1 (default)"
+        }
       ],
-      "relatedCodes": ["G55", "G56", "G57", "G58", "G59", "G10"],
+      "relatedCodes": [
+        "G55",
+        "G56",
+        "G57",
+        "G58",
+        "G59",
+        "G10"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G54", "note": "Identical behavior." },
-        { "firmwareId": "linuxcnc", "code": "G54", "note": "Identical behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "G54",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G54",
+          "note": "Identical behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"],
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ],
       "notes": "Offsets stored in NVS and restored at startup. Read current offsets with $#."
     },
     {
@@ -588,13 +1509,31 @@
       "name": "Select Coordinate System 2",
       "description": "Selects work coordinate system 2.",
       "parameters": [],
-      "examples": [{ "code": "G55", "description": "Switch to coordinate system 2" }],
-      "relatedCodes": ["G54", "G56", "G57", "G58", "G59", "G10"],
+      "examples": [
+        {
+          "code": "G55",
+          "description": "Switch to coordinate system 2"
+        }
+      ],
+      "relatedCodes": [
+        "G54",
+        "G56",
+        "G57",
+        "G58",
+        "G59",
+        "G10"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G55", "note": "Identical behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "G55",
+          "note": "Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "G56",
@@ -602,13 +1541,31 @@
       "name": "Select Coordinate System 3",
       "description": "Selects work coordinate system 3.",
       "parameters": [],
-      "examples": [{ "code": "G56", "description": "Switch to coordinate system 3" }],
-      "relatedCodes": ["G54", "G55", "G57", "G58", "G59", "G10"],
+      "examples": [
+        {
+          "code": "G56",
+          "description": "Switch to coordinate system 3"
+        }
+      ],
+      "relatedCodes": [
+        "G54",
+        "G55",
+        "G57",
+        "G58",
+        "G59",
+        "G10"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G56", "note": "Identical behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "G56",
+          "note": "Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "G57",
@@ -616,13 +1573,31 @@
       "name": "Select Coordinate System 4",
       "description": "Selects work coordinate system 4.",
       "parameters": [],
-      "examples": [{ "code": "G57", "description": "Switch to coordinate system 4" }],
-      "relatedCodes": ["G54", "G55", "G56", "G58", "G59", "G10"],
+      "examples": [
+        {
+          "code": "G57",
+          "description": "Switch to coordinate system 4"
+        }
+      ],
+      "relatedCodes": [
+        "G54",
+        "G55",
+        "G56",
+        "G58",
+        "G59",
+        "G10"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G57", "note": "Identical behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "G57",
+          "note": "Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "G58",
@@ -630,13 +1605,31 @@
       "name": "Select Coordinate System 5",
       "description": "Selects work coordinate system 5.",
       "parameters": [],
-      "examples": [{ "code": "G58", "description": "Switch to coordinate system 5" }],
-      "relatedCodes": ["G54", "G55", "G56", "G57", "G59", "G10"],
+      "examples": [
+        {
+          "code": "G58",
+          "description": "Switch to coordinate system 5"
+        }
+      ],
+      "relatedCodes": [
+        "G54",
+        "G55",
+        "G56",
+        "G57",
+        "G59",
+        "G10"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G58", "note": "Identical behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "G58",
+          "note": "Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "G59",
@@ -644,13 +1637,218 @@
       "name": "Select Coordinate System 6",
       "description": "Selects work coordinate system 6.",
       "parameters": [],
-      "examples": [{ "code": "G59", "description": "Switch to coordinate system 6" }],
-      "relatedCodes": ["G54", "G55", "G56", "G57", "G58", "G10"],
+      "examples": [
+        {
+          "code": "G59",
+          "description": "Switch to coordinate system 6"
+        }
+      ],
+      "relatedCodes": [
+        "G54",
+        "G55",
+        "G56",
+        "G57",
+        "G58",
+        "G10"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G59", "note": "Identical behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "G59",
+          "note": "Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
+    },
+    {
+      "code": "G59.1",
+      "type": "G",
+      "name": "Select Coordinate System 7",
+      "description": "Selects work coordinate system 7.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "G59.1",
+          "description": "Switch to coordinate system 7"
+        }
+      ],
+      "relatedCodes": [
+        "G54",
+        "G59",
+        "G59.2",
+        "G59.3",
+        "G10"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grblhal",
+          "code": "G59.1",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G59.1",
+          "note": "Identical behavior per NIST standard."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/bdring/FluidNC/blob/main/FluidNC/src/GCode.h"
+      ]
+    },
+    {
+      "code": "G59.2",
+      "type": "G",
+      "name": "Select Coordinate System 8",
+      "description": "Selects work coordinate system 8.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "G59.2",
+          "description": "Switch to coordinate system 8"
+        }
+      ],
+      "relatedCodes": [
+        "G54",
+        "G59",
+        "G59.1",
+        "G59.3",
+        "G10"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grblhal",
+          "code": "G59.2",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G59.2",
+          "note": "Identical behavior per NIST standard."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/bdring/FluidNC/blob/main/FluidNC/src/GCode.h"
+      ]
+    },
+    {
+      "code": "G59.3",
+      "type": "G",
+      "name": "Select Coordinate System 9",
+      "description": "Selects work coordinate system 9.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "G59.3",
+          "description": "Switch to coordinate system 9"
+        }
+      ],
+      "relatedCodes": [
+        "G54",
+        "G59",
+        "G59.1",
+        "G59.2",
+        "G10"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grblhal",
+          "code": "G59.3",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G59.3",
+          "note": "Identical behavior per NIST standard."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/bdring/FluidNC/blob/main/FluidNC/src/GCode.h"
+      ]
+    },
+    {
+      "code": "G61",
+      "type": "G",
+      "name": "Exact Path Mode",
+      "description": "Selects exact path mode. Accepted for compatibility but does not change FluidNC behavior \u2014 the motion planner always operates in its default path mode.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "G61",
+          "description": "Select exact path mode (no-op in FluidNC)"
+        }
+      ],
+      "relatedCodes": [
+        "G64"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "G61",
+          "note": "grbl also accepts G61 for compatibility but has no configurable path modes."
+        },
+        {
+          "firmwareId": "grblhal",
+          "code": "G61",
+          "note": "grblHAL accepts G61. Also supports G61.1 and G64."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G61",
+          "note": "LinuxCNC fully implements G61 exact path mode with functional behavior differences from G64 blending mode."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/bdring/FluidNC/blob/main/FluidNC/src/GCode.cpp"
+      ],
+      "notes": "Parsed for G-code compatibility but has no functional effect. FluidNC does not support G61.1 or G64."
+    },
+    {
+      "code": "G80",
+      "type": "G",
+      "name": "Cancel Motion Mode",
+      "description": "Cancels the current motion mode. After G80, any axis words without a motion command (G0, G1, G2, G3) will produce an error. This is a motion mode cancel, not a canned cycle cancel \u2014 FluidNC does not support canned cycles.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "G80",
+          "description": "Cancel active motion mode"
+        }
+      ],
+      "relatedCodes": [
+        "G0",
+        "G1",
+        "G2",
+        "G3"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "G80",
+          "note": "Identical behavior \u2014 motion mode cancel."
+        },
+        {
+          "firmwareId": "grblhal",
+          "code": "G80",
+          "note": "grblHAL uses G80 both as motion mode cancel and canned cycle cancel (G81-G89)."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G80",
+          "note": "LinuxCNC uses G80 both as motion mode cancel and canned cycle cancel (G73, G76, G81-G89)."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/bdring/FluidNC/blob/main/FluidNC/src/GCode.cpp"
+      ],
+      "notes": "FluidNC has no canned cycles, so G80 only cancels the current motion mode (G0/G1/G2/G3)."
     },
     {
       "code": "G90",
@@ -659,16 +1857,34 @@
       "description": "Axis values in subsequent commands are interpreted as absolute positions.",
       "parameters": [],
       "examples": [
-        { "code": "G90", "description": "Switch to absolute positioning" },
-        { "code": "G90 G0 X10 Y20", "description": "Move to absolute position X10 Y20" }
+        {
+          "code": "G90",
+          "description": "Switch to absolute positioning"
+        },
+        {
+          "code": "G90 G0 X10 Y20",
+          "description": "Move to absolute position X10 Y20"
+        }
       ],
-      "relatedCodes": ["G91"],
+      "relatedCodes": [
+        "G91"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G90", "note": "Identical behavior." },
-        { "firmwareId": "linuxcnc", "code": "G90", "note": "Identical behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "G90",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G90",
+          "note": "Identical behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "G91",
@@ -677,38 +1893,161 @@
       "description": "Axis values in subsequent commands are interpreted as distances to move from the current position.",
       "parameters": [],
       "examples": [
-        { "code": "G91", "description": "Switch to incremental positioning" },
-        { "code": "G91 G0 X5", "description": "Move 5 units in the +X direction" }
+        {
+          "code": "G91",
+          "description": "Switch to incremental positioning"
+        },
+        {
+          "code": "G91 G0 X5",
+          "description": "Move 5 units in the +X direction"
+        }
       ],
-      "relatedCodes": ["G90"],
+      "relatedCodes": [
+        "G90"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G91", "note": "Identical behavior." },
-        { "firmwareId": "linuxcnc", "code": "G91", "note": "Identical behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "G91",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G91",
+          "note": "Identical behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
+    },
+    {
+      "code": "G91.1",
+      "type": "G",
+      "name": "Incremental Arc Distance Mode",
+      "description": "Sets arc center offsets (I, J, K) to incremental mode. This is the default and only supported arc distance mode in FluidNC. G90.1 (absolute arc mode) is not supported.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "G91.1",
+          "description": "Set incremental arc distance mode (default)"
+        }
+      ],
+      "relatedCodes": [
+        "G2",
+        "G3"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "G91.1",
+          "note": "Identical behavior \u2014 incremental arc mode is the only supported mode."
+        },
+        {
+          "firmwareId": "grblhal",
+          "code": "G91.1",
+          "note": "Identical behavior. grblHAL also does not support G90.1."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G91.1",
+          "note": "LinuxCNC supports both G91.1 and G90.1 (absolute arc mode)."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/bdring/FluidNC/blob/main/FluidNC/src/GCode.cpp"
+      ],
+      "notes": "Default mode. G90.1 (absolute arc distance mode) returns an unsupported command error."
     },
     {
       "code": "G92",
       "type": "G",
       "name": "Coordinate System Offset",
-      "description": "Sets the current work position to the specified value by applying an offset. Volatile — lost on reboot. Does not affect soft limits.",
+      "description": "Sets the current work position to the specified value by applying an offset. Volatile \u2014 lost on reboot. Does not affect soft limits.",
       "parameters": [
-        { "name": "X", "description": "New X work position", "optional": true },
-        { "name": "Y", "description": "New Y work position", "optional": true },
-        { "name": "Z", "description": "New Z work position", "optional": true }
+        {
+          "name": "X",
+          "description": "New X work position",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "New Y work position",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "New Z work position",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "G92 X0 Y0 Z0", "description": "Set current position as work zero" }
+        {
+          "code": "G92 X0 Y0 Z0",
+          "description": "Set current position as work zero"
+        }
       ],
-      "relatedCodes": ["G10", "G54"],
+      "relatedCodes": [
+        "G10",
+        "G54"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G92", "note": "Identical behavior." },
-        { "firmwareId": "linuxcnc", "code": "G92", "note": "WARNING: LinuxCNC persists G92 across reboots. FluidNC does not — G92 offsets are volatile." }
+        {
+          "firmwareId": "grbl",
+          "code": "G92",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G92",
+          "note": "WARNING: LinuxCNC persists G92 across reboots. FluidNC does not \u2014 G92 offsets are volatile."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"],
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ],
       "notes": "The FluidNC wiki recommends G10 instead of G92 for most users, as G10 offsets persist in NVS."
+    },
+    {
+      "code": "G92.1",
+      "type": "G",
+      "name": "Clear Coordinate System Offset",
+      "description": "Clears all G92 offsets by zeroing them out. Does not affect G54-G59 work coordinate offsets set with G10.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "G92.1",
+          "description": "Clear all G92 offsets"
+        }
+      ],
+      "relatedCodes": [
+        "G92",
+        "G10"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "G92.1",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "grblhal",
+          "code": "G92.1",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G92.1",
+          "note": "Same behavior. LinuxCNC also supports G92.2 (clear without reset) and G92.3 (restore), which FluidNC does not."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/bdring/FluidNC/blob/main/FluidNC/src/GCode.cpp"
+      ]
     },
     {
       "code": "G93",
@@ -717,32 +2056,62 @@
       "description": "F word specifies that the move should be completed in 1/F minutes. F must appear on every G1/G2/G3 line when this mode is active.",
       "parameters": [],
       "examples": [
-        { "code": "G93 G1 X10 F2", "description": "Move to X10, complete in 0.5 minutes" }
+        {
+          "code": "G93 G1 X10 F2",
+          "description": "Move to X10, complete in 0.5 minutes"
+        }
       ],
-      "relatedCodes": ["G94"],
+      "relatedCodes": [
+        "G94"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G93", "note": "Identical behavior." },
-        { "firmwareId": "linuxcnc", "code": "G93", "note": "Identical behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "G93",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G93",
+          "note": "Identical behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "G94",
       "type": "G",
       "name": "Units Per Minute Feed Rate Mode",
-      "description": "Standard feed rate interpretation — F value specifies speed in units per minute. This is the default mode.",
+      "description": "Standard feed rate interpretation \u2014 F value specifies speed in units per minute. This is the default mode.",
       "parameters": [],
       "examples": [
-        { "code": "G94", "description": "Switch to standard feed rate mode" }
+        {
+          "code": "G94",
+          "description": "Switch to standard feed rate mode"
+        }
       ],
-      "relatedCodes": ["G93"],
+      "relatedCodes": [
+        "G93"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "G94", "note": "Identical behavior." },
-        { "firmwareId": "linuxcnc", "code": "G94", "note": "Identical behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "G94",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "G94",
+          "note": "Identical behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "M0",
@@ -751,15 +2120,71 @@
       "description": "Puts the machine into hold mode. Resume with the ~ real-time command or a cycle_start_pin signal.",
       "parameters": [],
       "examples": [
-        { "code": "M0", "description": "Pause program and wait for resume" }
+        {
+          "code": "M0",
+          "description": "Pause program and wait for resume"
+        }
       ],
-      "relatedCodes": ["M2", "M30"],
+      "relatedCodes": [
+        "M2",
+        "M30"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "M0", "note": "Identical behavior." },
-        { "firmwareId": "linuxcnc", "code": "M0", "note": "Identical behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "M0",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M0",
+          "note": "Identical behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
+    },
+    {
+      "code": "M1",
+      "type": "M",
+      "name": "Optional Stop",
+      "description": "Optional program stop. Parsed for compatibility but does not pause execution in FluidNC. Use M0 for a functional program pause.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "M1",
+          "description": "Optional stop (non-functional in FluidNC)"
+        }
+      ],
+      "relatedCodes": [
+        "M0",
+        "M2",
+        "M30"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "M1",
+          "note": "grbl also parses M1 but it functions identically to M0 (pause)."
+        },
+        {
+          "firmwareId": "grblhal",
+          "code": "M1",
+          "note": "grblHAL supports M1 with an optional stop control input pin."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M1",
+          "note": "LinuxCNC fully supports M1 \u2014 pauses only when the optional stop switch is enabled in the UI."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/bdring/FluidNC/blob/main/FluidNC/src/GCode.cpp"
+      ],
+      "notes": "Accepted without error for G-code compatibility but performs no action. Use M0 for program pause."
     },
     {
       "code": "M2",
@@ -768,62 +2193,139 @@
       "description": "Ends the program and resets modal states to defaults: G54, G17, G90, G94, M5, M9, G40, G1, M48.",
       "parameters": [],
       "examples": [
-        { "code": "M2", "description": "End program" }
+        {
+          "code": "M2",
+          "description": "End program"
+        }
       ],
-      "relatedCodes": ["M30"],
+      "relatedCodes": [
+        "M30"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "M2", "note": "Identical behavior." },
-        { "firmwareId": "linuxcnc", "code": "M2", "note": "Identical behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "M2",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M2",
+          "note": "Identical behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"],
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ],
       "notes": "Should only be used at the end of a G-code file."
     },
     {
       "code": "M3",
       "type": "M",
       "name": "Spindle On CW / Laser Constant Power",
-      "description": "Turns spindle on clockwise at the specified S speed. In laser mode, M3 enables constant power mode — laser output stays at the S value regardless of motion speed.",
+      "description": "Turns spindle on clockwise at the specified S speed. In laser mode, M3 enables constant power mode \u2014 laser output stays at the S value regardless of motion speed.",
       "parameters": [
-        { "name": "S", "description": "Spindle speed (RPM) or laser power level", "optional": true, "example": "S10000" }
+        {
+          "name": "S",
+          "description": "Spindle speed (RPM) or laser power level",
+          "optional": true,
+          "example": "S10000"
+        }
       ],
       "examples": [
-        { "code": "M3 S10000", "description": "Start spindle CW at 10000 RPM" },
-        { "code": "M3 S255", "description": "Laser on at power level 255 (constant)" }
+        {
+          "code": "M3 S10000",
+          "description": "Start spindle CW at 10000 RPM"
+        },
+        {
+          "code": "M3 S255",
+          "description": "Laser on at power level 255 (constant)"
+        }
       ],
-      "relatedCodes": ["M4", "M5"],
+      "relatedCodes": [
+        "M4",
+        "M5"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "M3", "note": "Identical behavior including laser constant power mode." },
-        { "firmwareId": "grblhal", "code": "M3", "note": "Identical behavior." },
-        { "firmwareId": "smoothieware", "code": "M3", "note": "Smoothieware M3 behavior depends on module configuration rather than $ settings." },
-        { "firmwareId": "reprapfirmware", "code": "M3", "note": "RepRapFirmware requires M452 to enable laser mode. Laser power is set inline on G1 S, not on M3." }
+        {
+          "firmwareId": "grbl",
+          "code": "M3",
+          "note": "Identical behavior including laser constant power mode."
+        },
+        {
+          "firmwareId": "grblhal",
+          "code": "M3",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "smoothieware",
+          "code": "M3",
+          "note": "Smoothieware M3 behavior depends on module configuration rather than $ settings."
+        },
+        {
+          "firmwareId": "reprapfirmware",
+          "code": "M3",
+          "note": "RepRapFirmware requires M452 to enable laser mode. Laser power is set inline on G1 S, not on M3."
+        }
       ],
       "modeNotes": [
-        { "mode": "Laser mode", "description": "M3 enables constant power mode. Laser stays at set power during moves and dwells. Use M4 for dynamic power that scales with speed." }
+        {
+          "mode": "Laser mode",
+          "description": "M3 enables constant power mode. Laser stays at set power during moves and dwells. Use M4 for dynamic power that scales with speed."
+        }
       ],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "M4",
       "type": "M",
       "name": "Spindle On CCW / Laser Dynamic Power",
-      "description": "Turns spindle on counter-clockwise at the specified S speed. In laser mode, M4 enables dynamic power mode — laser output scales proportionally with movement speed during acceleration and deceleration.",
+      "description": "Turns spindle on counter-clockwise at the specified S speed. In laser mode, M4 enables dynamic power mode \u2014 laser output scales proportionally with movement speed during acceleration and deceleration.",
       "parameters": [
-        { "name": "S", "description": "Spindle speed (RPM) or laser power level", "optional": true, "example": "S1000" }
+        {
+          "name": "S",
+          "description": "Spindle speed (RPM) or laser power level",
+          "optional": true,
+          "example": "S1000"
+        }
       ],
       "examples": [
-        { "code": "M4 S1000", "description": "Start spindle CCW at 1000 RPM" },
-        { "code": "M4 S255", "description": "Laser on at power level 255 (dynamic)" }
+        {
+          "code": "M4 S1000",
+          "description": "Start spindle CCW at 1000 RPM"
+        },
+        {
+          "code": "M4 S255",
+          "description": "Laser on at power level 255 (dynamic)"
+        }
       ],
-      "relatedCodes": ["M3", "M5"],
+      "relatedCodes": [
+        "M3",
+        "M5"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "M4", "note": "Identical behavior including laser dynamic power mode." },
-        { "firmwareId": "grblhal", "code": "M4", "note": "Identical behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "M4",
+          "note": "Identical behavior including laser dynamic power mode."
+        },
+        {
+          "firmwareId": "grblhal",
+          "code": "M4",
+          "note": "Identical behavior."
+        }
       ],
       "modeNotes": [
-        { "mode": "Laser mode", "description": "M4 enables dynamic power mode. Power scales with speed, preventing burns during acceleration/deceleration. Recommended for most laser engraving." }
+        {
+          "mode": "Laser mode",
+          "description": "M4 enables dynamic power mode. Power scales with speed, preventing burns during acceleration/deceleration. Recommended for most laser engraving."
+        }
       ],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "M5",
@@ -832,15 +2334,31 @@
       "description": "Disables the spindle. Disable behavior (coast-down, braking) is configurable in the spindle config section.",
       "parameters": [],
       "examples": [
-        { "code": "M5", "description": "Stop spindle/laser" }
+        {
+          "code": "M5",
+          "description": "Stop spindle/laser"
+        }
       ],
-      "relatedCodes": ["M3", "M4"],
+      "relatedCodes": [
+        "M3",
+        "M4"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "M5", "note": "Identical behavior." },
-        { "firmwareId": "linuxcnc", "code": "M5", "note": "Identical behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "M5",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M5",
+          "note": "Identical behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "M6",
@@ -848,21 +2366,96 @@
       "name": "Tool Change",
       "description": "Changes to the tool specified by T. The T word can appear on the same line or on a previous line. In FluidNC with multiple spindles configured, M6 can switch between spindle types (e.g., laser and router) based on tool number ranges.",
       "parameters": [
-        { "name": "T", "description": "Tool number", "optional": false, "example": "T1" }
+        {
+          "name": "T",
+          "description": "Tool number",
+          "optional": false,
+          "example": "T1"
+        }
       ],
       "examples": [
-        { "code": "T1 M6", "description": "Change to tool 1" },
-        { "code": "M6 T2", "description": "Change to tool 2" }
+        {
+          "code": "T1 M6",
+          "description": "Change to tool 1"
+        },
+        {
+          "code": "M6 T2",
+          "description": "Change to tool 2"
+        }
       ],
-      "relatedCodes": ["M61"],
+      "relatedCodes": [
+        "M61"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "M6", "note": "grbl does not support M6. FluidNC adds tool change support with configurable m6_macro per spindle." },
-        { "firmwareId": "grblhal", "code": "M6", "note": "grblHAL supports M6 with tool change modes (manual, semi-automatic, ATC). FluidNC uses m6_macro scripts." },
-        { "firmwareId": "linuxcnc", "code": "M6", "note": "LinuxCNC supports M6 with tool table and tool changer HAL integration. FluidNC uses a simpler macro-based approach." }
+        {
+          "firmwareId": "grbl",
+          "code": "M6",
+          "note": "grbl does not support M6. FluidNC adds tool change support with configurable m6_macro per spindle."
+        },
+        {
+          "firmwareId": "grblhal",
+          "code": "M6",
+          "note": "grblHAL supports M6 with tool change modes (manual, semi-automatic, ATC). FluidNC uses m6_macro scripts."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M6",
+          "note": "LinuxCNC supports M6 with tool table and tool changer HAL integration. FluidNC uses a simpler macro-based approach."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"],
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ],
       "notes": "Each spindle can have its own m6_macro configured in the YAML config file."
+    },
+    {
+      "code": "M68",
+      "type": "M",
+      "name": "Set Analog Output (Immediate)",
+      "description": "Sets a PWM duty cycle on an analog output immediately, without waiting for motion synchronization. Output is configured in the user output section of the YAML config.",
+      "parameters": [
+        {
+          "name": "E",
+          "description": "Analog output number",
+          "optional": false,
+          "example": "E0"
+        },
+        {
+          "name": "Q",
+          "description": "Duty cycle 0-100%",
+          "optional": false,
+          "example": "Q50"
+        }
+      ],
+      "examples": [
+        {
+          "code": "M68 E0 Q75",
+          "description": "Immediately set analog output 0 to 75% duty cycle"
+        }
+      ],
+      "relatedCodes": [
+        "M67",
+        "M62",
+        "M63"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M68",
+          "note": "Same behavior \u2014 immediate analog output control."
+        },
+        {
+          "firmwareId": "grblhal",
+          "code": "M68",
+          "note": "Same behavior \u2014 immediate analog output."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/bdring/FluidNC/blob/main/FluidNC/src/GCode.cpp"
+      ],
+      "notes": "Unlike M67, M68 takes effect immediately rather than being synchronized with motion. Useful for controlling external devices that need instant response."
     },
     {
       "code": "M7",
@@ -871,33 +2464,67 @@
       "description": "Activates the mist coolant digital output. The output can be repurposed for any function (e.g., vacuum, air blast).",
       "parameters": [],
       "examples": [
-        { "code": "M7", "description": "Turn on mist coolant" }
+        {
+          "code": "M7",
+          "description": "Turn on mist coolant"
+        }
       ],
-      "relatedCodes": ["M7.1", "M8", "M9"],
+      "relatedCodes": [
+        "M7.1",
+        "M8",
+        "M9"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "M7", "note": "Identical behavior. grbl requires compile-time option to enable M7." },
-        { "firmwareId": "linuxcnc", "code": "M7", "note": "Identical behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "M7",
+          "note": "Identical behavior. grbl requires compile-time option to enable M7."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M7",
+          "note": "Identical behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "M7.1",
       "type": "M",
       "name": "Mist Coolant Off",
-      "description": "Turns off mist coolant individually without affecting flood coolant. FluidNC-specific command — no standard M-code equivalent exists.",
+      "description": "Turns off mist coolant individually without affecting flood coolant. FluidNC-specific command \u2014 no standard M-code equivalent exists.",
       "parameters": [],
       "examples": [
-        { "code": "M7.1", "description": "Turn off mist coolant only" }
+        {
+          "code": "M7.1",
+          "description": "Turn off mist coolant only"
+        }
       ],
-      "relatedCodes": ["M7", "M8.1", "M9"],
+      "relatedCodes": [
+        "M7",
+        "M8.1",
+        "M9"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "M9", "note": "FluidNC-only command. In grbl, use M9 to turn off all coolant (no way to turn off mist individually)." },
-        { "firmwareId": "linuxcnc", "code": "M9", "note": "FluidNC-only command. No LinuxCNC equivalent for individual coolant off." }
+        {
+          "firmwareId": "grbl",
+          "code": "M9",
+          "note": "FluidNC-only command. In grbl, use M9 to turn off all coolant (no way to turn off mist individually)."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M9",
+          "note": "FluidNC-only command. No LinuxCNC equivalent for individual coolant off."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"],
-      "notes": "Non-standard — decimal M-codes are a FluidNC extension."
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ],
+      "notes": "Non-standard \u2014 decimal M-codes are a FluidNC extension."
     },
     {
       "code": "M8",
@@ -906,15 +2533,32 @@
       "description": "Activates the flood coolant digital output. The output can be repurposed for any function (e.g., vacuum, air blast).",
       "parameters": [],
       "examples": [
-        { "code": "M8", "description": "Turn on flood coolant" }
+        {
+          "code": "M8",
+          "description": "Turn on flood coolant"
+        }
       ],
-      "relatedCodes": ["M7", "M8.1", "M9"],
+      "relatedCodes": [
+        "M7",
+        "M8.1",
+        "M9"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "M8", "note": "Identical behavior." },
-        { "firmwareId": "linuxcnc", "code": "M8", "note": "Identical behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "M8",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M8",
+          "note": "Identical behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "M8.1",
@@ -923,16 +2567,33 @@
       "description": "Turns off flood coolant individually without affecting mist coolant. FluidNC-specific command.",
       "parameters": [],
       "examples": [
-        { "code": "M8.1", "description": "Turn off flood coolant only" }
+        {
+          "code": "M8.1",
+          "description": "Turn off flood coolant only"
+        }
       ],
-      "relatedCodes": ["M8", "M7.1", "M9"],
+      "relatedCodes": [
+        "M8",
+        "M7.1",
+        "M9"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "M9", "note": "FluidNC-only command. In grbl, use M9 to turn off all coolant." },
-        { "firmwareId": "linuxcnc", "code": "M9", "note": "FluidNC-only command. No LinuxCNC equivalent." }
+        {
+          "firmwareId": "grbl",
+          "code": "M9",
+          "note": "FluidNC-only command. In grbl, use M9 to turn off all coolant."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M9",
+          "note": "FluidNC-only command. No LinuxCNC equivalent."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"],
-      "notes": "Non-standard — decimal M-codes are a FluidNC extension."
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ],
+      "notes": "Non-standard \u2014 decimal M-codes are a FluidNC extension."
     },
     {
       "code": "M9",
@@ -941,32 +2602,65 @@
       "description": "Turns off both mist (M7) and flood (M8) coolant outputs.",
       "parameters": [],
       "examples": [
-        { "code": "M9", "description": "Turn off all coolant" }
+        {
+          "code": "M9",
+          "description": "Turn off all coolant"
+        }
       ],
-      "relatedCodes": ["M7", "M7.1", "M8", "M8.1"],
+      "relatedCodes": [
+        "M7",
+        "M7.1",
+        "M8",
+        "M8.1"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "M9", "note": "Identical behavior." },
-        { "firmwareId": "linuxcnc", "code": "M9", "note": "Identical behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "M9",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M9",
+          "note": "Identical behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "M30",
       "type": "M",
       "name": "Program End",
-      "description": "Ends the program. Same effects as M2 — resets modal states to defaults.",
+      "description": "Ends the program. Same effects as M2 \u2014 resets modal states to defaults.",
       "parameters": [],
       "examples": [
-        { "code": "M30", "description": "End program" }
+        {
+          "code": "M30",
+          "description": "End program"
+        }
       ],
-      "relatedCodes": ["M2"],
+      "relatedCodes": [
+        "M2"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "M30", "note": "Identical behavior." },
-        { "firmwareId": "linuxcnc", "code": "M30", "note": "Identical behavior per NIST standard." }
+        {
+          "firmwareId": "grbl",
+          "code": "M30",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M30",
+          "note": "Identical behavior per NIST standard."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "M56",
@@ -974,18 +2668,35 @@
       "name": "Override Parking",
       "description": "Enables or disables parking motion override. FluidNC-specific command.",
       "parameters": [
-        { "name": "P", "description": "P0 = disable parking, P1 = enable parking", "optional": false, "example": "P0" }
+        {
+          "name": "P",
+          "description": "P0 = disable parking, P1 = enable parking",
+          "optional": false,
+          "example": "P0"
+        }
       ],
       "examples": [
-        { "code": "M56 P0", "description": "Disable parking" },
-        { "code": "M56 P1", "description": "Enable parking" }
+        {
+          "code": "M56 P0",
+          "description": "Disable parking"
+        },
+        {
+          "code": "M56 P1",
+          "description": "Enable parking"
+        }
       ],
       "relatedCodes": [],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "M56", "note": "FluidNC-only command. No grbl equivalent." }
+        {
+          "firmwareId": "grbl",
+          "code": "M56",
+          "note": "FluidNC-only command. No grbl equivalent."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "M61",
@@ -993,17 +2704,33 @@
       "name": "Set Current Tool",
       "description": "Changes the current tool number without performing a tool change macro. Does not affect tool length offset. Used when a tool is installed without FluidNC knowing.",
       "parameters": [
-        { "name": "Q", "description": "Tool number to set", "optional": false, "example": "Q1" }
+        {
+          "name": "Q",
+          "description": "Tool number to set",
+          "optional": false,
+          "example": "Q1"
+        }
       ],
       "examples": [
-        { "code": "M61 Q3", "description": "Set current tool to 3 without changing" }
+        {
+          "code": "M61 Q3",
+          "description": "Set current tool to 3 without changing"
+        }
       ],
-      "relatedCodes": ["M6"],
+      "relatedCodes": [
+        "M6"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "M61", "note": "Similar behavior — LinuxCNC M61 also sets tool number without motion." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M61",
+          "note": "Similar behavior \u2014 LinuxCNC M61 also sets tool number without motion."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "M62",
@@ -1011,18 +2738,40 @@
       "name": "Turn On Digital Output (Synchronized)",
       "description": "Turns on a digital output pin synchronized with motion. The output changes at the exact point in the motion queue where the command appears.",
       "parameters": [
-        { "name": "P", "description": "Digital output number", "optional": false, "example": "P0" }
+        {
+          "name": "P",
+          "description": "Digital output number",
+          "optional": false,
+          "example": "P0"
+        }
       ],
       "examples": [
-        { "code": "M62 P0", "description": "Turn on digital output 0 (synchronized)" }
+        {
+          "code": "M62 P0",
+          "description": "Turn on digital output 0 (synchronized)"
+        }
       ],
-      "relatedCodes": ["M63", "M64", "M65"],
+      "relatedCodes": [
+        "M63",
+        "M64",
+        "M65"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "M62", "note": "Same behavior — synchronized digital output control per LinuxCNC standard." },
-        { "firmwareId": "grbl", "code": "M62", "note": "No grbl equivalent. grbl does not support digital I/O M-codes." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M62",
+          "note": "Same behavior \u2014 synchronized digital output control per LinuxCNC standard."
+        },
+        {
+          "firmwareId": "grbl",
+          "code": "M62",
+          "note": "No grbl equivalent. grbl does not support digital I/O M-codes."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "M63",
@@ -1030,17 +2779,35 @@
       "name": "Turn Off Digital Output (Synchronized)",
       "description": "Turns off a digital output pin synchronized with motion.",
       "parameters": [
-        { "name": "P", "description": "Digital output number", "optional": false, "example": "P0" }
+        {
+          "name": "P",
+          "description": "Digital output number",
+          "optional": false,
+          "example": "P0"
+        }
       ],
       "examples": [
-        { "code": "M63 P0", "description": "Turn off digital output 0 (synchronized)" }
+        {
+          "code": "M63 P0",
+          "description": "Turn off digital output 0 (synchronized)"
+        }
       ],
-      "relatedCodes": ["M62", "M64", "M65"],
+      "relatedCodes": [
+        "M62",
+        "M64",
+        "M65"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "M63", "note": "Same behavior — synchronized digital output control." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M63",
+          "note": "Same behavior \u2014 synchronized digital output control."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "M64",
@@ -1048,17 +2815,35 @@
       "name": "Turn On Digital Output (Immediate)",
       "description": "Turns on a digital output pin immediately, without waiting for motion synchronization. Timing is unpredictable relative to motion.",
       "parameters": [
-        { "name": "P", "description": "Digital output number", "optional": false, "example": "P0" }
+        {
+          "name": "P",
+          "description": "Digital output number",
+          "optional": false,
+          "example": "P0"
+        }
       ],
       "examples": [
-        { "code": "M64 P0", "description": "Turn on digital output 0 immediately" }
+        {
+          "code": "M64 P0",
+          "description": "Turn on digital output 0 immediately"
+        }
       ],
-      "relatedCodes": ["M62", "M63", "M65"],
+      "relatedCodes": [
+        "M62",
+        "M63",
+        "M65"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "M64", "note": "Same behavior — immediate (unsynchronized) digital output." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M64",
+          "note": "Same behavior \u2014 immediate (unsynchronized) digital output."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"],
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ],
       "notes": "The FluidNC wiki recommends avoiding M64/M65 due to unpredictable timing. Use M62/M63 for synchronized output."
     },
     {
@@ -1067,40 +2852,92 @@
       "name": "Turn Off Digital Output (Immediate)",
       "description": "Turns off a digital output pin immediately, without waiting for motion synchronization.",
       "parameters": [
-        { "name": "P", "description": "Digital output number", "optional": false, "example": "P0" }
+        {
+          "name": "P",
+          "description": "Digital output number",
+          "optional": false,
+          "example": "P0"
+        }
       ],
       "examples": [
-        { "code": "M65 P0", "description": "Turn off digital output 0 immediately" }
+        {
+          "code": "M65 P0",
+          "description": "Turn off digital output 0 immediately"
+        }
       ],
-      "relatedCodes": ["M62", "M63", "M64"],
+      "relatedCodes": [
+        "M62",
+        "M63",
+        "M64"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "M65", "note": "Same behavior — immediate (unsynchronized) digital output." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M65",
+          "note": "Same behavior \u2014 immediate (unsynchronized) digital output."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"],
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ],
       "notes": "Avoid M65 for timing-critical operations. Use M63 instead."
     },
     {
       "code": "M66",
       "type": "M",
       "name": "Read User Input",
-      "description": "Reads a digital or analog user input. Partial implementation of LinuxCNC M66 — only immediate mode (L0) is supported. Result is stored in parameter #5399.",
+      "description": "Reads a digital or analog user input. Partial implementation of LinuxCNC M66 \u2014 only immediate mode (L0) is supported. Result is stored in parameter #5399.",
       "parameters": [
-        { "name": "P", "description": "Digital input number (0-7)", "optional": true, "example": "P0" },
-        { "name": "E", "description": "Analog input number (0-3)", "optional": true, "example": "E0" },
-        { "name": "L", "description": "Wait mode (only L0 immediate supported)", "optional": true, "example": "L0" },
-        { "name": "Q", "description": "Timeout (not used with L0)", "optional": true }
+        {
+          "name": "P",
+          "description": "Digital input number (0-7)",
+          "optional": true,
+          "example": "P0"
+        },
+        {
+          "name": "E",
+          "description": "Analog input number (0-3)",
+          "optional": true,
+          "example": "E0"
+        },
+        {
+          "name": "L",
+          "description": "Wait mode (only L0 immediate supported)",
+          "optional": true,
+          "example": "L0"
+        },
+        {
+          "name": "Q",
+          "description": "Timeout (not used with L0)",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "M66 P0 L0", "description": "Read digital input 0 immediately, result in #5399" },
-        { "code": "M66 E0 L0", "description": "Read analog input 0 immediately" }
+        {
+          "code": "M66 P0 L0",
+          "description": "Read digital input 0 immediately, result in #5399"
+        },
+        {
+          "code": "M66 E0 L0",
+          "description": "Read analog input 0 immediately"
+        }
       ],
-      "relatedCodes": ["M62", "M67"],
+      "relatedCodes": [
+        "M62",
+        "M67"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "M66", "note": "Partial implementation. LinuxCNC supports wait modes (L1-L4). FluidNC only supports L0 (immediate)." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M66",
+          "note": "Partial implementation. LinuxCNC supports wait modes (L1-L4). FluidNC only supports L0 (immediate)."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "M67",
@@ -1108,18 +2945,40 @@
       "name": "Set Analog Output (PWM)",
       "description": "Sets a PWM duty cycle on an analog output. Output is configured in the user output section of the YAML config.",
       "parameters": [
-        { "name": "E", "description": "Analog output number", "optional": false, "example": "E0" },
-        { "name": "Q", "description": "Duty cycle 0-100%", "optional": false, "example": "Q50" }
+        {
+          "name": "E",
+          "description": "Analog output number",
+          "optional": false,
+          "example": "E0"
+        },
+        {
+          "name": "Q",
+          "description": "Duty cycle 0-100%",
+          "optional": false,
+          "example": "Q50"
+        }
       ],
       "examples": [
-        { "code": "M67 E0 Q75", "description": "Set analog output 0 to 75% duty cycle" }
+        {
+          "code": "M67 E0 Q75",
+          "description": "Set analog output 0 to 75% duty cycle"
+        }
       ],
-      "relatedCodes": ["M62", "M66"],
+      "relatedCodes": [
+        "M62",
+        "M66"
+      ],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "M67", "note": "Same behavior — analog output control." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "M67",
+          "note": "Same behavior \u2014 analog output control."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/supported_gcodes"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/supported_gcodes"
+      ]
     },
     {
       "code": "$H",
@@ -1127,20 +2986,46 @@
       "name": "Home",
       "description": "Runs the homing cycle for all axes, or a single axis if specified. Each axis homes according to its configuration in the YAML config file.",
       "parameters": [
-        { "name": "axis", "description": "Optional single axis letter (e.g., $HX, $HY, $HZ)", "optional": true }
+        {
+          "name": "axis",
+          "description": "Optional single axis letter (e.g., $HX, $HY, $HZ)",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "$H", "description": "Home all axes" },
-        { "code": "$HX", "description": "Home X axis only" },
-        { "code": "$HZ", "description": "Home Z axis only" }
+        {
+          "code": "$H",
+          "description": "Home all axes"
+        },
+        {
+          "code": "$HX",
+          "description": "Home X axis only"
+        },
+        {
+          "code": "$HZ",
+          "description": "Home Z axis only"
+        }
       ],
-      "relatedCodes": ["$X", "G28"],
+      "relatedCodes": [
+        "$X",
+        "G28"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "$H", "note": "Identical behavior. Both support single-axis homing with $H<axis>." },
-        { "firmwareId": "grblhal", "code": "$H", "note": "Identical behavior. grblHAL also supports single-axis homing." }
+        {
+          "firmwareId": "grbl",
+          "code": "$H",
+          "note": "Identical behavior. Both support single-axis homing with $H<axis>."
+        },
+        {
+          "firmwareId": "grblhal",
+          "code": "$H",
+          "note": "Identical behavior. grblHAL also supports single-axis homing."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$X",
@@ -1149,15 +3034,30 @@
       "description": "Clears the alarm state and unlocks the machine. Full command name: $Alarm/Disable.",
       "parameters": [],
       "examples": [
-        { "code": "$X", "description": "Clear alarm and unlock machine" }
+        {
+          "code": "$X",
+          "description": "Clear alarm and unlock machine"
+        }
       ],
-      "relatedCodes": ["$H"],
+      "relatedCodes": [
+        "$H"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "$X", "note": "Identical behavior." },
-        { "firmwareId": "grblhal", "code": "$X", "note": "Identical behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "$X",
+          "note": "Identical behavior."
+        },
+        {
+          "firmwareId": "grblhal",
+          "code": "$X",
+          "note": "Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$J",
@@ -1165,39 +3065,89 @@
       "name": "Jog",
       "description": "Executes a jog motion. Format: $J=<axes> F<rate>. Jog motions can be cancelled with the 0x85 real-time command. Unlike grbl, FluidNC constrains jogs to the soft limit range instead of throwing an alarm.",
       "parameters": [
-        { "name": "X", "description": "Jog target/distance X", "optional": true },
-        { "name": "Y", "description": "Jog target/distance Y", "optional": true },
-        { "name": "Z", "description": "Jog target/distance Z", "optional": true },
-        { "name": "F", "description": "Jog feed rate", "optional": false }
+        {
+          "name": "X",
+          "description": "Jog target/distance X",
+          "optional": true
+        },
+        {
+          "name": "Y",
+          "description": "Jog target/distance Y",
+          "optional": true
+        },
+        {
+          "name": "Z",
+          "description": "Jog target/distance Z",
+          "optional": true
+        },
+        {
+          "name": "F",
+          "description": "Jog feed rate",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "$J=X10 F100", "description": "Jog X to 10 at 100mm/min" },
-        { "code": "$J=G91 X5 F200", "description": "Jog X +5mm incrementally at 200mm/min" }
+        {
+          "code": "$J=X10 F100",
+          "description": "Jog X to 10 at 100mm/min"
+        },
+        {
+          "code": "$J=G91 X5 F200",
+          "description": "Jog X +5mm incrementally at 200mm/min"
+        }
       ],
-      "relatedCodes": ["$H"],
+      "relatedCodes": [
+        "$H"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "$J", "note": "Similar but FluidNC constrains jogs to soft limits instead of throwing alarm 15." },
-        { "firmwareId": "grblhal", "code": "$J", "note": "Similar behavior. grblHAL also supports $J for jogging." }
+        {
+          "firmwareId": "grbl",
+          "code": "$J",
+          "note": "Similar but FluidNC constrains jogs to soft limits instead of throwing alarm 15."
+        },
+        {
+          "firmwareId": "grblhal",
+          "code": "$J",
+          "note": "Similar behavior. grblHAL also supports $J for jogging."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$$",
       "type": "$",
       "name": "Show Grbl Settings",
-      "description": "Shows grbl-compatible $number settings. Full command name: $GrblSettings/List. In FluidNC, most grbl $number settings are read-only compatibility values — actual configuration is done through YAML config files.",
+      "description": "Shows grbl-compatible $number settings. Full command name: $GrblSettings/List. In FluidNC, most grbl $number settings are read-only compatibility values \u2014 actual configuration is done through YAML config files.",
       "parameters": [],
       "examples": [
-        { "code": "$$", "description": "Show grbl-style settings (compatibility)" }
+        {
+          "code": "$$",
+          "description": "Show grbl-style settings (compatibility)"
+        }
       ],
-      "relatedCodes": ["$S", "$SC"],
+      "relatedCodes": [
+        "$S",
+        "$SC"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "$$", "note": "In grbl, $$ shows all configurable settings. In FluidNC, most are read-only and actual config is in YAML." },
-        { "firmwareId": "grblhal", "code": "$$", "note": "grblHAL uses $$ for live settings. FluidNC uses YAML config instead." }
+        {
+          "firmwareId": "grbl",
+          "code": "$$",
+          "note": "In grbl, $$ shows all configurable settings. In FluidNC, most are read-only and actual config is in YAML."
+        },
+        {
+          "firmwareId": "grblhal",
+          "code": "$$",
+          "note": "grblHAL uses $$ for live settings. FluidNC uses YAML config instead."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"],
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ],
       "notes": "Only $10 (Report/Status) is meaningfully configurable via $number syntax. Use $S for the full FluidNC settings list."
     },
     {
@@ -1207,14 +3157,26 @@
       "description": "Shows all coordinate system offsets stored in NVS. Full command name: $GCode/Offsets.",
       "parameters": [],
       "examples": [
-        { "code": "$#", "description": "Display all stored coordinate offsets" }
+        {
+          "code": "$#",
+          "description": "Display all stored coordinate offsets"
+        }
       ],
-      "relatedCodes": ["G54", "G10"],
+      "relatedCodes": [
+        "G54",
+        "G10"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "$#", "note": "Identical behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "$#",
+          "note": "Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$G",
@@ -1223,14 +3185,23 @@
       "description": "Shows the current active modal G-code states. Full command name: $GCode/Modes.",
       "parameters": [],
       "examples": [
-        { "code": "$G", "description": "Show current modal states (e.g., G0 G54 G17 G21 G90 G94 M5 M9 T0 F0 S0)" }
+        {
+          "code": "$G",
+          "description": "Show current modal states (e.g., G0 G54 G17 G21 G90 G94 M5 M9 T0 F0 S0)"
+        }
       ],
       "relatedCodes": [],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "$G", "note": "Identical behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "$G",
+          "note": "Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$I",
@@ -1239,14 +3210,25 @@
       "description": "Shows firmware version, build options, and machine info. Full command name: $Build/Info.",
       "parameters": [],
       "examples": [
-        { "code": "$I", "description": "Show FluidNC build information" }
+        {
+          "code": "$I",
+          "description": "Show FluidNC build information"
+        }
       ],
-      "relatedCodes": ["$ESP800"],
+      "relatedCodes": [
+        "$ESP800"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "$I", "note": "Similar — grbl also shows build info with $I." }
+        {
+          "firmwareId": "grbl",
+          "code": "$I",
+          "note": "Similar \u2014 grbl also shows build info with $I."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$S",
@@ -1255,14 +3237,26 @@
       "description": "Shows all FluidNC settings and their current values. Full command name: $Settings/List.",
       "parameters": [],
       "examples": [
-        { "code": "$S", "description": "List all FluidNC settings" }
+        {
+          "code": "$S",
+          "description": "List all FluidNC settings"
+        }
       ],
-      "relatedCodes": ["$$", "$SC"],
+      "relatedCodes": [
+        "$$",
+        "$SC"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "$$", "note": "FluidNC uses $S instead of $$ for the full settings list. $$ in FluidNC shows grbl-compatible settings only." }
+        {
+          "firmwareId": "grbl",
+          "code": "$$",
+          "note": "FluidNC uses $S instead of $$ for the full settings list. $$ in FluidNC shows grbl-compatible settings only."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$SC",
@@ -1271,28 +3265,44 @@
       "description": "Shows only settings that have been changed from their default values. Full command name: $Settings/ListChanged.",
       "parameters": [],
       "examples": [
-        { "code": "$SC", "description": "Show only non-default settings" }
+        {
+          "code": "$SC",
+          "description": "Show only non-default settings"
+        }
       ],
-      "relatedCodes": ["$S"],
+      "relatedCodes": [
+        "$S"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$C",
       "type": "$",
       "name": "G-code Check Mode",
-      "description": "Toggles G-code check mode — a virtual run that parses and validates G-code without producing motion. Full command name: $GCode/Check.",
+      "description": "Toggles G-code check mode \u2014 a virtual run that parses and validates G-code without producing motion. Full command name: $GCode/Check.",
       "parameters": [],
       "examples": [
-        { "code": "$C", "description": "Toggle check mode on/off" }
+        {
+          "code": "$C",
+          "description": "Toggle check mode on/off"
+        }
       ],
       "relatedCodes": [],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "$C", "note": "Identical behavior." }
+        {
+          "firmwareId": "grbl",
+          "code": "$C",
+          "note": "Identical behavior."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$Bye",
@@ -1301,14 +3311,23 @@
       "description": "Reboots the ESP32 processor.",
       "parameters": [],
       "examples": [
-        { "code": "$Bye", "description": "Reboot the controller" }
+        {
+          "code": "$Bye",
+          "description": "Reboot the controller"
+        }
       ],
       "relatedCodes": [],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "$Bye", "note": "FluidNC-only command. grbl does not have a software reboot command." }
+        {
+          "firmwareId": "grbl",
+          "code": "$Bye",
+          "note": "FluidNC-only command. grbl does not have a software reboot command."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$SD/Run",
@@ -1316,17 +3335,34 @@
       "name": "Run File from SD Card",
       "description": "Runs a G-code file from the SD card. Full command name: $SD/Run.",
       "parameters": [
-        { "name": "path", "description": "File path on SD card", "optional": false, "example": "/job.nc" }
+        {
+          "name": "path",
+          "description": "File path on SD card",
+          "optional": false,
+          "example": "/job.nc"
+        }
       ],
       "examples": [
-        { "code": "$SD/Run=/job.nc", "description": "Run job.nc from SD card" }
+        {
+          "code": "$SD/Run=/job.nc",
+          "description": "Run job.nc from SD card"
+        }
       ],
-      "relatedCodes": ["$SD/List", "$LocalFS/Run"],
+      "relatedCodes": [
+        "$SD/List",
+        "$LocalFS/Run"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "$SD/Run", "note": "FluidNC-only. grbl does not have filesystem support." }
+        {
+          "firmwareId": "grbl",
+          "code": "$SD/Run",
+          "note": "FluidNC-only. grbl does not have filesystem support."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$SD/List",
@@ -1335,14 +3371,26 @@
       "description": "Lists all files on the SD card.",
       "parameters": [],
       "examples": [
-        { "code": "$SD/List", "description": "List files on SD card" }
+        {
+          "code": "$SD/List",
+          "description": "List files on SD card"
+        }
       ],
-      "relatedCodes": ["$SD/Run", "$SD/Delete"],
+      "relatedCodes": [
+        "$SD/Run",
+        "$SD/Delete"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "$SD/List", "note": "FluidNC-only. grbl does not have filesystem support." }
+        {
+          "firmwareId": "grbl",
+          "code": "$SD/List",
+          "note": "FluidNC-only. grbl does not have filesystem support."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$SD/Delete",
@@ -1350,15 +3398,27 @@
       "name": "Delete SD Card File",
       "description": "Deletes a file from the SD card.",
       "parameters": [
-        { "name": "path", "description": "File path to delete", "optional": false }
+        {
+          "name": "path",
+          "description": "File path to delete",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "$SD/Delete=/old_job.nc", "description": "Delete old_job.nc from SD card" }
+        {
+          "code": "$SD/Delete=/old_job.nc",
+          "description": "Delete old_job.nc from SD card"
+        }
       ],
-      "relatedCodes": ["$SD/List", "$SD/Run"],
+      "relatedCodes": [
+        "$SD/List",
+        "$SD/Run"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$LocalFS/Run",
@@ -1366,15 +3426,27 @@
       "name": "Run File from Local Filesystem",
       "description": "Runs a G-code file from the ESP32's local flash filesystem.",
       "parameters": [
-        { "name": "path", "description": "File path on local filesystem", "optional": false }
+        {
+          "name": "path",
+          "description": "File path on local filesystem",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "$LocalFS/Run=/macro.nc", "description": "Run macro.nc from local flash" }
+        {
+          "code": "$LocalFS/Run=/macro.nc",
+          "description": "Run macro.nc from local flash"
+        }
       ],
-      "relatedCodes": ["$SD/Run", "$LocalFS/List"],
+      "relatedCodes": [
+        "$SD/Run",
+        "$LocalFS/List"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$LocalFS/List",
@@ -1383,12 +3455,20 @@
       "description": "Lists all files on the ESP32's local flash filesystem.",
       "parameters": [],
       "examples": [
-        { "code": "$LocalFS/List", "description": "List files on local flash" }
+        {
+          "code": "$LocalFS/List",
+          "description": "List files on local flash"
+        }
       ],
-      "relatedCodes": ["$LocalFS/Run", "$LocalFS/Delete"],
+      "relatedCodes": [
+        "$LocalFS/Run",
+        "$LocalFS/Delete"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$LocalFS/Delete",
@@ -1396,15 +3476,26 @@
       "name": "Delete Local Filesystem File",
       "description": "Deletes a file from the ESP32's local flash filesystem.",
       "parameters": [
-        { "name": "path", "description": "File path to delete", "optional": false }
+        {
+          "name": "path",
+          "description": "File path to delete",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "$LocalFS/Delete=/old_config.yaml", "description": "Delete old_config.yaml from local flash" }
+        {
+          "code": "$LocalFS/Delete=/old_config.yaml",
+          "description": "Delete old_config.yaml from local flash"
+        }
       ],
-      "relatedCodes": ["$LocalFS/List"],
+      "relatedCodes": [
+        "$LocalFS/List"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$LocalFS/Format",
@@ -1413,12 +3504,19 @@
       "description": "Formats the ESP32's local flash filesystem. Warning: this deletes all files including config.",
       "parameters": [],
       "examples": [
-        { "code": "$LocalFS/Format", "description": "Format local flash (deletes all files)" }
+        {
+          "code": "$LocalFS/Format",
+          "description": "Format local flash (deletes all files)"
+        }
       ],
-      "relatedCodes": ["$LocalFS/List"],
+      "relatedCodes": [
+        "$LocalFS/List"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$A",
@@ -1426,18 +3524,37 @@
       "name": "List Alarm Codes",
       "description": "Lists descriptions of all alarm codes, or a specific alarm. Full command name: $Alarms/List.",
       "parameters": [
-        { "name": "code", "description": "Specific alarm number", "optional": true, "example": "5" }
+        {
+          "name": "code",
+          "description": "Specific alarm number",
+          "optional": true,
+          "example": "5"
+        }
       ],
       "examples": [
-        { "code": "$A", "description": "List all alarm code descriptions" },
-        { "code": "$A=5", "description": "Show description for alarm 5" }
+        {
+          "code": "$A",
+          "description": "List all alarm code descriptions"
+        },
+        {
+          "code": "$A=5",
+          "description": "Show description for alarm 5"
+        }
       ],
-      "relatedCodes": ["$E"],
+      "relatedCodes": [
+        "$E"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "$A", "note": "FluidNC-only. grbl does not have a built-in alarm code lookup." }
+        {
+          "firmwareId": "grbl",
+          "code": "$A",
+          "note": "FluidNC-only. grbl does not have a built-in alarm code lookup."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$E",
@@ -1445,18 +3562,37 @@
       "name": "List Error Codes",
       "description": "Lists descriptions of all error codes, or a specific error. Full command name: $Errors/List.",
       "parameters": [
-        { "name": "code", "description": "Specific error number", "optional": true, "example": "5" }
+        {
+          "name": "code",
+          "description": "Specific error number",
+          "optional": true,
+          "example": "5"
+        }
       ],
       "examples": [
-        { "code": "$E", "description": "List all error code descriptions" },
-        { "code": "$E=33", "description": "Show description for error 33" }
+        {
+          "code": "$E",
+          "description": "List all error code descriptions"
+        },
+        {
+          "code": "$E=33",
+          "description": "Show description for error 33"
+        }
       ],
-      "relatedCodes": ["$A"],
+      "relatedCodes": [
+        "$A"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "$E", "note": "FluidNC-only. grbl does not have a built-in error code lookup." }
+        {
+          "firmwareId": "grbl",
+          "code": "$E",
+          "note": "FluidNC-only. grbl does not have a built-in error code lookup."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$MD",
@@ -1464,18 +3600,36 @@
       "name": "Disable Motors",
       "description": "Disables (unlocks) motors to allow manual movement. Can target a single axis. Full command name: $Motor/Disable.",
       "parameters": [
-        { "name": "axis", "description": "Optional axis to disable", "optional": true }
+        {
+          "name": "axis",
+          "description": "Optional axis to disable",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "$MD", "description": "Disable all motors" },
-        { "code": "$MD=X", "description": "Disable X axis motor only" }
+        {
+          "code": "$MD",
+          "description": "Disable all motors"
+        },
+        {
+          "code": "$MD=X",
+          "description": "Disable X axis motor only"
+        }
       ],
-      "relatedCodes": ["$ME"],
+      "relatedCodes": [
+        "$ME"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "$MD", "note": "FluidNC-only. grbl uses $1 (step idle delay) for motor timeout but has no explicit disable command." }
+        {
+          "firmwareId": "grbl",
+          "code": "$MD",
+          "note": "FluidNC-only. grbl uses $1 (step idle delay) for motor timeout but has no explicit disable command."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$ME",
@@ -1483,16 +3637,30 @@
       "name": "Enable Motors",
       "description": "Enables (locks) motors. Can target a single axis. Full command name: $Motor/Enable.",
       "parameters": [
-        { "name": "axis", "description": "Optional axis to enable", "optional": true }
+        {
+          "name": "axis",
+          "description": "Optional axis to enable",
+          "optional": true
+        }
       ],
       "examples": [
-        { "code": "$ME", "description": "Enable all motors" },
-        { "code": "$ME=Z", "description": "Enable Z axis motor only" }
+        {
+          "code": "$ME",
+          "description": "Enable all motors"
+        },
+        {
+          "code": "$ME=Z",
+          "description": "Enable Z axis motor only"
+        }
       ],
-      "relatedCodes": ["$MD"],
+      "relatedCodes": [
+        "$MD"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"],
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ],
       "versionNotes": "Added in FluidNC v3.6.3."
     },
     {
@@ -1502,12 +3670,20 @@
       "description": "Reinitializes motor drivers. Useful for SPI or UART motor drivers that may need re-initialization. Full command name: $Motors/Init.",
       "parameters": [],
       "examples": [
-        { "code": "$MI", "description": "Reinitialize motor drivers" }
+        {
+          "code": "$MI",
+          "description": "Reinitialize motor drivers"
+        }
       ],
-      "relatedCodes": ["$MD", "$ME"],
+      "relatedCodes": [
+        "$MD",
+        "$ME"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$RM",
@@ -1515,19 +3691,40 @@
       "name": "Run Macro",
       "description": "Runs a configured macro file. Macros are defined in the YAML config (macro0-3, after_homing, after_reset, after_unlock). Full command name: $Macros/Run.",
       "parameters": [
-        { "name": "number", "description": "Macro number (0-3)", "optional": false, "example": "0" }
+        {
+          "name": "number",
+          "description": "Macro number (0-3)",
+          "optional": false,
+          "example": "0"
+        }
       ],
       "examples": [
-        { "code": "$RM=0", "description": "Run macro 0" },
-        { "code": "$RM=1", "description": "Run macro 1" }
+        {
+          "code": "$RM=0",
+          "description": "Run macro 0"
+        },
+        {
+          "code": "$RM=1",
+          "description": "Run macro 1"
+        }
       ],
       "relatedCodes": [],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "$RM", "note": "FluidNC-only. grbl does not support macros." },
-        { "firmwareId": "grblhal", "code": "$RM", "note": "grblHAL has a different macro system. FluidNC macros are file-based." }
+        {
+          "firmwareId": "grbl",
+          "code": "$RM",
+          "note": "FluidNC-only. grbl does not support macros."
+        },
+        {
+          "firmwareId": "grblhal",
+          "code": "$RM",
+          "note": "grblHAL has a different macro system. FluidNC macros are file-based."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"],
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ],
       "notes": "After_homing, after_reset, and after_unlock macros (since v3.7.6) run automatically on those events."
     },
     {
@@ -1536,17 +3733,34 @@
       "name": "Send Alarm",
       "description": "Manually triggers an alarm. Useful for testing or conditional G-code macros.",
       "parameters": [
-        { "name": "code", "description": "Alarm number to trigger", "optional": false, "example": "2" }
+        {
+          "name": "code",
+          "description": "Alarm number to trigger",
+          "optional": false,
+          "example": "2"
+        }
       ],
       "examples": [
-        { "code": "$Alarm/Send=2", "description": "Trigger soft limit alarm (for testing)" }
+        {
+          "code": "$Alarm/Send=2",
+          "description": "Trigger soft limit alarm (for testing)"
+        }
       ],
-      "relatedCodes": ["$A", "$X"],
+      "relatedCodes": [
+        "$A",
+        "$X"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "$Alarm/Send", "note": "FluidNC-only. No grbl equivalent." }
+        {
+          "firmwareId": "grbl",
+          "code": "$Alarm/Send",
+          "note": "FluidNC-only. No grbl equivalent."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$SLP",
@@ -1555,14 +3769,25 @@
       "description": "Puts the controller into sleep mode. Full command name: $System/Sleep.",
       "parameters": [],
       "examples": [
-        { "code": "$SLP", "description": "Enter sleep mode" }
+        {
+          "code": "$SLP",
+          "description": "Enter sleep mode"
+        }
       ],
-      "relatedCodes": ["$Bye"],
+      "relatedCodes": [
+        "$Bye"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "$SLP", "note": "Similar — grbl also supports $SLP for sleep mode." }
+        {
+          "firmwareId": "grbl",
+          "code": "$SLP",
+          "note": "Similar \u2014 grbl also supports $SLP for sleep mode."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$RST",
@@ -1570,19 +3795,40 @@
       "name": "Restore Defaults",
       "description": "Restores settings to defaults. $RST=$ restores settings, $RST=# restores coordinate offsets, $RST=* restores everything. Full command name: $Settings/Restore.",
       "parameters": [
-        { "name": "target", "description": "$ = settings, # = offsets, * = all", "optional": false }
+        {
+          "name": "target",
+          "description": "$ = settings, # = offsets, * = all",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "$RST=$", "description": "Restore settings to defaults" },
-        { "code": "$RST=#", "description": "Restore coordinate offsets" },
-        { "code": "$RST=*", "description": "Restore everything" }
+        {
+          "code": "$RST=$",
+          "description": "Restore settings to defaults"
+        },
+        {
+          "code": "$RST=#",
+          "description": "Restore coordinate offsets"
+        },
+        {
+          "code": "$RST=*",
+          "description": "Restore everything"
+        }
       ],
-      "relatedCodes": ["$NVX"],
+      "relatedCodes": [
+        "$NVX"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "$RST", "note": "Identical syntax. In FluidNC, this clears NVS but the YAML config file remains." }
+        {
+          "firmwareId": "grbl",
+          "code": "$RST",
+          "note": "Identical syntax. In FluidNC, this clears NVS but the YAML config file remains."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$NVX",
@@ -1591,12 +3837,19 @@
       "description": "Erases all NVS (Non-Volatile Storage) settings. Full command name: $Settings/Erase.",
       "parameters": [],
       "examples": [
-        { "code": "$NVX", "description": "Erase all NVS settings" }
+        {
+          "code": "$NVX",
+          "description": "Erase all NVS settings"
+        }
       ],
-      "relatedCodes": ["$RST"],
+      "relatedCodes": [
+        "$RST"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$Heap",
@@ -1605,12 +3858,19 @@
       "description": "Shows free and minimum heap memory on the ESP32. Useful for diagnosing memory issues. Full command name: $Heap/Show.",
       "parameters": [],
       "examples": [
-        { "code": "$Heap", "description": "Show heap memory status" }
+        {
+          "code": "$Heap",
+          "description": "Show heap memory status"
+        }
       ],
-      "relatedCodes": ["$V"],
+      "relatedCodes": [
+        "$V"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$V",
@@ -1619,12 +3879,19 @@
       "description": "Shows NVS usage statistics. Full command name: $Settings/Stats.",
       "parameters": [],
       "examples": [
-        { "code": "$V", "description": "Show NVS storage usage" }
+        {
+          "code": "$V",
+          "description": "Show NVS storage usage"
+        }
       ],
-      "relatedCodes": ["$Heap"],
+      "relatedCodes": [
+        "$Heap"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$Limits",
@@ -1633,12 +3900,19 @@
       "description": "Shows real-time status of all limit switches. Full command name: $Limits/Show.",
       "parameters": [],
       "examples": [
-        { "code": "$Limits", "description": "Show limit switch states" }
+        {
+          "code": "$Limits",
+          "description": "Show limit switch states"
+        }
       ],
-      "relatedCodes": ["$GD"],
+      "relatedCodes": [
+        "$GD"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$GD",
@@ -1647,12 +3921,19 @@
       "description": "Shows detailed information on all configured GPIO pins. Full command name: $GPIO/Dump.",
       "parameters": [],
       "examples": [
-        { "code": "$GD", "description": "Show all GPIO pin info" }
+        {
+          "code": "$GD",
+          "description": "Show all GPIO pin info"
+        }
       ],
-      "relatedCodes": ["$Limits"],
+      "relatedCodes": [
+        "$Limits"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$Gcode/Echo",
@@ -1660,18 +3941,36 @@
       "name": "G-code Echo",
       "description": "Toggles echoing of received G-code back to the console. Useful for debugging. Set to on or off.",
       "parameters": [
-        { "name": "state", "description": "on or off", "optional": false }
+        {
+          "name": "state",
+          "description": "on or off",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "$Gcode/Echo=on", "description": "Enable G-code echoing" },
-        { "code": "$Gcode/Echo=off", "description": "Disable G-code echoing" }
+        {
+          "code": "$Gcode/Echo=on",
+          "description": "Enable G-code echoing"
+        },
+        {
+          "code": "$Gcode/Echo=off",
+          "description": "Disable G-code echoing"
+        }
       ],
-      "relatedCodes": ["$C"],
+      "relatedCodes": [
+        "$C"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "$Gcode/Echo", "note": "FluidNC-only debugging feature. No grbl equivalent." }
+        {
+          "firmwareId": "grbl",
+          "code": "$Gcode/Echo",
+          "note": "FluidNC-only debugging feature. No grbl equivalent."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$WiFi/ListAPs",
@@ -1680,12 +3979,17 @@
       "description": "Scans and lists visible WiFi access points with signal strengths. Shortcut: $ESP410.",
       "parameters": [],
       "examples": [
-        { "code": "$WiFi/ListAPs", "description": "Scan for WiFi networks" }
+        {
+          "code": "$WiFi/ListAPs",
+          "description": "Scan for WiFi networks"
+        }
       ],
       "relatedCodes": [],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"],
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ],
       "notes": "FluidNC-specific. Requires ESP32 WiFi to be enabled."
     },
     {
@@ -1695,14 +3999,23 @@
       "description": "Lists currently defined G-code parameters (#-variables). Full command name: $Parameters/List.",
       "parameters": [],
       "examples": [
-        { "code": "$PL", "description": "List all defined parameters" }
+        {
+          "code": "$PL",
+          "description": "List all defined parameters"
+        }
       ],
       "relatedCodes": [],
       "crossReferences": [
-        { "firmwareId": "linuxcnc", "code": "$PL", "note": "FluidNC-only command. LinuxCNC has parameters but accesses them differently." }
+        {
+          "firmwareId": "linuxcnc",
+          "code": "$PL",
+          "note": "FluidNC-only command. LinuxCNC has parameters but accesses them differently."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"],
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ],
       "notes": "FluidNC supports parameters like #<_current_tool>, #<_selected_tool>, #<_metric>, #<_incremental>, #<_abs_x>, #5063 (probe Z), #5399 (M66 result)."
     },
     {
@@ -1711,18 +4024,36 @@
       "name": "Status Report Format",
       "description": "Configures the status report format. 0 = WPos no buffer, 1 = MPos no buffer, 2 = WPos + buffer, 3 = MPos + buffer. Full command name: $Report/Status.",
       "parameters": [
-        { "name": "value", "description": "Report format (0-3)", "optional": false }
+        {
+          "name": "value",
+          "description": "Report format (0-3)",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "$10=1", "description": "Set status report to MPos without buffer info" },
-        { "code": "$10=2", "description": "Set status report to WPos with buffer info" }
+        {
+          "code": "$10=1",
+          "description": "Set status report to MPos without buffer info"
+        },
+        {
+          "code": "$10=2",
+          "description": "Set status report to WPos with buffer info"
+        }
       ],
-      "relatedCodes": ["$$"],
+      "relatedCodes": [
+        "$$"
+      ],
       "crossReferences": [
-        { "firmwareId": "grbl", "code": "$10", "note": "Same setting. The only grbl $number setting that is fully functional in FluidNC." }
+        {
+          "firmwareId": "grbl",
+          "code": "$10",
+          "note": "Same setting. The only grbl $number setting that is fully functional in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"],
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ],
       "notes": "This is the only grbl $number setting that FluidNC actively uses. All other $ settings are configured via YAML."
     },
     {
@@ -1732,12 +4063,19 @@
       "description": "Shows the current machine state. Full command name: $State.",
       "parameters": [],
       "examples": [
-        { "code": "$T", "description": "Show current state (Idle, Run, Hold, etc.)" }
+        {
+          "code": "$T",
+          "description": "Show current state (Idle, Run, Hold, etc.)"
+        }
       ],
-      "relatedCodes": ["$G"],
+      "relatedCodes": [
+        "$G"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$SS",
@@ -1746,12 +4084,19 @@
       "description": "Re-displays the startup messages that appeared at boot. Full command name: $Startup/Show.",
       "parameters": [],
       "examples": [
-        { "code": "$SS", "description": "Show startup messages" }
+        {
+          "code": "$SS",
+          "description": "Show startup messages"
+        }
       ],
-      "relatedCodes": ["$I"],
+      "relatedCodes": [
+        "$I"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$RI",
@@ -1759,16 +4104,30 @@
       "name": "Report Interval",
       "description": "Controls automatic status reporting interval. Full command name: $Report/Interval.",
       "parameters": [
-        { "name": "ms", "description": "Interval in milliseconds (0 to disable)", "optional": false }
+        {
+          "name": "ms",
+          "description": "Interval in milliseconds (0 to disable)",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "$RI=200", "description": "Auto-report every 200ms" },
-        { "code": "$RI=0", "description": "Disable auto-reporting" }
+        {
+          "code": "$RI=200",
+          "description": "Auto-report every 200ms"
+        },
+        {
+          "code": "$RI=0",
+          "description": "Disable auto-reporting"
+        }
       ],
-      "relatedCodes": ["$10"],
+      "relatedCodes": [
+        "$10"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$HTTP/Command",
@@ -1776,15 +4135,24 @@
       "name": "HTTP Command",
       "description": "Sends an HTTP request to an external server from within G-code. Advanced feature for integration with external systems.",
       "parameters": [
-        { "name": "url", "description": "HTTP URL to request", "optional": false }
+        {
+          "name": "url",
+          "description": "HTTP URL to request",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "$HTTP/Command=http://192.168.1.100/api/status", "description": "Send HTTP request to external server" }
+        {
+          "code": "$HTTP/Command=http://192.168.1.100/api/status",
+          "description": "Send HTTP request to external server"
+        }
       ],
       "relatedCodes": [],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"],
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ],
       "notes": "FluidNC-only. Requires WiFi connectivity. Shortcut: $HC."
     },
     {
@@ -1794,12 +4162,17 @@
       "description": "Enables UART passthrough mode for communicating directly with devices connected to a UART port. Full command name: $Uart/Passthrough.",
       "parameters": [],
       "examples": [
-        { "code": "$UP", "description": "Enter UART passthrough mode" }
+        {
+          "code": "$UP",
+          "description": "Enter UART passthrough mode"
+        }
       ],
       "relatedCodes": [],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$XR",
@@ -1807,15 +4180,26 @@
       "name": "XModem Receive",
       "description": "Receives a file via the XModem protocol. Full command name: $Xmodem/Receive.",
       "parameters": [
-        { "name": "path", "description": "Destination file path", "optional": false }
+        {
+          "name": "path",
+          "description": "Destination file path",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "$XR=/config.yaml", "description": "Receive config.yaml via XModem" }
+        {
+          "code": "$XR=/config.yaml",
+          "description": "Receive config.yaml via XModem"
+        }
       ],
-      "relatedCodes": ["$XS"],
+      "relatedCodes": [
+        "$XS"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     },
     {
       "code": "$XS",
@@ -1823,15 +4207,26 @@
       "name": "XModem Send",
       "description": "Sends a file via the XModem protocol. Full command name: $Xmodem/Send.",
       "parameters": [
-        { "name": "path", "description": "File path to send", "optional": false }
+        {
+          "name": "path",
+          "description": "File path to send",
+          "optional": false
+        }
       ],
       "examples": [
-        { "code": "$XS=/config.yaml", "description": "Send config.yaml via XModem" }
+        {
+          "code": "$XS=/config.yaml",
+          "description": "Send config.yaml via XModem"
+        }
       ],
-      "relatedCodes": ["$XR"],
+      "relatedCodes": [
+        "$XR"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["http://wiki.fluidnc.com/en/features/commands_and_settings"]
+      "sources": [
+        "http://wiki.fluidnc.com/en/features/commands_and_settings"
+      ]
     }
   ]
 }
