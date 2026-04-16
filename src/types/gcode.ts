@@ -1,5 +1,7 @@
 export type FirmwareId = "grbl" | "grblhal" | "linuxcnc" | "smoothieware" | "reprapfirmware" | "fluidnc";
 
+export type CodeType = "G" | "M" | "$" | "RT" | "ERR" | "ALARM" | "META" | "NGC" | "O" | "CMT";
+
 export interface FirmwareInfo {
   id: FirmwareId;
   name: string;
@@ -33,7 +35,7 @@ export interface ModeNote {
 
 export interface GCodeEntry {
   code: string;
-  type: "G" | "M" | "$";
+  type: CodeType;
   name: string;
   description: string;
   parameters: CodeParameter[];

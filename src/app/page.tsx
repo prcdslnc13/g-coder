@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useMemo } from "react";
-import { FirmwareId, GCodeEntry } from "@/types/gcode";
+import { CodeType, FirmwareId, GCodeEntry } from "@/types/gcode";
 import { getFirmwareList, getFirmwareData, getAllFirmwareData } from "@/lib/data";
 import { FirmwareSelector } from "@/components/FirmwareSelector";
 import { CodeList } from "@/components/CodeList";
@@ -19,32 +19,29 @@ export default function Home() {
   const firmwareData = getFirmwareData(selectedFirmware);
   const allFirmwareData = getAllFirmwareData();
 
-  // Prefix-based code categories for contextual filter buttons
+  // Type-based code categories for contextual filter buttons.
+  // Order here also drives the sort order below and the button order in the header.
   const codeCategories = useMemo(() => {
-    const prefixes = [
-      { id: "G", label: "G", match: (c: GCodeEntry) => c.type === "G" },
-      { id: "M", label: "M", match: (c: GCodeEntry) => c.type === "M" },
-      { id: "$", label: "$", match: (c: GCodeEntry) => c.type === "$" && c.code.startsWith("$") },
-      { id: "RT", label: "RT", match: (c: GCodeEntry) => c.code.startsWith("RT:") },
-      { id: "ERR", label: "Errors", match: (c: GCodeEntry) => c.code.startsWith("ERR:") },
-      { id: "ALARM", label: "Alarms", match: (c: GCodeEntry) => c.code.startsWith("ALARM:") },
-      { id: "META", label: "Meta", match: (c: GCodeEntry) => c.code.startsWith("META:") },
-      { id: "NGC", label: "NGC", match: (c: GCodeEntry) => c.code.startsWith("NGC:") },
-      { id: "O", label: "O-codes", match: (c: GCodeEntry) => c.code.startsWith("O:") },
+    const all: { id: CodeType; label: string }[] = [
+      { id: "G", label: "G" },
+      { id: "M", label: "M" },
+      { id: "$", label: "$" },
+      { id: "RT", label: "RT" },
+      { id: "ERR", label: "Errors" },
+      { id: "ALARM", label: "Alarms" },
+      { id: "META", label: "Meta" },
+      { id: "NGC", label: "NGC" },
+      { id: "O", label: "O-codes" },
+      { id: "CMT", label: "Comments" },
     ];
-    return prefixes.filter((p) => firmwareData.codes.some(p.match));
+    return all.filter((p) => firmwareData.codes.some((c) => c.type === p.id));
   }, [firmwareData.codes]);
-
-  const filterMatch = useMemo(() => {
-    const cat = codeCategories.find((c) => c.id === typeFilter);
-    return cat?.match;
-  }, [typeFilter, codeCategories]);
 
   const filteredCodes = useMemo(() => {
     let codes = firmwareData.codes;
 
-    if (typeFilter !== "all" && filterMatch) {
-      codes = codes.filter(filterMatch);
+    if (typeFilter !== "all") {
+      codes = codes.filter((c) => c.type === typeFilter);
     }
 
     if (searchQuery.trim()) {
@@ -59,14 +56,16 @@ export default function Home() {
       );
     }
 
-    return codes.sort((a, b) => {
-      const typeOrder = { G: 0, M: 1, $: 2 };
+    const typeOrder: Record<CodeType, number> = {
+      G: 0, M: 1, $: 2, RT: 3, ERR: 4, ALARM: 5, META: 6, NGC: 7, O: 8, CMT: 9,
+    };
+    return codes.slice().sort((a, b) => {
       if (a.type !== b.type) return typeOrder[a.type] - typeOrder[b.type];
       const numA = parseFloat(a.code.replace(/[^0-9.]/g, "")) || 0;
       const numB = parseFloat(b.code.replace(/[^0-9.]/g, "")) || 0;
       return numA - numB;
     });
-  }, [firmwareData.codes, searchQuery, typeFilter, filterMatch]);
+  }, [firmwareData.codes, searchQuery, typeFilter]);
 
   function handleNavigate(code: string, firmwareId?: FirmwareId) {
     if (firmwareId && firmwareId !== selectedFirmware) {
@@ -159,7 +158,6 @@ export default function Home() {
           codes={filteredCodes}
           onSelect={setSelectedCode}
           selectedCode={selectedCode?.code ?? null}
-          allFirmwareData={allFirmwareData}
           currentFirmware={selectedFirmware}
         />
       </main>

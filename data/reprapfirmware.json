@@ -3389,7 +3389,7 @@
     },
     {
       "code": "META:if",
-      "type": "$",
+      "type": "META",
       "name": "Conditional: if/elif/else",
       "description": "Conditional execution of G-code blocks. Evaluates a boolean expression and executes the indented body if true. Supports elif for additional conditions and else for a default branch. The body of each branch must be indented from the keyword. Introduced in RepRapFirmware 3.01.",
       "parameters": [
@@ -3455,7 +3455,7 @@
     },
     {
       "code": "META:while",
-      "type": "$",
+      "type": "META",
       "name": "Loop: while",
       "description": "Repeats an indented block of G-code while a boolean expression is true. The built-in constant 'iterations' provides the zero-based count of completed iterations (0 during first pass, 1 during second, etc.).",
       "parameters": [
@@ -3505,7 +3505,7 @@
     },
     {
       "code": "META:break",
-      "type": "$",
+      "type": "META",
       "name": "Break (Exit Loop)",
       "description": "Exits the current while loop immediately. Control transfers to the line after the loop body.",
       "parameters": [],
@@ -3538,7 +3538,7 @@
     },
     {
       "code": "META:continue",
-      "type": "$",
+      "type": "META",
       "name": "Continue (Next Iteration)",
       "description": "Skips the rest of the current loop body, increments the iteration counter, and re-evaluates the while condition.",
       "parameters": [],
@@ -3567,7 +3567,7 @@
     },
     {
       "code": "META:var",
-      "type": "$",
+      "type": "META",
       "name": "Declare Local Variable",
       "description": "Creates a new local variable with the given name and initial value. The variable is accessed as var.<name> and is scoped to the remainder of the block in which it is declared. Supported types: bool, int, float, string, arrays (RRF 3.5+).",
       "parameters": [
@@ -3624,7 +3624,7 @@
     },
     {
       "code": "META:global",
-      "type": "$",
+      "type": "META",
       "name": "Declare Global Variable",
       "description": "Creates a new global variable with the given name and initial value. Global variables persist across macros and are accessed as global.<name> from any context. The name must not already be in use.",
       "parameters": [
@@ -3672,7 +3672,7 @@
     },
     {
       "code": "META:set",
-      "type": "$",
+      "type": "META",
       "name": "Assign Variable",
       "description": "Assigns a new value to an existing local (var.) or global (global.) variable. The variable must already exist \u2014 use var or global to create it first.",
       "parameters": [
@@ -3719,7 +3719,7 @@
     },
     {
       "code": "META:echo",
-      "type": "$",
+      "type": "META",
       "name": "Echo (Output)",
       "description": "Outputs one or more expressions to the console, converted to strings with spaces between each pair. Can also redirect output to files using >, >>, or >>> operators.",
       "parameters": [
@@ -3771,7 +3771,7 @@
     },
     {
       "code": "META:abort",
-      "type": "$",
+      "type": "META",
       "name": "Abort (Stop with Message)",
       "description": "Terminates all nested macros and the current print file. The optional expression is converted to a string and included in the error message presented to the user and written to the log.",
       "parameters": [
@@ -3819,7 +3819,7 @@
     },
     {
       "code": "META:expr",
-      "type": "$",
+      "type": "META",
       "name": "Expressions and Object Model",
       "description": "RepRapFirmware supports inline expressions using {expression} syntax within any G-code command. Expressions can access the full object model (machine state, sensor values, positions, etc.), use arithmetic/comparison/logical operators, built-in math functions, and the ternary operator.",
       "parameters": [],

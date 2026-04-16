@@ -22,8 +22,8 @@ Each firmware has a JSON file in `data/` with this structure:
 FirmwareData
 ├── firmware: FirmwareInfo (id, name, description, version, sourceUrl)
 └── codes: GCodeEntry[]
-    ├── code: string (e.g., "G0", "M3", "$H")
-    ├── type: "G" | "M" | "$"
+    ├── code: string (e.g., "G0", "M3", "$H", "RT:?", "ERR:1", "META:if")
+    ├── type: "G" | "M" | "$" | "RT" | "ERR" | "ALARM" | "META" | "NGC" | "O" | "CMT"
     ├── name, description
     ├── parameters: CodeParameter[]
     ├── examples: CodeExample[]
@@ -51,6 +51,7 @@ JSON files are imported directly as ES modules. At build time, Next.js bundles t
 - `getFirmwareList()` — returns all firmware metadata
 - `getFirmwareData(id)` — returns codes for a specific firmware
 - `getAllFirmwareData()` — returns everything (used for cross-references)
+- `getConflictInfo(code, firmwareId)` — O(1) lookup of `{ hasConflict, firmwareCount }`. A cross-firmware presence index and a warning-note index are precomputed once at module load; list rendering does not rescan firmwares per row.
 
 ## UI Components
 

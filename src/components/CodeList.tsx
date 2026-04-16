@@ -1,53 +1,19 @@
 "use client";
 
-import { FirmwareData, FirmwareId, GCodeEntry } from "@/types/gcode";
+import { FirmwareId, GCodeEntry } from "@/types/gcode";
+import { getConflictInfo } from "@/lib/data";
 
 interface CodeListProps {
   codes: GCodeEntry[];
   onSelect: (entry: GCodeEntry) => void;
   selectedCode: string | null;
-  allFirmwareData: Record<FirmwareId, FirmwareData>;
   currentFirmware: FirmwareId;
-}
-
-function getConflictBadge(
-  entry: GCodeEntry,
-  allFirmwareData: Record<FirmwareId, FirmwareData>,
-  currentFirmware: FirmwareId
-): { hasConflict: boolean; firmwareCount: number } {
-  const otherFirmwares = Object.keys(allFirmwareData).filter(
-    (id) => id !== currentFirmware
-  ) as FirmwareId[];
-
-  let hasConflict = false;
-  let firmwareCount = 0;
-
-  for (const fwId of otherFirmwares) {
-    const fwData = allFirmwareData[fwId];
-    const match = fwData.codes.find((c) => c.code === entry.code);
-    if (match) {
-      firmwareCount++;
-      // Check if there's a cross-reference with a warning
-      const xref = entry.crossReferences.find((x) => x.firmwareId === fwId);
-      if (
-        xref &&
-        (xref.note.includes("WARNING") ||
-          xref.note.includes("CONFLICT") ||
-          xref.note.includes("CRITICAL"))
-      ) {
-        hasConflict = true;
-      }
-    }
-  }
-
-  return { hasConflict, firmwareCount };
 }
 
 export function CodeList({
   codes,
   onSelect,
   selectedCode,
-  allFirmwareData,
   currentFirmware,
 }: CodeListProps) {
   if (codes.length === 0) {
@@ -61,9 +27,8 @@ export function CodeList({
   return (
     <div className="grid gap-2">
       {codes.map((entry) => {
-        const { hasConflict, firmwareCount } = getConflictBadge(
-          entry,
-          allFirmwareData,
+        const { hasConflict, firmwareCount } = getConflictInfo(
+          entry.code,
           currentFirmware
         );
 

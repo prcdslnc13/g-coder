@@ -4618,7 +4618,7 @@
     },
     {
       "code": "O:sub",
-      "type": "$",
+      "type": "O",
       "name": "Define Subroutine",
       "description": "Defines a reusable subroutine. Lines between 'sub' and 'endsub' are not executed until the subroutine is called. Subroutine bodies may not be nested. Maximum nesting level for calls is 10. Subroutines can optionally return a value via an expression on endsub or return.",
       "parameters": [],
@@ -4640,7 +4640,7 @@
     },
     {
       "code": "O:call",
-      "type": "$",
+      "type": "O",
       "name": "Call Subroutine",
       "description": "Calls a subroutine, optionally passing up to 30 arguments. Arguments are accessed as #1 through #30 inside the subroutine and are local — restored to pre-call values on return. Parameters above #30 are global and changes persist after return.",
       "parameters": [
@@ -4663,7 +4663,7 @@
     },
     {
       "code": "O:return",
-      "type": "$",
+      "type": "O",
       "name": "Return from Subroutine",
       "description": "Immediately returns to the calling code, as though endsub was encountered. May optionally return a value via an expression, which is stored in the predefined named parameter #<_value>.",
       "parameters": [
@@ -4683,7 +4683,7 @@
     },
     {
       "code": "O:if",
-      "type": "$",
+      "type": "O",
       "name": "Conditional: if/elseif/else/endif",
       "description": "Conditional execution of G-code blocks. Evaluates conditions in order until one is true. Supports if, elseif (optional, repeatable), else (optional), and endif. All must share the same O-number.",
       "parameters": [
@@ -4706,7 +4706,7 @@
     },
     {
       "code": "O:while",
-      "type": "$",
+      "type": "O",
       "name": "Loop: while/endwhile",
       "description": "Executes a block of G-code repeatedly while a condition is true. Tests the condition first, then executes the body. The while and endwhile must share the same O-number.",
       "parameters": [
@@ -4725,7 +4725,7 @@
     },
     {
       "code": "O:do",
-      "type": "$",
+      "type": "O",
       "name": "Loop: do/while",
       "description": "Executes a block at least once, then repeats while the condition is true. The body executes before the condition is tested. The do and while must share the same O-number.",
       "parameters": [
@@ -4743,7 +4743,7 @@
     },
     {
       "code": "O:repeat",
-      "type": "$",
+      "type": "O",
       "name": "Loop: repeat/endrepeat",
       "description": "Executes a block a specified number of times. The count is evaluated once at the start.",
       "parameters": [
@@ -4762,7 +4762,7 @@
     },
     {
       "code": "O:break",
-      "type": "$",
+      "type": "O",
       "name": "Break (Exit Loop)",
       "description": "Immediately exits the enclosing while, do/while, or repeat loop. The O-number must match the loop's O-number.",
       "parameters": [],
@@ -4780,7 +4780,7 @@
     },
     {
       "code": "O:continue",
-      "type": "$",
+      "type": "O",
       "name": "Continue (Next Iteration)",
       "description": "Skips the rest of the current loop body and jumps to the next evaluation of the loop condition. The O-number must match the enclosing loop's O-number.",
       "parameters": [],

@@ -8187,7 +8187,7 @@
     },
     {
       "code": "RT:0x19",
-      "type": "$",
+      "type": "RT",
       "name": "Stop",
       "description": "Similar to soft reset (0x18) but does not perform a warm reset — leaves more internal states intact. Stops motion without full re-initialization.",
       "parameters": [],
@@ -8204,7 +8204,7 @@
     },
     {
       "code": "RT:0x18",
-      "type": "$",
+      "type": "RT",
       "name": "Soft Reset (Ctrl+X)",
       "description": "Immediately halts and safely resets grblHAL without a power cycle. If reset while in motion, throws an alarm indicating position may be lost.",
       "parameters": [],
@@ -8222,7 +8222,7 @@
     },
     {
       "code": "RT:?",
-      "type": "$",
+      "type": "RT",
       "name": "Status Report Query",
       "description": "Requests a real-time status report. grblHAL extends the report format with additional fields compared to grbl.",
       "parameters": [],
@@ -8240,7 +8240,7 @@
     },
     {
       "code": "RT:!",
-      "type": "$",
+      "type": "RT",
       "name": "Feed Hold",
       "description": "Places grblHAL into a suspend/HOLD state. If in motion, decelerates to a controlled stop. Does not disable spindle or coolant.",
       "parameters": [],
@@ -8258,7 +8258,7 @@
     },
     {
       "code": "RT:~",
-      "type": "$",
+      "type": "RT",
       "name": "Cycle Start / Resume",
       "description": "Resumes from feed hold, safety door, or M0 pause.",
       "parameters": [],
@@ -8276,7 +8276,7 @@
     },
     {
       "code": "RT:0x80",
-      "type": "$",
+      "type": "RT",
       "name": "Status Report (Alternative)",
       "description": "Alternative to '?' for requesting a status report. Safe for use inside strings and passwords since it's not a printable character.",
       "parameters": [],
@@ -8293,7 +8293,7 @@
     },
     {
       "code": "RT:0x83",
-      "type": "$",
+      "type": "RT",
       "name": "Parser State Report",
       "description": "Requests a parser state report (shortcut for $G command). Returns current modal G-code states.",
       "parameters": [],
@@ -8310,7 +8310,7 @@
     },
     {
       "code": "RT:0x84",
-      "type": "$",
+      "type": "RT",
       "name": "Safety Door",
       "description": "Toggles safety door state. Immediately suspends, disables spindle and coolant. If parking is enabled, retracts spindle to safe position.",
       "parameters": [],
@@ -8328,7 +8328,7 @@
     },
     {
       "code": "RT:0x85",
-      "type": "$",
+      "type": "RT",
       "name": "Jog Cancel",
       "description": "Cancels the current jog motion and flushes remaining jog commands. Ignored if not in JOG state.",
       "parameters": [],
@@ -8346,7 +8346,7 @@
     },
     {
       "code": "RT:0x87",
-      "type": "$",
+      "type": "RT",
       "name": "Complete Status Report",
       "description": "Requests a full real-time report with ALL elements including those normally only sent on change. If in alarm state, includes alarm substate. Key command for sender applications to detect grblHAL.",
       "parameters": [],
@@ -8364,7 +8364,7 @@
     },
     {
       "code": "RT:0x88",
-      "type": "$",
+      "type": "RT",
       "name": "Optional Stop Toggle",
       "description": "Toggles the virtual optional stop switch (M1 behavior). When enabled, M1 causes a feed hold like M0. When disabled, M1 is ignored. Useful when no physical optional stop switch is available.",
       "parameters": [],
@@ -8381,7 +8381,7 @@
     },
     {
       "code": "RT:0x89",
-      "type": "$",
+      "type": "RT",
       "name": "Single Step Toggle",
       "description": "Toggles virtual single stepping mode. When enabled, the machine executes one G-code line at a time and pauses after each, requiring a cycle start to continue. Useful for debugging G-code programs.",
       "parameters": [],
@@ -8398,7 +8398,7 @@
     },
     {
       "code": "RT:0x8A",
-      "type": "$",
+      "type": "RT",
       "name": "Fan 0 Toggle",
       "description": "Toggles fan 0 on/off. Requires fans plugin with fan0 configured.",
       "parameters": [],
@@ -8415,7 +8415,7 @@
     },
     {
       "code": "RT:0xA3",
-      "type": "$",
+      "type": "RT",
       "name": "Tool Change Acknowledge",
       "description": "Acknowledges a manual tool change request. Part of the grblHAL manual tool change protocol — sent after the operator has completed the physical tool change.",
       "parameters": [],
@@ -8432,7 +8432,7 @@
     },
     {
       "code": "RT:0x90",
-      "type": "$",
+      "type": "RT",
       "name": "Feed Override Reset (100%)",
       "description": "Resets feed rate override to 100% of programmed rate.",
       "parameters": [],
@@ -8450,7 +8450,7 @@
     },
     {
       "code": "RT:0x91",
-      "type": "$",
+      "type": "RT",
       "name": "Feed Override +10%",
       "description": "Increases feed rate override by 10%.",
       "parameters": [],
@@ -8464,7 +8464,7 @@
     },
     {
       "code": "RT:0x92",
-      "type": "$",
+      "type": "RT",
       "name": "Feed Override -10%",
       "description": "Decreases feed rate override by 10%.",
       "parameters": [],
@@ -8478,7 +8478,7 @@
     },
     {
       "code": "RT:0x93",
-      "type": "$",
+      "type": "RT",
       "name": "Feed Override +1%",
       "description": "Increases feed rate override by 1%.",
       "parameters": [],
@@ -8492,7 +8492,7 @@
     },
     {
       "code": "RT:0x94",
-      "type": "$",
+      "type": "RT",
       "name": "Feed Override -1%",
       "description": "Decreases feed rate override by 1%.",
       "parameters": [],
@@ -8506,7 +8506,7 @@
     },
     {
       "code": "RT:0x95",
-      "type": "$",
+      "type": "RT",
       "name": "Rapid Override 100%",
       "description": "Resets rapid rate override to 100%.",
       "parameters": [],
@@ -8520,7 +8520,7 @@
     },
     {
       "code": "RT:0x96",
-      "type": "$",
+      "type": "RT",
       "name": "Rapid Override 50%",
       "description": "Sets rapid rate override to 50%.",
       "parameters": [],
@@ -8534,7 +8534,7 @@
     },
     {
       "code": "RT:0x97",
-      "type": "$",
+      "type": "RT",
       "name": "Rapid Override 25%",
       "description": "Sets rapid rate override to 25%.",
       "parameters": [],
@@ -8548,7 +8548,7 @@
     },
     {
       "code": "RT:0x99",
-      "type": "$",
+      "type": "RT",
       "name": "Spindle Override Reset (100%)",
       "description": "Resets spindle speed override to 100%.",
       "parameters": [],
@@ -8562,7 +8562,7 @@
     },
     {
       "code": "RT:0x9A",
-      "type": "$",
+      "type": "RT",
       "name": "Spindle Override +10%",
       "description": "Increases spindle speed override by 10%.",
       "parameters": [],
@@ -8576,7 +8576,7 @@
     },
     {
       "code": "RT:0x9B",
-      "type": "$",
+      "type": "RT",
       "name": "Spindle Override -10%",
       "description": "Decreases spindle speed override by 10%.",
       "parameters": [],
@@ -8590,7 +8590,7 @@
     },
     {
       "code": "RT:0x9C",
-      "type": "$",
+      "type": "RT",
       "name": "Spindle Override +1%",
       "description": "Increases spindle speed override by 1%.",
       "parameters": [],
@@ -8604,7 +8604,7 @@
     },
     {
       "code": "RT:0x9D",
-      "type": "$",
+      "type": "RT",
       "name": "Spindle Override -1%",
       "description": "Decreases spindle speed override by 1%.",
       "parameters": [],
@@ -8618,7 +8618,7 @@
     },
     {
       "code": "RT:0x9E",
-      "type": "$",
+      "type": "RT",
       "name": "Toggle Spindle Stop",
       "description": "Toggles spindle on/off during HOLD state. When motion resumes, spindle state is restored with a delay.",
       "parameters": [],
@@ -8633,7 +8633,7 @@
     },
     {
       "code": "RT:0xA0",
-      "type": "$",
+      "type": "RT",
       "name": "Toggle Flood Coolant",
       "description": "Toggles flood coolant (M8/M9) output. May be commanded in IDLE, RUN, or HOLD states.",
       "parameters": [],
@@ -8647,7 +8647,7 @@
     },
     {
       "code": "RT:0xA1",
-      "type": "$",
+      "type": "RT",
       "name": "Toggle Mist Coolant",
       "description": "Toggles mist coolant (M7/M9) output. May be commanded in IDLE, RUN, or HOLD states.",
       "parameters": [],
@@ -8661,7 +8661,7 @@
     },
     {
       "code": "NGC:IF",
-      "type": "$",
+      "type": "NGC",
       "name": "Conditional: if/elseif/else/endif",
       "description": "Flow control for conditional execution of G-code. Supports if, elseif, else, and endif statements. Works both in streamed G-code and local files/macros.",
       "parameters": [
@@ -8685,7 +8685,7 @@
     },
     {
       "code": "NGC:WHILE",
-      "type": "$",
+      "type": "NGC",
       "name": "Loop: while/do-while/repeat",
       "description": "Flow control for loops. Supports while/endwhile, do/while, and repeat/endrepeat. Only available in files stored on SD card or local filesystem, not from streamed G-code.",
       "parameters": [
@@ -8712,7 +8712,7 @@
     },
     {
       "code": "NGC:SUB",
-      "type": "$",
+      "type": "NGC",
       "name": "Subroutines: sub/endsub/call/return",
       "description": "Define and call reusable G-code subroutines. Subroutines can accept arguments and return values. Only available in local files (SD/littlefs).",
       "parameters": [],
@@ -8734,7 +8734,7 @@
     },
     {
       "code": "NGC:PARAM",
-      "type": "$",
+      "type": "NGC",
       "name": "Parameters and Expressions",
       "description": "NGC parameter system for storing and computing values in G-code. Supports numbered parameters (#1-#5000), named parameters (#<name>), predefined system parameters, and mathematical expressions with operators and functions.",
       "parameters": [],
@@ -8758,7 +8758,7 @@
     },
     {
       "code": "NGC:ALARM",
-      "type": "$",
+      "type": "NGC",
       "name": "Raise Alarm/Error from G-code",
       "description": "grblHAL extensions to raise alarms or errors from within G-code programs. Useful for safety checks in macros and subroutines.",
       "parameters": [

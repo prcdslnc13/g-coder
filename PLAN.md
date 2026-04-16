@@ -40,6 +40,21 @@
 - [ ] Bookmark/favorites for frequently referenced codes
 - [ ] Print-friendly view for offline reference
 - [ ] Dark/light theme toggle
+- [ ] Export filtered results as JSON / CSV / plaintext for offline reference at the machine
+
+### Code Quality / Refactors
+- [x] **Schema type union fix** — widen `GCodeEntry.type` from `"G" | "M" | "$"` to cover `RT`, `ERR`, `ALARM`, `META`, `NGC`, `O`, `CMT`. Retype misfiled entries in all data files. Drop prefix-matching on `code` in `codeCategories`; filter by `type` directly. Extend `typeOrder` in the sort comparator.
+- [x] **Memoize conflict/firmware-count lookup** — `CodeList.getConflictBadge` currently scans every other firmware on every render of every row. Precompute a conflict map once in `src/lib/data.ts` and expose a helper.
+- [ ] URL state migration — move `selectedFirmware`, `searchQuery`, `typeFilter`, `selectedCode`, `compareCode` into URL params via `useSearchParams`. Unlocks deep links, bookmarks, back-button.
+- [ ] Memoize `codeCategories` / `filterMatch` at module scope so firmware switches don't recreate the filter functions.
+
+### New Command Types (data + type union additions)
+- [ ] **Comment operators** (`type: "CMT"`) — `;`, `(...)`, `(MSG,...)`, `(PRINT,...)`, `(DEBUG,...)`, `(LOG,...)`, `(LOGOPEN,...)`, `(LOGCLOSE)`, `(LOGAPPEND,...)`, `(PROBEOPEN,...)`, `(PROBECLOSE)`. Per-firmware: grbl/grblHAL/FluidNC parse `;` and `()` as pass-through comments; LinuxCNC parses `MSG`/`PRINT`/`DEBUG`/`LOG`; RepRap has its own expression syntax in comments. High-value for revealing firmware differences. Sources: LinuxCNC G-code docs (comments chapter), grbl wiki, Duet gcode reference.
+- [ ] **T-codes** — tool select (`T0`–`T99`). Universal. Pairs with `M6` for tool change.
+- [ ] **F / S modal words** — feed rate and spindle speed. Firmware differences in scaling, laser mode, max values.
+- [ ] **H / D offsets** — tool length comp (`H1`) and diameter comp (`D1`). LinuxCNC-flavored; partial grblHAL support.
+- [ ] **Axis words** (`X Y Z A B C U V W I J K R`) — reference table for parameter usage rather than individual entries.
+- [ ] **P / Q / E parameters** — `P` (dwell time, subroutine number), `Q` (probe/cycle param), `E` (extruder, RepRap-specific).
 
 ### Data Expansion (Complete)
 
