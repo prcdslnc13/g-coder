@@ -9,8 +9,8 @@ g-coder is a static, client-side web application that serves as an interactive r
 - **Next.js 16** (App Router) — framework and build system
 - **TypeScript** — type safety
 - **Tailwind CSS v4** — styling
-- **Vercel** — production hosting
-- **Docker** — local testing (standalone output mode)
+- **Cloudflare Pages** — production hosting (static export)
+- **Docker** — local testing (same static output served by nginx)
 
 ## Data Layer
 
@@ -96,5 +96,5 @@ grbl, grblHAL, and FluidNC use $ commands for configuration and real-time contro
 
 ## Deployment
 
-- **Vercel**: Standard Next.js deployment, no special configuration needed
-- **Docker**: Uses multi-stage build with `output: "standalone"` in next.config.ts for minimal image size
+- **Cloudflare Pages**: Connected to the GitHub repo; builds with `npm run build` and publishes the `out/` directory (static HTML export). No runtime required — served from Cloudflare's CDN.
+- **Docker** (local testing): Multi-stage build — `node:22-alpine` builds the static export, then `nginx:alpine` serves it. Same artifact as Cloudflare Pages, so "works in Docker" implies "works on Pages."
