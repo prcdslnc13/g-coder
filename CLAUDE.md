@@ -12,8 +12,8 @@ g-coder is an interactive G-code/M-code wiki and troubleshooter for CNC firmware
 - `npm run build` — production build
 - `npm run start` — serve production build
 - `npm run lint` — run ESLint
-- `docker build -t g-coder .` — build Docker image
-- `docker run -p 3000:3000 g-coder` — run in Docker
+- `docker build -t g-coder .` — build Docker image (static export served by nginx)
+- `docker run -p 3000:80 g-coder` — run in Docker; visit http://localhost:3000
 
 ## Architecture
 

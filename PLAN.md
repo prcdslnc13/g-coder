@@ -82,7 +82,8 @@
 - [x] 9 entries: sub/endsub, call, return, if/elseif/else/endif, while/endwhile, do/while, repeat/endrepeat, break, continue
 
 ### Deployment
-- [x] Vercel configuration (vercel.json)
-- [ ] Connect GitHub repo to Vercel project
-- [ ] Set up preview deployments for PRs
-- [ ] Custom domain (if needed)
+- [x] Cloudflare Pages connected to GitHub repo (static export from `out/`)
+- [x] Docker multi-stage build for local pre-deploy testing (nginx serves the same static output Pages does)
+- [x] `.nvmrc` pins Node 22 so the CF Pages build and local builds use the same interpreter
+- [ ] Custom domain (if needed) — CF Pages free tier supports unlimited custom domains with auto SSL; requires the domain's DNS on Cloudflare
+- [ ] Branch-preview URL review — CF Pages auto-builds every branch by default; confirm whether to restrict previews to PR branches only
