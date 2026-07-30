@@ -31,8 +31,11 @@ export function SettingsTable({ parsed, flavor, edits, onEdit }: SettingsTablePr
       <tbody>
         {rows.map((p) => {
           const found = lookupSettingDef(p.id, flavor);
-          const current = edits.get(p.id) ?? p.raw;
-          const modified = edits.has(p.id);
+          // Same last-imported-raw baseline handleEdit uses, so reset (and the
+          // modified check) agree even for duplicate ids across rows.
+          const original = parsed.filter((x) => x.id === p.id).at(-1)!.raw;
+          const current = edits.get(p.id) ?? original;
+          const modified = current !== original;
           const decoded = found ? decodeValue(found.def, current) : null;
           const wikiCode = `$${p.id}`;
           const hasWiki = wikiCodes.has(wikiCode);
@@ -84,6 +87,9 @@ export function SettingsTable({ parsed, flavor, edits, onEdit }: SettingsTablePr
                     onChange={(e) => onEdit(p.id, e.target.value)}
                     className="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm"
                   >
+                    {!Object.keys(found.def.values ?? {}).includes(current) && (
+                      <option value={current}>Unknown value ({current})</option>
+                    )}
                     {Object.entries(found.def.values ?? {}).map(([v, label]) => (
                       <option key={v} value={v}>{label}</option>
                     ))}
@@ -100,8 +106,8 @@ export function SettingsTable({ parsed, flavor, edits, onEdit }: SettingsTablePr
                 )}
                 {modified && (
                   <button
-                    onClick={() => onEdit(p.id, p.raw)}
-                    title={`Reset to imported value (${p.raw})`}
+                    onClick={() => onEdit(p.id, original)}
+                    title={`Reset to imported value (${original})`}
                     className="ml-2 text-xs text-amber-400 hover:text-amber-300 underline"
                   >
                     reset
