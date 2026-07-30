@@ -59,7 +59,7 @@
         {
           "firmwareId": "reprapfirmware",
           "code": "G0",
-          "note": "In RepRapFirmware, G0 and G1 are identical \u2014 both use the F parameter. In grbl, G0 always moves at maximum rate regardless of F."
+          "note": "In RepRapFirmware, G0 and G1 are identical — both use the F parameter. In grbl, G0 always moves at maximum rate regardless of F."
         }
       ],
       "modeNotes": [
@@ -71,7 +71,7 @@
       "sources": [
         "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
       ],
-      "notes": "G0 is modal \u2014 once set, subsequent lines without a G command will continue to use G0. Rapids may not follow a straight line because each axis moves at its own max rate independently. Rapid overrides (50%/25%) are a grbl extension not found in NIST standard."
+      "notes": "G0 is modal — once set, subsequent lines without a G command will continue to use G0. Rapids may not follow a straight line because each axis moves at its own max rate independently. Rapid overrides (50%/25%) are a grbl extension not found in NIST standard."
     },
     {
       "code": "G1",
@@ -138,7 +138,7 @@
       "sources": [
         "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
       ],
-      "notes": "G1 is modal. The F parameter is also modal \u2014 once set, it persists until changed."
+      "notes": "G1 is modal. The F parameter is also modal — once set, it persists until changed."
     },
     {
       "code": "G2",
@@ -219,7 +219,7 @@
       "sources": [
         "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
       ],
-      "notes": "Only incremental IJK mode (G91.1) is supported \u2014 arc center offsets are always relative to the current position. Absolute IJK (G90.1) is NOT supported. Use either IJK offsets or R radius, not both."
+      "notes": "Only incremental IJK mode (G91.1) is supported — arc center offsets are always relative to the current position. Absolute IJK (G90.1) is NOT supported. Use either IJK offsets or R radius, not both."
     },
     {
       "code": "G3",
@@ -325,7 +325,7 @@
         {
           "firmwareId": "linuxcnc",
           "code": "G4",
-          "note": "LinuxCNC also supports Q parameter for seconds. Some implementations interpret P as milliseconds \u2014 grbl uses seconds."
+          "note": "LinuxCNC also supports Q parameter for seconds. Some implementations interpret P as milliseconds — grbl uses seconds."
         }
       ],
       "modeNotes": [
@@ -666,7 +666,7 @@
       "code": "G28",
       "type": "G",
       "name": "Go to Predefined Position 1",
-      "description": "Moves to the predefined home position stored in EEPROM (set by G28.1). If axis words are given, moves to those coordinates first as an intermediate point, then to the stored position. This is NOT homing \u2014 use $H for homing.",
+      "description": "Moves to the predefined home position stored in EEPROM (set by G28.1). If axis words are given, moves to those coordinates first as an intermediate point, then to the stored position. This is NOT homing — use $H for homing.",
       "parameters": [
         {
           "name": "X",
@@ -719,7 +719,7 @@
       "modeNotes": [
         {
           "mode": "Laser mode ($32=1)",
-          "description": "Treated as a rapid move \u2014 laser is disabled during G28 motion."
+          "description": "Treated as a rapid move — laser is disabled during G28 motion."
         }
       ],
       "sources": [
@@ -754,7 +754,7 @@
       "sources": [
         "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
       ],
-      "notes": "Do not place in $N startup blocks \u2014 causes an EEPROM write on every startup."
+      "notes": "Do not place in $N startup blocks — causes an EEPROM write on every startup."
     },
     {
       "code": "G30",
@@ -888,7 +888,7 @@
       "sources": [
         "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
       ],
-      "notes": "PRB result includes success flag (:1 or :0). Non-persistent \u2014 cleared on reset."
+      "notes": "PRB result includes success flag (:1 or :0). Non-persistent — cleared on reset."
     },
     {
       "code": "G38.3",
@@ -1032,7 +1032,7 @@
       "code": "G40",
       "type": "G",
       "name": "Cutter Compensation Off",
-      "description": "Disables cutter radius compensation. This is the default and only supported mode \u2014 grbl does NOT support G41/G42 cutter compensation.",
+      "description": "Disables cutter radius compensation. This is the default and only supported mode — grbl does NOT support G41/G42 cutter compensation.",
       "parameters": [],
       "examples": [],
       "relatedCodes": [],
@@ -1058,7 +1058,7 @@
       "code": "G43.1",
       "type": "G",
       "name": "Dynamic Tool Length Offset",
-      "description": "Applies a tool length offset. Only the dynamic form (G43.1) is supported \u2014 grbl has no tool table. Non-persistent (cleared on reset). Only applies to the configured tool axis (typically Z).",
+      "description": "Applies a tool length offset. Only the dynamic form (G43.1) is supported — grbl has no tool table. Non-persistent (cleared on reset). Only applies to the configured tool axis (typically Z).",
       "parameters": [
         {
           "name": "Z",
@@ -1118,7 +1118,7 @@
       "code": "G53",
       "type": "G",
       "name": "Move in Machine Coordinates",
-      "description": "Overrides the active work coordinate system for the current line only. Must be paired with G0 or G1. Non-modal \u2014 only applies to the line it's on.",
+      "description": "Overrides the active work coordinate system for the current line only. Must be paired with G0 or G1. Non-modal — only applies to the line it's on.",
       "parameters": [
         {
           "name": "X",
@@ -1436,7 +1436,7 @@
       "sources": [
         "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
       ],
-      "notes": "Be cautious with G91 \u2014 if a program is interrupted and restarted without resetting to G90, moves will be relative to the interrupted position."
+      "notes": "Be cautious with G91 — if a program is interrupted and restarted without resetting to G90, moves will be relative to the interrupted position."
     },
     {
       "code": "G91.1",
@@ -1466,7 +1466,7 @@
       "code": "G92",
       "type": "G",
       "name": "Set Coordinate System Offset",
-      "description": "Sets a temporary coordinate offset so that the current position reads as the specified value. Non-persistent \u2014 cleared on reset.",
+      "description": "Sets a temporary coordinate offset so that the current position reads as the specified value. Non-persistent — cleared on reset.",
       "parameters": [
         {
           "name": "X",
@@ -1560,7 +1560,7 @@
       "code": "G94",
       "type": "G",
       "name": "Units Per Minute Feed Rate Mode",
-      "description": "Feed rate F is in units (mm or inches) per minute. This is the default mode. F is modal \u2014 persists until changed.",
+      "description": "Feed rate F is in units (mm or inches) per minute. This is the default mode. F is modal — persists until changed.",
       "parameters": [],
       "examples": [
         {
@@ -1586,7 +1586,7 @@
       "examples": [
         {
           "code": "M0",
-          "description": "Pause program \u2014 wait for operator to resume"
+          "description": "Pause program — wait for operator to resume"
         }
       ],
       "relatedCodes": [
@@ -1632,7 +1632,7 @@
       "sources": [
         "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
       ],
-      "notes": "Always pauses in grbl \u2014 no optional stop switch support."
+      "notes": "Always pauses in grbl — no optional stop switch support."
     },
     {
       "code": "M2",
@@ -1702,7 +1702,7 @@
         {
           "firmwareId": "smoothieware",
           "code": "M3",
-          "note": "Smoothieware does not differentiate M3/M4 for laser mode \u2014 laser behavior is module-configured."
+          "note": "Smoothieware does not differentiate M3/M4 for laser mode — laser behavior is module-configured."
         },
         {
           "firmwareId": "reprapfirmware",
@@ -1717,14 +1717,14 @@
         },
         {
           "mode": "Laser mode ($32=1)",
-          "description": "Constant power mode \u2014 laser fires at the S power level during ALL moves including G0. Power stays on even when stationary. Use M4 instead for safe laser operation in most cases."
+          "description": "Constant power mode — laser fires at the S power level during ALL moves including G0. Power stays on even when stationary. Use M4 instead for safe laser operation in most cases."
         }
       ],
       "sources": [
         "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Laser-Mode",
         "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
       ],
-      "notes": "In laser mode, M3 keeps the laser on even during G0 rapids and when stationary. This is usually NOT what you want \u2014 use M4 for dynamic power mode which automatically disables the laser during rapids and scales with speed."
+      "notes": "In laser mode, M3 keeps the laser on even during G0 rapids and when stationary. This is usually NOT what you want — use M4 for dynamic power mode which automatically disables the laser during rapids and scales with speed."
     },
     {
       "code": "M4",
@@ -1915,7 +1915,7 @@
       "code": "$H",
       "type": "$",
       "name": "Run Homing Cycle",
-      "description": "Initiates the homing sequence \u2014 moves each axis toward its limit switches to establish machine zero. Only available when $22=1 (homing enabled). Searches at $25 seek rate, re-approaches at $24 feed rate, then pulls off by $27 distance.",
+      "description": "Initiates the homing sequence — moves each axis toward its limit switches to establish machine zero. Only available when $22=1 (homing enabled). Searches at $25 seek rate, re-approaches at $24 feed rate, then pulls off by $27 distance.",
       "parameters": [],
       "examples": [
         {
@@ -1953,7 +1953,7 @@
       "sources": [
         "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
       ],
-      "notes": "grbl locks out all G-code until homing is complete when $22=1. Homing order and direction are configurable via $23. Pull-off distance via $27. grbl only supports homing all axes at once \u2014 single-axis homing requires grblHAL."
+      "notes": "grbl locks out all G-code until homing is complete when $22=1. Homing order and direction are configurable via $23. Pull-off distance via $27. grbl only supports homing all axes at once — single-axis homing requires grblHAL."
     },
     {
       "code": "$J",
@@ -2045,7 +2045,7 @@
       "code": "$X",
       "type": "$",
       "name": "Kill Alarm Lock",
-      "description": "Overrides the alarm lock to allow movement. Use carefully \u2014 machine position may be lost after alarm. Recommended to use G91 incremental mode after unlocking.",
+      "description": "Overrides the alarm lock to allow movement. Use carefully — machine position may be lost after alarm. Recommended to use G91 incremental mode after unlocking.",
       "parameters": [],
       "examples": [
         {
@@ -2067,7 +2067,7 @@
       "sources": [
         "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
       ],
-      "notes": "Does not execute startup blocks. Use for emergency recovery only \u2014 position may be unknown after alarm."
+      "notes": "Does not execute startup blocks. Use for emergency recovery only — position may be unknown after alarm."
     },
     {
       "code": "$C",
@@ -2274,7 +2274,7 @@
       "examples": [
         {
           "code": "$RST=*",
-          "description": "Full factory reset \u2014 clears everything"
+          "description": "Full factory reset — clears everything"
         }
       ],
       "relatedCodes": [
@@ -2351,7 +2351,7 @@
       "sources": [
         "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
       ],
-      "notes": "Default: 25ms. Set to 255 for machines where losing position is unacceptable (e.g., vertical Z axis that drops under gravity). NEMA17 motors may get warm when always energized \u2014 that is normal."
+      "notes": "Default: 25ms. Set to 255 for machines where losing position is unacceptable (e.g., vertical Z axis that drops under gravity). NEMA17 motors may get warm when always energized — that is normal."
     },
     {
       "code": "$2",
@@ -2388,7 +2388,7 @@
       "sources": [
         "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
       ],
-      "notes": "Default: 0. Bitmask values: X=1, Y=2, Z=4. Combine by adding (e.g., X+Z = 1+4 = 5). Rarely needs changing \u2014 most drivers expect active-high."
+      "notes": "Default: 0. Bitmask values: X=1, Y=2, Z=4. Combine by adding (e.g., X+Z = 1+4 = 5). Rarely needs changing — most drivers expect active-high."
     },
     {
       "code": "$3",
@@ -2436,11 +2436,11 @@
       "examples": [
         {
           "code": "$4=0",
-          "description": "Normal enable logic \u2014 LOW enables drivers (default)"
+          "description": "Normal enable logic — LOW enables drivers (default)"
         },
         {
           "code": "$4=1",
-          "description": "Inverted \u2014 HIGH enables drivers"
+          "description": "Inverted — HIGH enables drivers"
         }
       ],
       "relatedCodes": [
@@ -2468,11 +2468,11 @@
       "examples": [
         {
           "code": "$5=0",
-          "description": "Normal logic \u2014 switches trigger on HIGH (default, for NO switches)"
+          "description": "Normal logic — switches trigger on HIGH (default, for NO switches)"
         },
         {
           "code": "$5=1",
-          "description": "Inverted logic \u2014 switches trigger on LOW (for NC switches)"
+          "description": "Inverted logic — switches trigger on LOW (for NC switches)"
         }
       ],
       "relatedCodes": [
@@ -2501,11 +2501,11 @@
       "examples": [
         {
           "code": "$6=0",
-          "description": "Normal logic \u2014 probe triggers on HIGH (default)"
+          "description": "Normal logic — probe triggers on HIGH (default)"
         },
         {
           "code": "$6=1",
-          "description": "Inverted \u2014 probe triggers on LOW"
+          "description": "Inverted — probe triggers on LOW"
         }
       ],
       "relatedCodes": [
@@ -2574,7 +2574,7 @@
       "examples": [
         {
           "code": "$11=0.010",
-          "description": "Default \u2014 good balance of speed and accuracy"
+          "description": "Default — good balance of speed and accuracy"
         },
         {
           "code": "$11=0.002",
@@ -2610,7 +2610,7 @@
       "examples": [
         {
           "code": "$12=0.002",
-          "description": "Default \u2014 good for most CNC work"
+          "description": "Default — good for most CNC work"
         },
         {
           "code": "$12=0.001",
@@ -2639,7 +2639,7 @@
       "code": "$13",
       "type": "$",
       "name": "Report Inches",
-      "description": "Switches status report position values between mm (0) and inches (1). This only affects the reporting format \u2014 internal calculations and G-code parsing remain the same and follow G20/G21.",
+      "description": "Switches status report position values between mm (0) and inches (1). This only affects the reporting format — internal calculations and G-code parsing remain the same and follow G20/G21.",
       "parameters": [],
       "examples": [
         {
@@ -2767,7 +2767,7 @@
         {
           "firmwareId": "grblhal",
           "code": "$22",
-          "note": "Modified in grblHAL: changed from boolean to a bitmask with additional options \u2014 bit 0: enable homing, bit 1: enable single-axis homing, bit 2: force homing on startup, bit 3: manual homing via limit switches, etc."
+          "note": "Modified in grblHAL: changed from boolean to a bitmask with additional options — bit 0: enable homing, bit 1: enable single-axis homing, bit 2: force homing on startup, bit 3: manual homing via limit switches, etc."
         }
       ],
       "modeNotes": [],
@@ -2946,7 +2946,7 @@
       "sources": [
         "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Configuration"
       ],
-      "notes": "Default: 1.000mm. If you get an alarm immediately after homing completes, increase this value \u2014 the switch is not fully clearing. Must be large enough to completely deactivate the limit switch."
+      "notes": "Default: 1.000mm. If you get an alarm immediately after homing completes, increase this value — the switch is not fully clearing. Must be large enough to completely deactivate the limit switch."
     },
     {
       "code": "$30",
@@ -3163,7 +3163,7 @@
       "code": "$110",
       "type": "$",
       "name": "X Max Rate",
-      "description": "Sets the maximum travel rate for the X axis in mm/min. grbl will never exceed this speed on the X axis regardless of the programmed feed rate. Set conservatively \u2014 if set too high, the stepper will stall and lose steps.",
+      "description": "Sets the maximum travel rate for the X axis in mm/min. grbl will never exceed this speed on the X axis regardless of the programmed feed rate. Set conservatively — if set too high, the stepper will stall and lose steps.",
       "parameters": [],
       "examples": [
         {
@@ -3448,15 +3448,31 @@
       "description": "Immediately halts and safely resets grbl without a power cycle. If reset while in motion, throws an alarm indicating position may be lost. If reset while not in motion, position is retained and re-homing is not required.",
       "parameters": [],
       "examples": [
-        { "code": "Ctrl+X (0x18)", "description": "Send soft reset character" }
+        {
+          "code": "Ctrl+X (0x18)",
+          "description": "Send soft reset character"
+        }
       ],
-      "relatedCodes": ["$X", "$H"],
+      "relatedCodes": [
+        "$X",
+        "$H"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "RT:0x18", "note": "Identical behavior in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "RT:0x18", "note": "Identical behavior in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "RT:0x18",
+          "note": "Identical behavior in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "RT:0x18",
+          "note": "Identical behavior in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "This is a real-time command — sent as a single byte (0x18), not as a G-code line. It is processed immediately regardless of buffer state."
     },
     {
@@ -3466,15 +3482,31 @@
       "description": "Immediately generates and sends back runtime data with a status report including machine state, position, feed rate, and buffer state. Accepted at any time except during homing and critical alarms.",
       "parameters": [],
       "examples": [
-        { "code": "? (0x3F)", "description": "Query current machine status" }
+        {
+          "code": "? (0x3F)",
+          "description": "Query current machine status"
+        }
       ],
-      "relatedCodes": ["$10", "$G"],
+      "relatedCodes": [
+        "$10",
+        "$G"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "RT:?", "note": "Identical behavior. grblHAL extends the status report with additional fields." },
-        { "firmwareId": "fluidnc", "code": "RT:?", "note": "Identical behavior in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "RT:?",
+          "note": "Identical behavior. grblHAL extends the status report with additional fields."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "RT:?",
+          "note": "Identical behavior in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ],
       "notes": "Real-time command. Response format depends on $10 setting: MPos vs WPos, with or without buffer data. Format: <State|MPos:x,y,z|Bf:n,n|FS:n,n|Ov:n,n,n>"
     },
     {
@@ -3484,15 +3516,31 @@
       "description": "Places grbl into a suspend/HOLD state. If in motion, the machine decelerates to a controlled stop and then suspends. Does not disable spindle or coolant — only halts motion. If jogging, cancels the jog and flushes remaining jog commands.",
       "parameters": [],
       "examples": [
-        { "code": "! (0x21)", "description": "Pause motion (feed hold)" }
+        {
+          "code": "! (0x21)",
+          "description": "Pause motion (feed hold)"
+        }
       ],
-      "relatedCodes": ["RT:~", "M0"],
+      "relatedCodes": [
+        "RT:~",
+        "M0"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "RT:!", "note": "Identical behavior in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "RT:!", "note": "Identical behavior in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "RT:!",
+          "note": "Identical behavior in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "RT:!",
+          "note": "Identical behavior in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "Real-time command. Executes in IDLE, RUN, or JOG states; ignored otherwise. Spindle and coolant remain active during hold."
     },
     {
@@ -3502,15 +3550,31 @@
       "description": "Resumes from a feed hold, safety door/parking state (when door is closed), or M0 program pause. If parking is enabled and safety door state is ready to resume, it re-enables the spindle and coolant, moves back into position, then resumes.",
       "parameters": [],
       "examples": [
-        { "code": "~ (0x7E)", "description": "Resume from hold or pause" }
+        {
+          "code": "~ (0x7E)",
+          "description": "Resume from hold or pause"
+        }
       ],
-      "relatedCodes": ["RT:!", "M0"],
+      "relatedCodes": [
+        "RT:!",
+        "M0"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "RT:~", "note": "Identical behavior in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "RT:~", "note": "Identical behavior in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "RT:~",
+          "note": "Identical behavior in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "RT:~",
+          "note": "Identical behavior in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "Real-time command. Only effective when in HOLD, DOOR, or paused states."
     },
     {
@@ -3520,15 +3584,31 @@
       "description": "Immediately suspends into DOOR state. If in motion, decelerates to a stop then suspends. Disables spindle and coolant. If parking compile-time option is enabled, retracts the spindle to a safe position.",
       "parameters": [],
       "examples": [
-        { "code": "0x84", "description": "Trigger safety door state" }
+        {
+          "code": "0x84",
+          "description": "Trigger safety door state"
+        }
       ],
-      "relatedCodes": ["RT:!", "RT:~"],
+      "relatedCodes": [
+        "RT:!",
+        "RT:~"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "RT:0x84", "note": "Identical behavior in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "RT:0x84", "note": "Identical behavior in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "RT:0x84",
+          "note": "Identical behavior in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "RT:0x84",
+          "note": "Identical behavior in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "Real-time command. Executes in IDLE, HOLD, RUN, HOMING, or JOG states. More aggressive than feed hold — also disables spindle/coolant."
     },
     {
@@ -3538,15 +3618,31 @@
       "description": "Immediately cancels the current jog state by performing a feed hold and automatically flushing any remaining jog commands in the buffer. Ignored if not in a JOG state.",
       "parameters": [],
       "examples": [
-        { "code": "0x85", "description": "Cancel active jog motion" }
+        {
+          "code": "0x85",
+          "description": "Cancel active jog motion"
+        }
       ],
-      "relatedCodes": ["$J", "RT:!"],
+      "relatedCodes": [
+        "$J",
+        "RT:!"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "RT:0x85", "note": "Identical behavior in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "RT:0x85", "note": "Identical behavior in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "RT:0x85",
+          "note": "Identical behavior in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "RT:0x85",
+          "note": "Identical behavior in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "Real-time command. Only active during JOG state — ignored in all other states."
     },
     {
@@ -3556,15 +3652,33 @@
       "description": "Resets the feed rate override to 100% of the programmed feed rate.",
       "parameters": [],
       "examples": [
-        { "code": "0x90", "description": "Reset feed override to 100%" }
+        {
+          "code": "0x90",
+          "description": "Reset feed override to 100%"
+        }
       ],
-      "relatedCodes": ["RT:0x91", "RT:0x92", "RT:0x93", "RT:0x94"],
+      "relatedCodes": [
+        "RT:0x91",
+        "RT:0x92",
+        "RT:0x93",
+        "RT:0x94"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "RT:0x90", "note": "Identical behavior in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "RT:0x90", "note": "Identical behavior in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "RT:0x90",
+          "note": "Identical behavior in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "RT:0x90",
+          "note": "Identical behavior in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "Real-time command. Feed overrides range from 10% to 200%. Does not affect rapid rates or jog motions."
     },
     {
@@ -3574,15 +3688,33 @@
       "description": "Increases the feed rate override by 10% of programmed feed rate.",
       "parameters": [],
       "examples": [
-        { "code": "0x91", "description": "Increase feed override by 10%" }
+        {
+          "code": "0x91",
+          "description": "Increase feed override by 10%"
+        }
       ],
-      "relatedCodes": ["RT:0x90", "RT:0x92", "RT:0x93", "RT:0x94"],
+      "relatedCodes": [
+        "RT:0x90",
+        "RT:0x92",
+        "RT:0x93",
+        "RT:0x94"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "RT:0x91", "note": "Identical behavior in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "RT:0x91", "note": "Identical behavior in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "RT:0x91",
+          "note": "Identical behavior in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "RT:0x91",
+          "note": "Identical behavior in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "Real-time command. Maximum feed override is 200%."
     },
     {
@@ -3592,15 +3724,33 @@
       "description": "Decreases the feed rate override by 10% of programmed feed rate.",
       "parameters": [],
       "examples": [
-        { "code": "0x92", "description": "Decrease feed override by 10%" }
+        {
+          "code": "0x92",
+          "description": "Decrease feed override by 10%"
+        }
       ],
-      "relatedCodes": ["RT:0x90", "RT:0x91", "RT:0x93", "RT:0x94"],
+      "relatedCodes": [
+        "RT:0x90",
+        "RT:0x91",
+        "RT:0x93",
+        "RT:0x94"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "RT:0x92", "note": "Identical behavior in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "RT:0x92", "note": "Identical behavior in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "RT:0x92",
+          "note": "Identical behavior in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "RT:0x92",
+          "note": "Identical behavior in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "Real-time command. Minimum feed override is 10%."
     },
     {
@@ -3610,15 +3760,33 @@
       "description": "Increases the feed rate override by 1% of programmed feed rate for fine adjustment.",
       "parameters": [],
       "examples": [
-        { "code": "0x93", "description": "Increase feed override by 1%" }
+        {
+          "code": "0x93",
+          "description": "Increase feed override by 1%"
+        }
       ],
-      "relatedCodes": ["RT:0x90", "RT:0x91", "RT:0x92", "RT:0x94"],
+      "relatedCodes": [
+        "RT:0x90",
+        "RT:0x91",
+        "RT:0x92",
+        "RT:0x94"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "RT:0x93", "note": "Identical behavior in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "RT:0x93", "note": "Identical behavior in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "RT:0x93",
+          "note": "Identical behavior in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "RT:0x93",
+          "note": "Identical behavior in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "RT:0x94",
@@ -3627,15 +3795,33 @@
       "description": "Decreases the feed rate override by 1% of programmed feed rate for fine adjustment.",
       "parameters": [],
       "examples": [
-        { "code": "0x94", "description": "Decrease feed override by 1%" }
+        {
+          "code": "0x94",
+          "description": "Decrease feed override by 1%"
+        }
       ],
-      "relatedCodes": ["RT:0x90", "RT:0x91", "RT:0x92", "RT:0x93"],
+      "relatedCodes": [
+        "RT:0x90",
+        "RT:0x91",
+        "RT:0x92",
+        "RT:0x93"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "RT:0x94", "note": "Identical behavior in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "RT:0x94", "note": "Identical behavior in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "RT:0x94",
+          "note": "Identical behavior in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "RT:0x94",
+          "note": "Identical behavior in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "RT:0x95",
@@ -3644,15 +3830,31 @@
       "description": "Resets the rapid rate override to 100% full rapid rate.",
       "parameters": [],
       "examples": [
-        { "code": "0x95", "description": "Reset rapid override to 100%" }
+        {
+          "code": "0x95",
+          "description": "Reset rapid override to 100%"
+        }
       ],
-      "relatedCodes": ["RT:0x96", "RT:0x97"],
+      "relatedCodes": [
+        "RT:0x96",
+        "RT:0x97"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "RT:0x95", "note": "Identical behavior in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "RT:0x95", "note": "Identical behavior in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "RT:0x95",
+          "note": "Identical behavior in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "RT:0x95",
+          "note": "Identical behavior in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "Real-time command. Only affects G0, G28, and G30 rapid motions."
     },
     {
@@ -3662,15 +3864,31 @@
       "description": "Sets the rapid rate override to 50% of full rapid rate.",
       "parameters": [],
       "examples": [
-        { "code": "0x96", "description": "Set rapid override to 50%" }
+        {
+          "code": "0x96",
+          "description": "Set rapid override to 50%"
+        }
       ],
-      "relatedCodes": ["RT:0x95", "RT:0x97"],
+      "relatedCodes": [
+        "RT:0x95",
+        "RT:0x97"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "RT:0x96", "note": "Identical behavior in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "RT:0x96", "note": "Identical behavior in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "RT:0x96",
+          "note": "Identical behavior in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "RT:0x96",
+          "note": "Identical behavior in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "RT:0x97",
@@ -3679,15 +3897,31 @@
       "description": "Sets the rapid rate override to 25% of full rapid rate.",
       "parameters": [],
       "examples": [
-        { "code": "0x97", "description": "Set rapid override to 25%" }
+        {
+          "code": "0x97",
+          "description": "Set rapid override to 25%"
+        }
       ],
-      "relatedCodes": ["RT:0x95", "RT:0x96"],
+      "relatedCodes": [
+        "RT:0x95",
+        "RT:0x96"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "RT:0x97", "note": "Identical behavior in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "RT:0x97", "note": "Identical behavior in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "RT:0x97",
+          "note": "Identical behavior in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "RT:0x97",
+          "note": "Identical behavior in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "RT:0x99",
@@ -3696,17 +3930,38 @@
       "description": "Resets the spindle speed override to 100% of programmed speed.",
       "parameters": [],
       "examples": [
-        { "code": "0x99", "description": "Reset spindle override to 100%" }
+        {
+          "code": "0x99",
+          "description": "Reset spindle override to 100%"
+        }
       ],
-      "relatedCodes": ["RT:0x9A", "RT:0x9B", "RT:0x9C", "RT:0x9D"],
+      "relatedCodes": [
+        "RT:0x9A",
+        "RT:0x9B",
+        "RT:0x9C",
+        "RT:0x9D"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "RT:0x99", "note": "Identical behavior in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "RT:0x99", "note": "Identical behavior in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "RT:0x99",
+          "note": "Identical behavior in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "RT:0x99",
+          "note": "Identical behavior in FluidNC."
+        }
       ],
       "modeNotes": [
-        { "mode": "Laser mode ($32=1)", "description": "Spindle overrides also affect laser power. Use with caution — overriding laser power can affect cut quality or cause material damage." }
+        {
+          "mode": "Laser mode ($32=1)",
+          "description": "Spindle overrides also affect laser power. Use with caution — overriding laser power can affect cut quality or cause material damage."
+        }
       ],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "Real-time command. Spindle overrides range from 10% to 200%. May be changed regardless of whether spindle is enabled."
     },
     {
@@ -3716,15 +3971,33 @@
       "description": "Increases spindle speed override by 10%.",
       "parameters": [],
       "examples": [
-        { "code": "0x9A", "description": "Increase spindle override by 10%" }
+        {
+          "code": "0x9A",
+          "description": "Increase spindle override by 10%"
+        }
       ],
-      "relatedCodes": ["RT:0x99", "RT:0x9B", "RT:0x9C", "RT:0x9D"],
+      "relatedCodes": [
+        "RT:0x99",
+        "RT:0x9B",
+        "RT:0x9C",
+        "RT:0x9D"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "RT:0x9A", "note": "Identical behavior in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "RT:0x9A", "note": "Identical behavior in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "RT:0x9A",
+          "note": "Identical behavior in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "RT:0x9A",
+          "note": "Identical behavior in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "RT:0x9B",
@@ -3733,15 +4006,33 @@
       "description": "Decreases spindle speed override by 10%.",
       "parameters": [],
       "examples": [
-        { "code": "0x9B", "description": "Decrease spindle override by 10%" }
+        {
+          "code": "0x9B",
+          "description": "Decrease spindle override by 10%"
+        }
       ],
-      "relatedCodes": ["RT:0x99", "RT:0x9A", "RT:0x9C", "RT:0x9D"],
+      "relatedCodes": [
+        "RT:0x99",
+        "RT:0x9A",
+        "RT:0x9C",
+        "RT:0x9D"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "RT:0x9B", "note": "Identical behavior in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "RT:0x9B", "note": "Identical behavior in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "RT:0x9B",
+          "note": "Identical behavior in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "RT:0x9B",
+          "note": "Identical behavior in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "RT:0x9C",
@@ -3750,15 +4041,33 @@
       "description": "Increases spindle speed override by 1% for fine adjustment.",
       "parameters": [],
       "examples": [
-        { "code": "0x9C", "description": "Increase spindle override by 1%" }
+        {
+          "code": "0x9C",
+          "description": "Increase spindle override by 1%"
+        }
       ],
-      "relatedCodes": ["RT:0x99", "RT:0x9A", "RT:0x9B", "RT:0x9D"],
+      "relatedCodes": [
+        "RT:0x99",
+        "RT:0x9A",
+        "RT:0x9B",
+        "RT:0x9D"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "RT:0x9C", "note": "Identical behavior in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "RT:0x9C", "note": "Identical behavior in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "RT:0x9C",
+          "note": "Identical behavior in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "RT:0x9C",
+          "note": "Identical behavior in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "RT:0x9D",
@@ -3767,15 +4076,33 @@
       "description": "Decreases spindle speed override by 1% for fine adjustment.",
       "parameters": [],
       "examples": [
-        { "code": "0x9D", "description": "Decrease spindle override by 1%" }
+        {
+          "code": "0x9D",
+          "description": "Decrease spindle override by 1%"
+        }
       ],
-      "relatedCodes": ["RT:0x99", "RT:0x9A", "RT:0x9B", "RT:0x9C"],
+      "relatedCodes": [
+        "RT:0x99",
+        "RT:0x9A",
+        "RT:0x9B",
+        "RT:0x9C"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "RT:0x9D", "note": "Identical behavior in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "RT:0x9D", "note": "Identical behavior in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "RT:0x9D",
+          "note": "Identical behavior in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "RT:0x9D",
+          "note": "Identical behavior in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ]
     },
     {
       "code": "RT:0x9E",
@@ -3784,15 +4111,33 @@
       "description": "Toggles the spindle enable/disable state, but only while in HOLD state. When motion resumes via cycle start, the last spindle state is restored with a 4-second delay before resuming the tool path. Ignored while in motion.",
       "parameters": [],
       "examples": [
-        { "code": "0x9E", "description": "Toggle spindle on/off during feed hold" }
+        {
+          "code": "0x9E",
+          "description": "Toggle spindle on/off during feed hold"
+        }
       ],
-      "relatedCodes": ["RT:!", "M3", "M4", "M5"],
+      "relatedCodes": [
+        "RT:!",
+        "M3",
+        "M4",
+        "M5"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "RT:0x9E", "note": "Identical behavior in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "RT:0x9E", "note": "Identical behavior in FluidNC. Only works in hold mode." }
+        {
+          "firmwareId": "grblhal",
+          "code": "RT:0x9E",
+          "note": "Identical behavior in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "RT:0x9E",
+          "note": "Identical behavior in FluidNC. Only works in hold mode."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "Real-time command. Only functional during HOLD state. Useful for inspecting the workpiece mid-job without losing position."
     },
     {
@@ -3802,15 +4147,32 @@
       "description": "Toggles the flood coolant (M8/M9) output pin and directly changes the coolant modal state in the G-code parser. May be commanded in IDLE, RUN, or HOLD states.",
       "parameters": [],
       "examples": [
-        { "code": "0xA0", "description": "Toggle flood coolant on/off" }
+        {
+          "code": "0xA0",
+          "description": "Toggle flood coolant on/off"
+        }
       ],
-      "relatedCodes": ["M8", "M9", "RT:0xA1"],
+      "relatedCodes": [
+        "M8",
+        "M9",
+        "RT:0xA1"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "RT:0xA0", "note": "Identical behavior in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "RT:0xA0", "note": "Identical behavior in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "RT:0xA0",
+          "note": "Identical behavior in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "RT:0xA0",
+          "note": "Identical behavior in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "Real-time command. Changes persist in the parser — subsequent M9 will turn off, M8 will turn on."
     },
     {
@@ -3820,15 +4182,32 @@
       "description": "Toggles the mist coolant (M7/M9) output pin. Requires the ENABLE_M7 compile-time option. May be commanded in IDLE, RUN, or HOLD states.",
       "parameters": [],
       "examples": [
-        { "code": "0xA1", "description": "Toggle mist coolant on/off" }
+        {
+          "code": "0xA1",
+          "description": "Toggle mist coolant on/off"
+        }
       ],
-      "relatedCodes": ["M7", "M9", "RT:0xA0"],
+      "relatedCodes": [
+        "M7",
+        "M9",
+        "RT:0xA0"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "RT:0xA1", "note": "Identical behavior in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "RT:0xA1", "note": "Identical behavior in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "RT:0xA1",
+          "note": "Identical behavior in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "RT:0xA1",
+          "note": "Identical behavior in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Commands"
+      ],
       "notes": "Real-time command. Requires ENABLE_M7 compile-time option in grbl."
     },
     {
@@ -3840,11 +4219,21 @@
       "examples": [],
       "relatedCodes": [],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:1", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:1", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:1",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:1",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:2",
@@ -3855,11 +4244,21 @@
       "examples": [],
       "relatedCodes": [],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:2", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:2", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:2",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:2",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:3",
@@ -3870,11 +4269,21 @@
       "examples": [],
       "relatedCodes": [],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:3", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:3", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:3",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:3",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:4",
@@ -3885,11 +4294,21 @@
       "examples": [],
       "relatedCodes": [],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:4", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:4", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:4",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:4",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:5",
@@ -3898,13 +4317,26 @@
       "description": "Homing cycle is not enabled via settings ($22).",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["$22", "$H"],
+      "relatedCodes": [
+        "$22",
+        "$H"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:5", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:5", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:5",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:5",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:6",
@@ -3913,13 +4345,25 @@
       "description": "Minimum step pulse time must be greater than 3 microseconds.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["$0"],
+      "relatedCodes": [
+        "$0"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:6", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:6", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:6",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:6",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:7",
@@ -3928,13 +4372,25 @@
       "description": "EEPROM read failed. Settings have been reset and restored to default values.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["$RST=$"],
+      "relatedCodes": [
+        "$RST=$"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:7", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:7", "note": "Same error code in FluidNC (NVS instead of EEPROM)." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:7",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:7",
+          "note": "Same error code in FluidNC (NVS instead of EEPROM)."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:8",
@@ -3945,11 +4401,21 @@
       "examples": [],
       "relatedCodes": [],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:8", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:8", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:8",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:8",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:9",
@@ -3958,13 +4424,25 @@
       "description": "G-code locked out during alarm or jog state.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["$X"],
+      "relatedCodes": [
+        "$X"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:9", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:9", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:9",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:9",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:10",
@@ -3973,13 +4451,26 @@
       "description": "Soft limits cannot be enabled without homing also enabled.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["$20", "$22"],
+      "relatedCodes": [
+        "$20",
+        "$22"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:10", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:10", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:10",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:10",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:11",
@@ -3990,11 +4481,21 @@
       "examples": [],
       "relatedCodes": [],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:11", "note": "Same error code in grblHAL. grblHAL supports longer lines." },
-        { "firmwareId": "fluidnc", "code": "ERR:11", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:11",
+          "note": "Same error code in grblHAL. grblHAL supports longer lines."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:11",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"],
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ],
       "notes": "grbl has an 80-character line limit by default."
     },
     {
@@ -4004,13 +4505,27 @@
       "description": "Grbl '$' setting value exceeds the maximum step rate supported. Compile-time option dependent.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["$100", "$110", "$120"],
+      "relatedCodes": [
+        "$100",
+        "$110",
+        "$120"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:12", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:12", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:12",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:12",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:13",
@@ -4019,13 +4534,25 @@
       "description": "Safety door detected as opened and door state initiated.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["RT:0x84"],
+      "relatedCodes": [
+        "RT:0x84"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:13", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:13", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:13",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:13",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:14",
@@ -4034,10 +4561,14 @@
       "description": "Build info or startup line exceeded EEPROM line length limit. Grbl-Mega only.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["$N"],
+      "relatedCodes": [
+        "$N"
+      ],
       "crossReferences": [],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:15",
@@ -4046,13 +4577,28 @@
       "description": "Jog target exceeds machine travel. Command ignored.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["$J", "$130", "$131", "$132"],
+      "relatedCodes": [
+        "$J",
+        "$130",
+        "$131",
+        "$132"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:15", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:15", "note": "FluidNC constrains jogs to soft limits instead of throwing this error." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:15",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:15",
+          "note": "FluidNC constrains jogs to soft limits instead of throwing this error."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:16",
@@ -4061,13 +4607,25 @@
       "description": "Jog command with no '=' or contains prohibited G-code.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["$J"],
+      "relatedCodes": [
+        "$J"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:16", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:16", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:16",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:16",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:17",
@@ -4076,13 +4634,25 @@
       "description": "Laser mode requires PWM output. The spindle output pin must support PWM for laser mode ($32=1).",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["$32"],
+      "relatedCodes": [
+        "$32"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:17", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:17", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:17",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:17",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:20",
@@ -4093,11 +4663,21 @@
       "examples": [],
       "relatedCodes": [],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:20", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:20", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:20",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:20",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:21",
@@ -4108,11 +4688,21 @@
       "examples": [],
       "relatedCodes": [],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:21", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:21", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:21",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:21",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:22",
@@ -4121,13 +4711,27 @@
       "description": "Feed rate has not yet been set or is undefined.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["G1", "G2", "G3"],
+      "relatedCodes": [
+        "G1",
+        "G2",
+        "G3"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:22", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:22", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:22",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:22",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:23",
@@ -4138,11 +4742,21 @@
       "examples": [],
       "relatedCodes": [],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:23", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:23", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:23",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:23",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:24",
@@ -4153,11 +4767,21 @@
       "examples": [],
       "relatedCodes": [],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:24", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:24", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:24",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:24",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:25",
@@ -4168,11 +4792,21 @@
       "examples": [],
       "relatedCodes": [],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:25", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:25", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:25",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:25",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:26",
@@ -4183,11 +4817,21 @@
       "examples": [],
       "relatedCodes": [],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:26", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:26", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:26",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:26",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:27",
@@ -4198,11 +4842,21 @@
       "examples": [],
       "relatedCodes": [],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:27", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:27", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:27",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:27",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:28",
@@ -4211,13 +4865,26 @@
       "description": "A G-code command was sent, but is missing some required P or L value words in the line.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["G10 L2", "G10 L20"],
+      "relatedCodes": [
+        "G10 L2",
+        "G10 L20"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:28", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:28", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:28",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:28",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:29",
@@ -4226,13 +4893,26 @@
       "description": "Grbl supports six work coordinate systems G54-G59. G59.1, G59.2, and G59.3 are not supported.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["G54", "G59"],
+      "relatedCodes": [
+        "G54",
+        "G59"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:29", "note": "grblHAL may support extended coordinate systems depending on build." },
-        { "firmwareId": "fluidnc", "code": "ERR:29", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:29",
+          "note": "grblHAL may support extended coordinate systems depending on build."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:29",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:30",
@@ -4241,13 +4921,27 @@
       "description": "G53 requires either a G0 seek or G1 feed motion mode to be active. A different motion was active.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["G53", "G0", "G1"],
+      "relatedCodes": [
+        "G53",
+        "G0",
+        "G1"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:30", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:30", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:30",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:30",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:31",
@@ -4256,13 +4950,25 @@
       "description": "There are unused axis words in the block and G80 motion mode cancel is active.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["G80"],
+      "relatedCodes": [
+        "G80"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:31", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:31", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:31",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:31",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:32",
@@ -4271,13 +4977,29 @@
       "description": "A G2 or G3 arc was commanded but there are no XYZ axis words in the selected plane to trace the arc.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["G2", "G3", "G17", "G18", "G19"],
+      "relatedCodes": [
+        "G2",
+        "G3",
+        "G17",
+        "G18",
+        "G19"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:32", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:32", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:32",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:32",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:33",
@@ -4286,13 +5008,27 @@
       "description": "The motion command has an invalid target. G2, G3, and G38.2 generate this error if the arc is impossible to generate or if the probe target is the current position.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["G2", "G3", "G38.2"],
+      "relatedCodes": [
+        "G2",
+        "G3",
+        "G38.2"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:33", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:33", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:33",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:33",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:34",
@@ -4301,13 +5037,26 @@
       "description": "A G2 or G3 arc, traced with the radius definition, had a mathematical error when computing the arc geometry. Try breaking up the arc into semi-circles or quadrants, or redefine with arc offset definition.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["G2", "G3"],
+      "relatedCodes": [
+        "G2",
+        "G3"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:34", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:34", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:34",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:34",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:35",
@@ -4316,13 +5065,26 @@
       "description": "A G2 or G3 arc, traced with the offset definition, is missing the IJK offset word in the selected plane to trace the arc.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["G2", "G3"],
+      "relatedCodes": [
+        "G2",
+        "G3"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:35", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:35", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:35",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:35",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:36",
@@ -4333,11 +5095,21 @@
       "examples": [],
       "relatedCodes": [],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:36", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:36", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:36",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:36",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:37",
@@ -4346,13 +5118,25 @@
       "description": "The G43.1 dynamic tool length offset command cannot apply an offset to an axis other than its configured axis. The grbl default axis is the Z-axis.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["G43.1"],
+      "relatedCodes": [
+        "G43.1"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:37", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:37", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:37",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:37",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ERR:38",
@@ -4363,11 +5147,21 @@
       "examples": [],
       "relatedCodes": [],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ERR:38", "note": "Same error code in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ERR:38", "note": "Same error code in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ERR:38",
+          "note": "Same error code in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ERR:38",
+          "note": "Same error code in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ALARM:1",
@@ -4376,14 +5170,44 @@
       "description": "Hard limit triggered. Machine position is likely lost due to sudden and immediate halt. Re-homing is highly recommended.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["$21", "$H", "$X"],
+      "relatedCodes": [
+        "$21",
+        "$H",
+        "$X"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ALARM:1", "note": "Same alarm in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ALARM:1", "note": "Same alarm in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ALARM:1",
+          "note": "Same alarm in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ALARM:1",
+          "note": "Same alarm in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"],
-      "notes": "Clear with Ctrl+X (soft reset), then $H to re-home. Position is unreliable after this alarm."
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface",
+        "https://github.com/gnea/grbl/blob/master/doc/csv/alarm_codes_en_US.csv",
+        "https://docs.lightburnsoftware.com/latest/Troubleshooting/GRBLErrors/",
+        "https://github.com/adammhaile/cnc_firmware_tools"
+      ],
+      "notes": "Clear with Ctrl+X (soft reset), then $H to re-home. Position is unreliable after this alarm.",
+      "troubleshooting": {
+        "causes": [
+          "Limit switch wired wrong or noisy (electrical interference)",
+          "Soft limits ($20) disabled but motion overshot mechanical travel",
+          "Switch debounce ($26) too low"
+        ],
+        "fixes": [
+          "Re-home with $H once it is safe to move",
+          "Check switch wiring and grounding; route switch wires away from steppers",
+          "Verify $5 limit-invert polarity matches your switch type (NO vs NC)",
+          "Increase $26 debounce if noise is the issue"
+        ]
+      }
     },
     {
       "code": "ALARM:2",
@@ -4392,14 +5216,45 @@
       "description": "G-code motion target exceeds machine travel. Machine position is safely retained. Alarm may be safely unlocked.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["$20", "$130", "$131", "$132", "$X"],
+      "relatedCodes": [
+        "$20",
+        "$130",
+        "$131",
+        "$132",
+        "$X"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ALARM:2", "note": "Same alarm in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ALARM:2", "note": "Same alarm in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ALARM:2",
+          "note": "Same alarm in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ALARM:2",
+          "note": "Same alarm in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"],
-      "notes": "Safe to unlock with $X — position was not lost. Check your G-code travel boundaries."
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface",
+        "https://github.com/gnea/grbl/blob/master/doc/csv/alarm_codes_en_US.csv",
+        "https://docs.lightburnsoftware.com/latest/Troubleshooting/GRBLErrors/",
+        "https://github.com/adammhaile/cnc_firmware_tools"
+      ],
+      "notes": "Safe to unlock with $X — position was not lost. Check your G-code travel boundaries.",
+      "troubleshooting": {
+        "causes": [
+          "Work coordinate origin (G54 etc.) set incorrectly",
+          "G-code expects different travel limits than $130-$132 define",
+          "Machine not homed before commanding motion that depends on machine coordinates"
+        ],
+        "fixes": [
+          "Verify your work zero and that the toolpath fits within $130-$132",
+          "Home the machine ($H) before running jobs",
+          "$X to clear if you are certain the target was wrong (not the limits)"
+        ]
+      }
     },
     {
       "code": "ALARM:3",
@@ -4408,13 +5263,35 @@
       "description": "Reset while in motion. Grbl cannot guarantee position. Lost steps are likely. Re-homing is highly recommended.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["RT:0x18", "$H"],
+      "relatedCodes": [
+        "RT:0x18",
+        "$H"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ALARM:3", "note": "Same alarm in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ALARM:3", "note": "Same alarm in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ALARM:3",
+          "note": "Same alarm in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ALARM:3",
+          "note": "Same alarm in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface",
+        "https://github.com/gnea/grbl/blob/master/doc/csv/alarm_codes_en_US.csv",
+        "https://docs.lightburnsoftware.com/latest/Troubleshooting/GRBLErrors/",
+        "https://github.com/adammhaile/cnc_firmware_tools"
+      ],
+      "troubleshooting": {
+        "causes": [],
+        "fixes": [
+          "Re-home before continuing."
+        ]
+      }
     },
     {
       "code": "ALARM:4",
@@ -4423,13 +5300,42 @@
       "description": "Probe is not in the expected initial state before starting probe cycle. G38.2 and G38.3 require probe not triggered; G38.4 and G38.5 require probe triggered.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["G38.2", "G38.3", "G38.4", "G38.5"],
+      "relatedCodes": [
+        "G38.2",
+        "G38.3",
+        "G38.4",
+        "G38.5"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ALARM:4", "note": "Same alarm in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ALARM:4", "note": "Same alarm in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ALARM:4",
+          "note": "Same alarm in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ALARM:4",
+          "note": "Same alarm in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface",
+        "https://github.com/gnea/grbl/blob/master/doc/csv/alarm_codes_en_US.csv",
+        "https://docs.lightburnsoftware.com/latest/Troubleshooting/GRBLErrors/",
+        "https://github.com/adammhaile/cnc_firmware_tools"
+      ],
+      "troubleshooting": {
+        "causes": [
+          "Probe still touching workpiece from previous probe",
+          "Probe wire shorted",
+          "Wrong $6 probe-invert setting"
+        ],
+        "fixes": [
+          "Lift the probe away before re-running",
+          "Verify $6 matches your probe (active-low vs active-high)"
+        ]
+      }
     },
     {
       "code": "ALARM:5",
@@ -4438,13 +5344,41 @@
       "description": "Probe did not contact the workpiece within the programmed travel for G38.2 and G38.4.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["G38.2", "G38.4"],
+      "relatedCodes": [
+        "G38.2",
+        "G38.4"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ALARM:5", "note": "Same alarm in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ALARM:5", "note": "Same alarm in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ALARM:5",
+          "note": "Same alarm in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ALARM:5",
+          "note": "Same alarm in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface",
+        "https://github.com/gnea/grbl/blob/master/doc/csv/alarm_codes_en_US.csv",
+        "https://docs.lightburnsoftware.com/latest/Troubleshooting/GRBLErrors/",
+        "https://github.com/adammhaile/cnc_firmware_tools"
+      ],
+      "troubleshooting": {
+        "causes": [
+          "Probe positioned too far from workpiece",
+          "Probe wire disconnected or open circuit",
+          "Probe maximum travel was too short"
+        ],
+        "fixes": [
+          "Position probe closer before G38.2",
+          "Check probe continuity",
+          "Increase probe move distance"
+        ]
+      }
     },
     {
       "code": "ALARM:6",
@@ -4453,13 +5387,25 @@
       "description": "Reset during active homing cycle.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["$H"],
+      "relatedCodes": [
+        "$H"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ALARM:6", "note": "Same alarm in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ALARM:6", "note": "Same alarm in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ALARM:6",
+          "note": "Same alarm in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ALARM:6",
+          "note": "Same alarm in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ALARM:7",
@@ -4468,13 +5414,26 @@
       "description": "Safety door was opened during active homing cycle.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["$H", "RT:0x84"],
+      "relatedCodes": [
+        "$H",
+        "RT:0x84"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ALARM:7", "note": "Same alarm in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ALARM:7", "note": "Same alarm in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ALARM:7",
+          "note": "Same alarm in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ALARM:7",
+          "note": "Same alarm in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     },
     {
       "code": "ALARM:8",
@@ -4483,13 +5442,40 @@
       "description": "Cycle failed to clear limit switch when pulling off. Try increasing pull-off setting ($27) or check wiring.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["$H", "$27"],
+      "relatedCodes": [
+        "$H",
+        "$27"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ALARM:8", "note": "Same alarm in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ALARM:8", "note": "Same alarm in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ALARM:8",
+          "note": "Same alarm in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ALARM:8",
+          "note": "Same alarm in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface",
+        "https://github.com/gnea/grbl/blob/master/doc/csv/alarm_codes_en_US.csv",
+        "https://docs.lightburnsoftware.com/latest/Troubleshooting/GRBLErrors/",
+        "https://github.com/adammhaile/cnc_firmware_tools"
+      ],
+      "troubleshooting": {
+        "causes": [
+          "Pull-off distance ($27) too small",
+          "Switch sticking mechanically",
+          "Switch wiring fault"
+        ],
+        "fixes": [
+          "Increase $27",
+          "Verify the switch returns to its idle state when released"
+        ]
+      }
     },
     {
       "code": "ALARM:9",
@@ -4498,13 +5484,46 @@
       "description": "Could not find limit switch within search distance. Defined as 1.5 × max_travel on search and 5 × pulloff on locate phases.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["$H", "$24", "$25", "$130", "$131", "$132"],
+      "relatedCodes": [
+        "$H",
+        "$24",
+        "$25",
+        "$130",
+        "$131",
+        "$132"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ALARM:9", "note": "Same alarm in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ALARM:9", "note": "Same alarm in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ALARM:9",
+          "note": "Same alarm in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ALARM:9",
+          "note": "Same alarm in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface",
+        "https://github.com/gnea/grbl/blob/master/doc/csv/alarm_codes_en_US.csv",
+        "https://docs.lightburnsoftware.com/latest/Troubleshooting/GRBLErrors/",
+        "https://github.com/adammhaile/cnc_firmware_tools"
+      ],
+      "troubleshooting": {
+        "causes": [
+          "Switch not wired or in wrong port",
+          "Wrong $23 homing direction (machine moving away from the switch)",
+          "$130-$132 max travel set too short",
+          "Switch broken or invert ($5) wrong"
+        ],
+        "fixes": [
+          "Confirm switch triggers when manually pressed (check $? pin state)",
+          "Flip the relevant $23 bit if homing moves the wrong direction",
+          "Verify $130/$131/$132 are reasonable"
+        ]
+      }
     },
     {
       "code": "ALARM:10",
@@ -4513,13 +5532,25 @@
       "description": "On dual axis machines, could not find the second limit switch for self-squaring.",
       "parameters": [],
       "examples": [],
-      "relatedCodes": ["$H"],
+      "relatedCodes": [
+        "$H"
+      ],
       "crossReferences": [
-        { "firmwareId": "grblhal", "code": "ALARM:10", "note": "Same alarm in grblHAL." },
-        { "firmwareId": "fluidnc", "code": "ALARM:10", "note": "Same alarm in FluidNC." }
+        {
+          "firmwareId": "grblhal",
+          "code": "ALARM:10",
+          "note": "Same alarm in grblHAL."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "ALARM:10",
+          "note": "Same alarm in FluidNC."
+        }
       ],
       "modeNotes": [],
-      "sources": ["https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"]
+      "sources": [
+        "https://github.com/gnea/grbl/wiki/Grbl-v1.1-Interface"
+      ]
     }
   ]
 }
