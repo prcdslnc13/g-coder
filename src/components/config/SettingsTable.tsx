@@ -69,6 +69,7 @@ export function SettingsTable({ parsed, flavor, edits, onEdit }: SettingsTablePr
                   <button
                     role="switch"
                     aria-checked={decoded?.kind === "bool" && decoded.on}
+                    aria-label={found.def.name}
                     onClick={() => onEdit(p.id, decoded?.kind === "bool" && decoded.on ? "0" : "1")}
                     className={`relative w-9 h-5 rounded-full transition-colors ${
                       decoded?.kind === "bool" && decoded.on ? "bg-emerald-600" : "bg-gray-700"

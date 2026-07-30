@@ -19,6 +19,7 @@ export default function ConfigPage() {
   const [mode, setMode] = useState<"analyze" | "compare">("analyze");
   const [textB, setTextB] = useState("");
   const [edits, setEdits] = useState<Map<number, string>>(new Map());
+  const [copiedConfig, setCopiedConfig] = useState(false);
 
   const parsed = useMemo(() => parseDollarConfig(text), [text]);
   const parsedB = useMemo(() => parseDollarConfig(textB), [textB]);
@@ -171,10 +172,16 @@ export default function ConfigPage() {
                 <span className="text-xs text-amber-400">{edits.size} setting{edits.size !== 1 ? "s" : ""} modified</span>
               )}
               <button
-                onClick={() => navigator.clipboard.writeText(serializeConfig(currentEntries()))}
+                onClick={async () => {
+                  try {
+                    await navigator.clipboard.writeText(serializeConfig(currentEntries()));
+                    setCopiedConfig(true);
+                    setTimeout(() => setCopiedConfig(false), 1500);
+                  } catch {}
+                }}
                 className="text-xs px-2 py-1 rounded bg-gray-800 text-gray-400 hover:text-emerald-400 hover:bg-gray-700"
               >
-                Copy full config
+                {copiedConfig ? "Copied!" : "Copy full config"}
               </button>
               <button
                 onClick={() => download(serializeConfig(currentEntries()), "config.txt")}

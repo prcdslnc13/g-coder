@@ -64,6 +64,7 @@ Client component that owns all state:
 - `searchQuery` — text filter
 - `typeFilter` — G/M/$/all filter
 - `selectedCode` — which code's detail dialog is open
+- `compareCode` — which code's cross-firmware compare view is open
 
 All of this state is mirrored into query params (`fw`, `type`, `q`, `code`, `view=compare`)
 via `src/lib/urlState.ts` and `history.replaceState`, so the address bar is always a

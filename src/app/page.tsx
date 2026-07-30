@@ -36,16 +36,25 @@ export default function Home() {
   }, []);
 
   // Mirror state into the URL so the address bar is always a shareable link.
+  // Debounced and guarded: Safari throws SecurityError past ~100
+  // history.replaceState calls per 30s, which would unmount the React tree.
   useEffect(() => {
     if (!urlReady) return;
-    const qs = serializeUrlState({
-      fw: selectedFirmware,
-      type: typeFilter,
-      q: searchQuery,
-      code: compareCode ?? selectedCode?.code ?? null,
-      view: compareCode ? "compare" : null,
-    });
-    history.replaceState(null, "", qs === "" ? window.location.pathname : qs);
+    const t = setTimeout(() => {
+      try {
+        const qs = serializeUrlState({
+          fw: selectedFirmware,
+          type: typeFilter,
+          q: searchQuery,
+          code: compareCode ?? selectedCode?.code ?? null,
+          view: compareCode ? "compare" : null,
+        });
+        history.replaceState(null, "", qs === "" ? window.location.pathname : qs);
+      } catch {
+        // Safari replaceState rate limit — URL lags, self-heals on next change
+      }
+    }, 200);
+    return () => clearTimeout(t);
   }, [urlReady, selectedFirmware, typeFilter, searchQuery, selectedCode, compareCode]);
 
   const firmwareList = getFirmwareList();
