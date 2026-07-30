@@ -98,7 +98,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between mb-4">
             <h1 className="text-xl font-bold tracking-tight">
-              <span className="text-emerald-400">G</span>-Coder
+              <span className="text-emerald-400">GCode</span> Atlas
             </h1>
             <FirmwareSelector
               firmwareList={firmwareList}

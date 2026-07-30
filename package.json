@@ -1,7 +1,7 @@
 {
-  "name": "g-coder",
+  "name": "gcode-atlas",
   "version": "1.0.0",
-  "description": "interactive g-code wiki and troubleshooter",
+  "description": "GCode Atlas — search and compare G-code standards across open-source CNC firmwares",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

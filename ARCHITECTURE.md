@@ -2,7 +2,7 @@
 
 ## Overview
 
-g-coder is a static, client-side web application that serves as an interactive reference for G-code, M-code, and $ commands across multiple CNC firmware systems. All data is stored in JSON files and bundled at build time — there is no backend or database.
+GCode Atlas (formerly g-coder) is a static, client-side web application that serves as an interactive reference for G-code, M-code, and $ commands across multiple CNC firmware systems. All data is stored in JSON files and bundled at build time — there is no backend or database.
 
 ## Tech Stack
 

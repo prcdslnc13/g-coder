@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project
 
-g-coder is an interactive G-code/M-code wiki and troubleshooter for CNC firmware systems. Built as a support tool for agents working with LightBurn and MillMage software. Target firmwares: grbl, grblHAL, LinuxCNC, Smoothieware, RepRapFirmware (Duet3D), FluidNC.
+GCode Atlas (repo: g-coder) is an interactive G-code/M-code wiki and troubleshooter for CNC firmware systems. Built as a support tool for agents working with LightBurn and MillMage software. Target firmwares: grbl, grblHAL, LinuxCNC, Smoothieware, RepRapFirmware (Duet3D), FluidNC.
 
 ## Commands
 
