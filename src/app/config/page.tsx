@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { SettingFlavor } from "@/types/settings";
 import { parseDollarConfig, detectFlavor } from "@/lib/settings/parse";
 import { SettingsTable } from "@/components/config/SettingsTable";
+import { DiffTable } from "@/components/config/DiffTable";
 
 const FLAVOR_LABELS: Record<SettingFlavor, string> = {
   grbl: "grbl 1.1",
@@ -14,9 +15,15 @@ const FLAVOR_LABELS: Record<SettingFlavor, string> = {
 export default function ConfigPage() {
   const [text, setText] = useState("");
   const [flavorOverride, setFlavorOverride] = useState<SettingFlavor | "auto">("auto");
+  const [mode, setMode] = useState<"analyze" | "compare">("analyze");
+  const [textB, setTextB] = useState("");
 
   const parsed = useMemo(() => parseDollarConfig(text), [text]);
-  const detected = useMemo(() => detectFlavor(parsed), [parsed]);
+  const parsedB = useMemo(() => parseDollarConfig(textB), [textB]);
+  const detected = useMemo(
+    () => detectFlavor([...parsed, ...parsedB]),
+    [parsed, parsedB]
+  );
   const flavor = flavorOverride === "auto" ? detected : flavorOverride;
 
   return (
@@ -34,10 +41,24 @@ export default function ConfigPage() {
       </header>
 
       <main className="flex-1 max-w-7xl mx-auto px-4 py-6 w-full space-y-6">
+        <div className="flex gap-1">
+          {(["analyze", "compare"] as const).map((m) => (
+            <button
+              key={m}
+              onClick={() => setMode(m)}
+              className={`px-3 py-2 text-sm rounded-lg font-medium transition-colors ${
+                mode === m ? "bg-emerald-600 text-white" : "bg-gray-800 text-gray-400 hover:text-gray-200"
+              }`}
+            >
+              {m === "analyze" ? "Analyze" : "Compare two configs"}
+            </button>
+          ))}
+        </div>
+
         <section>
           <div className="flex items-center justify-between mb-2">
             <label htmlFor="dump" className="text-sm font-semibold text-gray-400 uppercase tracking-wider">
-              Paste a $$ settings dump
+              {mode === "compare" ? "Config A" : "Paste a $$ settings dump"}
             </label>
             <div className="flex items-center gap-2 text-sm">
               <span className="text-gray-500">Firmware:</span>
@@ -53,41 +74,68 @@ export default function ConfigPage() {
               </select>
             </div>
           </div>
-          <textarea
-            id="dump"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            placeholder={"$0=10\n$1=25\n$23=5\n..."}
-            rows={8}
-            className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 font-mono text-sm text-gray-100 placeholder-gray-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
-          />
-          <div className="mt-1 flex items-center justify-between">
-            <p className="text-xs text-gray-600">
-              Everything except $N=value lines (ok, status reports, messages) is ignored. Nothing leaves your browser.
-            </p>
-            <label className="text-xs text-emerald-500 hover:text-emerald-400 underline cursor-pointer">
-              Load from file
-              <input
-                type="file"
-                accept=".txt,.nc,.gcode,text/plain"
-                className="hidden"
-                onChange={async (e) => {
-                  const f = e.target.files?.[0];
-                  if (f) setText(await f.text());
-                  e.target.value = "";
-                }}
+          <div className={mode === "compare" ? "grid grid-cols-1 md:grid-cols-2 gap-4" : undefined}>
+            <div>
+              <textarea
+                id="dump"
+                value={text}
+                onChange={(e) => setText(e.target.value)}
+                placeholder={"$0=10\n$1=25\n$23=5\n..."}
+                rows={8}
+                className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 font-mono text-sm text-gray-100 placeholder-gray-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
               />
-            </label>
+              <div className="mt-1 flex items-center justify-between">
+                <p className="text-xs text-gray-600">
+                  Everything except $N=value lines (ok, status reports, messages) is ignored. Nothing leaves your browser.
+                </p>
+                <label className="text-xs text-emerald-500 hover:text-emerald-400 underline cursor-pointer">
+                  Load from file
+                  <input
+                    type="file"
+                    accept=".txt,.nc,.gcode,text/plain"
+                    className="hidden"
+                    onChange={async (e) => {
+                      const f = e.target.files?.[0];
+                      if (f) setText(await f.text());
+                      e.target.value = "";
+                    }}
+                  />
+                </label>
+              </div>
+            </div>
+
+            {mode === "compare" && (
+              <div>
+                <label htmlFor="dumpB" className="text-sm font-semibold text-gray-400 uppercase tracking-wider mb-2 block">
+                  Config B
+                </label>
+                <textarea
+                  id="dumpB"
+                  value={textB}
+                  onChange={(e) => setTextB(e.target.value)}
+                  placeholder={"$0=10\n$1=25\n$23=5\n..."}
+                  rows={8}
+                  className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 font-mono text-sm text-gray-100 placeholder-gray-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
+                />
+                <p className="mt-1 text-xs text-gray-600">
+                  Everything except $N=value lines (ok, status reports, messages) is ignored. Nothing leaves your browser.
+                </p>
+              </div>
+            )}
           </div>
         </section>
 
-        {parsed.length > 0 && (
+        {mode === "analyze" && parsed.length > 0 && (
           <section>
             <div className="mb-3 text-sm text-gray-500">
               {parsed.length} setting{parsed.length !== 1 ? "s" : ""} · decoded as {FLAVOR_LABELS[flavor]}
             </div>
             <SettingsTable parsed={parsed} flavor={flavor} />
           </section>
+        )}
+
+        {mode === "compare" && parsed.length > 0 && parsedB.length > 0 && (
+          <DiffTable a={parsed} b={parsedB} flavor={flavor} />
         )}
       </main>
     </div>
