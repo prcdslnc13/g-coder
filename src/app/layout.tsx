@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "G-Coder — Interactive G-Code Reference",
+  title: "GCode Atlas — Cross-Firmware G-Code Reference",
   description:
-    "Cross-firmware G-code and M-code reference for CNC controllers including grbl, grblHAL, LinuxCNC, Smoothieware, and RepRapFirmware.",
+    "Search and compare G-code, M-code, and $ settings across open-source CNC firmwares: grbl, grblHAL, LinuxCNC, Smoothieware, RepRapFirmware, and FluidNC.",
 };
 
 export default function RootLayout({
