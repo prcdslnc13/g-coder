@@ -94,6 +94,11 @@ Client-only page for grbl-family `$$` dumps. `src/lib/settings/`:
   `FirmwareId` values and attaches official-doc source URLs.
 - `parse.ts` — tolerant `$$` parser + flavor auto-detect.
 - `decode.ts` — decodes raw values per setting type (mask bits, enums, ranges).
+- `diff.ts` — aligns two parsed configs by id; mask diffs decoded per bit.
+- `edit.ts` — bit toggling, advisory validation, `$N=V` serialization.
+The Analyze tab is also the editor: bools are switches, mask bits are toggle
+chips, enums are dropdowns. Export copies/downloads the full or changed-only
+config. Edits reset when new text is pasted.
 Everything runs in the browser; no data is uploaded.
 
 ## Key Domain Concepts

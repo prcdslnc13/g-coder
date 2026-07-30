@@ -4,14 +4,17 @@ import { SettingFlavor } from "@/types/settings";
 import { ParsedSetting } from "@/lib/settings/parse";
 import { lookupSettingDef } from "@/lib/settings/catalog";
 import { decodeValue } from "@/lib/settings/decode";
+import { toggleMaskBit, validateValue } from "@/lib/settings/edit";
 import { getFirmwareData } from "@/lib/data";
 
 interface SettingsTableProps {
   parsed: ParsedSetting[];
   flavor: SettingFlavor;
+  edits: Map<number, string>;
+  onEdit: (id: number, raw: string) => void;
 }
 
-export function SettingsTable({ parsed, flavor }: SettingsTableProps) {
+export function SettingsTable({ parsed, flavor, edits, onEdit }: SettingsTableProps) {
   const wikiCodes = new Set(getFirmwareData(flavor).codes.map((c) => c.code));
   const rows = [...parsed].sort((a, b) => a.id - b.id);
 
@@ -28,7 +31,9 @@ export function SettingsTable({ parsed, flavor }: SettingsTableProps) {
       <tbody>
         {rows.map((p) => {
           const found = lookupSettingDef(p.id, flavor);
-          const decoded = found ? decodeValue(found.def, p.raw) : null;
+          const current = edits.get(p.id) ?? p.raw;
+          const modified = edits.has(p.id);
+          const decoded = found ? decodeValue(found.def, current) : null;
           const wikiCode = `$${p.id}`;
           const hasWiki = wikiCodes.has(wikiCode);
 
@@ -55,17 +60,74 @@ export function SettingsTable({ parsed, flavor }: SettingsTableProps) {
                   </span>
                 )}
               </td>
-              <td className="py-2 pr-3 font-mono text-gray-200 whitespace-nowrap">{p.raw}</td>
+              <td className="py-2 pr-3 font-mono text-gray-200 whitespace-nowrap">
+                {!found && <span>{p.raw}</span>}
+                {found && found.def.type === "bool" && (
+                  <button
+                    role="switch"
+                    aria-checked={decoded?.kind === "bool" && decoded.on}
+                    onClick={() => onEdit(p.id, decoded?.kind === "bool" && decoded.on ? "0" : "1")}
+                    className={`relative w-9 h-5 rounded-full transition-colors ${
+                      decoded?.kind === "bool" && decoded.on ? "bg-emerald-600" : "bg-gray-700"
+                    }`}
+                  >
+                    <span
+                      className={`absolute top-0.5 left-0.5 w-4 h-4 rounded-full bg-white transition-transform ${
+                        decoded?.kind === "bool" && decoded.on ? "translate-x-4" : "translate-x-0"
+                      }`}
+                    />
+                  </button>
+                )}
+                {found && found.def.type === "enum" && (
+                  <select
+                    value={current}
+                    onChange={(e) => onEdit(p.id, e.target.value)}
+                    className="bg-gray-800 border border-gray-700 rounded px-2 py-1 text-sm"
+                  >
+                    {Object.entries(found.def.values ?? {}).map(([v, label]) => (
+                      <option key={v} value={v}>{label}</option>
+                    ))}
+                  </select>
+                )}
+                {found && (found.def.type === "int" || found.def.type === "float" || found.def.type === "string" || found.def.type === "mask") && (
+                  <input
+                    value={current}
+                    onChange={(e) => onEdit(p.id, e.target.value)}
+                    className={`w-24 bg-gray-800 border rounded px-2 py-1 text-sm font-mono ${
+                      validateValue(found.def, current) ? "border-red-700" : "border-gray-700"
+                    }`}
+                  />
+                )}
+                {modified && (
+                  <button
+                    onClick={() => onEdit(p.id, p.raw)}
+                    title={`Reset to imported value (${p.raw})`}
+                    className="ml-2 text-xs text-amber-400 hover:text-amber-300 underline"
+                  >
+                    reset
+                  </button>
+                )}
+                {found && validateValue(found.def, current) && (
+                  <div className="text-xs text-red-400 mt-1">{validateValue(found.def, current)}</div>
+                )}
+              </td>
               <td className="py-2 text-gray-400">
                 {!decoded && <span className="text-gray-600">—</span>}
-                {decoded?.kind === "mask" && (
+                {decoded?.kind === "mask" && found && (
                   <div className="flex flex-wrap gap-1">
-                    {decoded.bits.filter((b) => b.set).map((b) => (
-                      <span key={b.bit} className="px-1.5 py-0.5 text-xs rounded bg-emerald-950/60 text-emerald-400 border border-emerald-900/50">
+                    {decoded.bits.map((b) => (
+                      <button
+                        key={b.bit}
+                        onClick={() => onEdit(p.id, toggleMaskBit(current, b.bit, !b.set))}
+                        className={`px-1.5 py-0.5 text-xs rounded border transition-colors ${
+                          b.set
+                            ? "bg-emerald-950/60 text-emerald-400 border-emerald-900/50"
+                            : "bg-gray-800 text-gray-500 border-gray-700 hover:text-gray-300"
+                        }`}
+                      >
                         {b.label}
-                      </span>
+                      </button>
                     ))}
-                    {decoded.bits.every((b) => !b.set) && decoded.unknownBits === 0 && <span>None</span>}
                     {decoded.unknownBits !== 0 && (
                       <span className="px-1.5 py-0.5 text-xs rounded bg-amber-900/50 text-amber-400">
                         +unknown bits ({decoded.unknownBits})

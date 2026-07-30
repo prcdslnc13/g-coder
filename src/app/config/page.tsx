@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { SettingFlavor } from "@/types/settings";
 import { parseDollarConfig, detectFlavor } from "@/lib/settings/parse";
+import { serializeConfig } from "@/lib/settings/edit";
 import { SettingsTable } from "@/components/config/SettingsTable";
 import { DiffTable } from "@/components/config/DiffTable";
 
@@ -17,6 +18,7 @@ export default function ConfigPage() {
   const [flavorOverride, setFlavorOverride] = useState<SettingFlavor | "auto">("auto");
   const [mode, setMode] = useState<"analyze" | "compare">("analyze");
   const [textB, setTextB] = useState("");
+  const [edits, setEdits] = useState<Map<number, string>>(new Map());
 
   const parsed = useMemo(() => parseDollarConfig(text), [text]);
   const parsedB = useMemo(() => parseDollarConfig(textB), [textB]);
@@ -25,6 +27,34 @@ export default function ConfigPage() {
     [parsed, parsedB]
   );
   const flavor = flavorOverride === "auto" ? detected : flavorOverride;
+
+  function handleEdit(id: number, raw: string) {
+    setEdits((prev) => {
+      const next = new Map(prev);
+      const original = parsed.filter((p) => p.id === id).at(-1)?.raw;
+      if (raw === original) next.delete(id);
+      else next.set(id, raw);
+      return next;
+    });
+  }
+
+  // Current value per id: edited value if present, else last imported value.
+  function currentEntries(): { id: number; raw: string }[] {
+    const byId = new Map<number, string>();
+    for (const p of parsed) byId.set(p.id, p.raw);
+    for (const [id, raw] of edits) byId.set(id, raw);
+    return [...byId.entries()].map(([id, raw]) => ({ id, raw }));
+  }
+
+  function download(content: string, filename: string) {
+    const blob = new Blob([content], { type: "text/plain" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = filename;
+    a.click();
+    URL.revokeObjectURL(url);
+  }
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -79,7 +109,10 @@ export default function ConfigPage() {
               <textarea
                 id="dump"
                 value={text}
-                onChange={(e) => setText(e.target.value)}
+                onChange={(e) => {
+                  setText(e.target.value);
+                  setEdits(new Map());
+                }}
                 placeholder={"$0=10\n$1=25\n$23=5\n..."}
                 rows={8}
                 className="w-full bg-gray-800 border border-gray-700 rounded-lg px-4 py-3 font-mono text-sm text-gray-100 placeholder-gray-600 focus:outline-none focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500"
@@ -96,7 +129,10 @@ export default function ConfigPage() {
                     className="hidden"
                     onChange={async (e) => {
                       const f = e.target.files?.[0];
-                      if (f) setText(await f.text());
+                      if (f) {
+                        setText(await f.text());
+                        setEdits(new Map());
+                      }
                       e.target.value = "";
                     }}
                   />
@@ -130,7 +166,36 @@ export default function ConfigPage() {
             <div className="mb-3 text-sm text-gray-500">
               {parsed.length} setting{parsed.length !== 1 ? "s" : ""} · decoded as {FLAVOR_LABELS[flavor]}
             </div>
-            <SettingsTable parsed={parsed} flavor={flavor} />
+            <div className="flex items-center gap-2 mb-3">
+              {edits.size > 0 && (
+                <span className="text-xs text-amber-400">{edits.size} setting{edits.size !== 1 ? "s" : ""} modified</span>
+              )}
+              <button
+                onClick={() => navigator.clipboard.writeText(serializeConfig(currentEntries()))}
+                className="text-xs px-2 py-1 rounded bg-gray-800 text-gray-400 hover:text-emerald-400 hover:bg-gray-700"
+              >
+                Copy full config
+              </button>
+              <button
+                onClick={() => download(serializeConfig(currentEntries()), "config.txt")}
+                className="text-xs px-2 py-1 rounded bg-gray-800 text-gray-400 hover:text-emerald-400 hover:bg-gray-700"
+              >
+                Download full config
+              </button>
+              <button
+                disabled={edits.size === 0}
+                onClick={() =>
+                  download(
+                    serializeConfig([...edits.entries()].map(([id, raw]) => ({ id, raw }))),
+                    "config-changes.txt"
+                  )
+                }
+                className="text-xs px-2 py-1 rounded bg-gray-800 text-gray-400 hover:text-emerald-400 hover:bg-gray-700 disabled:opacity-40"
+              >
+                Download changed only
+              </button>
+            </div>
+            <SettingsTable parsed={parsed} flavor={flavor} edits={edits} onEdit={handleEdit} />
           </section>
         )}
 
