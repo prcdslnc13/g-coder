@@ -17,9 +17,11 @@ export function decodeValue(def: SettingDef, raw: string): DecodedValue {
 
   switch (def.type) {
     case "bool":
+      if (n < 0) return { kind: "raw", display: raw };
       return { kind: "bool", on: n !== 0, display: n !== 0 ? "On" : "Off" };
 
     case "mask": {
+      if (n < 0) return { kind: "raw", display: raw };
       const bits = Object.entries(def.values ?? {}).map(([bit, label]) => ({
         bit: Number(bit),
         label,
@@ -33,6 +35,7 @@ export function decodeValue(def: SettingDef, raw: string): DecodedValue {
     }
 
     case "enum": {
+      if (n < 0) return { kind: "raw", display: raw };
       const label = def.values?.[n] ?? null;
       return { kind: "enum", label, display: label ?? `Unknown value (${raw})` };
     }

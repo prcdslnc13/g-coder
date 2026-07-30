@@ -42,6 +42,12 @@ describe("decodeValue", () => {
     expect(d.display).toBe("None");
   });
 
+  it("rejects negative mask values as raw", () => {
+    const d = decodeValue(maskDef, "-1");
+    expect(d.kind).toBe("raw");
+    expect(d.display).toBe("-1");
+  });
+
   it("decodes bool 0/1", () => {
     const boolDef: SettingDef = { ...intDef, type: "bool", units: undefined, range: undefined };
     expect(decodeValue(boolDef, "1")).toMatchObject({ kind: "bool", on: true, display: "On" });
