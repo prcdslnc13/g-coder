@@ -46,7 +46,7 @@ One JSON file per firmware:
 - `reprapfirmware.json` — RepRapFirmware/Duet3D (multi-mode: M451/M452/M453)
 - `fluidnc.json` — FluidNC (ESP32, YAML config, WiFi/Bluetooth, grbl-compatible)
 
-Alarm entries (type: "ALARM") carry structured troubleshooting data (`causes` and `fixes` arrays), adapted from cnc_firmware_tools (MIT) and official firmware documentation. These are rendered in the CodeDetail modal under "Likely Causes" and "How to Fix" sections.
+Alarm entries (type: "ALARM") carry structured troubleshooting data (`causes` and `fixes` arrays), adapted from cnc_firmware_tools (MIT) and official firmware documentation; merged by `scripts/merge-alarm-troubleshooting.mjs`. These are rendered in the CodeDetail modal under "Likely Causes" and "How to Fix" sections.
 
 ### Loading (`src/lib/data.ts`)
 
