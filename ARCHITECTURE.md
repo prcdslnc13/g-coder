@@ -62,6 +62,11 @@ Client component that owns all state:
 - `typeFilter` — G/M/$/all filter
 - `selectedCode` — which code's detail dialog is open
 
+All of this state is mirrored into query params (`fw`, `type`, `q`, `code`, `view=compare`)
+via `src/lib/urlState.ts` and `history.replaceState`, so the address bar is always a
+shareable deep link. State is initialized from the URL in a mount effect (static export —
+no `useSearchParams`). Invalid params fall back to defaults.
+
 ### FirmwareSelector
 Row of buttons to switch between firmware systems.
 
