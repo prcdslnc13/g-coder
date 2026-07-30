@@ -133,16 +133,21 @@ export default function Home() {
             <h1 className="text-xl font-bold tracking-tight">
               <span className="text-emerald-400">GCode</span> Atlas
             </h1>
-            <FirmwareSelector
-              firmwareList={firmwareList}
-              selected={selectedFirmware}
-              onSelect={(id) => {
-                setSelectedFirmware(id);
-                setSelectedCode(null);
-                setCompareCode(null);
-                setTypeFilter("all");
-              }}
-            />
+            <div className="flex items-center gap-4">
+              <FirmwareSelector
+                firmwareList={firmwareList}
+                selected={selectedFirmware}
+                onSelect={(id) => {
+                  setSelectedFirmware(id);
+                  setSelectedCode(null);
+                  setCompareCode(null);
+                  setTypeFilter("all");
+                }}
+              />
+              <a href="/config" className="text-sm text-emerald-500 hover:text-emerald-400 underline whitespace-nowrap">
+                $$ Config Tools
+              </a>
+            </div>
           </div>
           <div className="flex gap-3 items-center">
             <input
