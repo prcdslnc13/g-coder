@@ -122,22 +122,35 @@ export default function ConfigPage() {
                 <p className="text-xs text-gray-600">
                   Everything except $N=value lines (ok, status reports, messages) is ignored. Nothing leaves your browser.
                 </p>
-                <label className="text-xs text-emerald-500 hover:text-emerald-400 underline cursor-pointer">
-                  Load from file
-                  <input
-                    type="file"
-                    accept=".txt,.nc,.gcode,text/plain"
-                    className="hidden"
-                    onChange={async (e) => {
-                      const f = e.target.files?.[0];
-                      if (f) {
-                        setText(await f.text());
+                <div className="flex items-center gap-3">
+                  {text.length > 0 && (
+                    <button
+                      onClick={() => {
+                        setText("");
                         setEdits(new Map());
-                      }
-                      e.target.value = "";
-                    }}
-                  />
-                </label>
+                      }}
+                      className="text-xs text-gray-500 hover:text-red-400 underline"
+                    >
+                      Clear
+                    </button>
+                  )}
+                  <label className="text-xs text-emerald-500 hover:text-emerald-400 underline cursor-pointer">
+                    Load from file
+                    <input
+                      type="file"
+                      accept=".txt,.nc,.gcode,text/plain"
+                      className="hidden"
+                      onChange={async (e) => {
+                        const f = e.target.files?.[0];
+                        if (f) {
+                          setText(await f.text());
+                          setEdits(new Map());
+                        }
+                        e.target.value = "";
+                      }}
+                    />
+                  </label>
+                </div>
               </div>
             </div>
 
