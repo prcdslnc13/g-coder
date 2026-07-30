@@ -2,7 +2,7 @@
 
 ## Overview
 
-g-coder is a static, client-side web application that serves as an interactive reference for G-code, M-code, and $ commands across multiple CNC firmware systems. All data is stored in JSON files and bundled at build time — there is no backend or database.
+GCode Atlas (formerly g-coder) is a static, client-side web application that serves as an interactive reference for G-code, M-code, and $ commands across multiple CNC firmware systems. All data is stored in JSON files and bundled at build time — there is no backend or database.
 
 ## Tech Stack
 
@@ -30,6 +30,7 @@ FirmwareData
     ├── relatedCodes: string[]
     ├── crossReferences: CrossReference[] (links to same code in other firmwares, with conflict notes)
     ├── modeNotes: ModeNote[] (laser mode, CNC mode, etc.)
+    ├── troubleshooting?: { causes: string[], fixes: string[] }
     ├── sources: string[] (URLs to official documentation)
     ├── notes?: string
     └── versionNotes?: string
@@ -44,6 +45,8 @@ One JSON file per firmware:
 - `smoothieware.json` — Smoothieware (3D printing origin, module-based)
 - `reprapfirmware.json` — RepRapFirmware/Duet3D (multi-mode: M451/M452/M453)
 - `fluidnc.json` — FluidNC (ESP32, YAML config, WiFi/Bluetooth, grbl-compatible)
+
+Alarm entries (type: "ALARM") carry structured troubleshooting data (`causes` and `fixes` arrays), adapted from cnc_firmware_tools (MIT) and official firmware documentation; merged by `scripts/merge-alarm-troubleshooting.mjs`. These are rendered in the CodeDetail modal under "Likely Causes" and "How to Fix" sections.
 
 ### Loading (`src/lib/data.ts`)
 
@@ -61,6 +64,12 @@ Client component that owns all state:
 - `searchQuery` — text filter
 - `typeFilter` — G/M/$/all filter
 - `selectedCode` — which code's detail dialog is open
+- `compareCode` — which code's cross-firmware compare view is open
+
+All of this state is mirrored into query params (`fw`, `type`, `q`, `code`, `view=compare`)
+via `src/lib/urlState.ts` and `history.replaceState`, so the address bar is always a
+shareable deep link. State is initialized from the URL in a mount effect (static export —
+no `useSearchParams`). Invalid params fall back to defaults.
 
 ### FirmwareSelector
 Row of buttons to switch between firmware systems.
@@ -79,6 +88,22 @@ Floating dialog (modal) that opens when a code is clicked. Sections:
 - Cross-firmware references with visual warning indicators
 - Related codes, notes, version notes
 - Source links to official documentation
+
+## $$ Config Tools (`/config`)
+
+Client-only page for grbl-family `$$` dumps. `src/lib/settings/`:
+- `vendor/settings.js` — settings catalog vendored verbatim from Adam Haile's
+  MIT-licensed cnc_firmware_tools (typed via `vendor/settings.d.ts`).
+- `catalog.ts` — typed adapter (`lookupSettingDef`), maps vendor flavor ids to
+  `FirmwareId` values and attaches official-doc source URLs.
+- `parse.ts` — tolerant `$$` parser + flavor auto-detect.
+- `decode.ts` — decodes raw values per setting type (mask bits, enums, ranges).
+- `diff.ts` — aligns two parsed configs by id; mask diffs decoded per bit.
+- `edit.ts` — bit toggling, advisory validation, `$N=V` serialization.
+The Analyze tab is also the editor: bools are switches, mask bits are toggle
+chips, enums are dropdowns. Export copies/downloads the full or changed-only
+config. Edits reset when new text is pasted.
+Everything runs in the browser; no data is uploaded.
 
 ## Key Domain Concepts
 

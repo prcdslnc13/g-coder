@@ -82,7 +82,7 @@
         {
           "firmwareId": "reprapfirmware",
           "code": "G0",
-          "note": "In RepRapFirmware, G0 and G1 are identical \u2014 both use the F parameter. In FluidNC, G0 always moves at maximum rate."
+          "note": "In RepRapFirmware, G0 and G1 are identical — both use the F parameter. In FluidNC, G0 always moves at maximum rate."
         }
       ],
       "modeNotes": [
@@ -94,7 +94,7 @@
       "sources": [
         "http://wiki.fluidnc.com/en/features/supported_gcodes"
       ],
-      "notes": "G0 is modal \u2014 once set, subsequent lines without a G command will continue to use G0."
+      "notes": "G0 is modal — once set, subsequent lines without a G command will continue to use G0."
     },
     {
       "code": "G1",
@@ -181,7 +181,7 @@
       "sources": [
         "http://wiki.fluidnc.com/en/features/supported_gcodes"
       ],
-      "notes": "G1 is modal. The F parameter is also modal \u2014 once set, it persists until changed. At startup feed rate is 0; an error occurs if G1 is used without F > 0."
+      "notes": "G1 is modal. The F parameter is also modal — once set, it persists until changed. At startup feed rate is 0; an error occurs if G1 is used without F > 0."
     },
     {
       "code": "G2",
@@ -430,7 +430,7 @@
       "code": "G4",
       "type": "G",
       "name": "Dwell",
-      "description": "Pauses motion for the specified duration. Synchronized command \u2014 all buffered G-code completes before the dwell starts.",
+      "description": "Pauses motion for the specified duration. Synchronized command — all buffered G-code completes before the dwell starts.",
       "parameters": [
         {
           "name": "P",
@@ -657,7 +657,7 @@
       "code": "G20",
       "type": "G",
       "name": "Set Units to Inches",
-      "description": "Sets the unit system to inches for subsequent commands. Only converts X, Y, Z values \u2014 A, B, C axes are considered rotary/unitless and are not converted. Configuration values are never converted.",
+      "description": "Sets the unit system to inches for subsequent commands. Only converts X, Y, Z values — A, B, C axes are considered rotary/unitless and are not converted. Configuration values are never converted.",
       "parameters": [],
       "examples": [
         {
@@ -762,7 +762,7 @@
         {
           "firmwareId": "grbl",
           "code": "G28",
-          "note": "Identical behavior \u2014 stored position recall, not homing."
+          "note": "Identical behavior — stored position recall, not homing."
         },
         {
           "firmwareId": "linuxcnc",
@@ -784,7 +784,7 @@
       "sources": [
         "http://wiki.fluidnc.com/en/features/supported_gcodes"
       ],
-      "notes": "Position is stored in NVS. Only use after homing \u2014 stored position is in machine coordinates."
+      "notes": "Position is stored in NVS. Only use after homing — stored position is in machine coordinates."
     },
     {
       "code": "G30",
@@ -912,7 +912,7 @@
       "code": "G38.3",
       "type": "G",
       "name": "Probe Toward Workpiece (No Error on Fail)",
-      "description": "Probes toward a workpiece, stopping on contact. Does not error if no contact is made \u2014 machine simply stops at the target position.",
+      "description": "Probes toward a workpiece, stopping on contact. Does not error if no contact is made — machine simply stops at the target position.",
       "parameters": [
         {
           "name": "X",
@@ -1318,7 +1318,7 @@
         {
           "firmwareId": "grbl",
           "code": "G40",
-          "note": "Identical \u2014 cutter compensation is accepted but not actively implemented in either firmware."
+          "note": "Identical — cutter compensation is accepted but not actively implemented in either firmware."
         },
         {
           "firmwareId": "linuxcnc",
@@ -1335,7 +1335,7 @@
       "code": "G43.1",
       "type": "G",
       "name": "Dynamic Tool Length Offset",
-      "description": "Creates a tool length offset from the current coordinate system. No motion is generated. Does NOT support the G43 H<tool> format \u2014 FluidNC does not maintain a tool offset table.",
+      "description": "Creates a tool length offset from the current coordinate system. No motion is generated. Does NOT support the G43 H<tool> format — FluidNC does not maintain a tool offset table.",
       "parameters": [
         {
           "name": "X",
@@ -1366,7 +1366,7 @@
         {
           "firmwareId": "grbl",
           "code": "G43.1",
-          "note": "Identical behavior \u2014 grbl also only supports G43.1, not G43 H."
+          "note": "Identical behavior — grbl also only supports G43.1, not G43 H."
         },
         {
           "firmwareId": "linuxcnc",
@@ -1415,7 +1415,7 @@
       "code": "G53",
       "type": "G",
       "name": "Move in Machine Coordinates",
-      "description": "Moves to an absolute machine position, ignoring all work coordinate offsets. Not modal \u2014 only active for the line it appears on. Does not consider G90/G91.",
+      "description": "Moves to an absolute machine position, ignoring all work coordinate offsets. Not modal — only active for the line it appears on. Does not consider G90/G91.",
       "parameters": [
         {
           "name": "X",
@@ -1775,7 +1775,7 @@
       "code": "G61",
       "type": "G",
       "name": "Exact Path Mode",
-      "description": "Selects exact path mode. Accepted for compatibility but does not change FluidNC behavior \u2014 the motion planner always operates in its default path mode.",
+      "description": "Selects exact path mode. Accepted for compatibility but does not change FluidNC behavior — the motion planner always operates in its default path mode.",
       "parameters": [],
       "examples": [
         {
@@ -1813,7 +1813,7 @@
       "code": "G80",
       "type": "G",
       "name": "Cancel Motion Mode",
-      "description": "Cancels the current motion mode. After G80, any axis words without a motion command (G0, G1, G2, G3) will produce an error. This is a motion mode cancel, not a canned cycle cancel \u2014 FluidNC does not support canned cycles.",
+      "description": "Cancels the current motion mode. After G80, any axis words without a motion command (G0, G1, G2, G3) will produce an error. This is a motion mode cancel, not a canned cycle cancel — FluidNC does not support canned cycles.",
       "parameters": [],
       "examples": [
         {
@@ -1831,7 +1831,7 @@
         {
           "firmwareId": "grbl",
           "code": "G80",
-          "note": "Identical behavior \u2014 motion mode cancel."
+          "note": "Identical behavior — motion mode cancel."
         },
         {
           "firmwareId": "grblhal",
@@ -1942,7 +1942,7 @@
         {
           "firmwareId": "grbl",
           "code": "G91.1",
-          "note": "Identical behavior \u2014 incremental arc mode is the only supported mode."
+          "note": "Identical behavior — incremental arc mode is the only supported mode."
         },
         {
           "firmwareId": "grblhal",
@@ -1965,7 +1965,7 @@
       "code": "G92",
       "type": "G",
       "name": "Coordinate System Offset",
-      "description": "Sets the current work position to the specified value by applying an offset. Volatile \u2014 lost on reboot. Does not affect soft limits.",
+      "description": "Sets the current work position to the specified value by applying an offset. Volatile — lost on reboot. Does not affect soft limits.",
       "parameters": [
         {
           "name": "X",
@@ -2002,7 +2002,7 @@
         {
           "firmwareId": "linuxcnc",
           "code": "G92",
-          "note": "WARNING: LinuxCNC persists G92 across reboots. FluidNC does not \u2014 G92 offsets are volatile."
+          "note": "WARNING: LinuxCNC persists G92 across reboots. FluidNC does not — G92 offsets are volatile."
         }
       ],
       "modeNotes": [],
@@ -2085,7 +2085,7 @@
       "code": "G94",
       "type": "G",
       "name": "Units Per Minute Feed Rate Mode",
-      "description": "Standard feed rate interpretation \u2014 F value specifies speed in units per minute. This is the default mode.",
+      "description": "Standard feed rate interpretation — F value specifies speed in units per minute. This is the default mode.",
       "parameters": [],
       "examples": [
         {
@@ -2177,7 +2177,7 @@
         {
           "firmwareId": "linuxcnc",
           "code": "M1",
-          "note": "LinuxCNC fully supports M1 \u2014 pauses only when the optional stop switch is enabled in the UI."
+          "note": "LinuxCNC fully supports M1 — pauses only when the optional stop switch is enabled in the UI."
         }
       ],
       "modeNotes": [],
@@ -2223,7 +2223,7 @@
       "code": "M3",
       "type": "M",
       "name": "Spindle On CW / Laser Constant Power",
-      "description": "Turns spindle on clockwise at the specified S speed. In laser mode, M3 enables constant power mode \u2014 laser output stays at the S value regardless of motion speed.",
+      "description": "Turns spindle on clockwise at the specified S speed. In laser mode, M3 enables constant power mode — laser output stays at the S value regardless of motion speed.",
       "parameters": [
         {
           "name": "S",
@@ -2282,7 +2282,7 @@
       "code": "M4",
       "type": "M",
       "name": "Spindle On CCW / Laser Dynamic Power",
-      "description": "Turns spindle on counter-clockwise at the specified S speed. In laser mode, M4 enables dynamic power mode \u2014 laser output scales proportionally with movement speed during acceleration and deceleration.",
+      "description": "Turns spindle on counter-clockwise at the specified S speed. In laser mode, M4 enables dynamic power mode — laser output scales proportionally with movement speed during acceleration and deceleration.",
       "parameters": [
         {
           "name": "S",
@@ -2443,12 +2443,12 @@
         {
           "firmwareId": "linuxcnc",
           "code": "M68",
-          "note": "Same behavior \u2014 immediate analog output control."
+          "note": "Same behavior — immediate analog output control."
         },
         {
           "firmwareId": "grblhal",
           "code": "M68",
-          "note": "Same behavior \u2014 immediate analog output."
+          "note": "Same behavior — immediate analog output."
         }
       ],
       "modeNotes": [],
@@ -2495,7 +2495,7 @@
       "code": "M7.1",
       "type": "M",
       "name": "Mist Coolant Off",
-      "description": "Turns off mist coolant individually without affecting flood coolant. FluidNC-specific command \u2014 no standard M-code equivalent exists.",
+      "description": "Turns off mist coolant individually without affecting flood coolant. FluidNC-specific command — no standard M-code equivalent exists.",
       "parameters": [],
       "examples": [
         {
@@ -2524,7 +2524,7 @@
       "sources": [
         "http://wiki.fluidnc.com/en/features/supported_gcodes"
       ],
-      "notes": "Non-standard \u2014 decimal M-codes are a FluidNC extension."
+      "notes": "Non-standard — decimal M-codes are a FluidNC extension."
     },
     {
       "code": "M8",
@@ -2593,7 +2593,7 @@
       "sources": [
         "http://wiki.fluidnc.com/en/features/supported_gcodes"
       ],
-      "notes": "Non-standard \u2014 decimal M-codes are a FluidNC extension."
+      "notes": "Non-standard — decimal M-codes are a FluidNC extension."
     },
     {
       "code": "M9",
@@ -2634,7 +2634,7 @@
       "code": "M30",
       "type": "M",
       "name": "Program End",
-      "description": "Ends the program. Same effects as M2 \u2014 resets modal states to defaults.",
+      "description": "Ends the program. Same effects as M2 — resets modal states to defaults.",
       "parameters": [],
       "examples": [
         {
@@ -2724,7 +2724,7 @@
         {
           "firmwareId": "linuxcnc",
           "code": "M61",
-          "note": "Similar behavior \u2014 LinuxCNC M61 also sets tool number without motion."
+          "note": "Similar behavior — LinuxCNC M61 also sets tool number without motion."
         }
       ],
       "modeNotes": [],
@@ -2760,7 +2760,7 @@
         {
           "firmwareId": "linuxcnc",
           "code": "M62",
-          "note": "Same behavior \u2014 synchronized digital output control per LinuxCNC standard."
+          "note": "Same behavior — synchronized digital output control per LinuxCNC standard."
         },
         {
           "firmwareId": "grbl",
@@ -2801,7 +2801,7 @@
         {
           "firmwareId": "linuxcnc",
           "code": "M63",
-          "note": "Same behavior \u2014 synchronized digital output control."
+          "note": "Same behavior — synchronized digital output control."
         }
       ],
       "modeNotes": [],
@@ -2837,7 +2837,7 @@
         {
           "firmwareId": "linuxcnc",
           "code": "M64",
-          "note": "Same behavior \u2014 immediate (unsynchronized) digital output."
+          "note": "Same behavior — immediate (unsynchronized) digital output."
         }
       ],
       "modeNotes": [],
@@ -2874,7 +2874,7 @@
         {
           "firmwareId": "linuxcnc",
           "code": "M65",
-          "note": "Same behavior \u2014 immediate (unsynchronized) digital output."
+          "note": "Same behavior — immediate (unsynchronized) digital output."
         }
       ],
       "modeNotes": [],
@@ -2887,7 +2887,7 @@
       "code": "M66",
       "type": "M",
       "name": "Read User Input",
-      "description": "Reads a digital or analog user input. Partial implementation of LinuxCNC M66 \u2014 only immediate mode (L0) is supported. Result is stored in parameter #5399.",
+      "description": "Reads a digital or analog user input. Partial implementation of LinuxCNC M66 — only immediate mode (L0) is supported. Result is stored in parameter #5399.",
       "parameters": [
         {
           "name": "P",
@@ -2972,7 +2972,7 @@
         {
           "firmwareId": "linuxcnc",
           "code": "M67",
-          "note": "Same behavior \u2014 analog output control."
+          "note": "Same behavior — analog output control."
         }
       ],
       "modeNotes": [],
@@ -3120,7 +3120,7 @@
       "code": "$$",
       "type": "$",
       "name": "Show Grbl Settings",
-      "description": "Shows grbl-compatible $number settings. Full command name: $GrblSettings/List. In FluidNC, most grbl $number settings are read-only compatibility values \u2014 actual configuration is done through YAML config files.",
+      "description": "Shows grbl-compatible $number settings. Full command name: $GrblSettings/List. In FluidNC, most grbl $number settings are read-only compatibility values — actual configuration is done through YAML config files.",
       "parameters": [],
       "examples": [
         {
@@ -3222,7 +3222,7 @@
         {
           "firmwareId": "grbl",
           "code": "$I",
-          "note": "Similar \u2014 grbl also shows build info with $I."
+          "note": "Similar — grbl also shows build info with $I."
         }
       ],
       "modeNotes": [],
@@ -3283,7 +3283,7 @@
       "code": "$C",
       "type": "$",
       "name": "G-code Check Mode",
-      "description": "Toggles G-code check mode \u2014 a virtual run that parses and validates G-code without producing motion. Full command name: $GCode/Check.",
+      "description": "Toggles G-code check mode — a virtual run that parses and validates G-code without producing motion. Full command name: $GCode/Check.",
       "parameters": [],
       "examples": [
         {
@@ -3781,7 +3781,7 @@
         {
           "firmwareId": "grbl",
           "code": "$SLP",
-          "note": "Similar \u2014 grbl also supports $SLP for sleep mode."
+          "note": "Similar — grbl also supports $SLP for sleep mode."
         }
       ],
       "modeNotes": [],
@@ -4227,6 +4227,228 @@
       "sources": [
         "http://wiki.fluidnc.com/en/features/commands_and_settings"
       ]
+    },
+    {
+      "code": "ALARM:1",
+      "type": "ALARM",
+      "name": "Alarm 1: Hard limit triggered",
+      "description": "A limit switch was triggered during motion. Machine position is no longer trustworthy and motion is halted.",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "http://wiki.fluidnc.com/en/support/alarm_and_error_codes",
+        "https://docs.lightburnsoftware.com/latest/Troubleshooting/GRBLErrors/",
+        "https://github.com/adammhaile/cnc_firmware_tools"
+      ],
+      "troubleshooting": {
+        "causes": [
+          "Limit switch wired wrong or noisy (electrical interference)",
+          "Soft limits ($20) disabled but motion overshot mechanical travel",
+          "Switch debounce ($26) too low"
+        ],
+        "fixes": [
+          "Re-home with $H once it is safe to move",
+          "Check switch wiring and grounding; route switch wires away from steppers",
+          "Verify $5 limit-invert polarity matches your switch type (NO vs NC)",
+          "Increase $26 debounce if noise is the issue"
+        ]
+      }
+    },
+    {
+      "code": "ALARM:2",
+      "type": "ALARM",
+      "name": "Alarm 2: Soft limits exceeded",
+      "description": "A G-code motion targeted a position outside the machine's configured travel envelope. Position is retained; alarm can be unlocked with $X.",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "http://wiki.fluidnc.com/en/support/alarm_and_error_codes",
+        "https://docs.lightburnsoftware.com/latest/Troubleshooting/GRBLErrors/",
+        "https://github.com/adammhaile/cnc_firmware_tools"
+      ],
+      "troubleshooting": {
+        "causes": [
+          "Work coordinate origin (G54 etc.) set incorrectly",
+          "G-code expects different travel limits than $130-$132 define",
+          "Machine not homed before commanding motion that depends on machine coordinates"
+        ],
+        "fixes": [
+          "Verify your work zero and that the toolpath fits within $130-$132",
+          "Home the machine ($H) before running jobs",
+          "$X to clear if you are certain the target was wrong (not the limits)"
+        ]
+      }
+    },
+    {
+      "code": "ALARM:3",
+      "type": "ALARM",
+      "name": "Alarm 3: Reset while in motion",
+      "description": "A soft reset was issued while the machine was moving. Step loss is likely; position cannot be guaranteed.",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "http://wiki.fluidnc.com/en/support/alarm_and_error_codes",
+        "https://docs.lightburnsoftware.com/latest/Troubleshooting/GRBLErrors/",
+        "https://github.com/adammhaile/cnc_firmware_tools"
+      ],
+      "troubleshooting": {
+        "causes": [],
+        "fixes": [
+          "Re-home before continuing."
+        ]
+      }
+    },
+    {
+      "code": "ALARM:4",
+      "type": "ALARM",
+      "name": "Alarm 4: Probe fail — bad initial state",
+      "description": "The probe input was already in its triggered state when a probe move started (or vice-versa for non-triggered probe commands).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "http://wiki.fluidnc.com/en/support/alarm_and_error_codes",
+        "https://docs.lightburnsoftware.com/latest/Troubleshooting/GRBLErrors/",
+        "https://github.com/adammhaile/cnc_firmware_tools"
+      ],
+      "troubleshooting": {
+        "causes": [
+          "Probe still touching workpiece from previous probe",
+          "Probe wire shorted",
+          "Wrong $6 probe-invert setting"
+        ],
+        "fixes": [
+          "Lift the probe away before re-running",
+          "Verify $6 matches your probe (active-low vs active-high)"
+        ]
+      }
+    },
+    {
+      "code": "ALARM:5",
+      "type": "ALARM",
+      "name": "Alarm 5: Probe fail — no contact",
+      "description": "The probe move completed without the probe ever making contact.",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "http://wiki.fluidnc.com/en/support/alarm_and_error_codes",
+        "https://docs.lightburnsoftware.com/latest/Troubleshooting/GRBLErrors/",
+        "https://github.com/adammhaile/cnc_firmware_tools"
+      ],
+      "troubleshooting": {
+        "causes": [
+          "Probe positioned too far from workpiece",
+          "Probe wire disconnected or open circuit",
+          "Probe maximum travel was too short"
+        ],
+        "fixes": [
+          "Position probe closer before G38.2",
+          "Check probe continuity",
+          "Increase probe move distance"
+        ]
+      }
+    },
+    {
+      "code": "ALARM:6",
+      "type": "ALARM",
+      "name": "Alarm 6: Homing fail — reset during homing",
+      "description": "A reset was issued while the homing cycle was running.",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "http://wiki.fluidnc.com/en/support/alarm_and_error_codes",
+        "https://docs.lightburnsoftware.com/latest/Troubleshooting/GRBLErrors/",
+        "https://github.com/adammhaile/cnc_firmware_tools"
+      ]
+    },
+    {
+      "code": "ALARM:7",
+      "type": "ALARM",
+      "name": "Alarm 7: Homing fail — safety door opened",
+      "description": "The safety door input was triggered during the homing cycle.",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "http://wiki.fluidnc.com/en/support/alarm_and_error_codes",
+        "https://docs.lightburnsoftware.com/latest/Troubleshooting/GRBLErrors/",
+        "https://github.com/adammhaile/cnc_firmware_tools"
+      ]
+    },
+    {
+      "code": "ALARM:8",
+      "type": "ALARM",
+      "name": "Alarm 8: Homing fail — pull-off did not clear switch",
+      "description": "After contacting a limit switch the homing cycle tried to pull off but the switch never released.",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "http://wiki.fluidnc.com/en/support/alarm_and_error_codes",
+        "https://docs.lightburnsoftware.com/latest/Troubleshooting/GRBLErrors/",
+        "https://github.com/adammhaile/cnc_firmware_tools"
+      ],
+      "troubleshooting": {
+        "causes": [
+          "Pull-off distance ($27) too small",
+          "Switch sticking mechanically",
+          "Switch wiring fault"
+        ],
+        "fixes": [
+          "Increase $27",
+          "Verify the switch returns to its idle state when released"
+        ]
+      }
+    },
+    {
+      "code": "ALARM:9",
+      "type": "ALARM",
+      "name": "Alarm 9: Homing fail — switch not found",
+      "description": "Homing searched the configured maximum travel without ever triggering the limit switch.",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "http://wiki.fluidnc.com/en/support/alarm_and_error_codes",
+        "https://docs.lightburnsoftware.com/latest/Troubleshooting/GRBLErrors/",
+        "https://github.com/adammhaile/cnc_firmware_tools"
+      ],
+      "troubleshooting": {
+        "causes": [
+          "Switch not wired or in wrong port",
+          "Wrong $23 homing direction (machine moving away from the switch)",
+          "$130-$132 max travel set too short",
+          "Switch broken or invert ($5) wrong"
+        ],
+        "fixes": [
+          "Confirm switch triggers when manually pressed (check $? pin state)",
+          "Flip the relevant $23 bit if homing moves the wrong direction",
+          "Verify $130/$131/$132 are reasonable"
+        ]
+      }
     }
   ]
 }

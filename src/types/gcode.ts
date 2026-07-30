@@ -43,6 +43,10 @@ export interface GCodeEntry {
   relatedCodes: string[];
   crossReferences: CrossReference[];
   modeNotes: ModeNote[];
+  troubleshooting?: {
+    causes: string[];
+    fixes: string[];
+  };
   sources: string[];
   notes?: string;
   versionNotes?: string;

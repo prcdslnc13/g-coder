@@ -1,8 +1,9 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useEffect } from "react";
 import { CodeType, FirmwareId, GCodeEntry } from "@/types/gcode";
 import { getFirmwareList, getFirmwareData, getAllFirmwareData } from "@/lib/data";
+import { parseUrlState, serializeUrlState } from "@/lib/urlState";
 import { FirmwareSelector } from "@/components/FirmwareSelector";
 import { CodeList } from "@/components/CodeList";
 import { CodeDetail } from "@/components/CodeDetail";
@@ -14,6 +15,47 @@ export default function Home() {
   const [selectedCode, setSelectedCode] = useState<GCodeEntry | null>(null);
   const [typeFilter, setTypeFilter] = useState<string>("all");
   const [compareCode, setCompareCode] = useState<string | null>(null);
+  const [urlReady, setUrlReady] = useState(false);
+
+  // Initialize state from the URL once on mount (deep-link support).
+  useEffect(() => {
+    const s = parseUrlState(window.location.search);
+    setSelectedFirmware(s.fw);
+    setTypeFilter(s.type);
+    setSearchQuery(s.q);
+    if (s.code) {
+      if (s.view === "compare") {
+        setCompareCode(s.code);
+      } else {
+        const entry = getFirmwareData(s.fw).codes.find((c) => c.code === s.code);
+        if (entry) setSelectedCode(entry);
+      }
+    }
+    setUrlReady(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Mirror state into the URL so the address bar is always a shareable link.
+  // Debounced and guarded: Safari throws SecurityError past ~100
+  // history.replaceState calls per 30s, which would unmount the React tree.
+  useEffect(() => {
+    if (!urlReady) return;
+    const t = setTimeout(() => {
+      try {
+        const qs = serializeUrlState({
+          fw: selectedFirmware,
+          type: typeFilter,
+          q: searchQuery,
+          code: compareCode ?? selectedCode?.code ?? null,
+          view: compareCode ? "compare" : null,
+        });
+        history.replaceState(null, "", qs === "" ? window.location.pathname : qs);
+      } catch {
+        // Safari replaceState rate limit — URL lags, self-heals on next change
+      }
+    }, 200);
+    return () => clearTimeout(t);
+  }, [urlReady, selectedFirmware, typeFilter, searchQuery, selectedCode, compareCode]);
 
   const firmwareList = getFirmwareList();
   const firmwareData = getFirmwareData(selectedFirmware);
@@ -98,18 +140,23 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between mb-4">
             <h1 className="text-xl font-bold tracking-tight">
-              <span className="text-emerald-400">G</span>-Coder
+              <span className="text-emerald-400">GCode</span> Atlas
             </h1>
-            <FirmwareSelector
-              firmwareList={firmwareList}
-              selected={selectedFirmware}
-              onSelect={(id) => {
-                setSelectedFirmware(id);
-                setSelectedCode(null);
-                setCompareCode(null);
-                setTypeFilter("all");
-              }}
-            />
+            <div className="flex items-center gap-4">
+              <FirmwareSelector
+                firmwareList={firmwareList}
+                selected={selectedFirmware}
+                onSelect={(id) => {
+                  setSelectedFirmware(id);
+                  setSelectedCode(null);
+                  setCompareCode(null);
+                  setTypeFilter("all");
+                }}
+              />
+              <a href="/config" className="text-sm text-emerald-500 hover:text-emerald-400 underline whitespace-nowrap">
+                $$ Config Tools
+              </a>
+            </div>
           </div>
           <div className="flex gap-3 items-center">
             <input

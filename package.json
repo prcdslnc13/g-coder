@@ -1,12 +1,13 @@
 {
-  "name": "g-coder",
+  "name": "gcode-atlas",
   "version": "1.0.0",
-  "description": "interactive g-code wiki and troubleshooter",
+  "description": "GCode Atlas — search and compare G-code standards across open-source CNC firmwares",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "vitest run"
   },
   "repository": {
     "type": "git",
@@ -33,6 +34,7 @@
     "eslint": "^10.1.0",
     "postcss": "^8.5.8",
     "tailwindcss": "^4.2.2",
-    "typescript": "^6.0.2"
+    "typescript": "^6.0.2",
+    "vitest": "^4.1.10"
   }
 }
