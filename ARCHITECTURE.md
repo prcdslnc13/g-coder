@@ -30,6 +30,7 @@ FirmwareData
     ├── relatedCodes: string[]
     ├── crossReferences: CrossReference[] (links to same code in other firmwares, with conflict notes)
     ├── modeNotes: ModeNote[] (laser mode, CNC mode, etc.)
+    ├── troubleshooting?: { causes: string[], fixes: string[] }
     ├── sources: string[] (URLs to official documentation)
     ├── notes?: string
     └── versionNotes?: string
@@ -44,6 +45,8 @@ One JSON file per firmware:
 - `smoothieware.json` — Smoothieware (3D printing origin, module-based)
 - `reprapfirmware.json` — RepRapFirmware/Duet3D (multi-mode: M451/M452/M453)
 - `fluidnc.json` — FluidNC (ESP32, YAML config, WiFi/Bluetooth, grbl-compatible)
+
+Alarm entries (type: "ALARM") carry structured troubleshooting data (`causes` and `fixes` arrays), adapted from cnc_firmware_tools (MIT) and official firmware documentation. These are rendered in the CodeDetail modal under "Likely Causes" and "How to Fix" sections.
 
 ### Loading (`src/lib/data.ts`)
 
