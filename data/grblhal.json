@@ -12645,6 +12645,1119 @@
         "https://github.com/grblHAL/core/blob/master/alarms.c"
       ],
       "notes": "Recovery sequence: (1) physically clear the condition — release/reset the E-stop button (many are twist-to-release or key-release latching); (2) send a soft reset (0x18 / Ctrl-X); (3) if the controller reports an ALARM state afterwards, unlock with $X or re-home with $H. Sending $X alone without first clearing the condition and resetting returns this same error — the state is latched until reset, which is why power-cycling the controller (e.g. replugging USB) also clears it. If this error appears with no physical E-stop pressed, the controller is reading its E-stop/reset input as asserted: check wiring, and check the control-input invert mask ($14) — a floating or inverted input makes the controller see a permanently-asserted E-stop."
+    },
+    {
+      "code": "ERR:39",
+      "type": "ERR",
+      "name": "Error 39: Value Out Of Range",
+      "description": "Official message: 'Value out of range.' A G-code word value is outside the range accepted by the command. Defined in grblHAL core as Status_GcodeValueOutOfRange (39).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ]
+    },
+    {
+      "code": "ERR:40",
+      "type": "ERR",
+      "name": "Error 40: Tool Change Pending",
+      "description": "Official message: 'G-code command not allowed when tool change is pending.' Issued when commands are sent while an M6 tool change awaits completion/acknowledgement. Defined in grblHAL core as Status_GcodeToolChangePending (40).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "M6",
+        "$341",
+        "$346"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ]
+    },
+    {
+      "code": "ERR:41",
+      "type": "ERR",
+      "name": "Error 41: Spindle Not Running",
+      "description": "Official message: 'Spindle not running when motion commanded in CSS or spindle sync mode.' Constant surface speed (G96) and spindle-synchronized motion require the spindle to be on. Defined in grblHAL core as Status_GcodeSpindleNotRunning (41).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "M3",
+        "M4"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ]
+    },
+    {
+      "code": "ERR:42",
+      "type": "ERR",
+      "name": "Error 42: Illegal Plane For Threading",
+      "description": "Official message: 'Plane must be ZX for threading.' Threading cycles (lathe mode) require the G18 ZX plane. Defined in grblHAL core as Status_GcodeIllegalPlane (42).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "G18"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ]
+    },
+    {
+      "code": "ERR:43",
+      "type": "ERR",
+      "name": "Error 43: Max Feed Rate Exceeded",
+      "description": "Official message: 'Max. feed rate exceeded.' Defined in grblHAL core as Status_GcodeMaxFeedRateExceeded (43).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "$110"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ]
+    },
+    {
+      "code": "ERR:44",
+      "type": "ERR",
+      "name": "Error 44: RPM Out Of Range",
+      "description": "Official message: 'RPM out of range.' The commanded spindle speed is outside the configured $30/$31 range. Defined in grblHAL core as Status_GcodeRPMOutOfRange (44).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "$30",
+        "$31"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ]
+    },
+    {
+      "code": "ERR:45",
+      "type": "ERR",
+      "name": "Error 45: Limits Engaged",
+      "description": "Official message: 'Only homing is allowed when a limit switch is engaged.' A limit switch is currently triggered; home ($H) or clear the switch to continue. Defined in grblHAL core as Status_LimitsEngaged (45).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "$H",
+        "$21",
+        "$5"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ]
+    },
+    {
+      "code": "ERR:46",
+      "type": "ERR",
+      "name": "Error 46: Homing Required",
+      "description": "Official message: 'Home machine to continue.' Homing is configured as required and the machine has not been homed since startup/reset. Defined in grblHAL core as Status_HomingRequired (46).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "$H",
+        "$22"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ]
+    },
+    {
+      "code": "ERR:47",
+      "type": "ERR",
+      "name": "Error 47: ATC Tool Not Set",
+      "description": "Official message: 'ATC: current tool is not set. Set current tool with M61.' Defined in grblHAL core as Status_GCodeToolError (47).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "M61",
+        "M6"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ]
+    },
+    {
+      "code": "ERR:48",
+      "type": "ERR",
+      "name": "Error 48: Value Word Conflict",
+      "description": "Official message: 'Value word conflict.' Two words in the block assign conflicting values. Defined in grblHAL core as Status_ValueWordConflict (48).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ]
+    },
+    {
+      "code": "ERR:49",
+      "type": "ERR",
+      "name": "Error 49: Self Test Failed",
+      "description": "Official message: 'Power on self test failed. A hard reset is required.' Defined in grblHAL core as Status_SelfTestFailed (49).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "$REBOOT"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ]
+    },
+    {
+      "code": "ERR:50",
+      "type": "ERR",
+      "name": "Error 50: Emergency Stop Active",
+      "description": "Official message: 'Emergency stop active.' The E-stop input is asserted. Clear the E-stop, then soft reset; see ERR:79 for the related 'critical event' rejection and alarm 10. Defined in grblHAL core as Status_EStop (50).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "ERR:79",
+        "RT:0x18",
+        "$14"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ]
+    },
+    {
+      "code": "ERR:51",
+      "type": "ERR",
+      "name": "Error 51: Motor Fault",
+      "description": "Official message: 'Motor fault.' The motor fault input is asserted (e.g. a closed-loop driver alarm output). See $744/$745 for enabling/inverting motor fault inputs. Defined in grblHAL core as Status_MotorFault (51).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "$744",
+        "$745"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ]
+    },
+    {
+      "code": "ERR:52",
+      "type": "ERR",
+      "name": "Error 52: Setting Value Out Of Range",
+      "description": "Official message: 'Setting value is out of range.' The $ setting value is outside its allowed range. Defined in grblHAL core as Status_SettingValueOutOfRange (52).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "$$"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ]
+    },
+    {
+      "code": "ERR:53",
+      "type": "ERR",
+      "name": "Error 53: Setting Disabled",
+      "description": "Official message: 'Setting is not available, possibly due to limited driver support.' The $ setting exists but is not available in this build/driver. Defined in grblHAL core as Status_SettingDisabled (53).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "$$"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ]
+    },
+    {
+      "code": "ERR:54",
+      "type": "ERR",
+      "name": "Error 54: Invalid Retract Position",
+      "description": "Official message: 'Retract position is less than drill depth.' In a canned drilling cycle the R (retract) plane must be above the hole bottom. Defined in grblHAL core as Status_GcodeInvalidRetractPosition (54).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "G73",
+        "G81",
+        "G83"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ]
+    },
+    {
+      "code": "ERR:55",
+      "type": "ERR",
+      "name": "Error 55: Illegal Homing Configuration",
+      "description": "Official message: 'Attempt to home two auto squared axes at the same time.' Auto-squared (ganged, dual-motor) axes must be homed one at a time; fix the $44-$48 homing cycle masks. Defined in grblHAL core as Status_IllegalHomingConfiguration (55).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "$44",
+        "$45",
+        "$46",
+        "$347"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ]
+    },
+    {
+      "code": "ERR:56",
+      "type": "ERR",
+      "name": "Error 56: Coordinate System Locked",
+      "description": "Official message: 'Coordinate system is locked.' The target coordinate system is locked against changes via $486. Defined in grblHAL core as Status_GCodeCoordSystemLocked (56).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "$486",
+        "G10"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ]
+    },
+    {
+      "code": "ERR:57",
+      "type": "ERR",
+      "name": "Error 57: Unexpected Demarcation",
+      "description": "Official message: 'Unexpected file demarcation.' An unexpected % file demarcation was encountered (e.g. inside a streamed job or macro). Defined in grblHAL core as Status_UnexpectedDemarcation (57).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ]
+    },
+    {
+      "code": "ERR:58",
+      "type": "ERR",
+      "name": "Error 58: Auxiliary Port Unavailable",
+      "description": "Official message: 'Port is not available' The requested auxiliary I/O port number does not exist or is already claimed. Defined in grblHAL core as Status_AuxiliaryPortUnavailable (58).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "M62",
+        "M63",
+        "M64",
+        "M65",
+        "$370",
+        "$372"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ]
+    },
+    {
+      "code": "ERR:60",
+      "type": "ERR",
+      "name": "Error 60: SD Mount Error",
+      "description": "Official message: 'SD Card mount failed.' Defined in grblHAL core as Status_SDMountError (60).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "$650"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/Plugin_SD_card/blob/master/sdcard.c",
+        "https://github.com/grblHAL/Plugin_SD_card/blob/master/fs_manager.c"
+      ],
+      "notes": "Reported by the SD card plugin."
+    },
+    {
+      "code": "ERR:61",
+      "type": "ERR",
+      "name": "Error 61: File Read Error",
+      "description": "A file read failed (e.g. while streaming a job from SD card/littlefs). Defined in grblHAL core as Status_FileReadError (61).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "$650"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/Plugin_SD_card/blob/master/sdcard.c",
+        "https://github.com/grblHAL/Plugin_SD_card/blob/master/fs_manager.c"
+      ],
+      "notes": "No report message string is registered in core for this code; the meaning follows from the enum symbol."
+    },
+    {
+      "code": "ERR:62",
+      "type": "ERR",
+      "name": "Error 62: Failed To Open Directory",
+      "description": "Official message: 'Directory listing failed.' Defined in grblHAL core as Status_FsFailedOpenDir (62).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "$650"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/Plugin_SD_card/blob/master/sdcard.c",
+        "https://github.com/grblHAL/Plugin_SD_card/blob/master/fs_manager.c"
+      ],
+      "notes": "Reported by the SD card/file system plugin."
+    },
+    {
+      "code": "ERR:63",
+      "type": "ERR",
+      "name": "Error 63: Directory Not Found",
+      "description": "Official message: 'Directory not found.' Defined in grblHAL core as Status_FSDirNotFound (63).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "$650"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/Plugin_SD_card/blob/master/sdcard.c",
+        "https://github.com/grblHAL/Plugin_SD_card/blob/master/fs_manager.c"
+      ],
+      "notes": "Reported by the SD card/file system plugin."
+    },
+    {
+      "code": "ERR:64",
+      "type": "ERR",
+      "name": "Error 64: SD Card Not Mounted",
+      "description": "Official message: 'SD Card not mounted.' Defined in grblHAL core as Status_SDNotMounted (64).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "$650"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/Plugin_SD_card/blob/master/sdcard.c",
+        "https://github.com/grblHAL/Plugin_SD_card/blob/master/fs_manager.c"
+      ],
+      "notes": "Reported by the SD card plugin."
+    },
+    {
+      "code": "ERR:65",
+      "type": "ERR",
+      "name": "Error 65: File System Not Mounted",
+      "description": "Official message: 'File system not mounted.' Defined in grblHAL core as Status_FsNotMounted (65).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "$650"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/Plugin_SD_card/blob/master/sdcard.c",
+        "https://github.com/grblHAL/Plugin_SD_card/blob/master/fs_manager.c"
+      ],
+      "notes": "Reported by the SD card/file system plugin."
+    },
+    {
+      "code": "ERR:66",
+      "type": "ERR",
+      "name": "Error 66: File System Read Only",
+      "description": "Official message: 'File system is read only.' Defined in grblHAL core as Status_FsReadOnly (66).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "$650"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/Plugin_SD_card/blob/master/sdcard.c",
+        "https://github.com/grblHAL/Plugin_SD_card/blob/master/fs_manager.c"
+      ],
+      "notes": "Reported by the SD card/file system plugin."
+    },
+    {
+      "code": "ERR:70",
+      "type": "ERR",
+      "name": "Error 70: Bluetooth Init Error",
+      "description": "Bluetooth initialization failed. Defined in grblHAL core as Status_BTInitError (70).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "$71",
+        "$72"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ],
+      "notes": "No report message string is registered in core for this code; the meaning follows from the enum symbol. Raised by Bluetooth-capable drivers."
+    },
+    {
+      "code": "ERR:71",
+      "type": "ERR",
+      "name": "Error 71: Unknown Expression Operation",
+      "description": "Official message: 'Unknown operation found in expression.' Defined in grblHAL core as Status_ExpressionUknownOp (71).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "NGC:PARAM"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ],
+      "notes": "Requires a build with NGC expression support."
+    },
+    {
+      "code": "ERR:72",
+      "type": "ERR",
+      "name": "Error 72: Expression Divide By Zero",
+      "description": "Official message: 'Divide by zero in expression attempted.' Defined in grblHAL core as Status_ExpressionDivideByZero (72).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "NGC:PARAM"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ],
+      "notes": "Requires a build with NGC expression support."
+    },
+    {
+      "code": "ERR:73",
+      "type": "ERR",
+      "name": "Error 73: Expression Argument Out Of Range",
+      "description": "Official message: 'Too large or too small argrument provided.' An expression function argument is out of range (message string verbatim from source, including the typo). Defined in grblHAL core as Status_ExpressionArgumentOutOfRange (73).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "NGC:PARAM"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ],
+      "notes": "Requires a build with NGC expression support."
+    },
+    {
+      "code": "ERR:74",
+      "type": "ERR",
+      "name": "Error 74: Expression Invalid Argument",
+      "description": "Official message: 'Argument is not valid for the operation' Defined in grblHAL core as Status_ExpressionInvalidArgument (74).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "NGC:PARAM"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ],
+      "notes": "Requires a build with NGC expression support."
+    },
+    {
+      "code": "ERR:75",
+      "type": "ERR",
+      "name": "Error 75: Expression Syntax Error",
+      "description": "Official message: 'Expression is not valid.' Defined in grblHAL core as Status_ExpressionSyntaxError (75).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "NGC:PARAM"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ],
+      "notes": "Requires a build with NGC expression support."
+    },
+    {
+      "code": "ERR:76",
+      "type": "ERR",
+      "name": "Error 76: Expression Invalid Result",
+      "description": "Official message: 'Either NAN (not a number) or infinity was returned from expression.' Defined in grblHAL core as Status_ExpressionInvalidResult (76).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "NGC:PARAM"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ],
+      "notes": "Requires a build with NGC expression support."
+    },
+    {
+      "code": "ERR:77",
+      "type": "ERR",
+      "name": "Error 77: Authentication Required",
+      "description": "Official message: 'Authentication required.' The command requires an authenticated session (e.g. WebUI login). Defined in grblHAL core as Status_AuthenticationRequired (77).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ]
+    },
+    {
+      "code": "ERR:78",
+      "type": "ERR",
+      "name": "Error 78: Access Denied",
+      "description": "Official message: 'Access denied.' Defined in grblHAL core as Status_AccessDenied (78).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ]
+    },
+    {
+      "code": "ERR:80",
+      "type": "ERR",
+      "name": "Error 80: Flow Statement Outside Macro",
+      "description": "Official message: 'Flow statement only allowed in filesystem macro.' Flow control words (o-words: if/while/sub...) are only executed from filesystem macros/jobs, not from the streaming input. Defined in grblHAL core as Status_FlowControlNotExecutingMacro (80).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "NGC:IF",
+        "NGC:WHILE",
+        "NGC:SUB"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ]
+    },
+    {
+      "code": "ERR:81",
+      "type": "ERR",
+      "name": "Error 81: Unknown Flow Statement",
+      "description": "Official message: 'Unknown flow statement.' Defined in grblHAL core as Status_FlowControlSyntaxError (81).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "NGC:IF",
+        "NGC:WHILE",
+        "NGC:SUB"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ]
+    },
+    {
+      "code": "ERR:82",
+      "type": "ERR",
+      "name": "Error 82: Flow Control Stack Overflow",
+      "description": "Official message: 'Stack overflow while executing flow statement.' Too deeply nested flow control (e.g. nested sub calls/loops). Defined in grblHAL core as Status_FlowControlStackOverflow (82).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "NGC:SUB"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ]
+    },
+    {
+      "code": "ERR:83",
+      "type": "ERR",
+      "name": "Error 83: Flow Control Out Of Memory",
+      "description": "Official message: 'Out of memory while executing flow statement.' Defined in grblHAL core as Status_FlowControlOutOfMemory (83).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "NGC:IF",
+        "NGC:WHILE",
+        "NGC:SUB"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ]
+    },
+    {
+      "code": "ERR:84",
+      "type": "ERR",
+      "name": "Error 84: File Open Failed",
+      "description": "Official message: 'Could not open file.' Defined in grblHAL core as Status_FileOpenFailed (84).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "$650"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ]
+    },
+    {
+      "code": "ERR:85",
+      "type": "ERR",
+      "name": "Error 85: File System Format Failed",
+      "description": "Official message: 'File system format failed.' Defined in grblHAL core as Status_FsFormatFailed (85).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "$650"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/Plugin_SD_card/blob/master/sdcard.c",
+        "https://github.com/grblHAL/Plugin_SD_card/blob/master/fs_manager.c"
+      ],
+      "notes": "Reported by the SD card/file system plugin."
+    },
+    {
+      "code": "ERR:86",
+      "type": "ERR",
+      "name": "Error 86: Auxiliary Port Unusable",
+      "description": "Official message: 'Port is not usable.' The requested auxiliary I/O port exists but cannot be used for the requested function. Defined in grblHAL core as Status_AuxiliaryPortUnusable (86).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "M62",
+        "M63",
+        "M64",
+        "M65",
+        "$370",
+        "$372"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ]
+    },
+    {
+      "code": "ERR:87",
+      "type": "ERR",
+      "name": "Error 87: Tool In Spindle",
+      "description": "Official message: 'Tool in spindle.' ATC: a tool is already in the spindle when the operation requires it to be empty. Defined in grblHAL core as Status_ToolInSPindle (87).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "M6",
+        "M61",
+        "$683"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ],
+      "notes": "On Sienci ATCi machines, see also the ATCi plugin settings $683-$687."
+    },
+    {
+      "code": "ERR:88",
+      "type": "ERR",
+      "name": "Error 88: No Tool In Spindle",
+      "description": "Official message: 'No tool in spindle.' ATC: no tool is in the spindle when the operation requires one. Defined in grblHAL core as Status_NoToolInSPindle (88).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "M6",
+        "M61",
+        "$683"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c"
+      ],
+      "notes": "On Sienci ATCi machines, see also the ATCi plugin settings $683-$687."
+    },
+    {
+      "code": "ERR:89",
+      "type": "ERR",
+      "name": "Error 89: File Delete Failed",
+      "description": "Official message: 'Delete failed.' Defined in grblHAL core as Status_FileDeleteFailed (89).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "$650"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/Plugin_SD_card/blob/master/sdcard.c",
+        "https://github.com/grblHAL/Plugin_SD_card/blob/master/fs_manager.c"
+      ],
+      "notes": "Reported by the SD card/file system plugin."
     }
   ]
 }
