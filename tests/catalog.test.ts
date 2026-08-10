@@ -34,3 +34,43 @@ describe("lookupSettingDef", () => {
     }
   });
 });
+
+describe("grblHAL extended overlay", () => {
+  it("resolves extended settings the vendored catalog lacks ($709 PWM2 options)", () => {
+    const r = lookupSettingDef(709, "grblhal");
+    expect(r).not.toBeNull();
+    expect(r!.def.name).toMatch(/PWM2/);
+    expect(r!.def.type).toBe("mask");
+    // Not defined for grbl 1.1
+    expect(lookupSettingDef(709, "grbl")).toBeNull();
+  });
+
+  it("overrides vendored entries that lag current core ($65 is a mask, $346 tool change options)", () => {
+    const p = lookupSettingDef(65, "grblhal")!;
+    expect(p.def.type).toBe("mask");
+    expect(Object.values(p.def.values!)).toContain("Probe protection");
+    const t = lookupSettingDef(346, "grblhal")!;
+    expect(t.def.type).toBe("mask");
+  });
+
+  it("does not shadow other flavors ($65 unchanged for grbl lookup path)", () => {
+    // $19 exists in vendor for grblhal only; grbl gets vendor behavior untouched.
+    const vendorGrbl = lookupSettingDef(23, "grbl")!;
+    expect(vendorGrbl.def.flavors).toContain("grbl");
+  });
+
+  it("knownIds includes overlay ids", () => {
+    const ids = knownIds();
+    expect(ids).toContain(683);
+    expect(ids).toContain(772);
+  });
+
+  it("every overlay entry cites sources and decodes for grblhal", () => {
+    for (const id of [41, 61, 160, 175, 300, 340, 486, 590, 650, 683, 700, 750, 763, 772]) {
+      const r = lookupSettingDef(id, "grblhal");
+      expect(r, `$${id}`).not.toBeNull();
+      expect(r!.def.sources.length).toBeGreaterThan(0);
+      expect(r!.def.flavors).toContain("grblhal");
+    }
+  });
+});

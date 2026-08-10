@@ -13,10 +13,12 @@
 - [x] Add 11 missing FluidNC codes (G28.1, G30.1, G59.1-G59.3, G61, G80, G91.1, G92.1, M1, M68)
 - [x] Add missing M9 (coolant off) to Smoothieware
 - [x] Add missing M30 (delete SD file) to RepRapFirmware with CRITICAL cross-firmware conflict warnings
+- [x] grblHAL extended $ settings, wiki data (2026-08-10) — added 104 entries (103 settings + ERR:79) covering every setting in a Sienci AltMill (SLB-EXT) $$ dump that was missing: $8-$65 core extensions, A-axis $103/$113/$123/$133, backlash $160-$163, dual-axis offsets $170-$173, tool change/auto-square $346-$349, aux I/O invert $370/$372, delays $392-$394, $395/$398, $481-$492, spindle select $511-$520, $534-$539, buttons $590-$592, $650-$681, Sienci ATCi keepout $683-$687 (ID range reserved for Sienci in core settings.h), subroutines $700, PWM2 spindle $709-$736, motor fault $744/$745, eventout $750-$763, laser offset $770-$772. All verified against grblHAL core settings.h/settings.c, plugin sources (Plugins_spindle, Plugins_misc eventout, Plugin_keypad, Plugin_SD_card, Plugin_networking), and the Sienci sienci-atci-plugin repo
+- [x] grblHAL extended $ settings, $$ decoder (2026-08-10) — `src/lib/settings/extended-grblhal.ts` overlay (~95 typed defs with mask bits/enums) merged in `catalog.ts`; overrides 8 stale vendored entries; parser fix for empty string values (`$490=`); regression test decodes the full AltMill dump with zero unknown settings
 
 ## Current State
 - **6 firmwares**: grbl, grblHAL, LinuxCNC, Smoothieware, RepRapFirmware, FluidNC
-- **810 total entries** (grbl: 165, grblHAL: 245, LinuxCNC: 110, Smoothieware: 93, RepRapFirmware: 87, FluidNC: 110)
+- **940 total entries** (grbl: 165, grblHAL: 366, LinuxCNC: 110, Smoothieware: 93, RepRapFirmware: 87, FluidNC: 119)
 - Branch: `main`
 
 ## Remaining
@@ -28,11 +30,12 @@
 - [ ] Add a "back" button or breadcrumb when navigating cross-firmware from the detail dialog
 
 ### Data Verification
-- [ ] Expert review of all 810 entries for accuracy (especially cross-references and conflict warnings)
+- [ ] Expert review of all 940 entries for accuracy (especially cross-references and conflict warnings)
 - [ ] Verify source URLs are still live and correct
 - [x] Check for missing codes in each firmware (compare against official docs) — gap analysis complete, key missing codes added
 - [x] Validate grbl/grblHAL/FluidNC lineage — confirmed grblHAL is full superset of grbl G/M codes; FluidNC gaps filled
 - [ ] Validate grbl/grblHAL/FluidNC lineage notes — ensure "same as grbl" / "modified" / "new" labels are correct
+- [ ] grblHAL extended error codes (39-85, from core/errors.h) and extended alarm codes (11+) — only ERR:79 in grblhal.json so far (2026-08-10); alarm troubleshooting data now exists for common alarms but the full extended ERR/ALARM ranges remain a gap
 
 ### Feature Enhancements
 - [ ] Search across all firmwares simultaneously (not just the selected one)

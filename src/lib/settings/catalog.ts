@@ -4,6 +4,7 @@ import {
   knownIds as vendorKnownIds,
   VendorSettingEntry,
 } from "./vendor/settings";
+import { EXTENDED_GRBLHAL } from "./extended-grblhal";
 
 const TO_VENDOR: Record<SettingFlavor, string> = {
   grbl: "grbl11",
@@ -45,10 +46,23 @@ export function lookupSettingDef(
   flavor: SettingFlavor
 ): { def: SettingDef; candidates: SettingDef[] } | null {
   const r = vendorLookup(id, TO_VENDOR[flavor]);
+  // The grblHAL overlay wins over the vendored catalog: it covers extended
+  // settings the vendor lacks and corrects entries that lag current core.
+  if (flavor === "grblhal") {
+    const ext = EXTENDED_GRBLHAL.get(id);
+    if (ext) {
+      const others = r
+        ? r.candidates.map(adapt).filter((c) => !c.flavors.includes("grblhal"))
+        : [];
+      return { def: ext, candidates: [ext, ...others] };
+    }
+  }
   if (!r) return null;
   return { def: adapt(r.entry), candidates: r.candidates.map(adapt) };
 }
 
 export function knownIds(): number[] {
-  return vendorKnownIds();
+  return [...new Set([...vendorKnownIds(), ...EXTENDED_GRBLHAL.keys()])].sort(
+    (a, b) => a - b
+  );
 }

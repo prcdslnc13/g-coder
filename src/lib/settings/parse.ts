@@ -7,7 +7,9 @@ export interface ParsedSetting {
   duplicate: boolean;
 }
 
-const LINE_RE = /^\s*\$(\d+)\s*=\s*([^\r\n]+?)\s*$/;
+// Value may be empty: string settings (e.g. $490= macro slots) are emitted
+// with no value when unset.
+const LINE_RE = /^\s*\$(\d+)\s*=\s*([^\r\n]*?)\s*$/;
 const TRAILING_COMMENT_RE = /\s*\([^)]*\)\s*$/;
 
 // Tolerant parser for `$$` output. Anything that isn't `$<number>=<value>`

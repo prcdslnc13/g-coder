@@ -10113,6 +10113,2538 @@
           "Improve cooling for the driver"
         ]
       }
+    },
+    {
+      "code": "$8",
+      "type": "$",
+      "name": "Ganged Axes Direction Invert",
+      "description": "Inverts the direction signals for the second motor used for ganged (auto-squared) axes. Bitmask: bit0=X-Axis, bit1=Y-Axis, bit2=Z-Axis. This inversion is applied in addition to the inversion from setting $3. Only available when the driver reports ganged axes.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$8=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$3",
+        "$170",
+        "$171"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: bitmask. Source symbol: Setting_GangedDirInvertMask."
+    },
+    {
+      "code": "$9",
+      "type": "$",
+      "name": "PWM Spindle Options",
+      "description": "Extended bitfield: bit0=Enable (controls PWM output availability), bit1=RPM controls spindle enable signal (when set and M3/M4 active, S0 switches spindle off and S>0 switches it on), bit2=Disable laser mode capability, bit3=Enable ramping (spin up/down time calculated from $394 and $539), bit4=Ignore on/off delays (present when spindle on/off delays are compiled in).",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$9=5",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$30",
+        "$33",
+        "$32"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/spindle_control.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 1. Units/format: bitmask. Source symbol: Setting_SpindlePWMOptions."
+    },
+    {
+      "code": "$14",
+      "type": "$",
+      "name": "Invert Control Inputs",
+      "description": "Inverts the control input signals (active low). Bitmask: bit0=Reset, bit1=Feed hold, bit2=Cycle start, bit3=Safety door, bit4=Block delete, bit5=Optional stop, bit6=EStop, bit7=Probe disconnected, bit8=Motor fault, bit9=Motor warning, bit10=Limits override, bit11=Single step blocks, bit12=Toolsetter overtravel. Block delete, Optional stop, EStop and Probe connected are optional signals; availability is driver dependent.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$14=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$17"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0 (driver dependent). Units/format: bitmask. Source symbol: Setting_ControlInvertMask."
+    },
+    {
+      "code": "$15",
+      "type": "$",
+      "name": "Invert Coolant Outputs",
+      "description": "Inverts the coolant and mist output signals (active low). Bitmask: bit0=Flood, bit1=Mist.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$15=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$2"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: bitmask. Source symbol: Setting_CoolantInvertMask."
+    },
+    {
+      "code": "$16",
+      "type": "$",
+      "name": "Invert Spindle Signals",
+      "description": "Inverts the spindle on, counterclockwise and PWM signals (active low). Bitmask: bit0=Spindle enable, bit1=Spindle direction (CCW), bit2=PWM. Reboot required. CCW and PWM inversion not supported by all drivers.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$16=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$9",
+        "$33"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h",
+        "https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: bitmask. Source symbol: Setting_SpindleInvertMask."
+    },
+    {
+      "code": "$17",
+      "type": "$",
+      "name": "Pullup Disable Control Inputs",
+      "description": "Disables the control signal pullup resistors; potentially enables pulldown resistors if available. Same bit layout as $14 (bit0=Reset, bit1=Feed hold, bit2=Cycle start, bit3=Safety door, bit4=Block delete, bit5=Optional stop, bit6=EStop, ...). Block delete, Optional stop and EStop are optional signals; availability is driver dependent.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$17=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$14"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: bitmask. Source symbol: Setting_ControlPullUpDisableMask."
+    },
+    {
+      "code": "$18",
+      "type": "$",
+      "name": "Pullup Disable Limit Inputs",
+      "description": "Disables the limit input signal pullup resistors; potentially enables pulldown resistors if available. Axis mask: bit0=X, bit1=Y, bit2=Z, bit3=A, etc.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$18=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$5"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: axismask. Source symbol: Setting_LimitPullUpDisableMask."
+    },
+    {
+      "code": "$19",
+      "type": "$",
+      "name": "Pullup Disable Probe Inputs",
+      "description": "Disables the probe signal pullup resistor(s); potentially enables pulldown resistor(s) if available. Bitmask when toolsetter/second probe support is compiled in: bit0=Probe, bit1=Toolsetter, bit2=Probe 2; otherwise a single Probe bit.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$19=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$6"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: bitmask. Source symbol: Setting_ProbePullUpDisable."
+    },
+    {
+      "code": "$28",
+      "type": "$",
+      "name": "G73 Retract Distance",
+      "description": "G73 retract distance in mm, used by the G73 chip-breaking peck drilling cycle.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$28=0.100",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0.1. Units/format: mm. Source symbol: Setting_G73Retract."
+    },
+    {
+      "code": "$29",
+      "type": "$",
+      "name": "Pulse Delay",
+      "description": "Step pulse delay in microseconds — delay between direction signal change and the step pulse. When set > 0 and less than 2 the value is rounded up to 2 microseconds. Maximum 20.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$29=0.0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$0"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: microseconds. Source symbol: Setting_PulseDelayMicroseconds."
+    },
+    {
+      "code": "$34",
+      "type": "$",
+      "name": "Spindle PWM Off Value",
+      "description": "Spindle PWM off value in percent (duty cycle). Range 0-100.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$34=0.0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$35",
+        "$36",
+        "$33"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h",
+        "https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: percent. Source symbol: Setting_PWMOffValue."
+    },
+    {
+      "code": "$35",
+      "type": "$",
+      "name": "Spindle PWM Min Value",
+      "description": "Spindle PWM minimum value in percent (duty cycle). Range 0-100. When $31 (min spindle speed) is set > 0 this may have to be set to get the configured RPM.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$35=0.0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$34",
+        "$36",
+        "$31"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h",
+        "https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: percent. Source symbol: Setting_PWMMinValue."
+    },
+    {
+      "code": "$36",
+      "type": "$",
+      "name": "Spindle PWM Max Value",
+      "description": "Spindle PWM maximum value in percent (duty cycle). Range 0-100.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$36=100.0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$34",
+        "$35",
+        "$30"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h",
+        "https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 100. Units/format: percent. Source symbol: Setting_PWMMaxValue."
+    },
+    {
+      "code": "$39",
+      "type": "$",
+      "name": "Enable Legacy RT Commands",
+      "description": "Enables normal processing of ?, ! and ~ characters when part of a $-setting or comment. If disabled they are added to the input string instead of being interpreted as realtime commands.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$39=1",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h",
+        "https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 1. Units/format: bool. Source symbol: Setting_EnableLegacyRTCommands."
+    },
+    {
+      "code": "$40",
+      "type": "$",
+      "name": "Limit Jog Commands",
+      "description": "Limits jog commands to the machine workspace for homed axes (soft limits for jogging).",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$40=1",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$20",
+        "$J"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h",
+        "https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: bool. Source symbol: Setting_JogSoftLimited."
+    },
+    {
+      "code": "$41",
+      "type": "$",
+      "name": "Parking Cycle Enable",
+      "description": "Enables the parking cycle (requires the parking axis to be homed). Extended bitfield: bit0=Enable, bit1=Deactivate upon init, bit2=Enable parking override control.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$41=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$42",
+        "$56",
+        "$57",
+        "$58",
+        "$59"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: bitmask. Source symbol: Setting_ParkingEnable."
+    },
+    {
+      "code": "$42",
+      "type": "$",
+      "name": "Parking Axis",
+      "description": "Defines which axis performs the parking motion. Values: 0=X, 1=Y, 2=Z.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$42=2",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$41"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 2 (Z). Units/format: integer. Source symbol: Setting_ParkingAxis."
+    },
+    {
+      "code": "$56",
+      "type": "$",
+      "name": "Parking Pull-Out Distance",
+      "description": "Spindle pull-out and plunge distance in mm during a parking cycle. Incremental distance.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$56=5.0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$41",
+        "$57"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 5.0. Units/format: mm. Source symbol: Setting_ParkingPulloutIncrement."
+    },
+    {
+      "code": "$57",
+      "type": "$",
+      "name": "Parking Pull-Out Rate",
+      "description": "Spindle pull-out/plunge slow feed rate in mm/min during a parking cycle.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$57=100.0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$56",
+        "$59"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 100.0. Units/format: mm/min. Source symbol: Setting_ParkingPulloutRate."
+    },
+    {
+      "code": "$58",
+      "type": "$",
+      "name": "Parking Target",
+      "description": "Parking axis target position, in mm, as machine coordinate [-max_travel, 0]. Minimum -100000.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$58=-5.0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$41"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: -5.0. Units/format: mm. Source symbol: Setting_ParkingTarget."
+    },
+    {
+      "code": "$59",
+      "type": "$",
+      "name": "Parking Fast Rate",
+      "description": "Parking fast rate to target after pull-out, in mm/min.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$59=500.0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$57"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 500.0. Units/format: mm/min. Source symbol: Setting_ParkingFastRate."
+    },
+    {
+      "code": "$60",
+      "type": "$",
+      "name": "Restore Overrides",
+      "description": "Restores feed/rapid/spindle overrides to default values at program end (M2/M30).",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$60=1",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h",
+        "https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 1. Units/format: bool. Source symbol: Setting_RestoreOverrides."
+    },
+    {
+      "code": "$61",
+      "type": "$",
+      "name": "Safety Door Options",
+      "description": "Safety door options bitmask: bit0=Ignore when idle (disregard the door signal in IDLE state to allow jogging etc.; available when the controller has a door input), bit1=Keep coolant state on door open (do not turn off coolant if on).",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$61=3",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$392",
+        "$393"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: bitmask. Source symbol: Setting_DoorOptions."
+    },
+    {
+      "code": "$62",
+      "type": "$",
+      "name": "Sleep Enable",
+      "description": "Enables sleep mode (the $SLP command).",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$62=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$SLP"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h",
+        "https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: bool. Source symbol: Setting_SleepEnable."
+    },
+    {
+      "code": "$63",
+      "type": "$",
+      "name": "Feed Hold Actions",
+      "description": "Actions taken during feed hold and on resume from feed hold. Bitmask: bit0=Disable laser during hold, bit1=Restore spindle and coolant state on resume.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$63=3",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 3. Units/format: bitmask. Source symbol: Setting_HoldActions."
+    },
+    {
+      "code": "$64",
+      "type": "$",
+      "name": "Force Init Alarm",
+      "description": "Starts the controller in alarm mode after a cold reset.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$64=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h",
+        "https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: bool. Source symbol: Setting_ForceInitAlarm."
+    },
+    {
+      "code": "$65",
+      "type": "$",
+      "name": "Probing Options",
+      "description": "Probing options bitmask: bit0=Allow feed override during probing, bit1=Apply soft limits (limit probing commands to machine workspace for homed axes), bit2=reserved, bit3=Auto select toolsetter, bit4=Auto select probe 2, bit5=Probe protection.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$65=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$6",
+        "$22"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h",
+        "https://github.com/grblHAL/core/wiki/Additional-or-extended-settings"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: bitmask. Source symbol: Setting_ProbingFlags."
+    },
+    {
+      "code": "$103",
+      "type": "$",
+      "name": "A-Axis Travel Resolution",
+      "description": "Travel resolution in steps per millimeter for the A (4th) axis; steps per degree if the axis is designated rotary via $376.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$103=79.01235",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$100",
+        "$113",
+        "$123",
+        "$133",
+        "$376"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 250.0. Units/format: step/mm (step/deg if rotary). Source symbol: Setting_AxisStepsPerMM (A)."
+    },
+    {
+      "code": "$113",
+      "type": "$",
+      "name": "A-Axis Maximum Rate",
+      "description": "Maximum rate for the A axis in mm/min (deg/min if the axis is designated rotary via $376). Used as the G0 rapid rate.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$113=8000.000",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$110",
+        "$103"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 500.0. Units/format: mm/min (deg/min if rotary). Source symbol: Setting_AxisMaxRate (A)."
+    },
+    {
+      "code": "$123",
+      "type": "$",
+      "name": "A-Axis Acceleration",
+      "description": "Acceleration for the A axis in mm/sec^2 (deg/sec^2 if rotary). Used for motion planning so motor torque is not exceeded and steps are not lost.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$123=1000.000",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$120",
+        "$103"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 10.0. Units/format: mm/sec^2 (deg/sec^2 if rotary). Source symbol: Setting_AxisAcceleration (A)."
+    },
+    {
+      "code": "$133",
+      "type": "$",
+      "name": "A-Axis Maximum Travel",
+      "description": "Maximum A-axis travel distance from the homing switch, in mm (deg if rotary). Determines valid machine space for soft-limits and homing search distances.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$133=0.000",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$130",
+        "$103"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 200.0. Units/format: mm (deg if rotary). Source symbol: Setting_AxisMaxTravel (A)."
+    },
+    {
+      "code": "$160",
+      "type": "$",
+      "name": "X-Axis Backlash Compensation",
+      "description": "Backlash distance to compensate for on the X axis, in mm. Only available when the firmware is built with ENABLE_BACKLASH_COMPENSATION.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$160=0.00000",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$161",
+        "$162",
+        "$163"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0.0. Units/format: mm. Source symbol: Setting_AxisBacklash (X)."
+    },
+    {
+      "code": "$161",
+      "type": "$",
+      "name": "Y-Axis Backlash Compensation",
+      "description": "Backlash distance to compensate for on the Y axis, in mm. Only available when the firmware is built with ENABLE_BACKLASH_COMPENSATION.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$161=0.00000",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$160"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0.0. Units/format: mm. Source symbol: Setting_AxisBacklash (Y)."
+    },
+    {
+      "code": "$162",
+      "type": "$",
+      "name": "Z-Axis Backlash Compensation",
+      "description": "Backlash distance to compensate for on the Z axis, in mm. Only available when the firmware is built with ENABLE_BACKLASH_COMPENSATION.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$162=0.00000",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$160"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0.0. Units/format: mm. Source symbol: Setting_AxisBacklash (Z)."
+    },
+    {
+      "code": "$163",
+      "type": "$",
+      "name": "A-Axis Backlash Compensation",
+      "description": "Backlash distance to compensate for on the A axis, in mm (deg if rotary). Only available when the firmware is built with ENABLE_BACKLASH_COMPENSATION.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$163=0.00000",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$160"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0.0. Units/format: mm. Source symbol: Setting_AxisBacklash (A)."
+    },
+    {
+      "code": "$170",
+      "type": "$",
+      "name": "X-Axis Dual Axis Offset",
+      "description": "Offset between sides to compensate for homing switch inaccuracies on an auto-squared (ganged) X axis. Range -10 to 10 mm. Only available when the axis is ganged/auto-squared.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$170=0.000",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$8",
+        "$171",
+        "$347"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0.0. Units/format: mm. Source symbol: Setting_AxisAutoSquareOffset (X)."
+    },
+    {
+      "code": "$171",
+      "type": "$",
+      "name": "Y-Axis Dual Axis Offset",
+      "description": "Offset between sides to compensate for homing switch inaccuracies on an auto-squared (ganged) Y axis. Range -10 to 10 mm. Only available when the axis is ganged/auto-squared.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$171=0.000",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$170",
+        "$347"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0.0. Units/format: mm. Source symbol: Setting_AxisAutoSquareOffset (Y)."
+    },
+    {
+      "code": "$172",
+      "type": "$",
+      "name": "Z-Axis Dual Axis Offset",
+      "description": "Offset between sides to compensate for homing switch inaccuracies on an auto-squared (ganged) Z axis. Range -10 to 10 mm. Only available when the axis is ganged/auto-squared.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$172=0.000",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$170"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0.0. Units/format: mm. Source symbol: Setting_AxisAutoSquareOffset (Z)."
+    },
+    {
+      "code": "$173",
+      "type": "$",
+      "name": "A-Axis Dual Axis Offset",
+      "description": "Offset between sides to compensate for homing switch inaccuracies on an auto-squared (ganged) A axis. Range -10 to 10 mm. Only available when the axis is ganged/auto-squared.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$173=0.000",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$170"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0.0. Units/format: mm. Source symbol: Setting_AxisAutoSquareOffset (A)."
+    },
+    {
+      "code": "$346",
+      "type": "$",
+      "name": "Tool Change Options",
+      "description": "Manual tool change options bitmask: bit0=Restore position after M6 (move the spindle back so the controlled point/tool tip is the same as before M6; if not set, the spindle is only moved to the Z home position), bit1=Change tool at G30 (rapid to the G30 position via tool axis home; requires homed axes), bit2=Fast probe pull off (use G38.4-style probing for faster touch off). Not available when the driver has ATC support.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$346=1",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$341",
+        "$342",
+        "$343",
+        "$344",
+        "$345"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 1. Units/format: bitmask. Source symbol: Setting_ToolChangeOptions."
+    },
+    {
+      "code": "$347",
+      "type": "$",
+      "name": "Dual Axis Length Fail Percent",
+      "description": "Dual axis (auto-squaring) homing fail threshold, in percent of axis max travel. Range 0-100. Homing fails if the distance between the two switch trigger points exceeds this.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$347=5.0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$348",
+        "$349",
+        "$170",
+        "$171"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 5.0. Units/format: percent. Source symbol: Setting_DualAxisLengthFailPercent."
+    },
+    {
+      "code": "$348",
+      "type": "$",
+      "name": "Dual Axis Length Fail Min",
+      "description": "Dual axis (auto-squaring) homing length fail minimum distance, in mm.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$348=2.500",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$347"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 2.5. Units/format: mm. Source symbol: Setting_DualAxisLengthFailMin."
+    },
+    {
+      "code": "$349",
+      "type": "$",
+      "name": "Dual Axis Length Fail Max",
+      "description": "Dual axis (auto-squaring) homing length fail maximum distance, in mm.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$349=25.000",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$347"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 25.0. Units/format: mm. Source symbol: Setting_DualAxisLengthFailMax."
+    },
+    {
+      "code": "$370",
+      "type": "$",
+      "name": "Invert I/O Port Inputs",
+      "description": "Inverts auxiliary (I/O expansion) digital input ports. Bitmask where each bit corresponds to an aux input port; port names and count are driver dependent.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$370=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$372"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/ioports.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: bitmask. Source symbol: Settings_IoPort_InvertIn."
+    },
+    {
+      "code": "$372",
+      "type": "$",
+      "name": "Invert I/O Port Outputs",
+      "description": "Inverts auxiliary (I/O expansion) digital output ports. Bitmask where each bit corresponds to an aux output port; port names and count are driver dependent.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$372=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$370"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/ioports.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: bitmask. Source symbol: Settings_IoPort_InvertOut."
+    },
+    {
+      "code": "$392",
+      "type": "$",
+      "name": "Spindle On Delay (Safety Door)",
+      "description": "Delay to allow the spindle to spin up after the safety door is closed or on resume from park. 0 or 0.5-20 seconds. Only available when safety door support is compiled in.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$392=11.0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$393",
+        "$394"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 4.0. Units/format: seconds. Source symbol: Setting_DoorSpindleOnDelay."
+    },
+    {
+      "code": "$393",
+      "type": "$",
+      "name": "Coolant On Delay (Safety Door)",
+      "description": "Delay to allow coolant to restart after the safety door is closed or on resume from park. 0 or 0.5-20 seconds. Only available when safety door support is compiled in.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$393=1.0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$392",
+        "$673"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 1.0. Units/format: seconds. Source symbol: Setting_DoorCoolantOnDelay."
+    },
+    {
+      "code": "$394",
+      "type": "$",
+      "name": "Spindle On Delay",
+      "description": "Delay to allow the spindle to spin up, 0 or 0.5-20 seconds. If the spindle supports 'at speed' functionality it is the time to wait before alarm 14 is raised.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$394=11.0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$539",
+        "$9"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: seconds. Source symbol: Setting_SpindleOnDelay."
+    },
+    {
+      "code": "$395",
+      "type": "$",
+      "name": "Default Spindle",
+      "description": "Spindle selected on startup. The value selects among the spindles registered at build/run time (the list is built dynamically from registered spindle types). Reboot required.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$395=2",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$32",
+        "$511"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: driver dependent (first registered spindle). Units/format: integer. Source symbol: Setting_SpindleType."
+    },
+    {
+      "code": "$398",
+      "type": "$",
+      "name": "Planner Buffer Blocks",
+      "description": "Number of blocks in the motion planner buffer. Range 30-1000. Reboot required.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$398=128",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 100. Units/format: blocks. Source symbol: Setting_PlannerBlocks."
+    },
+    {
+      "code": "$481",
+      "type": "$",
+      "name": "Autoreport Interval",
+      "description": "Interval at which the real-time status report is automatically sent, in milliseconds. Set to 0 to disable. Allowed range 100-1000 ms. Reboot required.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$481=2",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0 (disabled). Units/format: ms. Source symbol: Setting_AutoReportInterval."
+    },
+    {
+      "code": "$484",
+      "type": "$",
+      "name": "Unlock Required After E-Stop",
+      "description": "If set, unlock (by sending $X) is required after resetting a cleared E-Stop condition. Only available when the board has an E-Stop input.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$484=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 1. Units/format: bool. Source symbol: Setting_UnlockAfterEStop."
+    },
+    {
+      "code": "$485",
+      "type": "$",
+      "name": "Keep Tool Number Over Reboot",
+      "description": "If set the current tool number is persisted over a reboot (tool-change group).",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$485=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$341"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: bool. Source symbol: Setting_EnableToolPersistence."
+    },
+    {
+      "code": "$486",
+      "type": "$",
+      "name": "Lock Coordinate Systems",
+      "description": "Bitmask locking coordinate systems against accidental changes. Bit0=G59.1, bit1=G59.2, bit2=G59.3.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$486=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: bitmask. Source symbol: Setting_OffsetLock."
+    },
+    {
+      "code": "$490",
+      "type": "$",
+      "name": "Macro 1",
+      "description": "User macro content bound to macro 1 (triggerable by aux input pin or keypad). Separate blocks (lines) with the vertical bar character |. String, max length 127 characters (less when more than 4 macros are compiled in).",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$490=",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$491",
+        "$492",
+        "$590"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/Plugin_keypad/master/macros.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: empty string. Units/format: string. Source symbol: Setting_Macro0. Defined in: Plugin_keypad (macros.c); ID reserved in core settings.h."
+    },
+    {
+      "code": "$491",
+      "type": "$",
+      "name": "Macro 2",
+      "description": "User macro content bound to macro 2. Separate blocks (lines) with the vertical bar character |. String, max length 127 characters (less when more than 4 macros are compiled in).",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$491=",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$490"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/Plugin_keypad/master/macros.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: empty string. Units/format: string. Source symbol: Setting_Macro1. Defined in: Plugin_keypad (macros.c); ID reserved in core settings.h."
+    },
+    {
+      "code": "$492",
+      "type": "$",
+      "name": "Macro 3",
+      "description": "User macro content bound to macro 3. Separate blocks (lines) with the vertical bar character |. String, max length 127 characters (less when more than 4 macros are compiled in).",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$492=",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$490"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/Plugin_keypad/master/macros.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: empty string. Units/format: string. Source symbol: Setting_Macro2. Defined in: Plugin_keypad (macros.c); ID reserved in core settings.h."
+    },
+    {
+      "code": "$511",
+      "type": "$",
+      "name": "Spindle 2 Binding",
+      "description": "Selects which registered spindle driver is bound as spindle 2 (choice list: Disabled plus the compiled-in spindle types from $32's option list). Only present when more than one selectable spindle is compiled in. Value 0 = Disabled.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$511=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$512",
+        "$513",
+        "$520",
+        "$395"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/Plugins_spindle/master/select.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0 (Disabled). Units/format: integer. Source symbol: Setting_SpindleEnable1. Defined in: Plugins_spindle (select.c); ID reserved in core settings.h."
+    },
+    {
+      "code": "$512",
+      "type": "$",
+      "name": "Spindle 3 Binding",
+      "description": "Selects which registered spindle driver is bound as spindle 3. Same semantics as $511 (0 = Disabled, otherwise an index into the registered spindle list).",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$512=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$511"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/Plugins_spindle/master/select.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0 (Disabled). Units/format: integer. Source symbol: Setting_SpindleEnable2. Defined in: Plugins_spindle (select.c); ID reserved in core settings.h."
+    },
+    {
+      "code": "$513",
+      "type": "$",
+      "name": "Spindle 4 Binding",
+      "description": "Selects which registered spindle driver is bound as spindle 4. Same semantics as $511.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$513=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$511"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/Plugins_spindle/master/select.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0 (Disabled). Units/format: integer. Source symbol: Setting_SpindleEnable3. Defined in: Plugins_spindle (select.c); ID reserved in core settings.h."
+    },
+    {
+      "code": "$520",
+      "type": "$",
+      "name": "Spindle 1 Tool Number Start",
+      "description": "Start of tool numbers used for selecting this spindle when spindles are switched by tool number (M6). Official description: 'Start of tool numbers for selecting the spindle. Normally leave this at 0 for spindle 1 (default spindle).' Range 0 to max tool number.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$520=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$511"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/Plugins_spindle/master/select.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: tool number. Source symbol: Setting_SpindleToolStart0. Defined in: Plugins_spindle (select.c); ID reserved in core settings.h."
+    },
+    {
+      "code": "$534",
+      "type": "$",
+      "name": "Output NGC Debug Messages",
+      "description": "Enables output of NGC (debug, ...) comment messages from G-code expressions, e.g. '(debug, metric mode: #<_metric>, coord system: #5220)'. Only present when NGC expression support is compiled in.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$534=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: bool. Source symbol: Setting_NGCDebugOut."
+    },
+    {
+      "code": "$535",
+      "type": "$",
+      "name": "MAC Address",
+      "description": "Optional MAC address for the ethernet interface, 17-character string like 02:08:dc:2b:eb:ec. Official description: 'Optional MAC address. Tip: get from an unused device, e.g an old router.' When not set the driver generates a default MAC. Reboot required.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$535=02:08:dc:2b:eb:ec",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$300",
+        "$301"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/Plugin_networking/master/wiznet/enet.c",
+        "https://raw.githubusercontent.com/grblHAL/Plugin_networking/master/networking.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: driver-generated MAC. Units/format: string. Source symbol: Setting_NetworkMAC. Defined in: Plugin_networking (ethernet-capable drivers)."
+    },
+    {
+      "code": "$536",
+      "type": "$",
+      "name": "LED Strip 1 Length",
+      "description": "Number of LEDs in NeoPixel/WS2812 strip 1. Max 255. Available when the driver supports RGB LED strips.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$536=1",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$537"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: LED count. Source symbol: Setting_RGB_StripLengt0."
+    },
+    {
+      "code": "$537",
+      "type": "$",
+      "name": "LED Strip 2 Length",
+      "description": "Number of LEDs in NeoPixel/WS2812 strip 2. Max 255. Available when the driver supports RGB LED strips.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$537=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$536"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: LED count. Source symbol: Setting_RGB_StripLengt1."
+    },
+    {
+      "code": "$538",
+      "type": "$",
+      "name": "Fast Rotary Go To G28",
+      "description": "Axis bitmask of rotary axes for which a fast return to the G28-stored angle is enabled (unwinds the axis instead of winding back). Official description: 'Perform fast move to angle stored in G28 position. Use: G91G28<axisletter>0 then G90.' Only present on builds with more than 3 axes.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$538=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$376"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: axismask. Source symbol: Setting_RotaryWrap."
+    },
+    {
+      "code": "$539",
+      "type": "$",
+      "name": "Spindle Off Delay",
+      "description": "Delay to allow the spindle to spin down, 0 or 0.5-20 seconds. If the spindle supports 'at speed' functionality it is the time to wait before alarm 14 is raised.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$539=0.0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$394"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: seconds. Source symbol: Setting_SpindleOffDelay."
+    },
+    {
+      "code": "$590",
+      "type": "$",
+      "name": "Button 1 Action",
+      "description": "Action taken when macro input pin/button 1 is triggered. Values: 0=Macro, 1=Cycle start, 2=Feed hold, 3=Park, 4=Reset, 5=Spindle stop (during feed hold), 6=Mist toggle, 7=Flood toggle, 8=Probe connected toggle, 9=Optional stop toggle, 10=Single block mode toggle.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$590=1",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$591",
+        "$592",
+        "$490"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/Plugin_keypad/master/macros.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0 (Macro), unless overridden by the board map. Units/format: integer. Source symbol: Setting_ButtonAction0. Defined in: Plugin_keypad (macros.c); ID reserved in core settings.h."
+    },
+    {
+      "code": "$591",
+      "type": "$",
+      "name": "Button 2 Action",
+      "description": "Action taken when macro input pin/button 2 is triggered. Same value list as $590.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$591=2",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$590"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/Plugin_keypad/master/macros.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0 (Macro), unless overridden by the board map. Units/format: integer. Source symbol: Setting_ButtonAction1. Defined in: Plugin_keypad (macros.c); ID reserved in core settings.h."
+    },
+    {
+      "code": "$592",
+      "type": "$",
+      "name": "Button 3 Action",
+      "description": "Action taken when macro input pin/button 3 is triggered. Same value list as $590.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$592=4",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$590"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/Plugin_keypad/master/macros.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0 (Macro), unless overridden by the board map. Units/format: integer. Source symbol: Setting_ButtonAction2. Defined in: Plugin_keypad (macros.c); ID reserved in core settings.h."
+    },
+    {
+      "code": "$650",
+      "type": "$",
+      "name": "File Systems Options",
+      "description": "Bitmask of filing-system options. Bit0=Auto mount SD card on startup, bit1=Hide LittleFS (hides the LittleFS mount from directory listings), bit2=Hierarchical listing (adds directory entries in $F and $F+ output).",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$650=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: bitmask. Source symbol: Setting_FSOptions. Defined in: core (shown when SD card/LittleFS support is compiled in)."
+    },
+    {
+      "code": "$673",
+      "type": "$",
+      "name": "Coolant On Delay",
+      "description": "Delay to allow coolant to start, 0 or 0.5-20 seconds.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$673=0.0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$393"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: seconds. Source symbol: Setting_CoolantOnDelay."
+    },
+    {
+      "code": "$675",
+      "type": "$",
+      "name": "Macro ATC Options",
+      "description": "Bitmask of options for macro-based automatic tool change (tc.macro on SD card/LittleFS). Bit0=Execute M6T0, bit1=Fail M6 if tc.macro not found.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$675=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$341",
+        "$346"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h",
+        "https://raw.githubusercontent.com/grblHAL/Plugin_SD_card/master/macros.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: bitmask. Source symbol: Setting_MacroATC_Options. Defined in: Plugin_SD_card (macros.c); ID reserved in core settings.h."
+    },
+    {
+      "code": "$676",
+      "type": "$",
+      "name": "Reset Actions",
+      "description": "Bitmask controlling actions taken on a soft reset. Bit0=Clear homed status if position was lost, bit1=Clear offsets (except G92), bit2=Clear rapids override, bit3=Clear feed override.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$676=15",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 15 (all clear-actions enabled). Units/format: bitmask. Source symbol: Setting_ResetActions."
+    },
+    {
+      "code": "$680",
+      "type": "$",
+      "name": "Stepper Enable Delay",
+      "description": "Delay from stepper enable to first step output, in milliseconds. Official description: 'Delay from stepper enable to first step output. The driver typically adds ~2ms to this.' Range 0-250 ms per config.h (settings.c allows up to 500).",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$680=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$1"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: ms. Source symbol: Setting_StepperEnableDelay."
+    },
+    {
+      "code": "$681",
+      "type": "$",
+      "name": "ModBus Serial Format",
+      "description": "Serial format for the ModBus RTU stream (used e.g. for VFD spindles). Values: 0=8-bit no parity, 1=8-bit even parity, 2=8-bit odd parity.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$681=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$460",
+        "$476"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/grblHAL/core/master/modbus_rtu.c",
+        "https://raw.githubusercontent.com/grblHAL/core/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0 (8-bit no parity). Units/format: integer. Source symbol: Setting_ModBus_StreamFormat. Defined in: core (modbus_rtu.c)."
+    },
+    {
+      "code": "$683",
+      "type": "$",
+      "name": "ATCi Plugin Options",
+      "description": "Sienci AltMill/SLB ATCi (automatic tool changer) plugin options, extended bitmask. Bit0=Enable, bit1=Monitor Rack Presence, bit2=Monitor TC Macro. Part of the ATC keepout-zone feature (M960 P1/P0 toggles the runtime keepout state). IDs 683-689 are reserved for Sienci in grblHAL core settings.h; only compiled for BOARD_LONGBOARD32 / BOARD_LONGBOARD32_EXT.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$683=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$684",
+        "$685",
+        "$686",
+        "$687"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/Sienci-Labs/sienci-atci-plugin/main/sienci-atci-plugin.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: bitmask. Source symbol: SETTING_PLUGIN_ENABLE (Sienci ATCi plugin). Defined in: Sienci-Labs sienci-atci-plugin (vendor plugin; ID range reserved in grblHAL core)."
+    },
+    {
+      "code": "$684",
+      "type": "$",
+      "name": "ATCi Keepout X Min",
+      "description": "X minimum boundary of the ATC tool-rack keepout zone in machine coordinates. Range -10000 to 10000 mm. Jogs/moves into the zone are blocked while keepout is active.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$684=10.00",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$683"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/Sienci-Labs/sienci-atci-plugin/main/sienci-atci-plugin.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 10.0. Units/format: mm. Source symbol: SETTING_X_MIN (Sienci ATCi plugin). Defined in: Sienci-Labs sienci-atci-plugin (vendor plugin; ID range reserved in grblHAL core)."
+    },
+    {
+      "code": "$685",
+      "type": "$",
+      "name": "ATCi Keepout Y Min",
+      "description": "Y minimum boundary of the ATC tool-rack keepout zone in machine coordinates. Range -10000 to 10000 mm.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$685=10.00",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$683"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/Sienci-Labs/sienci-atci-plugin/main/sienci-atci-plugin.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 10.0. Units/format: mm. Source symbol: SETTING_Y_MIN (Sienci ATCi plugin). Defined in: Sienci-Labs sienci-atci-plugin (vendor plugin; ID range reserved in grblHAL core)."
+    },
+    {
+      "code": "$686",
+      "type": "$",
+      "name": "ATCi Keepout X Max",
+      "description": "X maximum boundary of the ATC tool-rack keepout zone in machine coordinates. Range -10000 to 10000 mm.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$686=50.00",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$683"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/Sienci-Labs/sienci-atci-plugin/main/sienci-atci-plugin.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 50.0. Units/format: mm. Source symbol: SETTING_X_MAX (Sienci ATCi plugin). Defined in: Sienci-Labs sienci-atci-plugin (vendor plugin; ID range reserved in grblHAL core)."
+    },
+    {
+      "code": "$687",
+      "type": "$",
+      "name": "ATCi Keepout Y Max",
+      "description": "Y maximum boundary of the ATC tool-rack keepout zone in machine coordinates. Range -10000 to 10000 mm.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$687=50.00",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$683"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://raw.githubusercontent.com/grblHAL/core/master/settings.h",
+        "https://raw.githubusercontent.com/Sienci-Labs/sienci-atci-plugin/main/sienci-atci-plugin.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 50.0. Units/format: mm. Source symbol: SETTING_Y_MAX (Sienci ATCi plugin). Defined in: Sienci-Labs sienci-atci-plugin (vendor plugin; ID range reserved in grblHAL core)."
+    },
+    {
+      "code": "$700",
+      "type": "$",
+      "name": "Subroutine Options",
+      "description": "Bitfield of subroutine handling options. Bit0=Prescan for internal M98 subroutines. Only available when the controller has SD card or littlefs storage (macro/subroutine files).",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$700=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/settings.h",
+        "https://github.com/grblHAL/core/blob/master/settings.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: bitmask. Source symbol: Setting_SubroutineOptions."
+    },
+    {
+      "code": "$709",
+      "type": "$",
+      "name": "PWM2 Spindle Options",
+      "description": "Options bitfield for the second PWM spindle (spindle 1). Bit0=Enable (controls PWM output availability), bit1=RPM controls spindle enable signal (with M3/M4 active, S0 switches enable off and S>0 switches it on), bit2=Disable laser mode capability, bit3=Enable ramping (spin up/down time from $394/$539), bit4=Ignore on/off delays (present when on/off delay support is compiled in). Mirrors $9 for spindle 0. On the Sienci SLB/SLB-EXT the PWM2 spindle drives the LaserBeam laser output. Value 17 = Enable + Ignore on/off delays.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$709=17",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$9",
+        "$730",
+        "$733"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/settings.h",
+        "https://github.com/grblHAL/core/blob/master/spindle_control.c",
+        "https://resources.sienci.com/view/slb-manual/"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 1. Units/format: bitmask. Source symbol: Setting_SpindlePWMOptions1."
+    },
+    {
+      "code": "$716",
+      "type": "$",
+      "name": "PWM2 Spindle Signals Invert",
+      "description": "Inverts the second PWM spindle's on, counterclockwise (direction) and PWM signals (active low). Bit0=Spindle enable, bit1=Spindle direction, bit2=PWM. Mirrors $16 for spindle 0. Reboot required.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$716=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$16",
+        "$709"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/settings.h",
+        "https://github.com/grblHAL/core/blob/master/spindle_control.c",
+        "https://resources.sienci.com/view/slb-manual/"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: bitmask. Source symbol: Setting_SpindleInvertMask1."
+    },
+    {
+      "code": "$730",
+      "type": "$",
+      "name": "PWM2 Spindle Max Speed",
+      "description": "Maximum spindle speed (S value) for the second PWM spindle; mirrors $30 for spindle 0. On the Sienci SLB/SLB-EXT this is the laser's max power S value (255).",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$730=255.000",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$30",
+        "$709",
+        "$731"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/settings.h",
+        "https://github.com/grblHAL/core/blob/master/spindle_control.c",
+        "https://github.com/grblHAL/core/blob/master/config.h",
+        "https://resources.sienci.com/view/slb-manual/"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 1000.0 (Sienci ships 255 for the laser). Units/format: RPM. Source symbol: Setting_RpmMax1."
+    },
+    {
+      "code": "$731",
+      "type": "$",
+      "name": "PWM2 Spindle Min Speed",
+      "description": "Minimum spindle speed (S value) for the second PWM spindle; mirrors $31 for spindle 0.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$731=0.000",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$31",
+        "$730"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/settings.h",
+        "https://github.com/grblHAL/core/blob/master/spindle_control.c",
+        "https://github.com/grblHAL/core/blob/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0.0. Units/format: RPM. Source symbol: Setting_RpmMin1."
+    },
+    {
+      "code": "$733",
+      "type": "$",
+      "name": "PWM2 Spindle PWM Frequency",
+      "description": "PWM carrier frequency for the second PWM spindle; mirrors $33 for spindle 0. On the Sienci SLB this is the laser PWM frequency (Sienci manual notes a theoretical max of 100 kHz).",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$733=1000.0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$33",
+        "$709"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/settings.h",
+        "https://github.com/grblHAL/core/blob/master/spindle_control.c",
+        "https://github.com/grblHAL/core/blob/master/config.h",
+        "https://resources.sienci.com/view/slb-manual/"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 5000 (Sienci ships 1000 for the laser). Units/format: Hz. Source symbol: Setting_PWMFreq1."
+    },
+    {
+      "code": "$734",
+      "type": "$",
+      "name": "PWM2 Spindle PWM Off Value",
+      "description": "PWM off value in percent (duty cycle) for the second PWM spindle; mirrors $34 for spindle 0.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$734=0.0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$34",
+        "$735",
+        "$736"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/settings.h",
+        "https://github.com/grblHAL/core/blob/master/spindle_control.c",
+        "https://github.com/grblHAL/core/blob/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0.0. Units/format: percent. Source symbol: Setting_PWMOffValue1."
+    },
+    {
+      "code": "$735",
+      "type": "$",
+      "name": "PWM2 Spindle PWM Min Value",
+      "description": "PWM min value in percent (duty cycle) for the second PWM spindle; mirrors $35 for spindle 0.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$735=0.0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$35",
+        "$734"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/settings.h",
+        "https://github.com/grblHAL/core/blob/master/spindle_control.c",
+        "https://github.com/grblHAL/core/blob/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0.0. Units/format: percent. Source symbol: Setting_PWMMinValue1."
+    },
+    {
+      "code": "$736",
+      "type": "$",
+      "name": "PWM2 Spindle PWM Max Value",
+      "description": "PWM max value in percent (duty cycle) for the second PWM spindle; mirrors $36 for spindle 0.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$736=100.0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$36",
+        "$734"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/settings.h",
+        "https://github.com/grblHAL/core/blob/master/spindle_control.c",
+        "https://github.com/grblHAL/core/blob/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 100.0. Units/format: percent. Source symbol: Setting_PWMMaxValue1."
+    },
+    {
+      "code": "$744",
+      "type": "$",
+      "name": "Motor Fault Inputs Enable",
+      "description": "Axis mask enabling motor fault (driver alarm) input signals per axis. Bit0=X, bit1=Y, bit2=Z, bit3=A, etc. Value 15 on the AltMill enables fault inputs for the four closed-loop motor drivers. Only available on drivers/boards with motor fault inputs.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$744=15",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$745"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/settings.h",
+        "https://github.com/grblHAL/core/blob/master/settings.c",
+        "https://github.com/grblHAL/core/blob/master/config.h"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0 (Sienci AltMill ships 15). Units/format: axismask. Source symbol: Setting_MotorFaultsEnable."
+    },
+    {
+      "code": "$745",
+      "type": "$",
+      "name": "Invert Motor Fault Inputs",
+      "description": "Axis mask inverting the motor fault input signals (active low) per axis, same bit layout as $744.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$745=15",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$744"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/settings.h",
+        "https://github.com/grblHAL/core/blob/master/settings.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0 (Sienci AltMill ships 15). Units/format: axismask. Source symbol: Setting_MotorFaultsInvert."
+    },
+    {
+      "code": "$750",
+      "type": "$",
+      "name": "Event Out 0 Trigger",
+      "description": "Event that triggers auxiliary output 0 (eventout plugin). Values: 0=None, 1=Spindle enable (M3/M4), 2=Laser enable (M3/M4), 3=Mist enable (M7), 4=Flood enable (M8), 5=Feed hold, 6=Alarm, 7=Spindle at speed, 8=Motion, 9=Optional stop toggle, 10=Single stepping toggle, 11=Block delete toggle. The port can still be controlled by M62-M65 even when bound to an event. On the Sienci SLB/SLB-EXT, $750-$753 configure the accessory outputs (SWT1, SWT2, PWR1, PWR2). AltMill value 1 = Spindle enable.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$750=1",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$751",
+        "$752",
+        "$753",
+        "$760"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/settings.h",
+        "https://github.com/grblHAL/Plugins_misc/blob/master/eventout.c",
+        "https://resources.sienci.com/view/slb-manual/"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: build/board dependent. Units/format: integer. Source symbol: Setting_Action0. Defined in: Plugins_misc (eventout)."
+    },
+    {
+      "code": "$751",
+      "type": "$",
+      "name": "Event Out 1 Trigger",
+      "description": "Event that triggers auxiliary output 1 (eventout plugin); same trigger values as $750. AltMill value 4 = Flood enable (M8).",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$751=4",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$750",
+        "$761"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/settings.h",
+        "https://github.com/grblHAL/Plugins_misc/blob/master/eventout.c",
+        "https://resources.sienci.com/view/slb-manual/"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: build/board dependent. Units/format: integer. Source symbol: Setting_Action1. Defined in: Plugins_misc (eventout)."
+    },
+    {
+      "code": "$752",
+      "type": "$",
+      "name": "Event Out 2 Trigger",
+      "description": "Event that triggers auxiliary output 2 (eventout plugin); same trigger values as $750. AltMill value 1 = Spindle enable (M3/M4).",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$752=1",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$750",
+        "$762"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/settings.h",
+        "https://github.com/grblHAL/Plugins_misc/blob/master/eventout.c",
+        "https://resources.sienci.com/view/slb-manual/"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: build/board dependent. Units/format: integer. Source symbol: Setting_Action2. Defined in: Plugins_misc (eventout)."
+    },
+    {
+      "code": "$753",
+      "type": "$",
+      "name": "Event Out 3 Trigger",
+      "description": "Event that triggers auxiliary output 3 (eventout plugin); same trigger values as $750. AltMill value 4 = Flood enable (M8).",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$753=4",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$750",
+        "$763"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/settings.h",
+        "https://github.com/grblHAL/Plugins_misc/blob/master/eventout.c",
+        "https://resources.sienci.com/view/slb-manual/"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: build/board dependent. Units/format: integer. Source symbol: Setting_Action3. Defined in: Plugins_misc (eventout)."
+    },
+    {
+      "code": "$760",
+      "type": "$",
+      "name": "Event Out 0 Port",
+      "description": "Aux output port number bound to event trigger $750 (eventout plugin). Set to -1 to disable. Reboot required.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$760=0.0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$750"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/settings.h",
+        "https://github.com/grblHAL/Plugins_misc/blob/master/eventout.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: board dependent (AltMill: 0). Units/format: integer. Source symbol: Setting_ActionPort0. Defined in: Plugins_misc (eventout)."
+    },
+    {
+      "code": "$761",
+      "type": "$",
+      "name": "Event Out 1 Port",
+      "description": "Aux output port number bound to event trigger $751 (eventout plugin). Set to -1 to disable. Reboot required.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$761=1.0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$751"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/settings.h",
+        "https://github.com/grblHAL/Plugins_misc/blob/master/eventout.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: board dependent (AltMill: 1). Units/format: integer. Source symbol: Setting_ActionPort1. Defined in: Plugins_misc (eventout)."
+    },
+    {
+      "code": "$762",
+      "type": "$",
+      "name": "Event Out 2 Port",
+      "description": "Aux output port number bound to event trigger $752 (eventout plugin). Set to -1 to disable. Reboot required.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$762=2.0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$752"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/settings.h",
+        "https://github.com/grblHAL/Plugins_misc/blob/master/eventout.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: board dependent (AltMill: 2). Units/format: integer. Source symbol: Setting_ActionPort2. Defined in: Plugins_misc (eventout)."
+    },
+    {
+      "code": "$763",
+      "type": "$",
+      "name": "Event Out 3 Port",
+      "description": "Aux output port number bound to event trigger $753 (eventout plugin). Set to -1 to disable. Reboot required.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$763=3.0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$753"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/settings.h",
+        "https://github.com/grblHAL/Plugins_misc/blob/master/eventout.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: board dependent (AltMill: 3). Units/format: integer. Source symbol: Setting_ActionPort3. Defined in: Plugins_misc (eventout)."
+    },
+    {
+      "code": "$770",
+      "type": "$",
+      "name": "Laser X Offset",
+      "description": "X offset from current position for a non-default laser spindle (spindle offset plugin, offset.c in Plugins_spindle). Distance of the laser head from the primary spindle along X; used when switching between spindle and laser.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$770=0.000",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$771",
+        "$772"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/settings.h",
+        "https://github.com/grblHAL/Plugins_spindle/blob/master/offset.c",
+        "https://resources.sienci.com/view/slb-manual/"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0.000. Units/format: mm. Source symbol: Setting_SpindleOffsetX. Defined in: Plugins_spindle (offset)."
+    },
+    {
+      "code": "$771",
+      "type": "$",
+      "name": "Laser Y Offset",
+      "description": "Y offset from current position for a non-default laser spindle (spindle offset plugin). Distance of the laser head from the primary spindle along Y.",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$771=0.000",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$770",
+        "$772"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/settings.h",
+        "https://github.com/grblHAL/Plugins_spindle/blob/master/offset.c",
+        "https://resources.sienci.com/view/slb-manual/"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0.000. Units/format: mm. Source symbol: Setting_SpindleOffsetY. Defined in: Plugins_spindle (offset)."
+    },
+    {
+      "code": "$772",
+      "type": "$",
+      "name": "Laser Offset Options",
+      "description": "How the laser XY offset is applied on spindle change (spindle offset plugin). Choice: 0=Keep new position, 1=Update G92 on spindle change (the G92 offset is adjusted to keep the work position identical between the spindles).",
+      "parameters": [],
+      "examples": [
+        {
+          "code": "$772=0",
+          "description": "Factory value from a Sienci AltMill (SuperLongBoard EXT) settings dump"
+        }
+      ],
+      "relatedCodes": [
+        "$770",
+        "$771"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/settings.h",
+        "https://github.com/grblHAL/Plugins_spindle/blob/master/offset.c"
+      ],
+      "notes": "grblHAL extended setting (not present in classic grbl). Default: 0. Units/format: integer. Source symbol: Setting_SpindleOffsetOptions. Defined in: Plugins_spindle (offset)."
+    },
+    {
+      "code": "ERR:79",
+      "type": "ERR",
+      "name": "Error 79: Not Allowed While Critical Event Is Active",
+      "description": "The command was rejected because a critical event is active — typically the E-stop/reset control input is asserted (alarm 10: 'EStop asserted. Clear and reset'), or another critical condition such as a motor fault. While the critical event is active, grblHAL rejects normal commands, including $X unlock, with this error. Defined in grblHAL core as Status_NotAllowedCriticalEvent (79) with message 'Not allowed while critical event is active.'",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "$X",
+        "RT:0x18",
+        "RT:?"
+      ],
+      "crossReferences": [
+        {
+          "firmwareId": "grbl",
+          "code": "",
+          "note": "grblHAL extension. grbl has no equivalent; its error codes end at 38."
+        },
+        {
+          "firmwareId": "fluidnc",
+          "code": "",
+          "note": "Not present in FluidNC, which uses its own extended error set."
+        }
+      ],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/errors.h",
+        "https://github.com/grblHAL/core/blob/master/errors.c",
+        "https://github.com/grblHAL/core/blob/master/alarms.c"
+      ],
+      "notes": "Recovery sequence: (1) physically clear the condition — release/reset the E-stop button (many are twist-to-release or key-release latching); (2) send a soft reset (0x18 / Ctrl-X); (3) if the controller reports an ALARM state afterwards, unlock with $X or re-home with $H. Sending $X alone without first clearing the condition and resetting returns this same error — the state is latched until reset, which is why power-cycling the controller (e.g. replugging USB) also clears it. If this error appears with no physical E-stop pressed, the controller is reading its E-stop/reset input as asserted: check wiring, and check the control-input invert mask ($14) — a floating or inverted input makes the controller see a permanently-asserted E-stop."
     }
   ]
 }

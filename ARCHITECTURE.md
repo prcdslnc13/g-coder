@@ -94,8 +94,15 @@ Floating dialog (modal) that opens when a code is clicked. Sections:
 Client-only page for grbl-family `$$` dumps. `src/lib/settings/`:
 - `vendor/settings.js` — settings catalog vendored verbatim from Adam Haile's
   MIT-licensed cnc_firmware_tools (typed via `vendor/settings.d.ts`).
-- `catalog.ts` — typed adapter (`lookupSettingDef`), maps vendor flavor ids to
-  `FirmwareId` values and attaches official-doc source URLs.
+- `extended-grblhal.ts` — project-owned overlay of ~95 grblHAL extended
+  settings the vendored catalog lacks (parking, backlash, dual-axis offsets,
+  networking, PWM2 spindle, eventout, Sienci ATCi, etc.), plus corrections for
+  a few vendored entries that lag current grblHAL core ($9, $14, $16, $17,
+  $19, $39, $65, $346). Verified against grblHAL core/plugin sources;
+  per-entry source URLs. For flavor `grblhal` this overlay wins.
+- `catalog.ts` — typed adapter (`lookupSettingDef`), merges the overlay with
+  the vendored catalog, maps vendor flavor ids to `FirmwareId` values and
+  attaches official-doc source URLs.
 - `parse.ts` — tolerant `$$` parser + flavor auto-detect.
 - `decode.ts` — decodes raw values per setting type (mask bits, enums, ranges).
 - `diff.ts` — aligns two parsed configs by id; mask diffs decoded per bit.
