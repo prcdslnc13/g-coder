@@ -18,7 +18,7 @@
 
 ## Current State
 - **6 firmwares**: grbl, grblHAL, LinuxCNC, Smoothieware, RepRapFirmware, FluidNC
-- **986 total entries** (grbl: 165, grblHAL: 412, LinuxCNC: 110, Smoothieware: 93, RepRapFirmware: 87, FluidNC: 119)
+- **990 total entries** (grbl: 165, grblHAL: 416, LinuxCNC: 110, Smoothieware: 93, RepRapFirmware: 87, FluidNC: 119)
 - Branch: `main`
 
 ## Remaining
@@ -36,7 +36,7 @@
 - [x] Validate grbl/grblHAL/FluidNC lineage — confirmed grblHAL is full superset of grbl G/M codes; FluidNC gaps filled
 - [ ] Validate grbl/grblHAL/FluidNC lineage notes — ensure "same as grbl" / "modified" / "new" labels are correct
 - [x] grblHAL extended error codes (2026-08-10) — all 47 codes from core/errors.h now in grblhal.json (ERR:39-89; gaps at 59, 67-69 are unassigned in the enum). Messages verbatim from core errors.c and Plugin_SD_card sources; every entry's enum symbol machine-verified against the errors.h status_code_t enum. ERR:61 and ERR:70 have no registered message string upstream (documented as such)
-- [ ] grblHAL extended alarm codes (11+, from core/alarms.c) — still a gap; alarm troubleshooting data exists for common alarms only
+- [x] grblHAL extended alarm codes (2026-08-11) — ALARM:18-21 added (Alarm_HomingFail, Alarm_ModbusException, Alarm_ExpanderException, Alarm_NVS_Failed); grblhal.json now covers the full alarm_code_t enum 1-21 from core/alarms.h, messages verbatim from core/alarms.c. ALARM:1-17 were already present and verified against the enum
 
 ### Feature Enhancements
 - [ ] Search across all firmwares simultaneously (not just the selected one)

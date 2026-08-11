@@ -10115,6 +10115,118 @@
       }
     },
     {
+      "code": "ALARM:18",
+      "type": "ALARM",
+      "name": "Alarm 18: Homing fail — bad configuration",
+      "description": "Official message: 'Homing fail. Bad configuration.' Raised when a homing cycle cannot run because the homing configuration is invalid. Defined in grblHAL core as Alarm_HomingFail (18).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "$H",
+        "$44",
+        "$45",
+        "$46",
+        "$47"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/alarms.h",
+        "https://github.com/grblHAL/core/blob/master/alarms.c"
+      ],
+      "troubleshooting": {
+        "causes": [
+          "Homing enabled but the axis is not assigned to any homing cycle ($44-$47 masks)",
+          "Homing cycle mask references an axis the controller does not have"
+        ],
+        "fixes": [
+          "Review the homing cycle axis masks ($44-$47) so every homed axis belongs to a cycle"
+        ]
+      }
+    },
+    {
+      "code": "ALARM:19",
+      "type": "ALARM",
+      "name": "Alarm 19: Modbus exception",
+      "description": "Official message: 'Modbus exception. Timeout or message error.' The ModBus RTU link (typically to a VFD spindle) timed out or returned a malformed/error response. Defined in grblHAL core as Alarm_ModbusException (19).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [
+        "$374",
+        "$375",
+        "$395",
+        "$460"
+      ],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/alarms.h",
+        "https://github.com/grblHAL/core/blob/master/alarms.c"
+      ],
+      "troubleshooting": {
+        "causes": [
+          "RS-485 wiring fault, missing termination, or A/B lines swapped",
+          "Baud rate mismatch between controller ($374) and VFD",
+          "VFD powered off or wrong ModBus slave address ($460)"
+        ],
+        "fixes": [
+          "Check RS-485 wiring and termination",
+          "Match the baud rate ($374) and slave address ($460) to the VFD configuration",
+          "Increase the ModBus RX timeout ($375) for slow-responding devices"
+        ]
+      }
+    },
+    {
+      "code": "ALARM:20",
+      "type": "ALARM",
+      "name": "Alarm 20: I/O expander communication failed",
+      "description": "Official message: 'I/O expander communication failed.' Communication with an external I/O expander was lost. Defined in grblHAL core as Alarm_ExpanderException (20).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/alarms.h",
+        "https://github.com/grblHAL/core/blob/master/alarms.c"
+      ],
+      "troubleshooting": {
+        "causes": [
+          "Wiring fault or lost connection to the I/O expander module",
+          "Expander not powered or failed"
+        ],
+        "fixes": [
+          "Check wiring and power to the I/O expander, then reset the controller"
+        ]
+      },
+      "notes": "Treated as a critical alarm by grblHAL (alarm_is_critical() in alarms.h): a hard reset is required to recover."
+    },
+    {
+      "code": "ALARM:21",
+      "type": "ALARM",
+      "name": "Alarm 21: Non-volatile storage failure",
+      "description": "Official message: 'Non Volatile Storage (EEPROM) failure.' The settings storage (EEPROM/FRAM/flash-emulated NVS) failed. Defined in grblHAL core as Alarm_NVS_Failed (21).",
+      "parameters": [],
+      "examples": [],
+      "relatedCodes": [],
+      "crossReferences": [],
+      "modeNotes": [],
+      "sources": [
+        "https://github.com/grblHAL/core/blob/master/alarms.h",
+        "https://github.com/grblHAL/core/blob/master/alarms.c"
+      ],
+      "troubleshooting": {
+        "causes": [
+          "EEPROM/FRAM hardware failure",
+          "Corrupted settings area"
+        ],
+        "fixes": [
+          "Reset settings to defaults with $RST=* and reconfigure",
+          "If the alarm persists, the storage hardware is likely faulty"
+        ]
+      }
+    },
+    {
       "code": "$8",
       "type": "$",
       "name": "Ganged Axes Direction Invert",
